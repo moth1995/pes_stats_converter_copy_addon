@@ -1,4 +1,4 @@
-export class SOFIFAPlayer {
+class SOFIFAPlayer {
 	constructor(doc) {
 		this.doc = doc;
 		this.GetVersion();
@@ -60,19 +60,6 @@ export class SOFIFAPlayer {
 		}
 		return Object.fromEntries(tooltips.map((_, i) => [tooltips[i], values[i]]));
 	}
-	/*
-	parseGoalkeeperItems(items) {
-		const values = [];
-		const keys = [];
-		for (let i = 0; i < items.length; i++) {
-			const value = parseInt(items[i].querySelector('span').textContent);
-			values.push(value);
-			const key = items[i].textContent.trim().split(' ').slice(-2).join(' ');
-			keys.push(key);
-		}
-		return Object.fromEntries(keys.map((_, i) => [keys[i], values[i]]));
-	}
-	*/
 
 	GetStats() {
 		const sofifa_stats = this.doc.querySelectorAll('div.card');
@@ -150,3 +137,49 @@ export class SOFIFAPlayer {
 
 	}
 };
+
+// create button element
+function AddButton(){
+	const currentUrl = window.location.href;
+	var button = document.createElement("button");
+	button.style.position = "fixed";
+	button.style.bottom = "20px";
+	button.style.right = "20px";
+	const version = document.querySelector("div.dropdown:nth-child(1) > a:nth-child(1) > span:nth-child(1)").textContent
+	if (supportedVersions.includes(version)) {
+		button.innerHTML = "PES Stats Copy";
+		// add event listener to button
+		button.addEventListener(
+			"click", 
+			function() {
+				console.log("Button clicked");
+				// Send a message to the background script to get the string
+				const parser = new DOMParser();
+				const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+				var sofifaPlayer = new SOFIFAPlayer(doc);
+				// Convert into pes
+				var pesPlayer = new PESPlayer();
+				var psdString = pesPlayer.FromFIFA20_23Player(sofifaPlayer);
+						
+				// Use the string result
+				console.log("Received string from background:", psdString);
+				CopyToClipboard(psdString);
+			}
+		);
+	}
+	else {
+		button.innerHTML = "FIFA VERSION\nNOT SUPPORTED";
+	}
+	// append button to body
+	document.body.appendChild(button);
+};
+
+supportedVersions = [
+	"FIFA 23",
+	"FIFA 22",
+	"FIFA 21",
+	"FIFA 20",
+]
+
+AddButton();
+

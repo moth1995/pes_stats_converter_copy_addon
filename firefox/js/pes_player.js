@@ -1,4 +1,4 @@
-export class PESPlayer{
+class PESPlayer{
 
 	constructor(){
 		this.EXP_Value = 1.179;
@@ -146,8 +146,7 @@ Height: ${this.height} cm
 Weight: ${this.weight} kg`;
 	}
 
-	FromFIFAPlayer(fifaPlayer){
-		
+	FromFIFA20_23Player(fifaPlayer){
 		this.registeredPosition = this.ConvertPosition(fifaPlayer.posicionReg) + "*";
 		this.positions = [];
 		for (let index = 0; index < fifaPlayer.posiciones.length; index++) {

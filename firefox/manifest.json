@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "Creates a floating button at the bottom right corner of the website that will allow you to convert FIFA stats into PES stats.",
     "icons": {
-        "48": "icon.png"
+        "48": "icon48.png"
     },
     "permissions": ["activeTab"],
     "content_scripts": [
@@ -13,16 +13,35 @@
                 "*://*.sofifa.com/player/*", 
                 "*://*.fminside.net/players/*"
             ],
+			"run_at": "document_idle",
             "js": [
-                "js/content.js"
+                "js/pes_player.js",
+                "js/global_functions.js"
+            ]
+        },
+        {
+            "matches": [
+                "*://*.fminside.net/players/*"
+            ],
+			"run_at": "document_idle",
+            "js": [
+                "js/fminside_player.js"
+            ]
+        },
+        {
+            "matches": [
+                "*://*.sofifa.com/player/*" 
+            ],
+			"run_at": "document_idle",
+            "js": [
+                "js/sofifa_player.js"
             ]
         }
     ],
-    "background": {
-        "scripts": [
-            "js/background.js"
-        ],
-        "persistent": false,
-        "type" : "module"
-    }
+    "browser_specific_settings": {
+        "gecko": {
+          "id": "pesstatscopy@pesindie.com",
+          "strict_min_version": "52.0"
+        }
+      }
 }

@@ -10,6 +10,4 @@ const doc = parser.parseFromString(htmlString, 'text/html');
 const aElements = doc.querySelectorAll('a');
 
 // Extract the attribute values from <a> elements
-export const attributeValues = Array.from(aElements).map(a => a.getAttribute('value'));
-
-console.log(attributeValues);
+const attributeValues = Array.from(aElements).map(a => a.getAttribute('value'));
