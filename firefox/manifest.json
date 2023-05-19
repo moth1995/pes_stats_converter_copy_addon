@@ -6,7 +6,7 @@
     "icons": {
         "48": "icon48.png"
     },
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "https://restcountries.com/v3.1/name/*"],
     "content_scripts": [
         {
             "matches": [
@@ -15,8 +15,8 @@
             ],
 			"run_at": "document_idle",
             "js": [
-                "js/pes_player.js",
-                "js/global_functions.js"
+                "js/global_functions.js",
+                "js/pes_player.js"
             ]
         },
         {

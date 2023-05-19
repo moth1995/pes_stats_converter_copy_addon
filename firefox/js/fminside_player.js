@@ -2,10 +2,60 @@ class FMInsidePlayer{
     constructor(doc){
         this.doc = doc;
         this.GetBasicInfo();
+        this.GetStats();
     }
 
     GetBasicInfo(){
         this.name = this.doc.querySelector('#player_info #player .title .meta h1').getAttribute('title');
+        const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
+        this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
+        console.log(this.nationality);
+        
+        var info = {};
+        lis.forEach(function(li){
+            var key = li.querySelector("span.key").textContent;
+            var valueElement = li.querySelector("span.value");
+            var value = "";
+            if (valueElement.querySelector("span.desktop_positions")){
+                value = valueElement.querySelector("span.desktop_positions").textContent;
+            }
+            else{
+                value = valueElement.textContent;
+            }
+            info[key] = value;
+        })
+
+        this.info = info;
+
+        console.log(this.info);
+    }
+
+    StatToObject(stat){
+        var dictionary = {};
+        var rows = this.doc.querySelectorAll('table tr');
+        rows.forEach(function(row) {
+            // Find the <acronym> element within the row
+            var acronymElement = row.querySelector('acronym');
+          
+            // Find the second <td> element within the row
+            var tdElement = row.querySelector('.stat');
+          
+            // Extract the text value from the <acronym> title
+            var key = acronymElement.textContent;
+          
+            // Extract the content of the second <td>
+            var value = tdElement.textContent;
+          
+            // Add the key-value pair to the dictionary
+            dictionary[key] = parseInt(value);
+        });
+        return dictionary;
+    }
+
+    GetStats(){
+        const stats = this.doc.querySelector('div#player_stats.block.stats').querySelectorAll('div.column');
+        this.stats = this.StatToObject(stats[0]);
+        console.log(this.stats);
     }
 
 }
@@ -32,7 +82,7 @@ function AddButton(){
             var pesPlayer = new PESPlayer();
             console.log(pesPlayer.EXP_Value);
             // Use the string result
-            var psdString = FMPlayer.name
+            var psdString = pesPlayer.FromFMPlayer(FMPlayer);
             console.log("Received string from background:", psdString);
             CopyToClipboard(psdString);
 
