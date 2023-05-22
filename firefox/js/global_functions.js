@@ -16,6 +16,20 @@ function DivideIntegers(int1, int2){
 	return Math.round(int1/int2);
 }
 
+function Average(numbers) {
+	if (numbers.length === 0) {
+	  return 0;
+	}
+	
+	var sum = 0;
+	for (var i = 0; i < numbers.length; i++) {
+	  sum += numbers[i];
+	}
+	
+	return sum / numbers.length;
+  }
+  
+
 function GetRandomInt(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);

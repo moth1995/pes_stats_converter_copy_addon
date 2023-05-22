@@ -3,6 +3,7 @@ class PESPlayer{
 	constructor(){
 		this.EXP_Value = 1.179;
 		this.EXP_ID_Value = 1.405;
+		this.specialAbilitiesString = "";
 	}
 
 	ConvertPosition(position){
@@ -149,9 +150,13 @@ ${this.specialAbilitiesString}
 	}
 
 	FromFIFA20_23Player(fifaPlayer){
-		this.registeredPosition = this.ConvertPosition(fifaPlayer.posicionReg) + "*";
+		this.registeredPosition = this.ConvertPosition(fifaPlayer.posicionReg);
 		this.positions = [];
+		let sidePositions = ["RW", "LW", "RM", "LM", "RWB", "LWB", "RB", "LB"];
+		let sideCounter = 0;
 		for (let index = 0; index < fifaPlayer.posiciones.length; index++) {
+			if (sidePositions.includes(fifaPlayer.posiciones[index]))
+				sideCounter++;
 			if (fifaPlayer.posiciones[index] != fifaPlayer.posicionReg)
 				this.positions.push(this.ConvertPosition(fifaPlayer.posiciones[index]));
 		}
@@ -162,8 +167,8 @@ ${this.specialAbilitiesString}
 		this.foot = fifaPlayer.preferedFoot == "Right" ? "R" : "L" ;
 		this.favouredSide = GetFavSide(fifaPlayer.posiciones, false);
 
-		this.height = fifaPlayer.height;
-		this.weight = fifaPlayer.weight;
+		this.height = parseInt(fifaPlayer.height);
+		this.weight = parseInt(fifaPlayer.weight);
 
 		this.injuryTolerance = "B";
 		if (fifaPlayer.traits.includes("Solid Player")) {
@@ -181,6 +186,111 @@ ${this.specialAbilitiesString}
 
 		if (this.registeredPosition == "GK"){
 			//convertion formula for GK
+			let positioning = MinorThan(fifaPlayer.mentality["Positioning"], 30);
+			let attackEXP = positioning;
+			this.attack = 10 + DivideIntegers(attackEXP, this.EXP_ID_Value);
+			
+			let gkPositioning = MinorThan(fifaPlayer.goalkeeping["GK Positioning"], 60);
+			let gkDiving = MinorThan(fifaPlayer.goalkeeping["GK Diving"], 60);
+			let defenceEXP = Average([gkPositioning, gkDiving]) + fifaPlayer.internationalReputation;
+			this.defence = 25 + DivideIntegers(defenceEXP, this.EXP_ID_Value);
+			
+			let strenght = MinorThan(fifaPlayer.power["Strength"], 60);
+			let weightEXP = this.weight - 100;
+			let balanceEXP = strenght * 0.1 + gkPositioning * 0.3 + weightEXP * 0.6;
+			this.balance = 15 + DivideIntegers(balanceEXP, this.EXP_Value);
+			if (fifaPlayer.traits.includes("Comes for crosses")){
+				let balance = Math.round(this.balance + this.balance * 0.3);
+				this.balance = balance > 99 ? 99 : balance;
+			}
+				
+			
+			let staminaEXP = MinorThan(fifaPlayer.power["Stamina"], 60);
+			this.stamina = 15 + DivideIntegers(staminaEXP, this.EXP_Value);
+			
+			let topSpeedEXP = MinorThan(fifaPlayer.movement["Sprint speed"], 55);
+			this.topSpeed = 15 + DivideIntegers(topSpeedEXP, this.EXP_Value);
+			
+			let accelerationEXP = MinorThan(fifaPlayer.movement["Acceleration"], 55);
+			this.acceleration = 15 + DivideIntegers(accelerationEXP, this.EXP_Value);
+			
+			let responseEXP= fifaPlayer.goalkeeping["GK Reflexes"] + fifaPlayer.internationalReputation;
+			this.response = 25 + DivideIntegers(responseEXP, this.EXP_ID_Value);
+
+			let agility = MinorThan(fifaPlayer.movement["Agility"], 45);
+			let agilityEXP = Average([agility, fifaPlayer.goalkeeping["GK Diving"]]);
+			this.agility = 15 + DivideIntegers(agilityEXP, this.EXP_Value);
+			
+			let dribbling = MinorThan(fifaPlayer.skill["Dribbling"], 45);
+			let ballControl = MinorThan(fifaPlayer.skill["Ball control"], 45);
+			let dribbleAccuracyEXP = Average([dribbling, ballControl]) + fifaPlayer.internationalReputation;
+			this.dribbleAccuracy = 25 + DivideIntegers(dribbleAccuracyEXP, this.EXP_ID_Value);
+
+			let sprintSpeed = MinorThan(fifaPlayer.movement["Sprint speed"], 50);
+			let dribbleSpeedEXP = Average([dribbling, sprintSpeed]);
+			this.dribbleSpeed = 15 + DivideIntegers(dribbleSpeedEXP, this.EXP_Value);
+			
+			let shortPassing = MinorThan(fifaPlayer.attacking["Short passing"], 50);
+			let shortPassAccuracyEXP = shortPassing + fifaPlayer.internationalReputation;
+			this.shortPassAccuracy = 25 + DivideIntegers(shortPassAccuracyEXP, this.EXP_ID_Value);
+
+			let shotPower = MinorThan(fifaPlayer.power["Shot power"], 60);
+			let shortPassSpeedEXP = Average([shortPassing, shotPower]);
+			this.shortPassSpeed = 15 + DivideIntegers(shortPassSpeedEXP, this.EXP_Value);
+			
+			let longPassing = MinorThan(fifaPlayer.skill["Long passing"], 45);
+			let crossing = MinorThan(fifaPlayer.attacking["Crossing"], 45);
+			let longPassAccuracyEXP = Average([longPassing, crossing, fifaPlayer.goalkeeping["GK Kicking"]]) + fifaPlayer.internationalReputation;
+			this.longPassAccuracy = 25 + DivideIntegers(longPassAccuracyEXP, this.EXP_ID_Value);
+
+			let longPassSpeedEXP = Average([crossing, shotPower, fifaPlayer.goalkeeping["GK Kicking"]]);
+			this.longPassSpeed = 15 + DivideIntegers(longPassSpeedEXP, this.EXP_Value);
+
+			let finishing = MinorThan(fifaPlayer.attacking["Finishing"], 50);
+			let shotAccuracyEXP = finishing + fifaPlayer.internationalReputation;
+			this.shotAccuracy = 25 + DivideIntegers(shotAccuracyEXP, this.EXP_ID_Value);
+
+			let shotPowerEXP = MinorThan(fifaPlayer.goalkeeping["GK Kicking"], 60);
+			this.shotPower = 15 + DivideIntegers(shotPowerEXP, this.EXP_Value);
+
+			let volleys = MinorThan(fifaPlayer.attacking["Volleys"], 30);
+			let longShots = MinorThan(fifaPlayer.power["Long shots"], 35);
+			let shotTechniqueEXP = Average([volleys, longShots, ballControl]);
+			this.shotTechnique = 15 + DivideIntegers(shotTechniqueEXP, this.EXP_Value);
+
+			let fkAccuracy = MinorThan(fifaPlayer.skill["FK Accuracy"], 40);
+			let freeKickAccuracyEXP = fkAccuracy + fifaPlayer.internationalReputation;
+			this.freeKickAccuracy = 25 + DivideIntegers(freeKickAccuracyEXP, this.EXP_ID_Value);
+
+			let curve = MinorThan(fifaPlayer.skill["Curve"], 40);
+			let curlingEXP = curve;
+			this.curling = 15 + DivideIntegers(curlingEXP, this.EXP_Value);
+
+			let headingAccuracy = MinorThan(fifaPlayer.attacking["Heading accuracy"], 41);
+			let headerEXP = headingAccuracy + fifaPlayer.internationalReputation;
+			this.header = 25 + DivideIntegers(headerEXP, this.EXP_ID_Value);
+
+			let jumping = MinorThan(fifaPlayer.power["Jumping"], 60);
+			let jumpEXP = Average([jumping, fifaPlayer.goalkeeping["GK Diving"], fifaPlayer.goalkeeping["GK Diving"]]);
+			this.jump = 15 + DivideIntegers(jumpEXP, this.EXP_Value);
+
+			let techniqueEXP = ballControl + fifaPlayer.internationalReputation;
+			this.technique = 25 + DivideIntegers(techniqueEXP, this.EXP_ID_Value);
+
+			let reactions = MinorThan(fifaPlayer.movement["Reactions"], 53);
+			let aggressionEXP = Average([reactions, positioning]);
+			this.aggression = 15 + DivideIntegers(aggressionEXP, this.EXP_ID_Value);
+			
+			let composure = MinorThan(fifaPlayer.mentality["Composure"], 50);
+			let mentalityEXP = Average([reactions, composure]) + fifaPlayer.internationalReputation;
+			this.mentality = 25 + DivideIntegers(mentalityEXP, this.EXP_ID_Value);
+
+			let gkHandling = MinorThan(fifaPlayer.goalkeeping["GK Handling"], 60);
+			let goalkeepingEXP = Average([gkHandling, gkDiving]) + fifaPlayer.internationalReputation
+			this.goalkeeping = 25 + DivideIntegers(goalkeepingEXP, this.EXP_ID_Value);
+			
+			let teamworkEXP = Average([fifaPlayer.mentality["Vision"], composure, reactions]) + fifaPlayer.internationalReputation;
+			this.teamwork = 25 + DivideIntegers(teamworkEXP, this.EXP_ID_Value);
 
 		}
 		else{
@@ -209,7 +319,6 @@ ${this.specialAbilitiesString}
 
 			let strenght = MinorThan(fifaPlayer.power["Strength"], 60);
 			let balance = MinorThan(fifaPlayer.movement["Balance"], 60);
-			console.log(strenght, balance)
 			let balanceEXP = strenght > balance ? strenght : DivideIntegers(strenght + balance, 2);
 			this.balance = 15 + DivideIntegers(balanceEXP, this.EXP_Value);
 
@@ -243,7 +352,6 @@ ${this.specialAbilitiesString}
 			this.dribbleSpeed = 15 + DivideIntegers(dribbleSpeedEXP, this.EXP_Value);
 
 			let shortPassing = MinorThan(fifaPlayer.attacking["Short passing"], 50);
-			console.log("short passing" + shortPassing)
 			let shortPassAccuracyEXP = shortPassing + fifaPlayer.internationalReputation;
 			this.shortPassAccuracy = 25 + DivideIntegers(shortPassAccuracyEXP, this.EXP_ID_Value);
 
@@ -314,15 +422,180 @@ ${this.specialAbilitiesString}
 			}
 		}
 		// Special abilities
-		this.specialAbilitiesString = "";
+		if (fifaPlayer.skillMoves > 3 ||
+			fifaPlayer.traits.includes("Technical dribbler (AI)") ||
+			fifaPlayer.traits.includes("Speed dribbler (AI)")) {
+			this.dribbling = 1;
+			this.specialAbilitiesString += "* Dribbling" + "\n";
+		} else {
+			this.dribbling = 0;
+		}
+		
+		if (fifaPlayer.traits.includes("Flair")) {
+			this.tacticalDribble = 1;
+			this.specialAbilitiesString += "* Tactical dribble" + "\n";
+		} else {
+			this.tacticalDribble = 0;
+		}
+		
+		if (fifaPlayer.mentality["Positioning"] > 85) {
+			this.positioning = 1;
+			this.specialAbilitiesString += "* Positioning" + "\n";
+		} else {
+			this.positioning = 0;
+		}
+		
+		if (Average([fifaPlayer.movement["Acceleration"], fifaPlayer.movement["Reactions"]]) > 85) {
+			this.reaction = 1;
+			this.specialAbilitiesString += "* Reaction" + "\n";
+		} else {
+			this.reaction = 0;
+		}
+		
+		if (fifaPlayer.traits.includes("Playmaker (AI)")) {
+			this.playmaking = 1;
+			this.specialAbilitiesString += "* Playmaking" + "\n";
+		} else {
+			this.playmaking = 0;
+		}
 
+		if (Average([fifaPlayer.attacking["Short passing"], fifaPlayer.mentality["Vision"]]) > 85) {
+			this.passing = 1;
+			this.specialAbilitiesString += "* Passing" + "\n";
+		} else {
+			this.passing = 0;
+		}
+		
+		if (Average([fifaPlayer.movement["Reactions"], fifaPlayer.attacking["Finishing"]]) > 85) {
+			this.scoring = 1;
+			this.specialAbilitiesString += "* Scoring" + "\n";
+		} else {
+			this.scoring = 0;
+		}
+		
+		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.attacking["Finishing"]]) > 85) {
+			this.oneOnOneScoring = 1;
+			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
+		} else {
+			this.oneOnOneScoring = 0;
+		}
+		
+		if (fifaPlayer.posicionReg == "ST" && fifaPlayer.traits.includes("Power header") && fifaPlayer.power["Strength"]>85 ) {
+			this.postPlayer = 1;
+			this.specialAbilitiesString += "* Post player" + "\n";
+		} else {
+			this.postPlayer = 0;
+		}
+		
+		if (fifaPlayer.traits.includes("Beat offside trap") ||
+			fifaPlayer.playerSpecialties.includes("Complete Forward") || 
+			fifaPlayer.playerSpecialties.includes("Complete Defender")
+		) {
+			this.lines = 1;
+			this.specialAbilitiesString += "* Lines" + "\n";
+		} else {
+			this.lines = 0;
+		}
+		
+		if (fifaPlayer.traits.includes("Long shot taker (AI)") || fifaPlayer.playerSpecialties.includes("Distance Shooter")) {
+			this.middleShooting = 1;
+			this.specialAbilitiesString += "* Middle shooting" + "\n";
+		} else {
+			this.middleShooting = 0;
+		}
+
+		if ((fifaPlayer.traits.includes("Technical dribbler (AI)") && sideCounter > 2) || fifaPlayer.traits.includes("Early crosser")) {
+			this.side = 1;
+			this.specialAbilitiesString += "* Side" + "\n";
+		} else {
+			this.side = 0;
+		}
+
+		if (fifaPlayer.traits.includes("Playmaker (AI)") && fifaPlayer.mentality["Vision"] > 80 && fifaPlayer.mentality["Positioning"] > 80) {
+			this.centre = 1;
+			this.specialAbilitiesString += "* Centre" + "\n";
+		} else {
+			this.centre = 0;
+		}
+
+		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.mentality["Penalties"]]) > 80) {
+			this.penalties = 1;
+			this.specialAbilitiesString += "* Penalties" + "\n";
+		} else {
+			this.penalties = 0;
+		}
+
+		if (fifaPlayer.skillMoves>3 && fifaPlayer.attacking["Short passing"]>83) {
+			this.oneTouchPass = 1;
+			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
+		} else {
+			this.oneTouchPass = 0;
+		}
+
+		if (fifaPlayer.traits.includes("Outside foot shot") && fifaPlayer.skill["Ball control"] * 0.3 + fifaPlayer.skill["Curve"] * 0.7 >= 85) {
+			this.outside = 1;
+			this.specialAbilitiesString += "* Outside" + "\n";
+		} else {
+			this.outside = 0;
+		}
+
+		if (Average([fifaPlayer.defending["Defensive awareness"], fifaPlayer.mentality["Aggression"]]) > 85) {
+			this.marking = 1;
+			this.specialAbilitiesString += "* Marking" + "\n";
+		} else {
+			this.marking = 0;
+		}
+
+		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.defending["Standing tackle"]]) > 85) {
+			this.sliding = 1;
+			this.specialAbilitiesString += "* Sliding" + "\n";
+		} else {
+			this.sliding = 0;
+		}
+
+		if (Average([fifaPlayer.mentality["Interceptions"], fifaPlayer.defending["Standing tackle"]]) > 85) {
+			this.covering = 1;
+			this.specialAbilitiesString += "* Covering" + "\n";
+		} else {
+			this.covering = 0;
+		}
+
+		if (fifaPlayer.traits.includes("Leadership" && fifaPlayer.posicionReg =="CB")) {
+			this.dLineControl = 1;
+			this.specialAbilitiesString += "* D-Line control" + "\n";
+		} else {
+			this.dLineControl = 0;
+		}
+
+		if (Average([fifaPlayer.goalkeeping["GK Handling"], fifaPlayer.goalkeeping["GK Reflexes"]])>80) {
+			this.penaltyStopper = 1;
+			this.specialAbilitiesString += "* Penalty stopper" + "\n";
+		} else {
+			this.penaltyStopper = 0;
+		}
+
+		if (fifaPlayer.traits.includes("Saves with feet")) {
+			this.oneOnOneStopper = 1;
+			this.specialAbilitiesString += "* 1-On-1 stopper" + "\n";
+		} else {
+			this.oneOnOneStopper = 0;
+		}
+
+		if (fifaPlayer.traits.includes("Long throw-in") || fifaPlayer.traits.includes("Giant throw-in")) {
+			this.longThrow = 1;
+			this.specialAbilitiesString += "* Long throw" + "\n";
+		} else {
+			this.longThrow = 0;
+		}
+		
 		return this.PSDString();
 	}
+
 	FromFMPlayer(fmPlayer){
 		let FMPositions = FMPositionStringToArray(fmPlayer.info["Position"]);
 		this.registeredPosition = FMPositions.includes("AMC") &&FMPositions.includes("ST") ? "SS" : FMToPESPositions(FMPositions[0]);
 		this.positions = [];
-		let side_positions = [
+		let sidePositions = [
 			"DL",
 			"DR",
 			"WBL",
@@ -332,7 +605,7 @@ ${this.specialAbilitiesString}
 			"AML",
 			"AMR",
 		];
-		let center_positions = [
+		let centerPositions = [
 			"DC",
 			"MC",
 			"DM",
@@ -340,16 +613,16 @@ ${this.specialAbilitiesString}
 			"ST",
 		];
 
-		let side_counter = 0;
-		let center_counter = 0;
+		let sideCounter = 0;
+		let centerCounter = 0;
 
 		for (let index = 0; index < FMPositions.length; index++) {
 			if (this.registeredPosition != FMToPESPositions(FMPositions[index])){
 				this.positions.push(FMToPESPositions(FMPositions[index]));
-				if (side_positions.includes(FMPositions[index]))
-					side_counter++;
-				if (center_positions.includes(FMPositions[index]))
-					center_counter++;
+				if (sidePositions.includes(FMPositions[index]))
+					sideCounter++;
+				if (centerPositions.includes(FMPositions[index]))
+					centerCounter++;
 			}
 		}
 		this.name = fmPlayer.info["Name"];
@@ -365,7 +638,6 @@ ${this.specialAbilitiesString}
 		this.injuryTolerance = FMToPESStatAToC((fmPlayer.stats["Stamina"] + fmPlayer.stats["Natural Fitness"]) / 2);
 
 		if (this.registeredPosition == "GK"){
-			console.info("is a gk!");
 			this.attack = 30;
 			this.defence = FMToPESStat99((fmPlayer.stats["Positioning"] + fmPlayer.stats["Command of Area"])/2);
 			this.balance = FMToPESStat99((fmPlayer.stats["Balance"] + fmPlayer.stats["Command of Area"])/2);
@@ -455,7 +727,6 @@ ${this.specialAbilitiesString}
 			this.weakFootFrequency = FMToPESStat1To8(fmPlayer.stats["Decisions"]);
 		}
 		// Special abilities
-		this.specialAbilitiesString = "";
 		if (fmPlayer.stats["Dribbling"] > 15) {
 			this.dribbling = 1;
 			this.specialAbilitiesString += "* Dribbling" + "\n";
@@ -532,14 +803,14 @@ ${this.specialAbilitiesString}
 		} else {
 			this.middleShooting = 0;
 		}
-		if (side_counter > 2) {
+		if (sideCounter > 2) {
 			this.side = 1;
 			this.specialAbilitiesString += "* Side" + "\n";
 		} else {
 			this.side = 0;
 		}
 		
-		if (center_counter > 2) {
+		if (centerCounter > 2) {
 			this.centre = 1;
 			this.specialAbilitiesString += "* Centre" + "\n";
 		} else {

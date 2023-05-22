@@ -7,11 +7,11 @@ class SOFIFAPlayer {
 	}
 
 	GetVersion() {
-		this.FIFAVersion = this.doc.querySelector("div.dropdown:nth-child(1) > a:nth-child(1) > span:nth-child(1)").textContent
+		this.FIFAVersion = this.doc.querySelector("div.dropdown:nth-child(1) > a:nth-child(1) > span:nth-child(1)").textContent;
 	}
 
 	GetBasicInfo() {
-		this.name = this.doc.querySelector("h1.ellipsis").textContent
+		this.name = this.doc.querySelector("h1.ellipsis").textContent;
 		const meta = this.doc.querySelector('.meta').lastChild.textContent.trim();
 		// Regular expressions to match the data
 		const ageRegex = /\d+/;
@@ -95,8 +95,8 @@ class SOFIFAPlayer {
 		console.log(this.defending);
 
 		const goalkeeperItems = sofifa_stats[indexes.indexOf('Goalkeeping')].querySelectorAll('li');
-		this.goalkeeper = this.parseStatsItems(goalkeeperItems);
-		console.log(this.goalkeeper);
+		this.goalkeeping = this.parseStatsItems(goalkeeperItems);
+		console.log(this.goalkeeping);
 
 		const specialities = sofifa_stats[indexes.indexOf('Player specialities')].querySelectorAll('li');
 		this.playerSpecialties = [];
@@ -145,8 +145,10 @@ function AddButton(){
 	button.style.position = "fixed";
 	button.style.bottom = "20px";
 	button.style.right = "20px";
-	const version = document.querySelector("div.dropdown:nth-child(1) > a:nth-child(1) > span:nth-child(1)").textContent
-	if (supportedVersions.includes(version)) {
+	const version = document.querySelector("div.dropdown:nth-child(1) > a:nth-child(1) > span:nth-child(1)").textContent;
+	const language = document.querySelector(".lang-toggle > img:nth-child(1)").getAttribute('title');
+	console.log(language);
+	if (supportedVersions.includes(version) && language == "United States") {
 		button.innerHTML = "PES Stats Copy";
 		// add event listener to button
 		button.addEventListener(
@@ -167,8 +169,11 @@ function AddButton(){
 			}
 		);
 	}
+	else if (language != "United States"){
+		button.innerHTML = "Please Select English Language";
+	}
 	else {
-		button.innerHTML = "FIFA VERSION\nNOT SUPPORTED";
+		button.innerHTML = "FIFA VERSION NOT SUPPORTED";
 	}
 	// append button to body
 	document.body.appendChild(button);
@@ -179,7 +184,7 @@ supportedVersions = [
 	"FIFA 22",
 	"FIFA 21",
 	"FIFA 20",
-]
+];
 
 AddButton();
 
