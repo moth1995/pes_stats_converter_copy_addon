@@ -1,0 +1,68 @@
+{
+    "manifest_version": 3,
+    "name": "PES Stats Copy - By PES Indie Team",
+    "version": "1.0",
+    "description": "Creates a floating button at the bottom right corner of the website that will allow you to convert FIFA, FM and Efootball stats into old-gen PES stats.",
+    "permissions": ["activeTab"],
+    "host_permissions" : [
+        "https://*.sofifa.com/*",
+        "https://*.fminside.net/*",
+        "https://*.pesmaster.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.sofifa.com/player/*", 
+                "*://*.fminside.net/players/*",
+				"*://*.pesmaster.com/*/efootball-2022/player/*"
+            ],
+			"run_at": "document_idle",
+            "js": [
+                "js/global_functions.js",
+                "js/pes_player.js",
+                "js/nationalities.js"
+            ]
+        },
+        {
+            "matches": [
+                "*://*.sofifa.com/player/*" 
+            ],
+			"run_at": "document_idle",
+            "js": [
+                "js/sofifa_player.js"
+            ]
+        },
+        {
+            "matches": [
+                "*://*.fminside.net/players/*"
+            ],
+			"run_at": "document_idle",
+            "js": [
+                "js/fminside_player.js"
+            ]
+        },
+        {
+            "matches": [
+				"*://*.pesmaster.com/*/efootball-2022/player/*"
+            ],
+			"run_at": "document_idle",
+            "js": [
+                "js/pesmaster_player.js"
+            ]
+        }
+
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+          "16": "pes_indie.ico",
+          "48": "pes_indie.ico",
+          "128": "pes_indie.ico"
+        }
+    },
+    "icons": {
+        "16": "pes_indie.ico",
+        "48": "pes_indie.ico",
+        "128": "pes_indie.ico"
+      }
+}

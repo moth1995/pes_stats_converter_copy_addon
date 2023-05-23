@@ -136,3 +136,69 @@ function GetFavSide(positions, useLastChar){
   
 	return favSide;
 }
+
+function EfootballInjuryResistance(injury){
+	switch(injury){
+		case "Low":
+			return "C";
+		case "Medium":
+			return "B";
+		case "High":
+			return "A";
+	}
+}
+
+function EfootballCondition(condition){
+	switch(condition){
+		case "A":
+			return 8;
+		case "B":
+			return 7;
+		case "C":
+			return 6;
+		case "D":
+			return 5;
+		case "E":
+			return 4;
+	}
+}
+
+function EfootballWeakFoot(weakFoot, ballControl){
+	switch(weakFoot){
+		case "Slightly Low":
+		case "Almost Never":
+			return ballControl<75 ? 1 : 2;
+		case "Medium":
+		case "Rarely":
+			return ballControl<75 ? 3 : 4;
+		case "High":
+		case "Occasionally":
+			return ballControl<75 ? 5 : 6;
+		case "Very High":
+		case "Regularly":
+			return ballControl<75 ? 7 : 8;
+	}
+}
+
+function EfootballToPESPosition(position){
+	switch (position) {
+		case "CB":
+			return "CBT";
+		case "RB":
+		case "LB":
+			return "SB";
+		case "RMF":
+		case "LMF":
+			return "SMF";
+		case "RWF":
+		case "LWF":
+			return "WF";
+		default:
+			return position;
+	}
+}
+
+function LimitStat99(stat) {
+	return stat <= 99 ? Math.round(stat) : 99;
+}
+	

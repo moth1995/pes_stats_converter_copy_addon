@@ -50,7 +50,7 @@ class PESPlayer{
 			'Á': 'A', 'À': 'A', 'É': 'E', 'È': 'E', 'Í': 'I', 'Ì': 'I',
 			'Ó': 'O', 'Ò': 'O', 'Ú': 'U', 'Ù': 'U', 'Ü': 'U', 'Ñ': 'N', 'Ć': 'C',
 			'Â': 'A', 'Ä': 'A', 'Ê': 'E', 'Ë': 'E', 'Î': 'I', 'Ï': 'I',
-			'Ô': 'O', 'Ö': 'O', 'Û': 'U', 'Ü': 'U', 'Ç': 'C', 'Å': 'A'
+			'Ô': 'O', 'Ö': 'O', 'Û': 'U', 'Ü': 'U', 'Ç': 'C', 'Å': 'A', 'Ã' : 'A',
 		};
 	
 		const translatedLastName = Array.from(lastName, char => translationMap[char] || char).join('');
@@ -111,34 +111,33 @@ APPEARANCE:
 Height: ${this.height} cm
 Weight: ${this.weight} kg
 
-
 STATS:
-Attack: ${this.attack}
-Defence: ${this.defence}
-Balance: ${this.balance}
-Stamina: ${this.stamina}
-Top Speed: ${this.topSpeed}
-Acceleration: ${this.acceleration}
-Response: ${this.response}
-Agility: ${this.agility}
-Dribble Accuracy: ${this.dribbleAccuracy}
-Dribble Speed: ${this.dribbleSpeed}
-Short Pass Accuracy: ${this.shortPassAccuracy}
-Short Pass Speed: ${this.shortPassSpeed}
-Long Pass Accuracy: ${this.longPassAccuracy}
-Long Pass Speed: ${this.longPassSpeed}
-Shot Accuracy: ${this.shotAccuracy}
-Shot Power: ${this.shotPower}
-Shot Technique: ${this.shotTechnique}
-Free Kick Accuracy: ${this.freeKickAccuracy}
-Curling: ${this.curling}
-Header: ${this.header}
-Jump: ${this.jump}
-Technique: ${this.technique}
-Aggression: ${this.aggression}
-Mentality: ${this.mentality}
-Keeper Skills: ${this.goalkeeping}
-Teamwork: ${this.teamwork}
+Attack: ${LimitStat99(this.attack)}
+Defence: ${LimitStat99(this.defence)}
+Balance: ${LimitStat99(this.balance)}
+Stamina: ${LimitStat99(this.stamina)}
+Top Speed: ${LimitStat99(this.topSpeed)}
+Acceleration: ${LimitStat99(this.acceleration)}
+Response: ${LimitStat99(this.response)}
+Agility: ${LimitStat99(this.agility)}
+Dribble Accuracy: ${LimitStat99(this.dribbleAccuracy)}
+Dribble Speed: ${LimitStat99(this.dribbleSpeed)}
+Short Pass Accuracy: ${LimitStat99(this.shortPassAccuracy)}
+Short Pass Speed: ${LimitStat99(this.shortPassSpeed)}
+Long Pass Accuracy: ${LimitStat99(this.longPassAccuracy)}
+Long Pass Speed: ${LimitStat99(this.longPassSpeed)}
+Shot Accuracy: ${LimitStat99(this.shotAccuracy)}
+Shot Power: ${LimitStat99(this.shotPower)}
+Shot Technique: ${LimitStat99(this.shotTechnique)}
+Free Kick Accuracy: ${LimitStat99(this.freeKickAccuracy)}
+Curling: ${LimitStat99(this.curling)}
+Header: ${LimitStat99(this.header)}
+Jump: ${LimitStat99(this.jump)}
+Technique: ${LimitStat99(this.technique)}
+Aggression: ${LimitStat99(this.aggression)}
+Mentality: ${LimitStat99(this.mentality)}
+Keeper Skills: ${LimitStat99(this.goalkeeping)}
+Teamwork: ${LimitStat99(this.teamwork)}
 Consistency: ${this.consistency}
 Condition/Fitness: ${this.condition}
 Weak Foot Accuracy: ${this.weakFootAccuracy}
@@ -149,7 +148,7 @@ ${this.specialAbilitiesString}
 `;
 	}
 
-	FromFIFA20_23Player(fifaPlayer){
+	FromFIFA17To23Player(fifaPlayer){
 		this.registeredPosition = this.ConvertPosition(fifaPlayer.posicionReg);
 		this.positions = [];
 		let sidePositions = ["RW", "LW", "RM", "LM", "RWB", "LWB", "RB", "LB"];
@@ -163,7 +162,7 @@ ${this.specialAbilitiesString}
 		this.name = fifaPlayer.name;
 		this.shirtName = this.NameToShirtName(this.name);
 		this.age = fifaPlayer.age;
-		this.nationality = fifaPlayer.nationality;
+		this.nationality = fifaPlayer.nationality in pesIndieNationalities ? pesIndieNationalities[fifaPlayer.nationality] : "Free Nationality";
 		this.foot = fifaPlayer.preferedFoot == "Right" ? "R" : "L" ;
 		this.favouredSide = GetFavSide(fifaPlayer.posiciones, false);
 
@@ -171,18 +170,18 @@ ${this.specialAbilitiesString}
 		this.weight = parseInt(fifaPlayer.weight);
 
 		this.injuryTolerance = "B";
-		if (fifaPlayer.traits.includes("Solid Player")) {
+		if (fifaPlayer.traits.includes("Solid player") || fifaPlayer.traits.includes("Injury free")) {
 			this.injuryTolerance = "A";
 		}
-		else if (fifaPlayer.traits.includes("Injury Prone")) {
+		else if (fifaPlayer.traits.includes("Injury prone")) {
 			this.injuryTolerance = "C";
 		}
 	
-		this.consistency = this.CalculateConsistency(Math.floor((fifaPlayer.power["Stamina"] + fifaPlayer.overall)/2));
-		this.condition = this.CalculateCondition(Math.floor((fifaPlayer.power["Stamina"] + fifaPlayer.mentality["Composture"])/2));
+		this.consistency = this.CalculateConsistency(Average([fifaPlayer.power["Stamina"], fifaPlayer.overall]));
+		this.condition = this.CalculateCondition(Average([fifaPlayer.power["Stamina"], fifaPlayer.mentality["Composure"]]));
 
-		this.weakFootFrequency = this.GetWeekFoot(fifaPlayer.weakFoot, Math.floor((fifaPlayer.movement["Balance"] + fifaPlayer.mentality["Composture"])/2));
-		this.weakFootAccuracy =  this.GetWeekFoot(fifaPlayer.weakFoot, Math.floor((fifaPlayer.skill["Dribbling"], fifaPlayer.skill["Ball Control"], fifaPlayer.mentality["Vision"])/3));
+		this.weakFootFrequency = this.GetWeekFoot(fifaPlayer.weakFoot, Average([fifaPlayer.movement["Balance"], fifaPlayer.mentality["Composure"]]));
+		this.weakFootAccuracy =  this.GetWeekFoot(fifaPlayer.weakFoot, Average([fifaPlayer.skill["Dribbling"], fifaPlayer.skill["Ball control"], fifaPlayer.mentality["Vision"]]));
 
 		if (this.registeredPosition == "GK"){
 			//convertion formula for GK
@@ -311,7 +310,14 @@ ${this.specialAbilitiesString}
 			let attackEXP = DivideIntegers(positioning + positioning + fifaPlayer.movement["Reactions"], 3) + fifaPlayer.internationalReputation;
 			this.attack = attackExtraPoints + DivideIntegers(attackEXP, this.EXP_ID_Value); 
 
-			let defensiveAwareness = MinorThan(fifaPlayer.defending["Defensive awareness"], 20);
+			let defensiveAwarenessStat;
+			if ("Defensive awareness" in fifaPlayer.defending) {
+				defensiveAwarenessStat = fifaPlayer.defending["Defensive awareness"];
+			}
+			else{
+				defensiveAwarenessStat = fifaPlayer.defending["Marking"];
+			}
+			let defensiveAwareness = MinorThan(defensiveAwarenessStat, 20);
 			let standingTackle = MinorThan(fifaPlayer.defending["Standing tackle"], 20);
 			let defenceEXP = DivideIntegers(defensiveAwareness * 2 + standingTackle, 3);
 			let tempDefence = 25 + DivideIntegers(defenceEXP, this.EXP_ID_Value) + fifaPlayer.internationalReputation;
@@ -488,8 +494,8 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fifaPlayer.traits.includes("Beat offside trap") ||
-			fifaPlayer.playerSpecialties.includes("Complete Forward") || 
-			fifaPlayer.playerSpecialties.includes("Complete Defender")
+			fifaPlayer.playerSpecialties.includes("Complete forward") || 
+			fifaPlayer.playerSpecialties.includes("Complete defender")
 		) {
 			this.lines = 1;
 			this.specialAbilitiesString += "* Lines" + "\n";
@@ -497,7 +503,7 @@ ${this.specialAbilitiesString}
 			this.lines = 0;
 		}
 		
-		if (fifaPlayer.traits.includes("Long shot taker (AI)") || fifaPlayer.playerSpecialties.includes("Distance Shooter")) {
+		if (fifaPlayer.traits.includes("Long shot taker (AI)") || fifaPlayer.playerSpecialties.includes("Distance shooter")) {
 			this.middleShooting = 1;
 			this.specialAbilitiesString += "* Middle shooting" + "\n";
 		} else {
@@ -539,7 +545,15 @@ ${this.specialAbilitiesString}
 			this.outside = 0;
 		}
 
-		if (Average([fifaPlayer.defending["Defensive awareness"], fifaPlayer.mentality["Aggression"]]) > 85) {
+		let defensiveAwarenessStat;
+		if ("Defensive awareness" in fifaPlayer.defending) {
+			defensiveAwarenessStat= fifaPlayer.defending["Defensive awareness"];
+		}
+		else{
+			defensiveAwarenessStat= fifaPlayer.defending["Marking"];
+		}
+
+		if (Average([defensiveAwarenessStat, fifaPlayer.mentality["Aggression"]]) > 85) {
 			this.marking = 1;
 			this.specialAbilitiesString += "* Marking" + "\n";
 		} else {
@@ -628,7 +642,7 @@ ${this.specialAbilitiesString}
 		this.name = fmPlayer.info["Name"];
 		this.shirtName = this.NameToShirtName(this.name);
 		this.age = parseInt(fmPlayer.info["Age"]);
-		this.nationality = fmPlayer.nationality;
+		this.nationality = fmPlayer.nationality in pesIndieNationalities ? pesIndieNationalities[fmPlayer.nationality] : "Free Nationality";
 		this.foot = fmPlayer.info["Foot"] == "Left" ? "L" : "R" ;
 		this.favouredSide = GetFavSide(FMPositions, true);
 
@@ -689,12 +703,12 @@ ${this.specialAbilitiesString}
 				this.registeredPosition == "SS" || 
 				this.registeredPosition == "CF"
 			) {
-				if (this.defense < 70 && this.defense > 0) {
-						this.defense = this.defense - 10;
-					} else if (this.defense < 86 && this.defense >= 70) {
-						this.defense = this.defense - 15;
-					} else if (this.defense < 100 && this.defense >= 86) {
-						this.defense = this.defense - 20;
+				if (this.defence < 70 && this.defence > 0) {
+						this.defence = this.defence - 10;
+					} else if (this.defence < 86 && this.defence >= 70) {
+						this.defence = this.defence - 15;
+					} else if (this.defence < 100 && this.defence >= 86) {
+						this.defence = this.defence - 20;
 					}
 			}
 			this.balance = FMToPESStat99((fmPlayer.stats["Balance"] + fmPlayer.stats["Strength"]) / 2);
@@ -879,6 +893,289 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Long Throws"] > 15) {
+			this.longThrow = 1;
+			this.specialAbilitiesString += "* Long throw" + "\n";
+		} else {
+			this.longThrow = 0;
+		}
+		return this.PSDString();
+	}
+
+	FromPESMasterPlayer(pesMasterPlayer){
+		this.name = pesMasterPlayer.name;
+		this.shirtName = this.NameToShirtName(this.name);
+		this.age = parseInt(pesMasterPlayer.info["Age"]);
+		this.nationality = pesMasterPlayer.info["Nationality"] in pesIndieNationalities ? pesIndieNationalities[pesMasterPlayer.info["Nationality"]] : "Free Nationality";
+		this.foot = pesMasterPlayer.info["Foot"] == "Left" ? "L" : "R" ;
+		this.favouredSide = GetFavSide(pesMasterPlayer.positions, false);
+
+		this.height = parseInt(pesMasterPlayer.info["Height (cm)"]);
+		this.weight = parseInt(pesMasterPlayer.info["Weight"]);
+
+		this.registeredPosition = EfootballToPESPosition(pesMasterPlayer.info["Position"]);
+		this.positions = [];
+
+		let sideCounter = 0;
+		let centerCounter = 0;
+		let sidePositions = ["RB", "LB", "RMF", "LMF", "RWF", "LWF"];
+		let centerPositions = ["CB", "DMF", "AMF"];
+
+		for (let index = 0; index < pesMasterPlayer.positions.length; index++) {
+			if (this.registeredPosition != EfootballToPESPosition(pesMasterPlayer.positions[index]) && 
+				!(this.positions.includes(EfootballToPESPosition(pesMasterPlayer.positions[index])))
+			){
+				this.positions.push(EfootballToPESPosition(pesMasterPlayer.positions[index]));
+				if (sidePositions.includes(pesMasterPlayer.positions[index]))
+					sideCounter++;
+				if (centerPositions.includes(pesMasterPlayer.positions[index]))
+					centerCounter++;
+			}
+		}
+
+		this.injuryTolerance = EfootballInjuryResistance(pesMasterPlayer.stats["Injury Resistance"]);
+
+		this.attack = pesMasterPlayer.stats["Offensive Awareness"];
+		this.defence = pesMasterPlayer.stats["Defensive Awareness"];
+		this.balance = pesMasterPlayer.stats["Physical Contact"];
+        this.stamina = pesMasterPlayer.stats["Stamina"];
+		this.topSpeed = pesMasterPlayer.stats["Speed"];
+        this.acceleration = pesMasterPlayer.stats["Acceleration"];
+		this.response = Math.round(Average([pesMasterPlayer.stats["Acceleration"], pesMasterPlayer.stats["Offensive Awareness"], pesMasterPlayer.stats["Tight Possession"]]));
+		this.agility = Math.round(Average([pesMasterPlayer.stats["Ball Control"], pesMasterPlayer.stats["Tight Possession"], pesMasterPlayer.stats["Balance"]]));
+		this.dribbleAccuracy = pesMasterPlayer.stats["Dribbling"];
+        this.dribbleSpeed = Math.round(Average([pesMasterPlayer.stats["Dribbling"], pesMasterPlayer.stats["Speed"]]));
+        this.shortPassAccuracy = pesMasterPlayer.stats["Low Pass"];
+        this.shortPassSpeed = Math.round(Average([pesMasterPlayer.stats["Low Pass"], pesMasterPlayer.stats["Kicking Power"]]));
+        this.longPassAccuracy = pesMasterPlayer.stats["Lofted Pass"];
+        this.longPassSpeed = Math.round(Average([pesMasterPlayer.stats["Lofted Pass"], pesMasterPlayer.stats["Kicking Power"]]));
+        this.shotAccuracy = pesMasterPlayer.stats["Finishing"];
+        this.shotPower = pesMasterPlayer.stats["Kicking Power"];
+        this.shotTechnique = Math.round(Average([pesMasterPlayer.stats["Finishing"], pesMasterPlayer.stats["Ball Control"]]));
+        this.freeKickAccuracy = pesMasterPlayer.stats["Set Piece Taking"];
+        this.curling = pesMasterPlayer.stats["Curl"];
+        this.header = pesMasterPlayer.stats["Heading"];
+        this.jump = pesMasterPlayer.stats["Jumping"];
+        this.technique = pesMasterPlayer.stats["Ball Control"];
+		this.goalkeeping = 50;
+		this.aggression = Math.round(0.8 * pesMasterPlayer.stats["Offensive Awareness"] + 0.2 * pesMasterPlayer.stats["Aggression"]);
+		this.mentality = Math.round(Average([pesMasterPlayer.stats["Offensive Awareness"], pesMasterPlayer.stats["Tight Possession"], pesMasterPlayer.stats["Defensive Awareness"], pesMasterPlayer.stats["Aggression"]]));
+		this.teamwork = Math.round(Average([pesMasterPlayer.stats["Tight Possession"], pesMasterPlayer.stats["Low Pass"], pesMasterPlayer.stats["Lofted Pass"]]));
+		this.consistency = this.CalculateConsistency(Average([pesMasterPlayer.stats["Stamina"], pesMasterPlayer.overall]));
+		this.condition = EfootballCondition(pesMasterPlayer.info["Condition"]);
+		this.weakFootAccuracy = EfootballWeakFoot(pesMasterPlayer.stats["Weak Foot Acc."], pesMasterPlayer.stats["Ball Control"]);
+		this.weakFootFrequency = EfootballWeakFoot(pesMasterPlayer.stats["Weak Foot Usage"], pesMasterPlayer.stats["Ball Control"]);
+
+		switch (this.registeredPosition){
+            case "GK":
+                this.attack = 35
+                this.defence = Math.round(0.9 * pesMasterPlayer.stats["GK Awareness"] + 0.1 * pesMasterPlayer.stats["Defensive Awareness"]);
+                this.response = Math.round(0.8 * pesMasterPlayer.stats["GK Awareness"] + 0.2 * pesMasterPlayer.stats["Acceleration"]);
+                this.agility = Math.round(0.3 * pesMasterPlayer.stats["GK Reflexes"] + 0.7 * pesMasterPlayer.stats["Balance"]);
+                this.aggression = Math.round(0.6 * pesMasterPlayer.stats["Aggression"] + 0.4 * pesMasterPlayer.stats["GK Awareness"]);
+                this.mentality = Math.round(0.7 * pesMasterPlayer.stats["GK Awareness"] + 0.3 * pesMasterPlayer.stats["Defensive Awareness"]);
+                this.goalkeeping = Math.round(Average([pesMasterPlayer.stats["GK Awareness"], pesMasterPlayer.stats["GK Reach"]]));
+                this.teamwork = Math.round(Average([pesMasterPlayer.stats["Offensive Awareness"], pesMasterPlayer.stats["Low Pass"], pesMasterPlayer.stats["Lofted Pass"]]));
+				break;
+            case "CBT":
+			case "CWP":
+			case "SB":
+                this.response = Math.round(Average([pesMasterPlayer.stats["Acceleration"], pesMasterPlayer.stats["Ball Winning"], pesMasterPlayer.stats["Defensive Awareness"]]));
+                this.teamwork = Math.round(Average([pesMasterPlayer.stats["Offensive Awareness"], pesMasterPlayer.stats["Low Pass"], pesMasterPlayer.stats["Lofted Pass"], pesMasterPlayer.stats["Defensive Awareness"]]));
+				break;
+            case "DMF":
+			case "WB":
+			case "CMF":
+			case "SMF":
+			case "AMF":
+                this.response = Math.round(Average([pesMasterPlayer.stats["Acceleration"], pesMasterPlayer.stats["Ball Winning"], pesMasterPlayer.stats["Tight Possession"]]));
+				break;
+		}
+		// Special abilities 
+		if (pesMasterPlayer.specialStats.includes("Mazing Run") ||
+			pesMasterPlayer.specialStats.includes("Step On Skill Control") ||
+			pesMasterPlayer.specialStats.includes("Marseille Turn") ||
+			pesMasterPlayer.specialStats.includes("Trickster") ||
+			pesMasterPlayer.specialStats.includes("Flip Flap")
+		) {
+			this.dribbling = 1;
+			this.specialAbilitiesString += "* Dribbling" + "\n";
+		} else {
+			this.dribbling = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Games Man Ship") ||
+			pesMasterPlayer.stats["Ball Control"] > 85
+		) {
+			this.tacticalDribble = 1;
+			this.specialAbilitiesString += "* Tactical dribble" + "\n";
+		} else {
+			this.tacticalDribble = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Goal Poacher") ||
+			pesMasterPlayer.specialStats.includes("Hole Player")
+		) {
+			this.positioning = 1;
+			this.specialAbilitiesString += "* Positioning" + "\n";
+		} else {
+			this.positioning = 0;
+		}
+		
+		if (this.response>90) {
+			this.reaction = 1;
+			this.specialAbilitiesString += "* Reaction" + "\n";
+		} else {
+			this.reaction = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Captaincy")) {
+			this.playmaking = 1;
+			this.specialAbilitiesString += "* Playmaking" + "\n";
+		} else {
+			this.playmaking = 0;
+		}
+
+		if ((pesMasterPlayer.specialStats.includes("No Look Pass") &&
+			pesMasterPlayer.specialStats.includes("Through Passing")) ||
+			pesMasterPlayer.specialStats.includes("Orchestrator") ||
+			pesMasterPlayer.stats["Low Pass"] > 90
+		) {
+			this.passing = 1;
+			this.specialAbilitiesString += "* Passing" + "\n";
+		} else {
+			this.passing = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Fox in the Box")) {
+			this.scoring = 1;
+			this.specialAbilitiesString += "* Scoring" + "\n";
+		} else {
+			this.scoring = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Chip Shot Control") ||
+			this.mentality > 90
+		) {
+			this.oneOnOneScoring = 1;
+			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
+		} else {
+			this.oneOnOneScoring = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Track Back") && 
+			pesMasterPlayer.specialStats.includes("The Destroyer") 
+		) {
+			this.postPlayer = 1;
+			this.specialAbilitiesString += "* Post player" + "\n";
+		} else {
+			this.postPlayer = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Speeding Bullet")) {
+			this.lines = 1;
+			this.specialAbilitiesString += "* Lines" + "\n";
+		} else {
+			this.lines = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Long Ranger") ||
+			pesMasterPlayer.specialStats.includes("Long-Range Shooting")
+		) {
+			this.middleShooting = 1;
+			this.specialAbilitiesString += "* Middle shooting" + "\n";
+		} else {
+			this.middleShooting = 0;
+		}
+		if ((pesMasterPlayer.specialStats.includes("Prolific Winger") ||
+			pesMasterPlayer.specialStats.includes("Offensive Full-back") ||
+			pesMasterPlayer.specialStats.includes("Defensive Full-back") ||
+			pesMasterPlayer.specialStats.includes("Full-back Finisher") ||	
+			pesMasterPlayer.specialStats.includes("Roaming Flank")) &&
+			sideCounter > 2
+		) {
+			this.side = 1;
+			this.specialAbilitiesString += "* Side" + "\n";
+		} else {
+			this.side = 0;
+		}
+		
+		if ((pesMasterPlayer.specialStats.includes("Build Up") ||
+			pesMasterPlayer.specialStats.includes("Deep-Lying Forward") ||
+			pesMasterPlayer.specialStats.includes("Box-to-Box")) && 
+			centerCounter > 2
+		) {
+			this.centre = 1;
+			this.specialAbilitiesString += "* Centre" + "\n";
+		} else {
+			this.centre = 0;
+		}
+		if (pesMasterPlayer.specialStats.includes("Penalty Specialist")) {
+			this.penalties = 1;
+			this.specialAbilitiesString += "* Penalties" + "\n";
+		} else {
+			this.penalties = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("One-touch Pass")) {
+			this.oneTouchPass = 1;
+			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
+		} else {
+			this.oneTouchPass = 0;
+		}
+
+		if (pesMasterPlayer.specialStats.includes("Knuckle Shot")) {
+			this.outside = 1;
+			this.specialAbilitiesString += "* Outside" + "\n";
+		} else {
+			this.outside = 0;
+		}
+		
+		if (this.defence > 90) {
+			this.marking = 1;
+			this.specialAbilitiesString += "* Marking" + "\n";
+		} else {
+			this.marking = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Interception") && 
+			pesMasterPlayer.specialStats.includes("The Destroyer") 
+		) {
+			this.sliding = 1;
+			this.specialAbilitiesString += "* Sliding" + "\n";
+		} else {
+			this.sliding = 0;
+		}
+		if (pesMasterPlayer.specialStats.includes("Man Marking")) {
+			this.covering = 1;
+			this.specialAbilitiesString += "* Covering" + "\n";
+		} else {
+			this.covering = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Captaincy") &&
+			this.defence > 90
+		) {
+			this.dLineControl = 1;
+			this.specialAbilitiesString += "* D-Line control" + "\n";
+		} else {
+			this.dLineControl = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("GK Penalty Saver")) {
+			this.penaltyStopper = 1;
+			this.specialAbilitiesString += "* Penalty stopper" + "\n";
+		} else {
+			this.penaltyStopper = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Defensive Goalkeeper")) {
+			this.oneOnOneStopper = 1;
+			this.specialAbilitiesString += "* 1-On-1 stopper" + "\n";
+		} else {
+			this.oneOnOneStopper = 0;
+		}
+		
+		if (pesMasterPlayer.specialStats.includes("Long Throw")) {
 			this.longThrow = 1;
 			this.specialAbilitiesString += "* Long throw" + "\n";
 		} else {

@@ -161,7 +161,7 @@ function AddButton(){
 				var sofifaPlayer = new SOFIFAPlayer(doc);
 				// Convert into pes
 				var pesPlayer = new PESPlayer();
-				var psdString = pesPlayer.FromFIFA20_23Player(sofifaPlayer);
+				var psdString = pesPlayer.FromFIFA17To23Player(sofifaPlayer);
 						
 				// Use the string result
 				console.log("Received string from background:", psdString);
@@ -184,6 +184,9 @@ supportedVersions = [
 	"FIFA 22",
 	"FIFA 21",
 	"FIFA 20",
+	"FIFA 19",
+	"FIFA 18",
+	"FIFA 17",
 ];
 
 AddButton();
