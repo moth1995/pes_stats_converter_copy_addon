@@ -977,7 +977,7 @@ ${this.specialAbilitiesString}
             case "CBT":
 			case "CWP":
 			case "SB":
-                this.response = Math.round(Average([pesMasterPlayer.stats["Acceleration"], pesMasterPlayer.stats["Ball Winning"], pesMasterPlayer.stats["Defensive Awareness"]]));
+                this.response = Math.round(Average([pesMasterPlayer.stats["Acceleration"], pesMasterPlayer.stats["Defensive Engagement"], pesMasterPlayer.stats["Defensive Awareness"]]));
                 this.teamwork = Math.round(Average([pesMasterPlayer.stats["Offensive Awareness"], pesMasterPlayer.stats["Low Pass"], pesMasterPlayer.stats["Lofted Pass"], pesMasterPlayer.stats["Defensive Awareness"]]));
 				break;
             case "DMF":
@@ -985,7 +985,7 @@ ${this.specialAbilitiesString}
 			case "CMF":
 			case "SMF":
 			case "AMF":
-                this.response = Math.round(Average([pesMasterPlayer.stats["Acceleration"], pesMasterPlayer.stats["Ball Winning"], pesMasterPlayer.stats["Tight Possession"]]));
+                this.response = Math.round(Average([pesMasterPlayer.stats["Acceleration"], pesMasterPlayer.stats["Defensive Engagement"], pesMasterPlayer.stats["Tight Possession"]]));
 				break;
 		}
 		// Special abilities 
