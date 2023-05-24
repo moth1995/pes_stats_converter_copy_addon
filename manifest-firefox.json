@@ -35,16 +35,16 @@
       }
     ],
     "icons": {
-      "16": "pes_indie.ico",
-      "48": "pes_indie.ico",
-      "128": "pes_indie.ico"
+      "16": "pes_indie.png",
+      "48": "pes_indie.png",
+      "128": "pes_indie.png"
     },
     "page_action": {
       "default_popup": "popup.html",
       "default_icon": {
-        "16": "pes_indie.ico",
-        "48": "pes_indie.ico",
-        "128": "pes_indie.ico"
+        "16": "pes_indie.png",
+        "48": "pes_indie.png",
+        "128": "pes_indie.png"
       }
     },
     "browser_specific_settings": {
