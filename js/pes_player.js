@@ -193,17 +193,15 @@ ${this.specialAbilitiesString}
 			let gkDiving = MinorThan(fifaPlayer.goalkeeping["GK Diving"], 60);
 			let defenceEXP = Average([gkPositioning, gkDiving]) + fifaPlayer.internationalReputation;
 			this.defence = 25 + DivideIntegers(defenceEXP, this.EXP_ID_Value);
-			
+
 			let strenght = MinorThan(fifaPlayer.power["Strength"], 60);
-			let weightEXP = this.weight - 100;
-			let balanceEXP = strenght * 0.1 + gkPositioning * 0.3 + weightEXP * 0.6;
-			this.balance = 15 + DivideIntegers(balanceEXP, this.EXP_Value);
+			let heightEXP = this.height - 100;
+			let balanceEXP = strenght * 0.1 + gkPositioning * 0.3 + heightEXP * 0.6;
+			this.balance = DivideIntegers(balanceEXP, this.EXP_Value);
 			if (fifaPlayer.traits.includes("Comes for crosses")){
-				let balance = Math.round(this.balance + this.balance * 0.3);
-				this.balance = balance > 99 ? 99 : balance;
+				this.balance = Math.round(this.balance + this.balance * 0.15);
 			}
-				
-			
+
 			let staminaEXP = MinorThan(fifaPlayer.power["Stamina"], 60);
 			this.stamina = 15 + DivideIntegers(staminaEXP, this.EXP_Value);
 			
