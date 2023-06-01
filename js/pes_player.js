@@ -14,10 +14,10 @@ class PESPlayer{
 		this.linesPositions = ["WF", "SS", "CF",];
 		this.middleShootingPositions = ["DMF", "SMF", "AMF", "SS", "CF"];
 		this.oneTouchPassPositions = ["AMF", "SS", "CF"];
-		this.markingPositions = ["CB", "CWP", "SB", "WB", "DMF"];
-		this.slidingPositions = ["CB", "CWP", "SB", "WB", "DMF"];
-		this.coveringPositions = ["CB", "CWP", "SB", "WB", "DMF"];
-		this.dLineControlPositions = ["CB", "CWP",];
+		this.markingPositions = ["CBT", "CWP", "SB", "WB", "DMF"];
+		this.slidingPositions = ["CBT", "CWP", "SB", "WB", "DMF"];
+		this.coveringPositions = ["CBT", "CWP", "SB", "WB", "DMF"];
+		this.dLineControlPositions = ["CBT", "CWP",];
 		this.longThrowPositions = ["SB", "WB"];
 	}
 
@@ -707,7 +707,7 @@ ${this.specialAbilitiesString}
 		if (this.registeredPosition == "GK"){
 			this.attack = 30;
 			this.defence = FMToPESStat99((fmPlayer.stats["Positioning"] + fmPlayer.stats["Command of Area"])/2);
-			this.balance = FMToPESStat99((fmPlayer.stats["Balance"] + fmPlayer.stats["Command of Area"])/2);
+			this.balance = FMToPESStat99(fmPlayer.stats["Balance"]);
 			this.stamina = Math.round((FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2);
 			this.topSpeed = FMToPESStat99(fmPlayer.stats["Pace"]);
 			this.acceleration = FMToPESStat99(fmPlayer.stats["Acceleration"]);
@@ -725,7 +725,7 @@ ${this.specialAbilitiesString}
 			this.freeKickAccuracy = FMToPESStat99(fmPlayer.stats["Kicking"] * 0.4 + fmPlayer.stats["Flair"] * 0.6);
 			this.curling = 45;
 			this.header = 55;
-			this.jump = FMToPESStat99((fmPlayer.stats["Jumping Reach"] + fmPlayer.stats["Aerial Reach"]) / 2);
+			this.jump = Average([FMToPESStat99((fmPlayer.stats["Jumping Reach"] + fmPlayer.stats["Aerial Reach"]) / 2), heightTo99Stat(this.height, false)]) + 3;
 			this.technique = FMToPESStat99(fmPlayer.stats["Flair"]);
 			this.aggression = FMToPESStat99((fmPlayer.stats["Positioning"] * 0.7 + fmPlayer.stats["Anticipation"] * 0.3));
 			this.mentality = FMToPESStat99((fmPlayer.stats["Rushing Out (Tendency)"] * 0.25 + fmPlayer.stats["One on Ones"] * 0.5 + fmPlayer.stats["Composure"] * 0.25));
@@ -764,7 +764,7 @@ ${this.specialAbilitiesString}
 						this.defence = this.defence - 20;
 					}
 			}
-			this.balance = FMToPESStat99((fmPlayer.stats["Balance"] + fmPlayer.stats["Strength"]) / 2);
+			this.balance = FMToPESStat99(fmPlayer.stats["Balance"]);
 			this.stamina = Math.round((FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2);
 			this.topSpeed = FMToPESStat99(fmPlayer.stats["Pace"]);
 			this.acceleration = FMToPESStat99(fmPlayer.stats["Acceleration"]);
@@ -777,12 +777,13 @@ ${this.specialAbilitiesString}
 			this.longPassAccuracy = FMToPESStat99((fmPlayer.stats["Crossing"] + fmPlayer.stats["Passing"]) / 2);
 			this.longPassSpeed = FMToPESStat99((fmPlayer.stats["Crossing"] + fmPlayer.stats["Passing"] + fmPlayer.stats["Technique"]) / 3);
 			this.shotAccuracy = FMToPESStat99((fmPlayer.stats["Finishing"] + fmPlayer.stats["Composure"]) / 2);
-			this.shotPower = FMToPESStat99((fmPlayer.stats["Long Shots"] * 0.7) + (fmPlayer.stats["Finishing"] * 0.3));
+			this.shotPower = FMToPESStat99(Average([fmPlayer.stats["Strength"], fmPlayer.stats["Long Shots"]]));
 			this.shotTechnique = FMToPESStat99((fmPlayer.stats["Finishing"] + fmPlayer.stats["First Touch"] + fmPlayer.stats["Technique"]) / 3)
 			this.freeKickAccuracy = FMToPESStat99(fmPlayer.stats["Free Kick Taking"]);
 			this.curling = FMToPESStat99((fmPlayer.stats["Free Kick Taking"] + fmPlayer.stats["Corners"]) / 2);
 			this.header = FMToPESStat99(fmPlayer.stats["Heading"]);
-			this.jump = FMToPESStat99(fmPlayer.stats["Jumping Reach"]);
+			this.jump = Average([FMToPESStat99(fmPlayer.stats["Jumping Reach"]), heightTo99Stat(this.height, false)]);
+			if (this.registeredPosition=="CBT") this.jump+=3;
 			this.technique = FMToPESStat99((fmPlayer.stats["Flair"] + fmPlayer.stats["Technique"]) / 2);
 			this.aggression = FMToPESStat99((fmPlayer.stats["Vision"] * 0.5) + (fmPlayer.stats["Off the Ball"] * 0.5));
 			this.mentality = FMToPESStat99((fmPlayer.stats["Work Rate"] * 0.7) + (fmPlayer.stats["Bravery"] * 0.3));
