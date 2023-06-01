@@ -214,16 +214,6 @@ function clamp(min, max, num) {
 
 function heightTo99Stat(height, isGK){
 	gkTable = {
-		165 : 95,
-		166 : 95,
-		167 : 95,
-		168 : 95,
-		169 : 95,
-		170 : 95,
-		171 : 95,
-		172 : 95,
-		173 : 95,
-		174 : 95,
 		175 : 95,
 		176 : 94,
 		177 : 93,
@@ -299,10 +289,19 @@ function heightTo99Stat(height, isGK){
 		204 : 56,
 		205 : 55,
 	}
-	if (isGK){
-		return gkTable[height];
-	}
-	else{
-		return playersTable[height];
+	if (isGK) {
+		if (height in gkTable) {
+		  	return gkTable[height];
+		} else {
+			stat = height < 175 ? 95 : 55
+		  	return stat;
+		}
+	} else {
+		if (height in playersTable) {
+			return playersTable[height];
+		} else {
+			stat = height < 165 ? 95 : 55
+		  	return stat;
+		}
 	}
 }
