@@ -707,7 +707,7 @@ ${this.specialAbilitiesString}
 		if (this.registeredPosition == "GK"){
 			this.attack = 30;
 			this.defence = FMToPESStat99((fmPlayer.stats["Positioning"] + fmPlayer.stats["Command of Area"])/2);
-			this.balance = FMToPESStat99(fmPlayer.stats["Balance"]);
+			this.balance = FMToPESStat99(fmPlayer.stats["Strength"]);
 			this.stamina = Math.round((FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2);
 			this.topSpeed = FMToPESStat99(fmPlayer.stats["Pace"]);
 			this.acceleration = FMToPESStat99(fmPlayer.stats["Acceleration"]);
@@ -764,7 +764,7 @@ ${this.specialAbilitiesString}
 						this.defence = this.defence - 20;
 					}
 			}
-			this.balance = FMToPESStat99(fmPlayer.stats["Balance"]);
+			this.balance = FMToPESStat99(fmPlayer.stats["Strength"]);
 			this.stamina = Math.round((FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2);
 			this.topSpeed = FMToPESStat99(fmPlayer.stats["Pace"]);
 			this.acceleration = FMToPESStat99(fmPlayer.stats["Acceleration"]);
