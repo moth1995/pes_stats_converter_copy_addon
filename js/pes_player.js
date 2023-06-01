@@ -4,6 +4,21 @@ class PESPlayer{
 		this.EXP_Value = 1.179;
 		this.EXP_ID_Value = 1.405;
 		this.specialAbilitiesString = "";
+		this.positioningPositions = ["SS", "CF"];
+		this.reactionPositions = ["SB", "WB", "SMF", "AMF", "WF", "SS", "CF"];
+		this.playmakingPositions = ["DMF", "SMF", "AMF", "SS"];
+		this.passingPositions = ["WB", "DMF", "SMF", "AMF", "WF", "SS"];
+		this.scoringPositions = ["SS", "CF",];
+		this.oneOnOneScoringPositions = ["WF", "SS", "CF",];
+		this.postPlayerPositions = ["CF"];
+		this.linesPositions = ["WF", "SS", "CF",];
+		this.middleShootingPositions = ["DMF", "SMF", "AMF", "SS", "CF"];
+		this.oneTouchPassPositions = ["AMF", "SS", "CF"];
+		this.markingPositions = ["CB", "CWP", "SB", "WB", "DMF"];
+		this.slidingPositions = ["CB", "CWP", "SB", "WB", "DMF"];
+		this.coveringPositions = ["CB", "CWP", "SB", "WB", "DMF"];
+		this.dLineControlPositions = ["CB", "CWP",];
+		this.longThrowPositions = ["SB", "WB"];
 	}
 
 	ConvertPosition(position){
@@ -442,58 +457,74 @@ ${this.specialAbilitiesString}
 			this.tacticalDribble = 0;
 		}
 		
-		if (fifaPlayer.mentality["Positioning"] > 85) {
+		if (fifaPlayer.mentality["Positioning"] > 85 && 
+			this.positioningPositions.includes(this.registeredPosition)
+		) {
 			this.positioning = 1;
 			this.specialAbilitiesString += "* Positioning" + "\n";
 		} else {
 			this.positioning = 0;
 		}
-		
-		if (Average([fifaPlayer.movement["Acceleration"], fifaPlayer.movement["Reactions"]]) > 85) {
+
+		if (Average([fifaPlayer.movement["Acceleration"], fifaPlayer.movement["Reactions"]]) > 85 &&
+			this.reactionPositions.includes(this.registeredPosition)
+		) {
 			this.reaction = 1;
 			this.specialAbilitiesString += "* Reaction" + "\n";
 		} else {
 			this.reaction = 0;
 		}
-		
-		if (fifaPlayer.traits.includes("Playmaker (AI)")) {
+
+		if (fifaPlayer.traits.includes("Playmaker (AI)") &&
+			this.playmakingPositions.includes(this.registeredPosition)
+		) {
 			this.playmaking = 1;
 			this.specialAbilitiesString += "* Playmaking" + "\n";
 		} else {
 			this.playmaking = 0;
 		}
 
-		if (Average([fifaPlayer.attacking["Short passing"], fifaPlayer.mentality["Vision"]]) > 85) {
+		if (Average([fifaPlayer.attacking["Short passing"], fifaPlayer.mentality["Vision"]]) > 85 &&
+			this.passingPositions.includes(this.registeredPosition)
+		) {
 			this.passing = 1;
 			this.specialAbilitiesString += "* Passing" + "\n";
 		} else {
 			this.passing = 0;
 		}
 		
-		if (Average([fifaPlayer.movement["Reactions"], fifaPlayer.attacking["Finishing"]]) > 85) {
+		if (Average([fifaPlayer.movement["Reactions"], fifaPlayer.attacking["Finishing"]]) > 85 &&
+			this.scoringPositions.includes(this.registeredPosition)
+		) {
 			this.scoring = 1;
 			this.specialAbilitiesString += "* Scoring" + "\n";
 		} else {
 			this.scoring = 0;
 		}
-		
-		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.attacking["Finishing"]]) > 85) {
+
+		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.attacking["Finishing"]]) > 85 &&
+			this.oneOnOneScoringPositions.includes(this.registeredPosition)
+		) {
 			this.oneOnOneScoring = 1;
 			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
 		} else {
 			this.oneOnOneScoring = 0;
 		}
 		
-		if (fifaPlayer.posicionReg == "ST" && fifaPlayer.traits.includes("Power header") && fifaPlayer.power["Strength"]>85 ) {
+		if (fifaPlayer.traits.includes("Power header") && 
+			fifaPlayer.power["Strength"]>85 &&
+			this.postPlayerPositions.includes(this.registeredPosition)
+		) {
 			this.postPlayer = 1;
 			this.specialAbilitiesString += "* Post player" + "\n";
 		} else {
 			this.postPlayer = 0;
 		}
 		
-		if (fifaPlayer.traits.includes("Beat offside trap") ||
+		if ((fifaPlayer.traits.includes("Beat offside trap") ||
 			fifaPlayer.playerSpecialties.includes("Complete forward") || 
-			fifaPlayer.playerSpecialties.includes("Complete defender")
+			fifaPlayer.playerSpecialties.includes("Complete defender")) &&
+			this.linesPositions.includes(this.registeredPosition)
 		) {
 			this.lines = 1;
 			this.specialAbilitiesString += "* Lines" + "\n";
@@ -501,7 +532,10 @@ ${this.specialAbilitiesString}
 			this.lines = 0;
 		}
 		
-		if (fifaPlayer.traits.includes("Long shot taker (AI)") || fifaPlayer.playerSpecialties.includes("Distance shooter")) {
+		if ((fifaPlayer.traits.includes("Long shot taker (AI)") || 
+			fifaPlayer.playerSpecialties.includes("Distance shooter")) &&
+			this.middleShootingPositions.includes(this.registeredPosition)
+		) {
 			this.middleShooting = 1;
 			this.specialAbilitiesString += "* Middle shooting" + "\n";
 		} else {
@@ -515,7 +549,10 @@ ${this.specialAbilitiesString}
 			this.side = 0;
 		}
 
-		if (fifaPlayer.traits.includes("Playmaker (AI)") && fifaPlayer.mentality["Vision"] > 80 && fifaPlayer.mentality["Positioning"] > 80) {
+		if (fifaPlayer.traits.includes("Playmaker (AI)") && 
+			fifaPlayer.mentality["Vision"] > 80 && 
+			fifaPlayer.mentality["Positioning"] > 80
+		) {
 			this.centre = 1;
 			this.specialAbilitiesString += "* Centre" + "\n";
 		} else {
@@ -529,7 +566,10 @@ ${this.specialAbilitiesString}
 			this.penalties = 0;
 		}
 
-		if (fifaPlayer.skillMoves>3 && fifaPlayer.attacking["Short passing"]>83) {
+		if (fifaPlayer.skillMoves>3 && 
+			fifaPlayer.attacking["Short passing"]>83 &&
+			this.oneTouchPassPositions.includes(this.registeredPosition)
+		) {
 			this.oneTouchPass = 1;
 			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
 		} else {
@@ -551,49 +591,64 @@ ${this.specialAbilitiesString}
 			defensiveAwarenessStat= fifaPlayer.defending["Marking"];
 		}
 
-		if (Average([defensiveAwarenessStat, fifaPlayer.mentality["Aggression"]]) > 85) {
+		if (Average([defensiveAwarenessStat, fifaPlayer.mentality["Aggression"]]) > 85 &&
+			this.markingPositions.includes(this.registeredPosition)
+		) {
 			this.marking = 1;
 			this.specialAbilitiesString += "* Marking" + "\n";
 		} else {
 			this.marking = 0;
 		}
 
-		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.defending["Standing tackle"]]) > 85) {
+		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.defending["Standing tackle"]]) > 85 &&
+			this.slidingPositions.includes(this.registeredPosition)
+		) {
 			this.sliding = 1;
 			this.specialAbilitiesString += "* Sliding" + "\n";
 		} else {
 			this.sliding = 0;
 		}
 
-		if (Average([fifaPlayer.mentality["Interceptions"], fifaPlayer.defending["Standing tackle"]]) > 85) {
+		if (Average([fifaPlayer.mentality["Interceptions"], fifaPlayer.defending["Standing tackle"]]) > 85 &&
+			this.coveringPositions.includes(this.registeredPosition)
+		) {
 			this.covering = 1;
 			this.specialAbilitiesString += "* Covering" + "\n";
 		} else {
 			this.covering = 0;
 		}
 
-		if (fifaPlayer.traits.includes("Leadership" && fifaPlayer.posicionReg =="CB")) {
+		if (fifaPlayer.traits.includes("Leadership") && 
+			this.dLineControlPositions.includes(this.registeredPosition)
+		) {
 			this.dLineControl = 1;
 			this.specialAbilitiesString += "* D-Line control" + "\n";
 		} else {
 			this.dLineControl = 0;
 		}
 
-		if (Average([fifaPlayer.goalkeeping["GK Handling"], fifaPlayer.goalkeeping["GK Reflexes"]])>80) {
+		if (Average([fifaPlayer.goalkeeping["GK Handling"], fifaPlayer.goalkeeping["GK Reflexes"]])>80 &&
+			this.registeredPosition == "GK"
+		) {
 			this.penaltyStopper = 1;
 			this.specialAbilitiesString += "* Penalty stopper" + "\n";
 		} else {
 			this.penaltyStopper = 0;
 		}
 
-		if (fifaPlayer.traits.includes("Saves with feet")) {
+		if (fifaPlayer.traits.includes("Saves with feet") &&
+			this.registeredPosition == "GK"
+		) {
 			this.oneOnOneStopper = 1;
 			this.specialAbilitiesString += "* 1-On-1 stopper" + "\n";
 		} else {
 			this.oneOnOneStopper = 0;
 		}
 
-		if (fifaPlayer.traits.includes("Long throw-in") || fifaPlayer.traits.includes("Giant throw-in")) {
+		if ((fifaPlayer.traits.includes("Long throw-in") || 
+			fifaPlayer.traits.includes("Giant throw-in")) &&
+			this.longThrowPositions.includes(this.registeredPosition)
+		) {
 			this.longThrow = 1;
 			this.specialAbilitiesString += "* Long throw" + "\n";
 		} else {
@@ -753,63 +808,81 @@ ${this.specialAbilitiesString}
 			this.tacticalDribble = 0;
 		}
 		
-		if ((fmPlayer.stats["Vision"] + fmPlayer.stats["Off the Ball"]) / 2 > 15) {
+		if ((fmPlayer.stats["Vision"] + fmPlayer.stats["Off the Ball"]) / 2 > 15 && 
+			this.positioningPositions.includes(this.registeredPosition)
+		) {
 			this.positioning = 1;
 			this.specialAbilitiesString += "* Positioning" + "\n";
 		} else {
 			this.positioning = 0;
 		}
 		
-		if (fmPlayer.stats["Off the Ball"] > 15) {
+		if (fmPlayer.stats["Off the Ball"] > 15 &&
+			this.reactionPositions.includes(this.registeredPosition)
+		) {
 			this.reaction = 1;
 			this.specialAbilitiesString += "* Reaction" + "\n";
 		} else {
 			this.reaction = 0;
 		}
 		
-		if (fmPlayer.stats["Leadership"] > 15) {
+		if (fmPlayer.stats["Leadership"] > 15 &&
+			this.playmakingPositions.includes(this.registeredPosition)
+		) {
 			this.playmaking = 1;
 			this.specialAbilitiesString += "* Playmaking" + "\n";
 		} else {
 			this.playmaking = 0;
 		}
 		
-		if (fmPlayer.stats["Concentration"] > 15) {
+		if (fmPlayer.stats["Concentration"] > 15 &&
+			this.passingPositions.includes(this.registeredPosition)
+		) {
 			this.passing = 1;
 			this.specialAbilitiesString += "* Passing" + "\n";
 		} else {
 			this.passing = 0;
 		}
 		
-		if (fmPlayer.stats["Anticipation"] > 15) {
+		if (fmPlayer.stats["Anticipation"] > 15 &&
+			this.scoringPositions.includes(this.registeredPosition)
+		) {
 			this.scoring = 1;
 			this.specialAbilitiesString += "* Scoring" + "\n";
 		} else {
 			this.scoring = 0;
 		}
 		
-		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["Finishing"]) / 2 > 15) {
+		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["Finishing"]) / 2 > 15 &&
+			this.oneOnOneScoringPositions.includes(this.registeredPosition)
+		) {
 			this.oneOnOneScoring = 1;
 			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
 		} else {
 			this.oneOnOneScoring = 0;
 		}
 		
-		if ((fmPlayer.stats["Strength"] + fmPlayer.stats["Teamwork"]) / 2 > 15) {
+		if ((fmPlayer.stats["Strength"] + fmPlayer.stats["Teamwork"]) / 2 > 15 &&
+			this.postPlayerPositions.includes(this.registeredPosition)
+		) {
 			this.postPlayer = 1;
 			this.specialAbilitiesString += "* Post player" + "\n";
 		} else {
 			this.postPlayer = 0;
 		}
 		
-		if (fmPlayer.stats["Decisions"] > 15) {
+		if (fmPlayer.stats["Decisions"] > 15 &&
+			this.linesPositions.includes(this.registeredPosition)
+		) {
 			this.lines = 1;
 			this.specialAbilitiesString += "* Lines" + "\n";
 		} else {
 			this.lines = 0;
 		}
 		
-		if (fmPlayer.stats["Long Shots"] > 15) {
+		if (fmPlayer.stats["Long Shots"] > 15 &&
+			this.middleShootingPositions.includes(this.registeredPosition)
+		) {
 			this.middleShooting = 1;
 			this.specialAbilitiesString += "* Middle shooting" + "\n";
 		} else {
@@ -835,7 +908,9 @@ ${this.specialAbilitiesString}
 			this.penalties = 0;
 		}
 		
-		if ((fmPlayer.stats["Technique"] + fmPlayer.stats["Passing"]) / 2 > 15) {
+		if ((fmPlayer.stats["Technique"] + fmPlayer.stats["Passing"]) / 2 > 15 &&
+			this.oneTouchPassPositions.includes(this.registeredPosition)
+		) {
 			this.oneTouchPass = 1;
 			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
 		} else {
@@ -849,48 +924,62 @@ ${this.specialAbilitiesString}
 			this.outside = 0;
 		}
 		
-		if (fmPlayer.stats["Marking"] > 15) {
+		if (fmPlayer.stats["Marking"] > 15 &&
+			this.markingPositions.includes(this.registeredPosition)
+		) {
 			this.marking = 1;
 			this.specialAbilitiesString += "* Marking" + "\n";
 		} else {
 			this.marking = 0;
 		}
 		
-		if (fmPlayer.stats["Tackling"] > 15) {
+		if (fmPlayer.stats["Tackling"] > 15 &&
+			this.slidingPositions.includes(this.registeredPosition)
+		) {
 			this.sliding = 1;
 			this.specialAbilitiesString += "* Sliding" + "\n";
 		} else {
 			this.sliding = 0;
 		}
-		if (fmPlayer.stats["Positioning"] > 15) {
+		if (fmPlayer.stats["Positioning"] > 15 &&
+			this.coveringPositions.includes(this.registeredPosition)
+		) {
 			this.covering = 1;
 			this.specialAbilitiesString += "* Covering" + "\n";
 		} else {
 			this.covering = 0;
 		}
 		
-		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["Leadership"]) / 2 > 15) {
+		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["Leadership"]) / 2 > 15 && 
+			this.dLineControlPositions.includes(this.registeredPosition)
+		) {
 			this.dLineControl = 1;
 			this.specialAbilitiesString += "* D-Line control" + "\n";
 		} else {
 			this.dLineControl = 0;
 		}
 		
-		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["One on Ones"]) / 2 > 15) {
+		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["One on Ones"]) / 2 > 15 &&
+			this.registeredPosition == "GK"
+		) {
 			this.penaltyStopper = 1;
 			this.specialAbilitiesString += "* Penalty stopper" + "\n";
 		} else {
 			this.penaltyStopper = 0;
 		}
 		
-		if (fmPlayer.stats["One on Ones"] > 15) {
+		if (fmPlayer.stats["One on Ones"] > 15 &&
+			this.registeredPosition == "GK"
+		) {
 			this.oneOnOneStopper = 1;
 			this.specialAbilitiesString += "* 1-On-1 stopper" + "\n";
 		} else {
 			this.oneOnOneStopper = 0;
 		}
 		
-		if (fmPlayer.stats["Long Throws"] > 15) {
+		if (fmPlayer.stats["Long Throws"] > 15 &&
+		this.longThrowPositions.includes(this.registeredPosition)
+		) {
 			this.longThrow = 1;
 			this.specialAbilitiesString += "* Long throw" + "\n";
 		} else {
@@ -1010,8 +1099,9 @@ ${this.specialAbilitiesString}
 			this.tacticalDribble = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Goal Poacher") ||
-			pesMasterPlayer.specialStats.includes("Hole Player")
+		if ((pesMasterPlayer.specialStats.includes("Goal Poacher") ||
+			pesMasterPlayer.specialStats.includes("Hole Player")) && 
+			this.positioningPositions.includes(this.registeredPosition)
 		) {
 			this.positioning = 1;
 			this.specialAbilitiesString += "* Positioning" + "\n";
@@ -1019,24 +1109,29 @@ ${this.specialAbilitiesString}
 			this.positioning = 0;
 		}
 		
-		if (this.response>90) {
+		if (this.response>90 &&
+			this.reactionPositions.includes(this.registeredPosition)
+		) {
 			this.reaction = 1;
 			this.specialAbilitiesString += "* Reaction" + "\n";
 		} else {
 			this.reaction = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Captaincy")) {
+		if (pesMasterPlayer.specialStats.includes("Captaincy") &&
+			this.playmakingPositions.includes(this.registeredPosition)
+		) {
 			this.playmaking = 1;
 			this.specialAbilitiesString += "* Playmaking" + "\n";
 		} else {
 			this.playmaking = 0;
 		}
 
-		if ((pesMasterPlayer.specialStats.includes("No Look Pass") &&
+		if (((pesMasterPlayer.specialStats.includes("No Look Pass") &&
 			pesMasterPlayer.specialStats.includes("Through Passing")) ||
 			pesMasterPlayer.specialStats.includes("Orchestrator") ||
-			pesMasterPlayer.stats["Low Pass"] > 90
+			pesMasterPlayer.stats["Low Pass"] > 90) &&
+			this.passingPositions.includes(this.registeredPosition)
 		) {
 			this.passing = 1;
 			this.specialAbilitiesString += "* Passing" + "\n";
@@ -1044,15 +1139,18 @@ ${this.specialAbilitiesString}
 			this.passing = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Fox in the Box")) {
+		if (pesMasterPlayer.specialStats.includes("Fox in the Box") &&
+			this.scoringPositions.includes(this.registeredPosition)
+		) {
 			this.scoring = 1;
 			this.specialAbilitiesString += "* Scoring" + "\n";
 		} else {
 			this.scoring = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Chip Shot Control") ||
-			this.mentality > 90
+		if ((pesMasterPlayer.specialStats.includes("Chip Shot Control") ||
+			this.mentality > 90) &&
+			this.oneOnOneScoringPositions.includes(this.registeredPosition)
 		) {
 			this.oneOnOneScoring = 1;
 			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
@@ -1061,7 +1159,8 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("Track Back") && 
-			pesMasterPlayer.specialStats.includes("The Destroyer") 
+			pesMasterPlayer.specialStats.includes("The Destroyer") &&
+			this.postPlayerPositions.includes(this.registeredPosition)
 		) {
 			this.postPlayer = 1;
 			this.specialAbilitiesString += "* Post player" + "\n";
@@ -1069,15 +1168,18 @@ ${this.specialAbilitiesString}
 			this.postPlayer = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Speeding Bullet")) {
+		if (pesMasterPlayer.specialStats.includes("Speeding Bullet") &&
+			this.linesPositions.includes(this.registeredPosition)
+		) {
 			this.lines = 1;
 			this.specialAbilitiesString += "* Lines" + "\n";
 		} else {
 			this.lines = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Long Ranger") ||
-			pesMasterPlayer.specialStats.includes("Long-Range Shooting")
+		if ((pesMasterPlayer.specialStats.includes("Long Ranger") ||
+			pesMasterPlayer.specialStats.includes("Long-Range Shooting")) &&
+			this.middleShootingPositions.includes(this.registeredPosition)
 		) {
 			this.middleShooting = 1;
 			this.specialAbilitiesString += "* Middle shooting" + "\n";
@@ -1114,7 +1216,9 @@ ${this.specialAbilitiesString}
 			this.penalties = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("One-touch Pass")) {
+		if (pesMasterPlayer.specialStats.includes("One-touch Pass") &&
+			this.oneTouchPassPositions.includes(this.registeredPosition)
+		) {
 			this.oneTouchPass = 1;
 			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
 		} else {
@@ -1128,7 +1232,9 @@ ${this.specialAbilitiesString}
 			this.outside = 0;
 		}
 		
-		if (this.defence > 90) {
+		if (this.defence > 90 &&
+			this.markingPositions.includes(this.registeredPosition)
+		) {
 			this.marking = 1;
 			this.specialAbilitiesString += "* Marking" + "\n";
 		} else {
@@ -1136,14 +1242,17 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("Interception") && 
-			pesMasterPlayer.specialStats.includes("The Destroyer") 
+			pesMasterPlayer.specialStats.includes("The Destroyer") &&
+			this.slidingPositions.includes(this.registeredPosition)
 		) {
 			this.sliding = 1;
 			this.specialAbilitiesString += "* Sliding" + "\n";
 		} else {
 			this.sliding = 0;
 		}
-		if (pesMasterPlayer.specialStats.includes("Man Marking")) {
+		if (pesMasterPlayer.specialStats.includes("Man Marking") &&
+			this.coveringPositions.includes(this.registeredPosition)
+		) {
 			this.covering = 1;
 			this.specialAbilitiesString += "* Covering" + "\n";
 		} else {
@@ -1151,7 +1260,8 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("Captaincy") &&
-			this.defence > 90
+			this.defence > 90 && 
+			this.dLineControlPositions.includes(this.registeredPosition)
 		) {
 			this.dLineControl = 1;
 			this.specialAbilitiesString += "* D-Line control" + "\n";
@@ -1159,21 +1269,27 @@ ${this.specialAbilitiesString}
 			this.dLineControl = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("GK Penalty Saver")) {
+		if (pesMasterPlayer.specialStats.includes("GK Penalty Saver") &&
+			this.registeredPosition == "GK"
+		) {
 			this.penaltyStopper = 1;
 			this.specialAbilitiesString += "* Penalty stopper" + "\n";
 		} else {
 			this.penaltyStopper = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Defensive Goalkeeper")) {
+		if (pesMasterPlayer.specialStats.includes("Defensive Goalkeeper") &&
+			this.registeredPosition == "GK"
+		) {
 			this.oneOnOneStopper = 1;
 			this.specialAbilitiesString += "* 1-On-1 stopper" + "\n";
 		} else {
 			this.oneOnOneStopper = 0;
 		}
 		
-		if (pesMasterPlayer.specialStats.includes("Long Throw")) {
+		if (pesMasterPlayer.specialStats.includes("Long Throw")&&
+			this.longThrowPositions.includes(this.registeredPosition)
+		) {
 			this.longThrow = 1;
 			this.specialAbilitiesString += "* Long throw" + "\n";
 		} else {
