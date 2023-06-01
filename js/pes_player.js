@@ -101,15 +101,15 @@ class PESPlayer{
 		return `Name: ${this.name}
 Shirt Name: ${this.shirtName}
 Nationality: ${this.nationality}
-Age: ${this.age}
+Age: ${clamp(15, 46, this.age)}
 Foot: ${this.foot}
 Side: ${this.favouredSide}
 Positions: ${this.registeredPosition}*${this.positions.length>0 ? "," : "" }${this.positions}
 Injury Tolerance: ${this.injuryTolerance}
 
 APPEARANCE:
-Height: ${this.height} cm
-Weight: ${this.weight} kg
+Height: ${clamp(148, 205, this.height)} cm
+Weight: ${clamp(40, 123, this.weight)} kg
 
 STATS:
 Attack: ${LimitStat99(this.attack)}

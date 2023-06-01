@@ -202,3 +202,13 @@ function LimitStat99(stat) {
 	return stat <= 99 ? Math.round(stat) : 99;
 }
 	
+function clamp(min, max, num) {
+	if (num < min) {
+	  return min;
+	} else if (num > max) {
+	  return max;
+	} else {
+	  return num;
+	}
+  }
+  
