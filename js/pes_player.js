@@ -725,7 +725,7 @@ ${this.specialAbilitiesString}
 			this.freeKickAccuracy = FMToPESStat99(fmPlayer.stats["Kicking"] * 0.4 + fmPlayer.stats["Flair"] * 0.6);
 			this.curling = 45;
 			this.header = 55;
-			this.jump = Average([FMToPESStat99((fmPlayer.stats["Jumping Reach"] + fmPlayer.stats["Aerial Reach"]) / 2), heightTo99Stat(this.height, false)]) + 3;
+			this.jump = Average([FMToPESStat99((fmPlayer.stats["Jumping Reach"] + fmPlayer.stats["Aerial Reach"]) / 2), heightTo99Stat(this.height, true)]) + 3;
 			this.technique = FMToPESStat99(fmPlayer.stats["Flair"]);
 			this.aggression = FMToPESStat99((fmPlayer.stats["Positioning"] * 0.7 + fmPlayer.stats["Anticipation"] * 0.3));
 			this.mentality = FMToPESStat99((fmPlayer.stats["Rushing Out (Tendency)"] * 0.25 + fmPlayer.stats["One on Ones"] * 0.5 + fmPlayer.stats["Composure"] * 0.25));
