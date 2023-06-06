@@ -44,10 +44,12 @@ class FMInsidePlayer{
             var key = acronymElement.textContent;
           
             // Extract the content of the second <td>
-            var value = tdElement.textContent;
-          
+            var value = parseInt(tdElement.textContent);
+            if (isNaN(value) || value === null || value === undefined) {
+                value = 1;
+            }
             // Add the key-value pair to the dictionary
-            dictionary[key] = parseInt(value);
+            dictionary[key] = value;
         });
         return dictionary;
     }
