@@ -305,3 +305,13 @@ function heightTo99Stat(height, isGK){
 		}
 	}
 }
+
+function hasSpecialAbility(abilityPositions, registeredPosition, positions){
+	if (abilityPositions.includes(registeredPosition))
+		return true;
+	positions.forEach(position => {
+		if (abilityPositions.includes(position))
+		return true;
+	});
+	return false;
+}

@@ -458,7 +458,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fifaPlayer.mentality["Positioning"] > 85 && 
-			this.positioningPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.positioningPositions, this.registeredPosition, this.positions)
 		) {
 			this.positioning = 1;
 			this.specialAbilitiesString += "* Positioning" + "\n";
@@ -467,7 +467,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (Average([fifaPlayer.movement["Acceleration"], fifaPlayer.movement["Reactions"]]) > 85 &&
-			this.reactionPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.reactionPositions, this.registeredPosition, this.positions)
 		) {
 			this.reaction = 1;
 			this.specialAbilitiesString += "* Reaction" + "\n";
@@ -476,7 +476,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (fifaPlayer.traits.includes("Playmaker (AI)") &&
-			this.playmakingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.playmakingPositions, this.registeredPosition, this.positions)
 		) {
 			this.playmaking = 1;
 			this.specialAbilitiesString += "* Playmaking" + "\n";
@@ -485,7 +485,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (Average([fifaPlayer.attacking["Short passing"], fifaPlayer.mentality["Vision"]]) > 85 &&
-			this.passingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.passingPositions, this.registeredPosition, this.positions)
 		) {
 			this.passing = 1;
 			this.specialAbilitiesString += "* Passing" + "\n";
@@ -494,7 +494,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (Average([fifaPlayer.movement["Reactions"], fifaPlayer.attacking["Finishing"]]) > 85 &&
-			this.scoringPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.scoringPositions, this.registeredPosition, this.positions)
 		) {
 			this.scoring = 1;
 			this.specialAbilitiesString += "* Scoring" + "\n";
@@ -503,7 +503,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.attacking["Finishing"]]) > 85 &&
-			this.oneOnOneScoringPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.oneOnOneScoringPositions, this.registeredPosition, this.positions)
 		) {
 			this.oneOnOneScoring = 1;
 			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
@@ -513,7 +513,7 @@ ${this.specialAbilitiesString}
 		
 		if (fifaPlayer.traits.includes("Power header") && 
 			fifaPlayer.power["Strength"]>85 &&
-			this.postPlayerPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.postPlayerPositions, this.registeredPosition, this.positions)
 		) {
 			this.postPlayer = 1;
 			this.specialAbilitiesString += "* Post player" + "\n";
@@ -524,7 +524,7 @@ ${this.specialAbilitiesString}
 		if ((fifaPlayer.traits.includes("Beat offside trap") ||
 			fifaPlayer.playerSpecialties.includes("Complete forward") || 
 			fifaPlayer.playerSpecialties.includes("Complete defender")) &&
-			this.linesPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.linesPositions, this.registeredPosition, this.positions)
 		) {
 			this.lines = 1;
 			this.specialAbilitiesString += "* Lines" + "\n";
@@ -534,7 +534,7 @@ ${this.specialAbilitiesString}
 		
 		if ((fifaPlayer.traits.includes("Long shot taker (AI)") || 
 			fifaPlayer.playerSpecialties.includes("Distance shooter")) &&
-			this.middleShootingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.middleShootingPositions, this.registeredPosition, this.positions)
 		) {
 			this.middleShooting = 1;
 			this.specialAbilitiesString += "* Middle shooting" + "\n";
@@ -542,7 +542,9 @@ ${this.specialAbilitiesString}
 			this.middleShooting = 0;
 		}
 
-		if ((fifaPlayer.traits.includes("Technical dribbler (AI)") && sideCounter > 2) || fifaPlayer.traits.includes("Early crosser")) {
+		if ((fifaPlayer.traits.includes("Technical dribbler (AI)") && sideCounter > 2) || 
+			fifaPlayer.traits.includes("Early crosser")
+		) {
 			this.side = 1;
 			this.specialAbilitiesString += "* Side" + "\n";
 		} else {
@@ -568,7 +570,7 @@ ${this.specialAbilitiesString}
 
 		if (fifaPlayer.skillMoves>3 && 
 			fifaPlayer.attacking["Short passing"]>83 &&
-			this.oneTouchPassPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.oneTouchPassPositions, this.registeredPosition, this.positions)
 		) {
 			this.oneTouchPass = 1;
 			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
@@ -592,7 +594,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (Average([defensiveAwarenessStat, fifaPlayer.mentality["Aggression"]]) > 85 &&
-			this.markingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.markingPositions, this.registeredPosition, this.positions)
 		) {
 			this.marking = 1;
 			this.specialAbilitiesString += "* Marking" + "\n";
@@ -601,7 +603,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (Average([fifaPlayer.mentality["Composure"], fifaPlayer.defending["Standing tackle"]]) > 85 &&
-			this.slidingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.slidingPositions, this.registeredPosition, this.positions)
 		) {
 			this.sliding = 1;
 			this.specialAbilitiesString += "* Sliding" + "\n";
@@ -610,7 +612,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (Average([fifaPlayer.mentality["Interceptions"], fifaPlayer.defending["Standing tackle"]]) > 85 &&
-			this.coveringPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.coveringPositions, this.registeredPosition, this.positions)
 		) {
 			this.covering = 1;
 			this.specialAbilitiesString += "* Covering" + "\n";
@@ -619,7 +621,7 @@ ${this.specialAbilitiesString}
 		}
 
 		if (fifaPlayer.traits.includes("Leadership") && 
-			this.dLineControlPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.dLineControlPositions, this.registeredPosition, this.positions)
 		) {
 			this.dLineControl = 1;
 			this.specialAbilitiesString += "* D-Line control" + "\n";
@@ -647,7 +649,7 @@ ${this.specialAbilitiesString}
 
 		if ((fifaPlayer.traits.includes("Long throw-in") || 
 			fifaPlayer.traits.includes("Giant throw-in")) &&
-			this.longThrowPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.longThrowPositions, this.registeredPosition, this.positions)
 		) {
 			this.longThrow = 1;
 			this.specialAbilitiesString += "* Long throw" + "\n";
@@ -810,7 +812,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if ((fmPlayer.stats["Vision"] + fmPlayer.stats["Off the Ball"]) / 2 > 15 && 
-			this.positioningPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.positioningPositions, this.registeredPosition, this.positions)
 		) {
 			this.positioning = 1;
 			this.specialAbilitiesString += "* Positioning" + "\n";
@@ -819,7 +821,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Off the Ball"] > 15 &&
-			this.reactionPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.reactionPositions, this.registeredPosition, this.positions)
 		) {
 			this.reaction = 1;
 			this.specialAbilitiesString += "* Reaction" + "\n";
@@ -828,7 +830,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Leadership"] > 15 &&
-			this.playmakingPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.playmakingPositions, this.registeredPosition, this.positions)
 		) {
 			this.playmaking = 1;
 			this.specialAbilitiesString += "* Playmaking" + "\n";
@@ -837,7 +839,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Concentration"] > 15 &&
-			this.passingPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.passingPositions, this.registeredPosition, this.positions)
 		) {
 			this.passing = 1;
 			this.specialAbilitiesString += "* Passing" + "\n";
@@ -846,7 +848,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Anticipation"] > 15 &&
-			this.scoringPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.scoringPositions, this.registeredPosition, this.positions)
 		) {
 			this.scoring = 1;
 			this.specialAbilitiesString += "* Scoring" + "\n";
@@ -855,7 +857,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["Finishing"]) / 2 > 15 &&
-			this.oneOnOneScoringPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.oneOnOneScoringPositions, this.registeredPosition, this.positions)
 		) {
 			this.oneOnOneScoring = 1;
 			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
@@ -864,7 +866,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if ((fmPlayer.stats["Strength"] + fmPlayer.stats["Teamwork"]) / 2 > 15 &&
-			this.postPlayerPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.postPlayerPositions, this.registeredPosition, this.positions)
 		) {
 			this.postPlayer = 1;
 			this.specialAbilitiesString += "* Post player" + "\n";
@@ -873,7 +875,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Decisions"] > 15 &&
-			this.linesPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.linesPositions, this.registeredPosition, this.positions)
 		) {
 			this.lines = 1;
 			this.specialAbilitiesString += "* Lines" + "\n";
@@ -882,7 +884,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Long Shots"] > 15 &&
-			this.middleShootingPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.middleShootingPositions, this.registeredPosition, this.positions)
 		) {
 			this.middleShooting = 1;
 			this.specialAbilitiesString += "* Middle shooting" + "\n";
@@ -910,7 +912,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if ((fmPlayer.stats["Technique"] + fmPlayer.stats["Passing"]) / 2 > 15 &&
-			this.oneTouchPassPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.oneTouchPassPositions, this.registeredPosition, this.positions)
 		) {
 			this.oneTouchPass = 1;
 			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
@@ -926,7 +928,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Marking"] > 15 &&
-			this.markingPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.markingPositions, this.registeredPosition, this.positions)
 		) {
 			this.marking = 1;
 			this.specialAbilitiesString += "* Marking" + "\n";
@@ -935,7 +937,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Tackling"] > 15 &&
-			this.slidingPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.slidingPositions, this.registeredPosition, this.positions)
 		) {
 			this.sliding = 1;
 			this.specialAbilitiesString += "* Sliding" + "\n";
@@ -943,7 +945,7 @@ ${this.specialAbilitiesString}
 			this.sliding = 0;
 		}
 		if (fmPlayer.stats["Positioning"] > 15 &&
-			this.coveringPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.coveringPositions, this.registeredPosition, this.positions)
 		) {
 			this.covering = 1;
 			this.specialAbilitiesString += "* Covering" + "\n";
@@ -952,7 +954,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if ((fmPlayer.stats["Composure"] + fmPlayer.stats["Leadership"]) / 2 > 15 && 
-			this.dLineControlPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.dLineControlPositions, this.registeredPosition, this.positions)
 		) {
 			this.dLineControl = 1;
 			this.specialAbilitiesString += "* D-Line control" + "\n";
@@ -979,7 +981,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (fmPlayer.stats["Long Throws"] > 15 &&
-		this.longThrowPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.longThrowPositions, this.registeredPosition, this.positions)
 		) {
 			this.longThrow = 1;
 			this.specialAbilitiesString += "* Long throw" + "\n";
@@ -1102,7 +1104,7 @@ ${this.specialAbilitiesString}
 		
 		if ((pesMasterPlayer.specialStats.includes("Goal Poacher") ||
 			pesMasterPlayer.specialStats.includes("Hole Player")) && 
-			this.positioningPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.positioningPositions, this.registeredPosition, this.positions)
 		) {
 			this.positioning = 1;
 			this.specialAbilitiesString += "* Positioning" + "\n";
@@ -1111,7 +1113,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (this.response>90 &&
-			this.reactionPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.reactionPositions, this.registeredPosition, this.positions)
 		) {
 			this.reaction = 1;
 			this.specialAbilitiesString += "* Reaction" + "\n";
@@ -1120,7 +1122,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("Captaincy") &&
-			this.playmakingPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.playmakingPositions, this.registeredPosition, this.positions)
 		) {
 			this.playmaking = 1;
 			this.specialAbilitiesString += "* Playmaking" + "\n";
@@ -1132,7 +1134,7 @@ ${this.specialAbilitiesString}
 			pesMasterPlayer.specialStats.includes("Through Passing")) ||
 			pesMasterPlayer.specialStats.includes("Orchestrator") ||
 			pesMasterPlayer.stats["Low Pass"] > 90) &&
-			this.passingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.passingPositions, this.registeredPosition, this.positions)
 		) {
 			this.passing = 1;
 			this.specialAbilitiesString += "* Passing" + "\n";
@@ -1141,7 +1143,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("Fox in the Box") &&
-			this.scoringPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.scoringPositions, this.registeredPosition, this.positions)
 		) {
 			this.scoring = 1;
 			this.specialAbilitiesString += "* Scoring" + "\n";
@@ -1151,7 +1153,7 @@ ${this.specialAbilitiesString}
 		
 		if ((pesMasterPlayer.specialStats.includes("Chip Shot Control") ||
 			this.mentality > 90) &&
-			this.oneOnOneScoringPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.oneOnOneScoringPositions, this.registeredPosition, this.positions)
 		) {
 			this.oneOnOneScoring = 1;
 			this.specialAbilitiesString += "* 1-1 Scoring" + "\n";
@@ -1161,7 +1163,7 @@ ${this.specialAbilitiesString}
 		
 		if (pesMasterPlayer.specialStats.includes("Track Back") && 
 			pesMasterPlayer.specialStats.includes("The Destroyer") &&
-			this.postPlayerPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.postPlayerPositions, this.registeredPosition, this.positions)
 		) {
 			this.postPlayer = 1;
 			this.specialAbilitiesString += "* Post player" + "\n";
@@ -1170,7 +1172,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("Speeding Bullet") &&
-			this.linesPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.linesPositions, this.registeredPosition, this.positions)
 		) {
 			this.lines = 1;
 			this.specialAbilitiesString += "* Lines" + "\n";
@@ -1180,7 +1182,7 @@ ${this.specialAbilitiesString}
 		
 		if ((pesMasterPlayer.specialStats.includes("Long Ranger") ||
 			pesMasterPlayer.specialStats.includes("Long-Range Shooting")) &&
-			this.middleShootingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.middleShootingPositions, this.registeredPosition, this.positions)
 		) {
 			this.middleShooting = 1;
 			this.specialAbilitiesString += "* Middle shooting" + "\n";
@@ -1218,7 +1220,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("One-touch Pass") &&
-			this.oneTouchPassPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.oneTouchPassPositions, this.registeredPosition, this.positions)
 		) {
 			this.oneTouchPass = 1;
 			this.specialAbilitiesString += "* 1-Touch pass" + "\n";
@@ -1234,7 +1236,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (this.defence > 90 &&
-			this.markingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.markingPositions, this.registeredPosition, this.positions)
 		) {
 			this.marking = 1;
 			this.specialAbilitiesString += "* Marking" + "\n";
@@ -1244,7 +1246,7 @@ ${this.specialAbilitiesString}
 		
 		if (pesMasterPlayer.specialStats.includes("Interception") && 
 			pesMasterPlayer.specialStats.includes("The Destroyer") &&
-			this.slidingPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.slidingPositions, this.registeredPosition, this.positions)
 		) {
 			this.sliding = 1;
 			this.specialAbilitiesString += "* Sliding" + "\n";
@@ -1252,7 +1254,7 @@ ${this.specialAbilitiesString}
 			this.sliding = 0;
 		}
 		if (pesMasterPlayer.specialStats.includes("Man Marking") &&
-			this.coveringPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.coveringPositions, this.registeredPosition, this.positions)
 		) {
 			this.covering = 1;
 			this.specialAbilitiesString += "* Covering" + "\n";
@@ -1262,7 +1264,7 @@ ${this.specialAbilitiesString}
 		
 		if (pesMasterPlayer.specialStats.includes("Captaincy") &&
 			this.defence > 90 && 
-			this.dLineControlPositions.includes(this.registeredPosition)
+			hasSpecialAbility(this.dLineControlPositions, this.registeredPosition, this.positions)
 		) {
 			this.dLineControl = 1;
 			this.specialAbilitiesString += "* D-Line control" + "\n";
@@ -1289,7 +1291,7 @@ ${this.specialAbilitiesString}
 		}
 		
 		if (pesMasterPlayer.specialStats.includes("Long Throw")&&
-			this.longThrowPositions.includes(this.registeredPosition)
+		hasSpecialAbility(this.longThrowPositions, this.registeredPosition, this.positions)
 		) {
 			this.longThrow = 1;
 			this.specialAbilitiesString += "* Long throw" + "\n";
