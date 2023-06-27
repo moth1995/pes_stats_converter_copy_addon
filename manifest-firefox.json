@@ -3,7 +3,7 @@
     "name": "PES Stats Converter Copy - By PES Indie Team",
     "version": "1.1.0",
     "description": "Creates a floating button at the bottom right corner of the website that will allow you to convert FIFA, FM and Efootball stats into old-gen PES stats.",
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "storage"],
     "content_scripts": [
       {
         "matches": [
@@ -14,7 +14,9 @@
         "js": [
           "js/global_functions.js",
           "js/pes_player.js",
-          "js/nationalities.js"
+          "js/pes21_player.js",
+          "js/nationalities.js",
+          "js/pes21_stats_table.js"
         ],
         "run_at": "document_idle"
       },

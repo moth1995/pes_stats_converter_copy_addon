@@ -1,23 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Popup</title>
-        <script src="js/popup.js"></script>
-        <link rel="stylesheet" href="css/popup.css">
-    </head>
-    <body>
-        <h2>Developed by <br>PES Indie Team</h2>
-        <p>
-        <b> Credits </b> <br>
-          FIFA Formula by <b>Stavrello</b><br>
-          FM Formula by <b>DantePES6</b><br>
-          Efootball to PES21 <b>Mohamed2746</b><br>
-          PES21 Formula by <b>DriemPES</b> and <b>DantePES6</b> for special abilities<br>
-          <b>Pato_Lucas18</b> for providing help on PES21 Formula code<br>
-          <b>RiquelmeXeneizeLegendario</b>, <b>Benicio</b> and <b>Pato_Lucas18</b> for testing
-          <b>linff163</b> for providing the list of special abilities by position
-          <b>SRW</b> for helping on some corrections for the formula of FM
-        </p>
-        <button id="evoweb-button">Visit Evoweb Official Thread</button>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Popup</title>
+  <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+  <div class="banner">
+    <span>PES Stats Converter By PES5 Indie Team</span>
+  </div>
+  <div>
+    <button class="tab-button" data-tab="configurationTab">Configuration</button>
+    <button class="tab-button" data-tab="aboutTab">About</button>
+  </div>
+  
+  <div id="configurationTab" class="tab active">
+    <h1>Configuration</h1>
+    <label for="selectOptionFMInside">Output stats for FMInside:</label>
+    <select id="selectOptionFMInside">
+      <option value="pes5">PES 5</option>
+      <option value="pes21">PES 21</option>
+    </select>
+  </div>
+  
+  <div id="aboutTab" class="tab">
+    <h2>Developed by <br>PES Indie Team</h2>
+    <p>
+    <b> Credits </b> <br>
+      FIFA Formula by <b>Stavrello</b><br>
+      FM Formula by <b>DantePES6</b><br>
+      FM Formula for PES21 by <b>totti88</b><br>
+      Efootball to PES21 <b>Mohamed2746</b><br>
+      PES21 Formula by <b>DriemPES</b> and <b>DantePES6</b> for special abilities<br>
+      <b>Pato_Lucas18</b> for providing help on PES21 Formula code<br>
+      <b>RiquelmeXeneizeLegendario</b>, <b>Benicio</b> and <b>Pato_Lucas18</b> for testing
+      <b>linff163</b> for providing the list of special abilities by position
+      <b>SRW</b> for helping on some corrections for the formula of FM
+    </p>
+    <button id="evoweb-button">Visit Evoweb Official Thread</button>
+</div>
+
+  <script src="js/popup.js"></script>
+</body>
 </html>

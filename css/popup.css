@@ -1,8 +1,75 @@
 body {
     width: 370px;
     height: 370px;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #000000;
+    color: #FFFFFF;
   }
-html{
-    font-family:sans-serif;
-    font-size:20px;
-  }
+/* Estilos de los botones de pestaña */
+.tab-button {
+  background-color: #00BFFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.tab-button:hover {
+  background-color: #00BFFF;
+}
+
+/* Estilos de las pestañas */
+.tab {
+  display: none;
+  margin-top: 20px;
+}
+
+.tab.active {
+  display: block;
+}
+
+/* Estilos para el título de la configuración */
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Estilos para el select de la configuración */
+select {
+  padding: 5px;
+  font-size: 16px;
+}
+
+/* Estilos para la información "About" */
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+/* Estilos para el botón "Visit Evoweb Official Thread" */
+#evoweb-button {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#evoweb-button:hover {
+  background-color: #219f55;
+}
+
+.banner {
+  color: #FFFFFF;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
