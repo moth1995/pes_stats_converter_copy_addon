@@ -188,281 +188,281 @@ ${this.COMPlayingStyles}
 
 		if (this.finishing >= 86 && this.balance >= 80){
 			this.acrobaticFinishing = 1;
-			this.playerSkills += "* Acrobatic Finishing" + "\n"
+			this.playerSkills += "*Acrobatic Finishing" + "\n";
 		} else{
 			this.acrobaticFinishing = 0;
 		}
 		if (fmPlayer.stats["LEADERSHIP"] >= 13){
 			this.captaincy = 1;
-			this.playerSkills += "* Captaincy" + "\n"
+			this.playerSkills += "*Captaincy" + "\n";
 		} else {
 			this.captaincy = 0;
 		}
 		if (this.finishing >= 86 && this.ballControl >= 83){
 			this.chipShotControl = 1;
-			this.playerSkills += "* Chip Shot Control" + "\n"
+			this.playerSkills += "*Chip Shot Control" + "\n";
 		} else{
 			this.chipShotControl = 0;
 		}
 		if (this.dribbling >= 83 && this.ballControl >= 85){
 			this.crossOverTurn = 1;
-			this.playerSkills += "* Cross Over Turn" + "\n"
+			this.playerSkills += "*Cross Over Turn" + "\n";
 		} else{
 			this.crossOverTurn = 0;
 		}
 		if (this.dribbling >= 82 && this.ballControl >= 84){
 			this.cutBehindAndTurn = 1;
-			this.playerSkills += "* Cut Behind & Turn" + "\n"
+			this.playerSkills += "*Cut Behind And Turn" + "\n";
 		} else{
 			this.cutBehindAndTurn = 0;
 		}
 		if (this.finishing >= 85 && this.kickingPower >= 80){
-			this.dippingShots = 1;
-			this.playerSkills += "* Dipping Shots" + "\n"
+			this.dippingShot = 1;
+			this.playerSkill += "*Dipping Shot" + "\n";
 		} else{
 			this.dippingShots = 0;
 		}
 		if (this.dribbling >= 79 && this.ballControl >= 84){
 			this.doubleTouch = 1;
-			this.playerSkills += "* Double Touch" + "\n"
+			this.playerSkills += "*Double Touch" + "\n";
 		} else{
 			this.doubleTouch = 0;
 		}
 
 		if (fmPlayer.stats["Aggression"] >= 14 && fmPlayer.stats["Teamwork"] >= 14 && fmPlayer.stats["Work Rate"] >= 14 && fmPlayer.stats["Bravery"] >= 14) {
 			this.fightingSpirit = 1;
-			this.playerSkills += "* Fighting Spirit\n";
+			this.playerSkills += "*Fighting Spirit" + "\n";
 		} else {
 			this.fightingSpirit = 0;
 		}
 		
 		if (this.offensiveAwareness >= 83 && this.finishing >= 82) {
 			this.firstTimeShot = 1;
-			this.playerSkills += "* First-time Shot\n";
+			this.playerSkills += "*First Time Shot" + "\n";
 		} else {
 			this.firstTimeShot = 0;
 		}
 		
 		if (this.ballControl >= 76 && this.dribbling >= 79) {
 			this.flipFlap = 1;
-			this.playerSkills += "* Flip Flap\n";
+			this.playerSkills += "*Flip Flap" + "\n";
 		} else {
 			this.flipFlap = 0;
 		}
 		
 		if (this.acceleration >= 80 && this.balance >= 82 && this.dribbling >= 81) {
 			this.gamesmanship = 1;
-			this.playerSkills += "* Gamesmanship\n";
+			this.playerSkills += "*Gamesmanship" + "\n";
 		} else {
 			this.gamesmanship = 0;
 		}
 		
 		if (fmPlayer.stats["Kicking"] >= 14 && fmPlayer.stats["Strength"] >= 14) {
 			this.gkHighPunt = 1;
-			this.playerSkills += "* GK High Punt\n";
+			this.playerSkills += "*GK High Punt" + "\n";
 		} else {
 			this.gkHighPunt = 0;
 		}
 		
 		if (fmPlayer.stats["Kicking"] >= 14) {
 			this.gkLongThrow = 1;
-			this.playerSkills += "* GK Long Throw\n";
+			this.playerSkills += "*GK Long Throw" + "\n";
 		} else {
 			this.gkLongThrow = 0;
 		}
 		
 		if (fmPlayer.stats["Throwing"] >= 14) {
 			this.gkLowPunt = 1;
-			this.playerSkills += "* GK Low Punt\n";
+			this.playerSkills += "*GK Low Punt" + "\n";
 		} else {
 			this.gkLowPunt = 0;
 		}
 		
 		if (fmPlayer.stats["Decisions"] >= 14 && fmPlayer.stats["Reflexes"] >= 14) {
 			this.gkPenaltySaver = 1;
-			this.playerSkills += "* GK Penalty Saver\n";
+			this.playerSkills += "*GK Penalty Saver" + "\n";
 		} else {
 			this.gkPenaltySaver = 0;
 		}
 		
 		if (fmPlayer.stats["Jumping Reach"] >= 14 && fmPlayer.stats["Heading"] >= 14) {
 			this.headingPlayerSkill = 1;
-			this.playerSkills += "* Heading\n";
+			this.playerSkills += "*Heading" + "\n";
 		} else {
 			this.headingPlayerSkill = 0;
 		}
 		
 		if (this.acrobaticFinishing >= 1 && this.finishing >= 85) {
 			this.heelTrick = 1;
-			this.playerSkills += "* Heel Trick\n";
+			this.playerSkills += "*Heel Trick" + "\n";
 		} else {
 			this.heelTrick = 0;
 		}
 		
 		if (this.defensiveAwareness >= 85 && this.ballWinning >= 85) {
 			this.interception = 1;
-			this.playerSkills += "* Interception\n";
+			this.playerSkills += "*Interception" + "\n";
 		} else {
 			this.interception = 0;
 		}
 		
 		if (this.finishing >= 85 && this.placeKicking >= 75) {
 			this.knuckleShots = 1;
-			this.playerSkills += "* Knuckle Shots\n";
+			this.playerSkills += "*Knuckle Shots" + "\n";
 		} else {
 			this.knuckleShots = 0;
 		}
 		
 		if (fmPlayer.stats["Flair"] >= 14 && fmPlayer.stats["Technique"] >= 14 && fmPlayer.stats["Long Shots"] >= 10) {
 			this.longRangeDrive = 1;
-			this.playerSkills += "* Long Range Drive\n";
+			this.playerSkills += "*Long Range Drive" + "\n";
 		} else {
 			this.longRangeDrive = 0;
 		}
 		
 		if (fmPlayer.stats["Long Throws"] >= 14) {
 			this.longThrow = 1;
-			this.playerSkills += "* Long Throw\n";
+			this.playerSkills += "*Long Throw" + "\n";
 		} else {
 			this.longThrow = 0;
 		}
 		
 		if (this.loftedPass >= 86) {
 			this.lowLoftedPass = 1;
-			this.playerSkills += "* Low Lofted Pass\n";
+			this.playerSkills += "*Low Lofted Pass" + "\n";
 		} else {
 			this.lowLoftedPass = 0;
 		}
 		
 		if (fmPlayer.stats["Marking"] >= 15) {
 			this.manMarking = 1;
-			this.playerSkills += "* Man Marking\n";
+			this.playerSkills += "*Man Marking" + "\n";
 		} else {
 			this.manMarking = 0;
 		}
 		
 		if (this.ballControl >= 77 && this.dribbling >= 78) {
 			this.marseilleTurn = 1;
-			this.playerSkills += "* Marseille Turn\n";
+			this.playerSkills += "*Marseille Turn" + "\n";
 		} else {
 			this.marseilleTurn = 0;
 		}
 		
 		if (fmPlayer.stats["Long Shots"] >= 13) {
 			this.longRangeShooting = 1;
-			this.playerSkills += "* Long Range Shooting\n";
+			this.playerSkills += "*Long Range Shooting" + "\n";
 		} else {
 			this.longRangeShooting = 0;
 		}
 
 		if (this.lowPass >= 85 && this.ballControl >= 80) {
 			this.oneTouchPass = 1;
-			this.playerSkills += "* One-Touch Pass\n";
+			this.playerSkills += "*One Touch Pass" + "\n";
 		} else {
 			this.oneTouchPass = 0;
 		}
 
 		if (this.oneTouchPass >= 1 && this.offensiveAwareness >= 80) {
 			this.noLookPass = 1;
-			this.playerSkills += "* No Look Pass\n";
+			this.playerSkills += "*No Look Pass" + "\n";
 		} else {
 			this.noLookPass = 0;
 		}
 		
 		if (this.loftedPass >= 80 && this.finishing >= 80) {
 			this.outsideCurler = 1;
-			this.playerSkills += "* Outside Curler\n";
+			this.playerSkills += "*Outside Curler" + "\n";
 		} else {
 			this.outsideCurler = 0;
 		}
 		
 		if (fmPlayer.stats["Penalty Taking"] >= 14) {
 			this.penaltySpecialist = 1;
-			this.playerSkills += "* Penalty Specialist\n";
+			this.playerSkills += "*Penalty Specialist" + "\n";
 		} else {
 			this.penaltySpecialist = 0;
 		}
 		
 		if (this.offensiveAwareness >= 80 && this.loftedPass >= 85) {
 			this.pinpointCrossing = 1;
-			this.playerSkills += "* Pinpoint Crossing\n";
+			this.playerSkills += "*Pinpoint Crossing" + "\n";
 		} else {
 			this.pinpointCrossing = 0;
 		}
 		
 		if (this.lowPass >= 75 && this.loftedPass >= 75 && this.finishing >= 75) {
 			this.rabona = 1;
-			this.playerSkills += "* Rabona\n";
+			this.playerSkills += "*Rabona" + "\n";
 		} else {
 			this.rabona = 0;
 		}
 		
 		if (this.finishing >= 85 && this.ballControl >= 80) {
 			this.risingShots = 1;
-			this.playerSkills += "* Rising Shots\n";
+			this.playerSkills += "*Rising Shots" + "\n";
 		} else {
 			this.risingShots = 0;
 		}
 		
 		if (this.ballControl >= 75 && this.dribbling >= 82) {
 			this.scissorsFeint = 1;
-			this.playerSkills += "* Scissors Feint\n";
+			this.playerSkills += "*Scissors Feint" + "\n";
 		} else {
 			this.scissorsFeint = 0;
 		}
 		
 		if (this.dribbling >= 75 && this.ballControl >= 80) {
 			this.scotchMove = 1;
-			this.playerSkills += "* Scotch Move\n";
+			this.playerSkills += "*Scotch Move" + "\n";
 		} else {
 			this.scotchMove = 0;
 		}
 		
 		if (this.ballControl >= 78 && this.dribbling >= 77) {
 			this.sombrero = 1;
-			this.playerSkills += "* Sombrero\n";
+			this.playerSkills += "*Sombrero" + "\n";
 		} else {
 			this.sombrero = 0;
 		}
 		
 		if (this.ballControl >= 84) {
 			this.stepOneBallControl = 1;
-			this.playerSkills += "* Step one ball Control\n";
+			this.playerSkills += "*Step On Skill control" + "\n";
 		} else {
 			this.stepOneBallControl = 0;
 		}
 		
 		if (this.finishing >= 80 && this.acceleration >= 80 && this.stamina >= 65) {
 			this.superSub = 1;
-			this.playerSkills += "* Super-sub\n";
+			this.playerSkills += "*Super Sub" + "\n";
 		} else {
 			this.superSub = 0;
 		}
 		
 		if (this.lowPass >= 83 && this.loftedPass >= 83 && this.curl >= 83) {
-			this.throughPass = 1;
-			this.playerSkills += "* Through Pass\n";
+			this.throughPassing = 1;
+			this.playerSkills += "*Through Passing" + "\n";
 		} else {
-			this.throughPass = 0;
+			this.throughPassing = 0;
 		}
 		
 		if (this.ballWinning >= 85 && this.stamina >= 85) {
 			this.trackBack = 1;
-			this.playerSkills += "* Track Back\n";
+			this.playerSkills += "*Track Back" + "\n";
 		} else {
 			this.trackBack = 0;
 		}
 		
 		if (this.loftedPass >= 85 && this.curl >= 80) {
 			this.weightedPass = 1;
-			this.playerSkills += "* Weighted Pass\n";
+			this.playerSkills += "*Weighted Pass" + "\n";
 		} else {
 			this.weightedPass = 0;
 		}
 		
 		if (this.defensiveAwareness >= 85 && this.jump >= 85) {
 			this.acrobaticClear = 1;
-			this.playerSkills += "* Acrobatic Clear\n";
+			this.playerSkills += "*Acrobatic Clear" + "\n";
 		} else {
 			this.acrobaticClear = 0;
 		}
@@ -477,50 +477,50 @@ ${this.COMPlayingStyles}
 			  this.registeredPosition === "AMF") &&
 			  fmPlayer.stats["Crossing"] >= 14
 		  	) {
-			this.earlyCrosser = 1;
-			this.COMPlayingStyles += "* Early Crosser\n";
+			this.earlyCross = 1;
+			this.COMPlayingStyles += "*Early Cross" + "\n";
 		} else {
-			this.earlyCrosser = 0;
+			this.earlyCross = 0;
 		}
 		  
 		if (this.registeredPosition === "RWF" || this.registeredPosition === "LWF") {
 			this.incisiveRun = 1;
-			this.COMPlayingStyles += "* Incisive Run\n";
+			this.COMPlayingStyles += "*Incisive Run" + "\n";
 		} else {
 			this.incisiveRun = 0;
 		}
 		
 		if (this.loftedPass >= 88) {
 			this.longBallExpert = 1;
-			this.COMPlayingStyles += "* Long Ball Expert\n";
+			this.COMPlayingStyles += "*Long Ball Expert" + "\n";
 		} else {
 			this.longBallExpert = 0;
 		}
 		
 		if (fmPlayer.stats["Long Shots"] >= 13) {
 			this.longRanger = 1;
-			this.COMPlayingStyles += "* Long Ranger\n";
+			this.COMPlayingStyles += "*Long Ranger" + "\n";
 		} else {
 			this.longRanger = 0;
 		}
 		
 		if (this.dribbling >= 85) {
 			this.mazingRun = 1;
-			this.COMPlayingStyles += "* Mazing Run\n";
+			this.COMPlayingStyles += "*Mazing Run" + "\n";
 		} else {
 			this.mazingRun = 0;
 		}
 		
 		if (fmPlayer.stats["Pace"] >= 14 && fmPlayer.stats["Acceleration"] >= 14) {
 			this.speedingBullet = 1;
-			this.COMPlayingStyles += "* Speeding Bullet\n";
+			this.COMPlayingStyles += "*Speeding Bullet" + "\n";
 		} else {
 			this.speedingBullet = 0;
 		}
 		
 		if (this.dribbling >= 84 && this.speed >= 84) {
 			this.trickster = 1;
-			this.COMPlayingStyles += "* Trickster\n";
+			this.COMPlayingStyles += "*Trickster" + "\n";
 		} else {
 			this.trickster = 0;
 		}
