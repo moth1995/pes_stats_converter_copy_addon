@@ -315,3 +315,76 @@ function hasSpecialAbility(abilityPositions, registeredPosition, positions){
 	});
 	return false;
 }
+
+function FMToPES21Positions(position){
+	switch (position) {
+		case 'GK':
+			return 'GK';
+		case 'DC':
+			return 'CBT';
+		case 'DL':
+			return 'LB'
+		case 'DR':
+			return 'RB';
+		case 'DM':
+			return 'DMF';
+		case 'WBL':
+			return 'LB'
+		case 'WBR':
+			return 'RB';
+		case 'MC':
+			return 'CMF';
+		case 'ML':
+			return 'LMF';
+		case 'MR':
+			return 'RMF';
+		case 'AMC':
+			return 'AMF';
+		case 'AML':
+			return 'LWF';
+		case 'AMR':
+			return 'RWF';
+		case 'ST':
+			return 'CF';
+		default:
+			return position;
+	}
+}
+
+function CAPoints(ca){
+	ca = ca * 2;
+	if (ca <= 90) return -10;
+	else if (ca <= 100) return -9;
+	else if (ca <= 110) return -8;
+	else if (ca <= 120) return -7;
+	else if (ca <= 130) return -6;
+	else if (ca <= 140) return -5;
+	else if (ca <= 150) return -4;
+	else if (ca <= 160) return -3;
+	else if (ca <= 170) return -2;
+	else if (ca <= 180) return -1;
+	else return 1;
+}
+
+function FMStatTOPES21(statFromFormula, max, min, ca){
+	let caPoints = CAPoints(ca);
+	return Math.round(clamp(40, 99, (max-min)/20 * (statFromFormula) + min + caPoints));
+}
+
+function FMToPES21Stat1To3(stat) {
+	stat = Math.round(stat);
+	if (stat<8) return 1;
+	else if(stat<15) return 2;
+	else return 3;
+}
+
+function FMToPES21Stat1To8(stat) {
+	stat = Math.round(stat);
+	if (stat<4) return 2;
+	else if(stat<7) return 3;
+	else if(stat<10) return 4;
+	else if(stat<13) return 5;
+	else if(stat<16) return 6;
+	else if(stat<19) return 7;
+	else return 8;
+}
