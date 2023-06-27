@@ -988,7 +988,7 @@ ${this.specialAbilitiesString}
 		} else {
 			this.longThrow = 0;
 		}
-		return this.PSDString();
+		//return this.PSDString();
 	}
 
 	FromPESMasterPlayer(pesMasterPlayer){
