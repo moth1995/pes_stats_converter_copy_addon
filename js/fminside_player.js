@@ -7,23 +7,32 @@ class FMInsidePlayer{
 
     GetBasicInfo(){
         this.name = this.doc.querySelector('#player_info #player .title .meta h1').getAttribute('title');
+        this.ability = this.doc.querySelector('#ability').textContent;
+        this.potential = this.doc.querySelector('#potential').textContent;
+        console.log(this.name, this.ability, this.potential);
         const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
         this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
         console.log(this.nationality);
         
         var info = {};
+        var positionType = [];
         lis.forEach(function(li){
             var key = li.querySelector("span.key").textContent;
             var valueElement = li.querySelector("span.value");
             var value = "";
             if (valueElement.querySelector("span.desktop_positions")){
                 value = valueElement.querySelector("span.desktop_positions").textContent;
+                valueElement.querySelector("span.desktop_positions").querySelectorAll("span").forEach(span => {
+                    console.log(span.getAttribute("title"));
+                    positionType.push(span.getAttribute("title"));
+                });
             }
             else{
                 value = valueElement.textContent;
             }
             info[key] = value;
         })
+        this.positionType = positionType;
 
         this.info = info;
 
@@ -75,19 +84,23 @@ function AddButton(){
         "click", 
         function() {
             console.log("Button clicked");
-            // Send a message to the background script to get the string
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
-            var FMPlayer = new FMInsidePlayer(doc);
-            // Convert into pes
-            var pesPlayer = new PESPlayer();
-            console.log(pesPlayer.EXP_Value);
-            // Use the string result
-            var psdString = pesPlayer.FromFMPlayer(FMPlayer);
-            console.log("Received string from background:", psdString);
-            CopyToClipboard(psdString);
-
+            chrome.storage.local.get(["selectOptionFMInside"], function (result) {
+                const selectedOptionFMInside = result.selectOptionFMInside;
+                console.log(selectedOptionFMInside);
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+                var FMPlayer = new FMInsidePlayer(doc);
+                // Convert into pes
+                var pesPlayer = new PESPlayer();
+                if (selectedOptionFMInside==="pes21"){
+                    pesPlayer = new PES21Player();
+                }
+                // Use the string result
+                pesPlayer.FromFMPlayer(FMPlayer);
+                var psdString = pesPlayer.PSDString();
+                console.log("Received string from background:", psdString);
+                CopyToClipboard(psdString);
+              });
         }
     );
 	// append button to body
