@@ -19,15 +19,7 @@ class PES21Player{
 	
 		const translatedLastName = Array.from(lastName, char => translationMap[char] || char).join('');
 	
-		let formattedLastName = translatedLastName;
-		if (formattedLastName.length > 16) {
-			formattedLastName = formattedLastName.slice(0, 15);
-		} else if (formattedLastName.length < 5) {
-			formattedLastName = formattedLastName.split('').join('  ');
-		} else if (formattedLastName.length < 9) {
-			formattedLastName = formattedLastName.split('').join(' ');
-		}
-	
+		let formattedLastName = translatedLastName;	
 		return formattedLastName;
 	}
 
