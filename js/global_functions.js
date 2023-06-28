@@ -321,7 +321,7 @@ function FMToPES21Positions(position){
 		case 'GK':
 			return 'GK';
 		case 'DC':
-			return 'CBT';
+			return 'CB';
 		case 'DL':
 			return 'LB'
 		case 'DR':
@@ -387,4 +387,79 @@ function FMToPES21Stat1To8(stat) {
 	else if(stat<16) return 6;
 	else if(stat<19) return 7;
 	else return 8;
+}
+
+function PES21GetPositionWeight(position, fmPlayer){
+	switch (position) {
+		case "*GK":
+			return fmPlayer.stats["Decisions"] * 0.1 + 
+			fmPlayer.stats["Agility"] * 0.09 + 
+			fmPlayer.stats["Handling"] * 0.12 + 
+			fmPlayer.stats["Reflexes"] * 0.12;
+		case "*CB":
+			return fmPlayer.stats["Marking"] * 0.1 + 
+			fmPlayer.stats["Decisions"] * 0.13 + 
+			fmPlayer.stats["Positioning"] * 0.1 + 
+			fmPlayer.stats["Acceleration"] * 0.09 + 
+			fmPlayer.stats["Jumping Reach"] * 0.08 + 
+			fmPlayer.stats["Pace"] * 0.08 +
+			fmPlayer.stats["Strength"] * 0.08;
+		case "*RB":
+		case "*LB":
+			return fmPlayer.stats["Tackling"] * 0.07 +
+			fmPlayer.stats["Concentration"] * 0.07 +
+			fmPlayer.stats["Decisions"] * 0.13 +
+			fmPlayer.stats["Positioning"] * 0.14 +
+			fmPlayer.stats["Acceleration"] * 0.15 +
+			fmPlayer.stats["Agility"] * 0.07 +
+			fmPlayer.stats["Pace"] * 0.14 ;
+		case "*DMF":
+			return fmPlayer.stats["Tackling"] * 0.1 +
+			fmPlayer.stats["Decisions"] * 0.11 +
+			fmPlayer.stats["Acceleration"] * 0.12 +
+			fmPlayer.stats["Agility"] * 0.07 +
+			fmPlayer.stats["Pace"] * 0.08 +
+			fmPlayer.stats["Strength"] * 0.07;
+		case "*RMF":
+		case "*LMF":
+			return fmPlayer.stats["Acceleration"] * 0.26 +
+			fmPlayer.stats["Agility"] * 0.07 +
+			fmPlayer.stats["Pace"] * 0.20 +
+			fmPlayer.stats["Stamina"] * 0.05;
+		case "*CMF":
+			return fmPlayer.stats["Passing"] * 0.1 +
+			fmPlayer.stats["Decisions"] * 0.07 +
+			fmPlayer.stats["Vision"] * 0.11 +
+			fmPlayer.stats["Acceleration"] * 0.12 +
+			fmPlayer.stats["Agility"] * 0.07 +
+			fmPlayer.stats["Pace"] * 0.1;
+		case "*RWF":
+		case "*LWF":
+			return fmPlayer.stats["Dribbling"] * 0.07 +
+			fmPlayer.stats["Acceleration"] * 0.28 +
+			fmPlayer.stats["Agility"] * 0.05 +
+			fmPlayer.stats["Pace"] * 0.28;
+
+		case "*AMF":
+			return fmPlayer.stats["Passing"] * 0.06 +
+			fmPlayer.stats["Vision"] * 0.09 +
+			fmPlayer.stats["Acceleration"] * 0.23 +
+			fmPlayer.stats["Pace"] * 0.13;
+
+		case "*SS":
+			return fmPlayer.stats["Finishing"] * 0.08 +
+			fmPlayer.stats["Acceleration"] * 0.24 +
+			fmPlayer.stats["Pace"] * 0.17 +
+			fmPlayer.stats["Strength"] * 0.06;
+
+		case "*CF":
+			return fmPlayer.stats["Heading"] * 0.13 +
+			fmPlayer.stats["Acceleration"] * 0.17 +
+			fmPlayer.stats["Jumping Reach"] * 0.12 +
+			fmPlayer.stats["Pace"] * 0.1;
+	
+			
+		default:
+		return -1;
+	}
 }

@@ -88,7 +88,8 @@ ${this.COMPlayingStyles}
 
 	FromFMPlayer(fmPlayer){
 		let FMPositions = FMPositionStringToArray(fmPlayer.info["Position"]);
-		this.registeredPosition = FMPositions.includes("AMC") &&FMPositions.includes("ST") ? "SS" : FMToPES21Positions(FMPositions[0]);
+		//this.registeredPosition = FMPositions.includes("AMC") &&FMPositions.includes("ST") ? "SS" : FMToPES21Positions(FMPositions[0]);
+		let isSS = FMPositions.includes("AMC") &&FMPositions.includes("ST");
 		this.positions = [];
 		for (let index = 0; index < FMPositions.length; index++) {
 			/*
@@ -96,10 +97,27 @@ ${this.COMPlayingStyles}
 				this.positions.push(FMToPES21Positions(FMPositions[index]));
 			}
 			*/
-			let position = (fmPlayer.positionType[index] == "Natural" ? "*" : "") + FMToPES21Positions(FMPositions[index]);
+			let position = (fmPlayer.positionType[index] === "Natural" ? "*" : "") + FMToPES21Positions(FMPositions[index]);
 			this.positions.push(position);
 
 		}
+		if (isSS){
+			if (fmPlayer.positionType[FMPositions.indexOf("AMC")] === "Natural" && fmPlayer.positionType[FMPositions.indexOf("ST")] === "Natural")
+				this.positions.push("*SS");
+			else{
+				this.positions.push("SS");
+			}
+		}
+		let positionWeight = {};
+		this.positions.forEach(position => {
+			if (position.includes("*")){
+				let weight = PES21GetPositionWeight(position, fmPlayer);
+				positionWeight[position] = weight;
+			}
+		});
+		console.log(positionWeight);
+		this.registeredPosition = (Object.keys(positionWeight).reduce((a, b) => positionWeight[a] > positionWeight[b] ? a : b)).replace("*", "");
+		console.log(this.registeredPosition);
 		this.currentAbility = parseInt(fmPlayer.ability);
 		this.name = fmPlayer.info["Name"];
 		this.shirtName = this.NameToShirtName(this.name);
