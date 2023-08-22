@@ -428,7 +428,7 @@ ${this.COMPlayingStyles}
 			this.scotchMove = 0;
 		}
 		
-		if (this.ballControl >= 78 && this.dribbling >= 77) {
+		if (fmPlayer.stats["Flair"] >= 14 && fmPlayer.stats["Technique"] >= 77) {
 			this.sombrero = 1;
 			this.playerSkills += "*Sombrero" + "\n";
 		} else {
@@ -449,7 +449,7 @@ ${this.COMPlayingStyles}
 			this.superSub = 0;
 		}
 		
-		if (this.lowPass >= 83 && this.loftedPass >= 83 && this.curl >= 83) {
+		if (this.lowPass >= 83 && this.loftedPass >= 83 && this.curl >= 75) {
 			this.throughPassing = 1;
 			this.playerSkills += "*Through Passing" + "\n";
 		} else {
@@ -463,7 +463,7 @@ ${this.COMPlayingStyles}
 			this.trackBack = 0;
 		}
 		
-		if (this.loftedPass >= 85 && this.curl >= 80) {
+		if (this.loftedPass >= 85 && this.curl >= 75) {
 			this.weightedPass = 1;
 			this.playerSkills += "*Weighted Pass" + "\n";
 		} else {
