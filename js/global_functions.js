@@ -309,10 +309,11 @@ function heightTo99Stat(height, isGK){
 function hasSpecialAbility(abilityPositions, registeredPosition, positions){
 	if (abilityPositions.includes(registeredPosition))
 		return true;
-	positions.forEach(position => {
+	for (let index = 0; index < positions.length; index++) {
+		let position = positions[index];
 		if (abilityPositions.includes(position))
-		return true;
-	});
+			return true;
+	}
 	return false;
 }
 
@@ -353,16 +354,17 @@ function FMToPES21Positions(position){
 
 function CAPoints(ca){
 	ca = ca * 2;
-	if (ca < 100) return -10;
-	else if (ca < 110) return -9;
-	else if (ca < 120) return -8;
-	else if (ca < 130) return -7;
-	else if (ca < 140) return -6;
-	else if (ca < 150) return -5;
-	else if (ca < 160) return -4;
-	else if (ca < 170) return -3;
-	else if (ca < 180) return -2;
-	else return 1; //any other case will return 1
+	if (ca <= 90) return -10;
+	else if (ca <= 100) return -9;
+	else if (ca <= 110) return -8;
+	else if (ca <= 120) return -7;
+	else if (ca <= 130) return -6;
+	else if (ca <= 140) return -5;
+	else if (ca <= 150) return -4;
+	else if (ca <= 160) return -3;
+	else if (ca <= 170) return -2;
+	else if (ca <= 180) return -1;
+	else return 1;
 }
 
 function FMStatTOPES21(statFromFormula, max, min, ca){
