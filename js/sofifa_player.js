@@ -108,9 +108,10 @@ class SOFIFAPlayer {
 		console.log(this.playerSpecialties); // Output specialities array
 		
 		this.traits = [];
-		
-		if (indexes.includes('Traits')) {
-			const spans = sofifa_stats[indexes.indexOf('Traits')].querySelectorAll('span');
+		let traits_name = this.FIFAVersion == "FC 24" ? 'PlayStyles' : 'Traits';
+		if (indexes.includes(traits_name)) {
+
+			const spans = sofifa_stats[indexes.indexOf(traits_name)].querySelectorAll('span');
 			if (spans) {
 				this.traits = Array.from(spans, span => span.textContent);
 			}
