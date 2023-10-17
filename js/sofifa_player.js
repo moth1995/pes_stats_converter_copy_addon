@@ -122,10 +122,10 @@ class SOFIFAPlayer {
 		this.preferedFoot = profileLi[0].querySelector("label").nextSibling.textContent;
 		console.log(this.preferedFoot);
 
-		this.weakFoot = parseInt(profileLi[1].querySelector("svg").previousSibling.textContent);
+		this.weakFoot = parseInt(profileLi[2].querySelector("svg").previousSibling.textContent);
 		console.log(this.weakFoot);
 
-		this.skillMoves = parseInt(profileLi[2].querySelector("svg").previousSibling.textContent);
+		this.skillMoves = parseInt(profileLi[1].querySelector("svg").previousSibling.textContent);
 		console.log(this.skillMoves);
 
 		this.internationalReputation = parseInt(profileLi[3].querySelector("svg").previousSibling.textContent);
