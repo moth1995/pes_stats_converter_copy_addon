@@ -428,7 +428,7 @@ ${this.COMPlayingStyles}
 			this.scotchMove = 0;
 		}
 		
-		if (fmPlayer.stats["Flair"] >= 14 && fmPlayer.stats["Technique"] >= 77) {
+		if (fmPlayer.stats["Flair"] >= 14 && fmPlayer.stats["Technique"] >= 14) {
 			this.sombrero = 1;
 			this.playerSkills += "*Sombrero" + "\n";
 		} else {
