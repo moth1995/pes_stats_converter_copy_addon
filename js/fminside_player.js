@@ -3,6 +3,7 @@ class FMInsidePlayer{
         this.doc = doc;
         this.GetBasicInfo();
         this.GetStats();
+        this.GetRoles();
     }
 
     GetBasicInfo(){
@@ -67,6 +68,25 @@ class FMInsidePlayer{
         const stats = this.doc.querySelector('div#player_stats.block.stats').querySelectorAll('div.column');
         this.stats = this.StatToObject(stats[0]);
         console.log(this.stats);
+    }
+
+    GetRoles(){
+        var roles = {};
+        try{
+            const rolesLis = this.doc.querySelector('#player > div:nth-child(4)').querySelector('ol').querySelectorAll('li:not(.last)');
+            rolesLis.forEach(function(li){
+                var key = li.querySelector("span.key").textContent;
+                var valueElement = li.querySelector("span.value");
+                var value = valueElement.textContent;
+                roles[key] = parseFloat(value);
+            })    
+        }
+        catch(err){
+            console.log(err);
+            console.log("No roles found");
+        }
+        this.roles = roles;
+        console.log(this.roles);
     }
 
 }
