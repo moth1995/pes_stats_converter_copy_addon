@@ -390,6 +390,70 @@ function FMToPES21Stat1To8(stat) {
 	else return 8;
 }
 
+function GetMaxKeyFromObject(data){
+	let maxKey = null;
+	let maxValue = -Infinity;
+
+	for (const key in data) {
+	const value = data[key];
+	if (value > maxValue) {
+		maxValue = value;
+		maxKey = key;
+	}
+	}
+	console.log("Clave con el valor más alto:", maxKey);
+	console.log("Valor más alto:", maxValue);
+	return maxKey;
+}
+
+function PES21GetPlayingStyle(FMBestSuitableRoles){
+	let role = GetMaxKeyFromObject(FMBestSuitableRoles);
+	let playingStyle = "";
+	switch (role) {
+		case "Goalkeeper Defensive":
+			playingStyle = "GOALKEEPER DEFENSIVE";
+			break;
+		case "Sweeper Keeper (Defensive)":
+		case "Sweeper Keeper (Attack)":
+		case "Sweeper Keeper (Support)":
+			playingStyle = "GOALKEEPER OFFENSIVE";
+			break;
+		case "Libero (Attack)":
+		case "Libero (Support)":
+		case "Centre-back (Cover)":
+		case "Deep-lying Playmaker (Defend)":
+		case "Centre-back (Stopper)":
+		case "Central Defender (Defend)":
+		case "Bal-winning Midfielder (Support)":
+		case "Bal-winning Midfielder (Defend)":
+			playingStyle = "THE DESTROYER";
+			break;
+		case "Ball Playing Defender (Cover)":
+		case "Ball Playing Defender (Stopper)":
+		case "Ball Playing Defender (Defend)":
+			playingStyle = "BUILD UP";
+			break;
+		case "No-Nonsense Centreback (Cover)":
+		case "No-Nonsense Centreback (Stopper)":
+		case "No-Nonsense Centreback (Defend)":
+		case "Wide Centre-back (Defend)":
+		case "Wide Centre-back (Support)":
+		case "Wide Centre-back (Attack)":
+			playingStyle = "EXTRA FRONTMAN";
+			break;
+		case "Complete Wing-Back (Attack)":
+		case "Complete Wing-back (Support)":
+		case "Inverted Wing-back (Attack)":
+		case "Inverted Wing-back (Defend)":
+		case "Inverted Wing-back (Support)":
+			playingStyle = "FULL BACK FINISHER";
+			break;
+
+		default:
+		break;
+	}
+}
+
 function PES21GetPositionWeight(position, fmPlayer){
 	switch (position) {
 		case "*GK":
