@@ -200,7 +200,7 @@ ${this.specialAbilitiesString}
 
 		if (this.registeredPosition == "GK"){
 			//convertion formula for GK
-			let positioning = MinorThan(fifaPlayer.mentality["Positioning"], 30);
+			let positioning = MinorThan(fifaPlayer.mentality["Att. Position"], 30);
 			let attackEXP = positioning;
 			this.attack = 10 + DivideIntegers(attackEXP, this.EXP_ID_Value);
 			
@@ -308,7 +308,7 @@ ${this.specialAbilitiesString}
 		else{
 			// rest of players
 			
-			let positioning = fifaPlayer.mentality["Positioning"];
+			let positioning = fifaPlayer.mentality["Att. Position"];
 			let attackExtraPoints = 25;
 			if (this.registeredPosition =="CBT"){
 				attackExtraPoints = 20;
@@ -457,7 +457,7 @@ ${this.specialAbilitiesString}
 			this.tacticalDribble = 0;
 		}
 		
-		if (fifaPlayer.mentality["Positioning"] > 85 && 
+		if (fifaPlayer.mentality["Att. Position"] > 85 && 
 			hasSpecialAbility(this.positioningPositions, this.registeredPosition, this.positions)
 		) {
 			this.positioning = 1;
@@ -553,7 +553,7 @@ ${this.specialAbilitiesString}
 
 		if (fifaPlayer.traits.includes("Playmaker (AI)") && 
 			fifaPlayer.mentality["Vision"] > 80 && 
-			fifaPlayer.mentality["Positioning"] > 80
+			fifaPlayer.mentality["Att. Position"] > 80
 		) {
 			this.centre = 1;
 			this.specialAbilitiesString += "* Centre" + "\n";
