@@ -66,6 +66,20 @@ p {
   background-color: #219f55;
 }
 
+/* Estilos para el botón privacy */
+#privacy-button {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#privacy-button:hover {
+  background-color: #219f55;
+}
+
 .banner {
   color: #FFFFFF;
   padding: 10px;
