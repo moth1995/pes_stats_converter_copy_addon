@@ -24,7 +24,7 @@ class SOFIFAPlayer {
 	GetBasicInfo() {
 		this.name = this.doc.querySelector("h1.ellipsis").textContent;
 		console.log(this.name);
-		const meta = this.doc.querySelector('#body > main:nth-child(5) > article > div.profile.clearfix > p').lastChild.textContent.trim();
+		const meta = this.doc.querySelector('div.profile.clearfix > p').lastChild.textContent.trim();
 		// Regular expressions to match the data
 		const ageRegex = /\d+/;
 		const birthdayRegex = /\(.*?\)/;
@@ -47,11 +47,11 @@ class SOFIFAPlayer {
 		console.log(`Height: ${this.height}cm`);
 		console.log(`Weight: ${this.weight}kg`);
 
-		this.nationality = this.doc.querySelector("#body > main:nth-child(5) > article > div.profile.clearfix > p > a").getAttribute('title');
+		this.nationality = this.doc.querySelector("div.profile.clearfix > p > a").getAttribute('title');
 
 		console.log(this.nationality);
 
-		const spans = this.doc.querySelectorAll('#body > main:nth-child(5) > article > div.profile.clearfix > p > span');
+		const spans = this.doc.querySelectorAll('div.profile.clearfix > p > span');
 		this.posiciones = Array.from(spans).map(span => span.textContent);
 		
 		this.posicionReg = this.posiciones[0];
@@ -150,7 +150,7 @@ class SOFIFAPlayer {
 		this.internationalReputation = parseInt(profileLi[3].querySelector("svg").previousSibling.textContent);
 		console.log("internationalReputation: " + this.internationalReputation);
 
-		this.overall = parseInt(this.doc.querySelector("#body > main:nth-child(5) > aside > div.attribute > p:nth-child(2) > em").textContent);
+		this.overall = parseInt(this.doc.querySelector("div.attribute > p:nth-child(2) > em").textContent);
 
 		console.log("overall: " + this.overall);
 
@@ -177,8 +177,9 @@ function AddButton(){
 
 	const version = selectedOption.text;
 
-	const language = document.querySelector("#body > header > nav:nth-child(1) > ul > li:nth-child(7) > div > details:nth-child(4) > summary > img").getAttribute('title');
-	
+	//const language = document.querySelector("details.dropdown.dropdown-br:nth-child(2) > summary > img").getAttribute('title');
+	const language = document.querySelectorAll("details.dropdown.dropdown-br")[1].querySelector("summary > img").getAttribute('title');
+
 	console.log(version, language);
 	if (supportedVersions.includes(version) && language == "United States") {
 		button.innerHTML = "PES Stats Copy";
