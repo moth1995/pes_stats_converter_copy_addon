@@ -3,6 +3,7 @@ class PES21Player{
 	constructor(){
 		this.playerSkills = "";
 		this.COMPlayingStyles = "";
+		this.playingStyle = "";
 	}
 
 	NameToShirtName(name) {
@@ -71,6 +72,8 @@ CARD PLAYER SKILL:
 ${this.playerSkills}
 CARD STYLE COM:
 ${this.COMPlayingStyles}
+PLAYING STYLE:
+${this.playingStyle}
 `;
 	}
 
@@ -537,7 +540,7 @@ ${this.COMPlayingStyles}
 
 		// PLAYING STYLES
 
-		
+		this.playingStyle = PES21GetPlayingStyle(fmPlayer.roles, this.registeredPosition);
 
 		//return this.PSDString();
 	}

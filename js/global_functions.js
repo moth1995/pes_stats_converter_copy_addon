@@ -391,67 +391,78 @@ function FMToPES21Stat1To8(stat) {
 }
 
 function GetMaxKeyFromObject(data){
-	let maxKey = null;
+	let maxKey = "";
 	let maxValue = -Infinity;
 
 	for (const key in data) {
-	const value = data[key];
-	if (value > maxValue) {
-		maxValue = value;
-		maxKey = key;
-	}
+		const value = data[key];
+		if (value > maxValue) {
+			maxValue = value;
+			maxKey = key;
+		}
 	}
 	console.log("Clave con el valor más alto:", maxKey);
 	console.log("Valor más alto:", maxValue);
 	return maxKey;
 }
 
-function PES21GetPlayingStyle(FMBestSuitableRoles){
-	let role = GetMaxKeyFromObject(FMBestSuitableRoles);
-	let playingStyle = "";
-	switch (role) {
-		case "Goalkeeper Defensive":
-			playingStyle = "GOALKEEPER DEFENSIVE";
-			break;
-		case "Sweeper Keeper (Defensive)":
-		case "Sweeper Keeper (Attack)":
-		case "Sweeper Keeper (Support)":
-			playingStyle = "GOALKEEPER OFFENSIVE";
-			break;
-		case "Libero (Attack)":
-		case "Libero (Support)":
-		case "Centre-back (Cover)":
-		case "Deep-lying Playmaker (Defend)":
-		case "Centre-back (Stopper)":
-		case "Central Defender (Defend)":
-		case "Bal-winning Midfielder (Support)":
-		case "Bal-winning Midfielder (Defend)":
-			playingStyle = "THE DESTROYER";
-			break;
-		case "Ball Playing Defender (Cover)":
-		case "Ball Playing Defender (Stopper)":
-		case "Ball Playing Defender (Defend)":
-			playingStyle = "BUILD UP";
-			break;
-		case "No-Nonsense Centreback (Cover)":
-		case "No-Nonsense Centreback (Stopper)":
-		case "No-Nonsense Centreback (Defend)":
-		case "Wide Centre-back (Defend)":
-		case "Wide Centre-back (Support)":
-		case "Wide Centre-back (Attack)":
-			playingStyle = "EXTRA FRONTMAN";
-			break;
-		case "Complete Wing-Back (Attack)":
-		case "Complete Wing-back (Support)":
-		case "Inverted Wing-back (Attack)":
-		case "Inverted Wing-back (Defend)":
-		case "Inverted Wing-back (Support)":
-			playingStyle = "FULL BACK FINISHER";
-			break;
+function getPlayingStyle(role, position) {
+	const styleRules = {
+		"Goalkeeper Defensive": ["goalkeeper defensive"],
+		"Goalkeeper Offensive": ["sweeper keeper"],
+		"The Destroyer": ["libero", "centre-back", "central defender", "ball-winning midfielder"],
+		"Build Up": ["ball playing defender"],
+		"Extra Frontman": ["no-nonsense centreback", "wide centre-back"],
+		"Full Back Finisher": ["complete wing-back", "inverted wing-back"],
+		"Offensive Full Back": ["full-back", "fing-back"],
+		"Defensive Full Back": ["no-nonsense full-back"],
+		"Orchestrator": ["roaming playmaker", "deep-lying playmaker", "regista", "half-back"],
+		"Box To Box": ["segundo volante", "defensive midfielder", "box to box midfielder", "central midfielder", "carrilero", "defensive winger"],
+		"Anchor Man": ["anchor man"],
+		"Hole Player": ["mezzala", "advanced playmaker", "wide playmaker", "wide midfielder", "second striker"],
+		"Classic N.10": ["roaming playmaker", "trequartista"],
+		"Cross Specialist": ["winger", "wide target man"],
+		"Roaming Flank": ["inverted winger", "inside forward"],
+		"Creative Playmaker": ["advanced playmaker", "attacking midfielder", "raumdeuter", "trequartista"],
+		"Dummy Runner": ["enganche", "deep lying forward", "false nine", "trequartista"],
+		"Prolific Winger": ["winger"],
+		"Goal Poacher": ["complete forward", "poacher", "target man", "pressing forward"],
+		"Fox In The Box": ["advanced forward", "complete forward"],
+		"Target Man": ["deep lying forward", "target man"]
+	};
+	const styleRulesByPosition = {
+		"GK": ["Goalkeeper Defensive", "Goalkeeper Offensive"],
+		"CB": ["The Destroyer", "Build Up", "Extra Frontman"],
+		"RB": ["Full Back Finisher", "Offensive Full Back", "Defensive Full Back"],
+		"LB": ["Full Back Finisher", "Offensive Full Back", "Defensive Full Back"],
+		"DMF": ["Orchestrator", "Box To Box", "The Destroyer", "Anchor Man"],
+		"CMF": ["Hole Player", "Classic N.10", "Orchestrator", "Box To Box", "The Destroyer"],
+		"RMF": ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
+		"LMF": ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
+		"AMF": ["Hole Player", "Creative Playmaker", "Creative Plamaker", "Dummy Runner", "Classic N.10"],
+		"RWF": ["Roaming Flank", "Creative Playmaker", "Prolific Winger", "Cross Specialist"],
+		"LWF": ["Roaming Flank", "Creative Playmaker", "Prolific Winger", "Cross Specialist"],
+		"SS": ["Creative Playmaker", "Goal Poacher", "Dummy Runner", "Hole Player", "Classic N.10"],
+		"CF": ["Fox In The Box", "Target Man", "Goal Poacher", "Dummy Runner"],
+	};
+	let positionStyles = styleRulesByPosition[position];
+	for (const style of positionStyles) {
+		console.log(style);
+        if (styleRules[style].includes(role)) {
+            return style;
+        }
+    }
+    return "";
+}
 
-		default:
-		break;
-	}
+function PES21GetPlayingStyle(FMBestSuitableRoles, pesPosition){
+	let role = GetMaxKeyFromObject(FMBestSuitableRoles).toLowerCase();
+	console.log("role before replace", role);
+	role = role.replace(/(\s+\(\w+\))/, "");
+	console.log("role after replace", role);
+	let playingStyle = getPlayingStyle(role, pesPosition);
+	
+	return playingStyle;
 }
 
 function PES21GetPositionWeight(position, fmPlayer){
