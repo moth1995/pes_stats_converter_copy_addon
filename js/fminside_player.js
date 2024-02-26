@@ -114,6 +114,8 @@ function AddButton(){
                 var pesPlayer = new PESPlayer();
                 if (selectedOptionFMInside==="pes21"){
                     pesPlayer = new PES21Player();
+                } else if (selectedOptionFMInside==="pes13") {
+                    pesPlayer = new PES13Player();
                 }
                 // Use the string result
                 pesPlayer.FromFMPlayer(FMPlayer);

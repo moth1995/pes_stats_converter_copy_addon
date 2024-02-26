@@ -21,6 +21,7 @@
                 "js/global_functions.js",
                 "js/pes_player.js",
                 "js/pes21_player.js",
+                "js/pes13_player.js",
                 "js/nationalities.js",
                 "js/pes21_stats_table.js"
             ]
