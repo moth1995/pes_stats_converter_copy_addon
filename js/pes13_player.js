@@ -135,66 +135,83 @@ class PES13Player extends PESPlayer{
         this.PES13GetIndexCardsFromFM(fmPlayer);
     }
 
+    PositionsInIndexCardPositions(IndexCardPositions){
+        for (let index = 0; index < this.positions.length; index++) {
+            if (IndexCardPositions.includes(this.positions[index]))
+                return true;
+        }
+        return false;
+    }
+
     PES13GetIndexCardsFromFM(fmPlayer){
 
         if (
-            this.anchorManPositions.includes(this.registeredPosition) 
+            (this.anchorManPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.anchorManPositions))
             && fmPlayer.stats["Work Rate"] < 12
         ){
             this.indexCards += "P02 - Anchor Man" + "\n";
         }
         
         if (
-            this.mazingRunPositions.includes(this.registeredPosition) 
+            (this.mazingRunPositions.includes(this.registeredPosition) 
+            || PositionsInIndexCardPositions(this.mazingRunPositions))
             && fmPlayer.stats["Dribbling"] >= 16
         ){
             this.indexCards += "P05 - Mazing Run" + "\n";
         }
         
         if (
-            this.pinPointPassPositions.includes(this.registeredPosition)
+            (this.pinPointPassPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.pinPointPassPositions))
             && fmPlayer.stats["Passing"] >= 16
         ){
             this.indexCards += "P06 - Pinpoint Pass" + "\n";
         }
 
         if(
-            this.earlyCrossPositions.includes(this.registeredPosition)
+            (this.earlyCrossPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.earlyCrossPositions))
             && fmPlayer.stats["Crossing"] >= 16
         ){
             this.indexCards += "P07 - Early Cross" + "\n";
         }
 
         if(
-            this.boxToBoxPositions.includes(this.registeredPosition)
+            (this.boxToBoxPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.boxToBoxPositions))
             && fmPlayer.stats["Work Rate"] >= 16
         ){
             this.indexCards += "P08 - Box to Box" + "\n";
         }
 
         if(
-            this.longRangerPositions.includes(this.registeredPosition)
+            (this.longRangerPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.longRangerPositions))
             && fmPlayer.stats["Long Shots"] >= 16
         ){
             this.indexCards += "P10 - Long Ranger" + "\n";
         }
 
         if(
-            this.enforcerPositions.includes(this.registeredPosition)
+            (this.enforcerPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.enforcerPositions))
             && fmPlayer.stats["Aggression"] >= 16
         ){
             this.indexCards += "P11 - Enforcer" + "\n";
         }
 
         if(
-            this.talismanPositions.includes(this.registeredPosition)
+            (this.talismanPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.talismanPositions))
             && fmPlayer.stats["Leadership"] >= 16
         ){
             this.indexCards += "P15 - Talisman" + "\n";
         }
 
         if(
-            this.trackBackPositions.includes(this.registeredPosition)
+            (this.trackBackPositions.includes(this.registeredPosition)
+            || PositionsInIndexCardPositions(this.trackBackPositions))
             && fmPlayer.stats["Work Rate"] >= 16
         ){
             this.indexCards += "P18 - Track Back" + "\n";
