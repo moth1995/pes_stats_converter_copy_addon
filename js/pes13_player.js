@@ -146,6 +146,14 @@ class PES13Player extends PESPlayer{
     PES13GetIndexCardsFromFM(fmPlayer){
 
         if (
+            (this.classicN10Positions.includes(this.registeredPosition)
+            || this.PositionsInIndexCardPositions(this.classicN10Positions))
+            && this.playmaking
+        ){
+            this.indexCards += "P01 - Classic No.10" + "\n";
+        }
+
+        if (
             (this.anchorManPositions.includes(this.registeredPosition)
             || this.PositionsInIndexCardPositions(this.anchorManPositions))
             && fmPlayer.stats["Work Rate"] < 12
@@ -202,6 +210,22 @@ class PES13Player extends PESPlayer{
         }
 
         if(
+            (this.goalPoacherPositions.includes(this.registeredPosition)
+            || this.PositionsInIndexCardPositions(this.goalPoacherPositions))
+            && this.lines
+        ){
+            this.indexCards += "P12 - Goal Poacher" + "\n";
+        }
+
+        if(
+            (this.freeRoamingPositions.includes(this.registeredPosition)
+            || this.PositionsInIndexCardPositions(this.freeRoamingPositions))
+            && this.lines
+        ){
+            this.indexCards += "P14 - Free Roaming" + "\n";
+        }
+
+        if(
             (this.talismanPositions.includes(this.registeredPosition)
             || this.PositionsInIndexCardPositions(this.talismanPositions))
             && fmPlayer.stats["Leadership"] >= 16
@@ -218,6 +242,18 @@ class PES13Player extends PESPlayer{
         }
 
         if(
+            this.oneTouchPass
+        ){
+            this.indexCards += "S01 - 1-Touch Play" + "\n";
+        }
+
+        if(
+            this.outside
+        ){
+            this.indexCards += "S02 - Outside Curve" + "\n";
+        }
+
+        if(
             fmPlayer.stats["Long Throws"] >= 16
         ){
             this.indexCards += "S03 - Long Throw" + "\n";
@@ -229,6 +265,11 @@ class PES13Player extends PESPlayer{
             this.indexCards += "S05 - Speed Merchant" + "\n";
         }
 
+        if(
+            this.sliding
+        ){
+            this.indexCards += "S24 - Lunging Tackle" + "\n";
+        }
     }
     
     PSDString(){
