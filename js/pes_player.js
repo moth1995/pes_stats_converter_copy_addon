@@ -730,7 +730,8 @@ ${this.specialAbilitiesString}
 			this.jump = Average([FMToPESStat99((fmPlayer.stats["Jumping Reach"] + fmPlayer.stats["Aerial Reach"]) / 2), heightTo99Stat(this.height, true)]) + 3;
 			this.technique = FMToPESStat99(fmPlayer.stats["Flair"]);
 			this.aggression = FMToPESStat99((fmPlayer.stats["Positioning"] * 0.7 + fmPlayer.stats["Anticipation"] * 0.3));
-			this.mentality = FMToPESStat99((fmPlayer.stats["Rushing Out (Tendency)"] * 0.25 + fmPlayer.stats["One on Ones"] * 0.5 + fmPlayer.stats["Composure"] * 0.25));
+			//this.mentality = FMToPESStat99((fmPlayer.stats["Rushing Out (Tendency)"] * 0.25 + fmPlayer.stats["One on Ones"] * 0.5 + fmPlayer.stats["Composure"] * 0.25));
+			this.mentality = FMToPESStat99((fmPlayer.stats["Leadership"] + fmPlayer.stats["Determination"]) / 2);
 			this.goalkeeping = FMToPESStat99(fmPlayer.stats["Handling"] * 0.4 + fmPlayer.stats["Aerial Reach"] * 0.4 + fmPlayer.stats["Command of Area"] * 0.2);
 			this.teamwork = FMToPESStat99(fmPlayer.stats["Communication"]);
 			this.consistency = FMToPESStat1To8(fmPlayer.stats["Determination"]);
@@ -788,7 +789,8 @@ ${this.specialAbilitiesString}
 			if (this.registeredPosition=="CBT") this.jump+=3;
 			this.technique = FMToPESStat99((fmPlayer.stats["Flair"] + fmPlayer.stats["Technique"]) / 2);
 			this.aggression = FMToPESStat99((fmPlayer.stats["Vision"] * 0.5) + (fmPlayer.stats["Off the Ball"] * 0.5));
-			this.mentality = FMToPESStat99((fmPlayer.stats["Work Rate"] * 0.7) + (fmPlayer.stats["Bravery"] * 0.3));
+			//this.mentality = FMToPESStat99((fmPlayer.stats["Work Rate"] * 0.7) + (fmPlayer.stats["Bravery"] * 0.3));
+			this.mentality = FMToPESStat99((fmPlayer.stats["Leadership"] + fmPlayer.stats["Determination"]) / 2);
 			this.goalkeeping = 50;
 			this.teamwork = FMToPESStat99(fmPlayer.stats["Teamwork"]);
 			this.consistency = FMToPESStat1To8(fmPlayer.stats["Determination"]);
