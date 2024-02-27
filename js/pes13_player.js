@@ -7,12 +7,12 @@ class PES13Player extends PESPlayer{
         this.anchorManPositions = ["DMF", "CMF"];
         this.tricksterPositions = ["RMF", "LMF", "RWF", "LWF", "SS"];
         this.dartingRunPositions = ["RMF" , "LMF" , "RWF" , "LWF" , "SS"];
-        this.mazingRunPositions = ["RB", "LB", "RMF", "LMF", "AMF", "RWF", "LWF", "SS"];
+        this.mazingRunPositions = ["RMF", "LMF", "RWF", "LWF", "SS"];
         this.pinPointPassPositions = ["CB", "RB", "LB", "DMF", "CMF"];
-        this.earlyCrossPositions = ["RB", "LB", "CMF", "RMF", "LMF", "AMF", "RWF", "LWF"];
+        this.earlyCrossPositions = ["RB", "LB", "RMF", "LMF", "RWF", "LWF"];
         this.boxToBoxPositions = ["DMF", "CMF", "RMF", "LMF", "AMF"];
         this.incisiveRunPositions = ["RB", "LB", "RMF", "LMF", "RWF", "LWF"];
-        this.longRangerPositions = ["CB", "RB", "LB", "DMF", "CMF", "RMF", "LMF", "AMF", "SS"];
+        this.longRangerPositions = ["CB", "RB", "LB", "DMF", "CMF", "AMF", "RMF", "LMF"];
         this.enforcerPositions = ["DMF", "CMF"];
         this.goalPoacherPositions = ["SS" , "CF"];
         this.dummyRunnerPositions = ["SS", "CF"];
