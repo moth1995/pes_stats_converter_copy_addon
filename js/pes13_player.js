@@ -147,7 +147,7 @@ class PES13Player extends PESPlayer{
 
         if (
             (this.anchorManPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.anchorManPositions))
+            || this.PositionsInIndexCardPositions(this.anchorManPositions))
             && fmPlayer.stats["Work Rate"] < 12
         ){
             this.indexCards += "P02 - Anchor Man" + "\n";
@@ -155,7 +155,7 @@ class PES13Player extends PESPlayer{
         
         if (
             (this.mazingRunPositions.includes(this.registeredPosition) 
-            || PositionsInIndexCardPositions(this.mazingRunPositions))
+            || this.PositionsInIndexCardPositions(this.mazingRunPositions))
             && fmPlayer.stats["Dribbling"] >= 16
         ){
             this.indexCards += "P05 - Mazing Run" + "\n";
@@ -163,7 +163,7 @@ class PES13Player extends PESPlayer{
         
         if (
             (this.pinPointPassPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.pinPointPassPositions))
+            || this.PositionsInIndexCardPositions(this.pinPointPassPositions))
             && fmPlayer.stats["Passing"] >= 16
         ){
             this.indexCards += "P06 - Pinpoint Pass" + "\n";
@@ -171,7 +171,7 @@ class PES13Player extends PESPlayer{
 
         if(
             (this.earlyCrossPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.earlyCrossPositions))
+            || this.PositionsInIndexCardPositions(this.earlyCrossPositions))
             && fmPlayer.stats["Crossing"] >= 16
         ){
             this.indexCards += "P07 - Early Cross" + "\n";
@@ -179,7 +179,7 @@ class PES13Player extends PESPlayer{
 
         if(
             (this.boxToBoxPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.boxToBoxPositions))
+            || this.PositionsInIndexCardPositions(this.boxToBoxPositions))
             && fmPlayer.stats["Work Rate"] >= 16
         ){
             this.indexCards += "P08 - Box to Box" + "\n";
@@ -187,7 +187,7 @@ class PES13Player extends PESPlayer{
 
         if(
             (this.longRangerPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.longRangerPositions))
+            || this.PositionsInIndexCardPositions(this.longRangerPositions))
             && fmPlayer.stats["Long Shots"] >= 16
         ){
             this.indexCards += "P10 - Long Ranger" + "\n";
@@ -195,7 +195,7 @@ class PES13Player extends PESPlayer{
 
         if(
             (this.enforcerPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.enforcerPositions))
+            || this.PositionsInIndexCardPositions(this.enforcerPositions))
             && fmPlayer.stats["Aggression"] >= 16
         ){
             this.indexCards += "P11 - Enforcer" + "\n";
@@ -203,7 +203,7 @@ class PES13Player extends PESPlayer{
 
         if(
             (this.talismanPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.talismanPositions))
+            || this.PositionsInIndexCardPositions(this.talismanPositions))
             && fmPlayer.stats["Leadership"] >= 16
         ){
             this.indexCards += "P15 - Talisman" + "\n";
@@ -211,7 +211,7 @@ class PES13Player extends PESPlayer{
 
         if(
             (this.trackBackPositions.includes(this.registeredPosition)
-            || PositionsInIndexCardPositions(this.trackBackPositions))
+            || this.PositionsInIndexCardPositions(this.trackBackPositions))
             && fmPlayer.stats["Work Rate"] >= 16
         ){
             this.indexCards += "P18 - Track Back" + "\n";
