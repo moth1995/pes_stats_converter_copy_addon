@@ -256,7 +256,7 @@ Long Pass Speed: ${LimitStat99(this.longPassSpeed)}
 Shot Accuracy: ${LimitStat99(this.shotAccuracy)}
 Place Kicking: ${LimitStat99(this.freeKickAccuracy)}
 Swerve: ${LimitStat99(this.curling)}
-Ball Control: ${LimitStat99(this.technique)}
+Ball Controll: ${LimitStat99(this.technique)}
 Goal Keeping Skills: ${LimitStat99(this.goalkeeping)}
 Weak Foot Accuracy: ${this.weakFootAccuracy}
 Weak Foot Frequency: ${this.weakFootFrequency}
