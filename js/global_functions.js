@@ -439,7 +439,7 @@ function getPlayingStyle(role, position) {
 		"CMF": ["Hole Player", "Classic N.10", "Orchestrator", "Box To Box", "The Destroyer"],
 		"RMF": ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
 		"LMF": ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
-		"AMF": ["Hole Player", "Creative Playmaker", "Creative Plamaker", "Dummy Runner", "Classic N.10"],
+		"AMF": ["Hole Player", "Creative Playmaker", "Dummy Runner", "Classic N.10"],
 		"RWF": ["Roaming Flank", "Creative Playmaker", "Prolific Winger", "Cross Specialist"],
 		"LWF": ["Roaming Flank", "Creative Playmaker", "Prolific Winger", "Cross Specialist"],
 		"SS": ["Creative Playmaker", "Goal Poacher", "Dummy Runner", "Hole Player", "Classic N.10"],
