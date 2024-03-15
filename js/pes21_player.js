@@ -82,7 +82,8 @@ ${this.playingStyle}
 	}
 
 	FromFMPlayer(fmPlayer){
-		let FMPositions = FMPositionStringToArray(fmPlayer.info["Position"]);
+		let FMPositions = FMPositionStringToArray(fmPlayer.info["Position(s)"]);
+		console.log(FMPositions);
 		//this.registeredPosition = FMPositions.includes("AMC") &&FMPositions.includes("ST") ? "SS" : FMToPES21Positions(FMPositions[0]);
 		let isSS = FMPositions.includes("AMC") &&FMPositions.includes("ST");
 		this.positions = [];

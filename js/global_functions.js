@@ -93,7 +93,7 @@ function FMToPESPositions(position){
 }
 
 function FMPositionStringToArray(positions){
-	const trimmedString = positions.replace(/\s*,\s*/g, ",");
+	const trimmedString = positions.replace(/,\s*/g, ",");
 	const outputArray = trimmedString.split(",");
 	return outputArray;
 }
