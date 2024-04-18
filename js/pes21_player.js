@@ -121,7 +121,7 @@ ${this.playingStyle}
 		this.nationality = fmPlayer.nationality;
 		this.foot = fmPlayer.info["Foot"] == "Left" ? "L" : "R" ;
 
-		this.height = parseInt(fmPlayer.info["Length"]);
+		this.height = parseInt(fmPlayer.info["Height"]);
 		this.weight = parseInt(fmPlayer.info["Weight"]);
 
 		this.injuryTolerance = FMToPES21Stat1To3(fmPlayer.stats["Natural Fitness"]);

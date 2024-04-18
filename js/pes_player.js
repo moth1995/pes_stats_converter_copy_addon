@@ -702,7 +702,7 @@ ${this.specialAbilitiesString}
 		this.foot = fmPlayer.info["Foot"] == "Left" ? "L" : "R" ;
 		this.favouredSide = GetFavSide(FMPositions, true);
 
-		this.height = parseInt(fmPlayer.info["Length"]);
+		this.height = parseInt(fmPlayer.info["Height"]);
 		this.weight = parseInt(fmPlayer.info["Weight"]);
 
 		this.injuryTolerance = FMToPESStatAToC((fmPlayer.stats["Stamina"] + fmPlayer.stats["Natural Fitness"]) / 2);
