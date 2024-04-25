@@ -89,6 +89,81 @@ class FMInsidePlayer{
         console.log(this.roles);
     }
 
+    FromFMPlayer(fmPlayer){
+        // Method just added to prevent crash when raw option is selected
+    }
+
+    PSDString(){
+        let defaultValue = 1;
+        return `Name: ${this.info["Name"]}
+Nationality: ${this.nationality in pesIndieNationalities ? pesIndieNationalities[this.nationality] : "Free Nationality"}
+Age: ${parseInt(this.info["Age"])}
+Current Ability: ${this.ability}
+Potencial : ${this.potential}
+Position: ${FMPositionStringToArray(this.info["Position(s)"])}
+Foot: ${this.info["Foot"] == "Left" ? "L" : "R"}
+
+APPEARANCE: 
+Height: ${parseInt(this.info["Height"])} cm
+Weight: ${parseInt(this.info["Weight"])} kg
+
+Technical Attributes 
+Corners ${(typeof this.stats["Corners"] !== "undefined") ? this.stats["Corners"] : defaultValue}
+Crossing ${(typeof this.stats["Crossing"] !== "undefined") ? this.stats["Crossing"] : defaultValue}
+Dribbling ${(typeof this.stats["Dribbling"] !== "undefined") ? this.stats["Dribbling"] : defaultValue}
+Finishing ${(typeof this.stats["Finishing"] !== "undefined") ? this.stats["Finishing"] : defaultValue}
+First Touch ${this.stats["First Touch"]}
+Free Kick Taking ${this.stats["Free Kick Taking"]}
+Heading ${(typeof this.stats["Heading"] !== "undefined") ? this.stats["Heading"] : defaultValue}
+Long Shots ${(typeof this.stats["Long Shots"] !== "undefined") ? this.stats["Long Shots"] : defaultValue}
+Long Throws ${(typeof this.stats["Long Throws"] !== "undefined") ? this.stats["Long Throws"] : defaultValue}
+Marking ${(typeof this.stats["Marking"] !== "undefined") ? this.stats["Marking"] : defaultValue}
+Passing ${this.stats["Passing"]}
+Penalty Taking ${this.stats["Penalty Taking"]}
+Tackling ${(typeof this.stats["Tackling"] !== "undefined") ? this.stats["Tackling"] : defaultValue}
+Technique ${this.stats["Technique"]}
+
+Mental Attributes
+Aggression ${this.stats["Aggression"]}
+Anticipation ${this.stats["Anticipation"]}
+Bravery ${this.stats["Bravery"]}
+Composure ${this.stats["Composure"]}
+Concentration ${this.stats["Concentration"]}
+Decisions ${this.stats["Decisions"]}
+Determination ${this.stats["Determination"]}
+Flair ${this.stats["Flair"]}
+Leadership ${this.stats["Leadership"]}
+Off the Ball ${this.stats["Off the Ball"]}
+Positioning ${this.stats["Positioning"]}
+Teamwork ${this.stats["Teamwork"]}
+Vision ${this.stats["Vision"]}
+Work Rate ${this.stats["Work Rate"]}
+
+Physical Attributes
+Acceleration ${this.stats["Acceleration"]}
+Agility ${this.stats["Agility"]}
+Balance ${this.stats["Balance"]}
+Jumping Reach ${this.stats["Jumping Reach"]}
+Natural Fitness ${this.stats["Natural Fitness"]}
+Pace ${this.stats["Pace"]}
+Stamina ${this.stats["Stamina"]}
+Strength ${this.stats["Strength"]}
+
+Goalkeeping Attributes
+Aerial Reach ${(typeof this.stats["Aerial Reach"] !== "undefined") ? this.stats["Aerial Reach"] : defaultValue}
+Command of Area ${(typeof this.stats["Command of Area"] !== "undefined") ? this.stats["Command of Area"] : defaultValue}
+Communication ${(typeof this.stats["Communication"] !== "undefined") ? this.stats["Communication"] : defaultValue}
+Eccentricity ${(typeof this.stats["Eccentricity"] !== "undefined") ? this.stats["Eccentricity"] : defaultValue}
+Handling ${(typeof this.stats["Handling"] !== "undefined") ? this.stats["Handling"] : defaultValue}
+Kicking ${(typeof this.stats["Kicking"] !== "undefined") ? this.stats["Kicking"] : defaultValue}
+One on Ones ${(typeof this.stats["One on Ones"] !== "undefined") ? this.stats["One on Ones"] : defaultValue}
+Punching (Tendency) ${(typeof this.stats["Punching (Tendency)"] !== "undefined") ? this.stats["Punching (Tendency)"] : defaultValue}
+Reflexes ${(typeof this.stats["Reflexes"] !== "undefined") ? this.stats["Reflexes"] : defaultValue}
+Rushing Out (Tendency) ${(typeof this.stats["Rushing Out (Tendency)"] !== "undefined") ? this.stats["Rushing Out (Tendency)"] : defaultValue}
+Throwing ${(typeof this.stats["Throwing"] !== "undefined") ? this.stats["Throwing"] : defaultValue}
+`;
+    }
+    
 }
 
 // create button element
@@ -116,6 +191,8 @@ function AddButton(){
                     pesPlayer = new PES21Player();
                 } else if (selectedOptionFMInside==="pes13") {
                     pesPlayer = new PES13Player();
+                }else if (selectedOptionFMInside==="raw") {
+                    pesPlayer = FMPlayer;
                 }
                 // Use the string result
                 pesPlayer.FromFMPlayer(FMPlayer);
