@@ -286,4 +286,14 @@ const pesIndieNationalities = {
     "French Southern Territories": "French",
     "Heard Island and McDonald Islands": "Australian",
     "South Georgia and the South Sandwich Islands": "Georgian",
+    // extracted from efootball 24
+    "Central African Rep.": "Central African",
+    "China": "China",
+    "Ireland": "Irish",
+    "Others": "Free Nationality",
+    "Republic of Korea": "South Korean",
+    "Sao Tome and Principe": "Sao Tome and Principe",
+    "St Vincent &amp; Grenadines": "St Vincent & Grenadines",
+    "Turks and Caicos Is.": "Turks and Caicos Is.",
+    "USA": "American",
 }
