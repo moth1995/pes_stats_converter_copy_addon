@@ -40,7 +40,7 @@ class FMInsidePlayer{
         console.log(this.info);
     }
 
-    StatToObject(stat){
+    StatToObject(){
         var dictionary = {};
         var rows = this.doc.querySelectorAll('table tr');
         rows.forEach(function(row) {
@@ -65,8 +65,7 @@ class FMInsidePlayer{
     }
 
     GetStats(){
-        const stats = this.doc.querySelector('div#player_stats.block.stats').querySelectorAll('div.column');
-        this.stats = this.StatToObject(stats[0]);
+        this.stats = this.StatToObject();
         console.log(this.stats);
     }
 
