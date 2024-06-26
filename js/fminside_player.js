@@ -44,21 +44,22 @@ class FMInsidePlayer{
         var dictionary = {};
         var rows = this.doc.querySelectorAll('table tr');
         rows.forEach(function(row) {
-            // Find the <acronym> element within the row
             var acronymElement = row.querySelector('acronym');
           
-            // Find the second <td> element within the row
             var tdElement = row.querySelector('.stat');
-          
-            // Extract the text value from the <acronym> title
+            var value = null;
             var key = acronymElement.textContent;
-          
-            // Extract the content of the second <td>
-            var value = parseInt(tdElement.textContent);
+            for (let j = 0; j < tdElement.classList.length; j++) {
+                const className = tdElement.classList[j];
+                if (className.startsWith('value_')) {
+                    value = parseInt(className.split('_')[1], 10);
+                    break;
+                }
+            }
             if (isNaN(value) || value === null || value === undefined) {
                 value = 1;
             }
-            // Add the key-value pair to the dictionary
+
             dictionary[key] = value;
         });
         return dictionary;
