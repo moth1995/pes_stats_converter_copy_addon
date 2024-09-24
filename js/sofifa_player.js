@@ -213,6 +213,7 @@ function AddButton(){
 };
 
 supportedVersions = [
+	"FC 25",
 	"FC 24",
 	"FC 24 DEMO",
 	"FIFA 23",
