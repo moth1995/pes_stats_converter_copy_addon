@@ -189,16 +189,30 @@ function AddButton(){
 			function() {
 				console.log("Button clicked");
 				// Send a message to the background script to get the string
-				const parser = new DOMParser();
-				const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
-				var sofifaPlayer = new SOFIFAPlayer(doc);
-				// Convert into pes
-				var pesPlayer = new PESPlayer();
-				var psdString = pesPlayer.FromFIFA17To23Player(sofifaPlayer);
-						
-				// Use the string result
-				console.log("Received string from background:", psdString);
-				CopyToClipboard(psdString);
+				chrome.storage.local.get(["selectCopyMode"], function (result) {
+					const copyMode = result.selectCopyMode;
+					console.log(copyMode);
+					const parser = new DOMParser();
+					const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+					var sofifaPlayer = new SOFIFAPlayer(doc);
+					// Convert into pes
+					var pesPlayer = new PESPlayer();
+					pesPlayer.FromFIFA17To23Player(sofifaPlayer);
+							
+					if (copyMode == "one"){
+						var psdString = pesPlayer.PSDString();
+						console.log("Received string from background:", psdString);
+						CopyToClipboard(psdString);
+					} else if (copyMode == "multiple"){
+						let csvString = pesPlayer.CSVString();
+						AddPlayer(csvString);
+						return;
+					} else {
+						console.log("Invalid copy mode");
+						return;
+					}
+		
+				});
 			}
 		);
 	}

@@ -179,9 +179,12 @@ function AddButton(){
         "click", 
         function() {
             console.log("Button clicked");
-            chrome.storage.local.get(["selectOptionFMInside"], function (result) {
+            
+            chrome.storage.local.get(["selectOptionFMInside", "selectCopyMode"], function (result) {
                 const selectedOptionFMInside = result.selectOptionFMInside;
+                const copyMode = result.selectCopyMode;
                 console.log(selectedOptionFMInside);
+                console.log(copyMode);
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
                 var FMPlayer = new FMInsidePlayer(doc);
@@ -191,15 +194,24 @@ function AddButton(){
                     pesPlayer = new PES21Player();
                 } else if (selectedOptionFMInside==="pes13") {
                     pesPlayer = new PES13Player();
-                }else if (selectedOptionFMInside==="raw") {
+                } else if (selectedOptionFMInside==="raw") {
                     pesPlayer = FMPlayer;
                 }
                 // Use the string result
                 pesPlayer.FromFMPlayer(FMPlayer);
-                var psdString = pesPlayer.PSDString();
-                console.log("Received string from background:", psdString);
-                CopyToClipboard(psdString);
-              });
+                if (copyMode == "one"){
+                    var psdString = pesPlayer.PSDString();
+                    console.log("Received string from background:", psdString);
+                    CopyToClipboard(psdString);
+                } else if (copyMode == "multiple"){
+                    let csvString = pesPlayer.CSVString();
+                    AddPlayer(csvString);
+                    return;
+                } else {
+                    console.log("Invalid copy mode");
+                    return;
+                }
+            });
         }
     );
 	// append button to body

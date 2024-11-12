@@ -19,6 +19,7 @@ class PESPlayer{
 		this.coveringPositions = ["CBT", "CWP", "SB", "WB", "DMF"];
 		this.dLineControlPositions = ["CBT", "CWP",];
 		this.longThrowPositions = ["SB", "WB"];
+		this.positionsNumbers = [0,0,0,0,0,0,0,0,0,0,0,0];
 	}
 
 	ConvertPosition(position){
@@ -54,6 +55,53 @@ class PESPlayer{
 			default:
 				return position;
 		}
+	}
+	
+	PES5PosToNum(position){
+		switch (position) {
+			case 'GK':
+				return 0;
+			case 'CWP':
+				return 2;
+			case 'CBT':
+				return 3;
+			case 'SB':
+				return 4;
+			case 'DMF':
+				return 5;
+			case 'WB':
+				return 6;
+			case 'CMF':
+				return 7;
+			case 'SMF':
+				return 8;
+			case 'AMF':
+				return 9;
+			case 'WF':
+				return 10;
+			case 'SS':
+				return 11;
+			case 'CF':
+				return 12;
+			default:
+				return 0;
+		}
+	}
+
+	PES5EnablePositions(){
+
+		this.positions.forEach(position => {
+			let index = this.PES5PosToNum(position);
+			if (index > 0) {
+				index --
+			}
+			this.positionsNumbers[index] = 1;
+		});
+		let regPosIndex = this.PES5PosToNum(this.registeredPosition);
+		if (regPosIndex > 0) {
+			regPosIndex --
+		}
+		this.positionsNumbers[regPosIndex] = 1;
 	}
 
 	NameToShirtName(name) {
@@ -163,6 +211,76 @@ ${this.specialAbilitiesString}
 `;
 	}
 
+	CSVString(){
+		let regPos = this.PES5PosToNum(this.registeredPosition)
+		this.PES5EnablePositions();
+		let positions = this.positionsNumbers.join(",");
+		return `,${this.name},\
+${this.shirtName},\
+${this.nation},\
+${clamp(15, 46, this.age)},\
+${this.foot},\
+${this.injuryTolerance},\
+${regPos},\
+${this.favouredSide},\
+${positions},\
+${LimitStat99(this.attack)},\
+${LimitStat99(this.defence)},\
+${LimitStat99(this.balance)},\
+${LimitStat99(this.stamina)},\
+${LimitStat99(this.topSpeed)},\
+${LimitStat99(this.acceleration)},\
+${LimitStat99(this.response)},\
+${LimitStat99(this.agility)},\
+${LimitStat99(this.dribbleAccuracy)},\
+${LimitStat99(this.dribbleSpeed)},\
+${LimitStat99(this.shortPassAccuracy)},\
+${LimitStat99(this.shortPassSpeed)},\
+${LimitStat99(this.longPassAccuracy)},\
+${LimitStat99(this.longPassSpeed)},\
+${LimitStat99(this.shotAccuracy)},\
+${LimitStat99(this.shotPower)},\
+${LimitStat99(this.shotTechnique)},\
+${LimitStat99(this.freeKickAccuracy)},\
+${LimitStat99(this.curling)},\
+${LimitStat99(this.header)},\
+${LimitStat99(this.jump)},\
+${LimitStat99(this.technique)},\
+${LimitStat99(this.aggression)},\
+${LimitStat99(this.mentality)},\
+${LimitStat99(this.goalkeeping)},\
+${LimitStat99(this.teamwork)},\
+${this.consistency},\
+${this.condition},\
+${this.weakFootAccuracy},\
+${this.weakFootFrequency},\
+${this.dribbling},\
+${this.tacticalDribble},\
+${this.positioning},\
+${this.reaction},\
+${this.playmaking},\
+${this.passing},\
+${this.scoring},\
+${this.oneOnOneScoring},\
+${this.postPlayer},\
+${this.lines},\
+${this.middleShooting},\
+${this.side},\
+${this.centre},\
+${this.penalties},\
+${this.oneTouchPass},\
+${this.outside},\
+${this.marking},\
+${this.sliding},\
+${this.covering},\
+${this.dLineControl},\
+${this.penaltyStopper},\
+${this.oneOnOneStopper},\
+${this.longThrow},\
+${clamp(148, 205, this.height)},\
+${clamp(40, 123, this.weight)}`;
+	}
+
 	FromFIFA17To23Player(fifaPlayer){
 		this.registeredPosition = this.ConvertPosition(fifaPlayer.posicionReg);
 		this.positions = [];
@@ -177,6 +295,7 @@ ${this.specialAbilitiesString}
 		this.name = fifaPlayer.name;
 		this.shirtName = this.NameToShirtName(this.name);
 		this.age = fifaPlayer.age;
+		this.nation = fifaPlayer.nationality;
 		this.nationality = fifaPlayer.nationality in pesIndieNationalities ? pesIndieNationalities[fifaPlayer.nationality] : "Free Nationality";
 		this.foot = fifaPlayer.preferedFoot == "Right" ? "R" : "L" ;
 		this.favouredSide = GetFavSide(fifaPlayer.posiciones, false);
@@ -657,7 +776,7 @@ ${this.specialAbilitiesString}
 			this.longThrow = 0;
 		}
 		
-		return this.PSDString();
+		//return this.PSDString();
 	}
 
 	FromFMPlayer(fmPlayer){
@@ -698,6 +817,7 @@ ${this.specialAbilitiesString}
 		this.name = fmPlayer.info["Name"];
 		this.shirtName = this.NameToShirtName(this.name);
 		this.age = parseInt(fmPlayer.info["Age"]);
+		this.nation = fmPlayer.nationality;
 		this.nationality = fmPlayer.nationality in pesIndieNationalities ? pesIndieNationalities[fmPlayer.nationality] : "Free Nationality";
 		this.foot = fmPlayer.info["Foot"] == "Left" ? "L" : "R" ;
 		this.favouredSide = GetFavSide(FMPositions, true);
@@ -998,6 +1118,7 @@ ${this.specialAbilitiesString}
 		this.name = pesMasterPlayer.name;
 		this.shirtName = this.NameToShirtName(this.name);
 		this.age = parseInt(pesMasterPlayer.info["Age"]);
+		this.nation = pesMasterPlayer.info["Nationality"];
 		this.nationality = pesMasterPlayer.info["Nationality"] in pesIndieNationalities ? pesIndieNationalities[pesMasterPlayer.info["Nationality"]] : "Free Nationality";
 		this.foot = pesMasterPlayer.info["Foot"] == "Left" ? "L" : "R" ;
 		this.favouredSide = GetFavSide(pesMasterPlayer.positions, false);
@@ -1301,6 +1422,6 @@ ${this.specialAbilitiesString}
 		} else {
 			this.longThrow = 0;
 		}
-		return this.PSDString();
+		//return this.PSDString();
 	}
 }

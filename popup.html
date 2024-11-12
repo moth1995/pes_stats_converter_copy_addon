@@ -16,13 +16,27 @@
   
   <div id="configurationTab" class="tab active">
     <h1>Configuration</h1>
-    <label for="selectOptionFMInside">Output stats for FMInside:</label>
-    <select id="selectOptionFMInside">
-      <option value="pes5">PES 5</option>
-      <option value="pes13">PES 13</option>
-      <option value="pes21">PES 21</option>
-      <option value="raw">RAW Data</option>
-    </select>
+    <div>
+      <label for="selectCopyMode">Copy Mode:</label>
+      <select id="selectCopyMode">
+        <option value="one">Copy One (PSD Style)</option>
+        <option value="multiple">Copy Multiple (CSV)</option>
+      </select>
+    </div>
+    <div>
+      <label for="selectOptionFMInside">Output stats for FMInside:</label>
+      <select id="selectOptionFMInside">
+        <option value="pes5">PES 5</option>
+        <option value="pes13">PES 13</option>
+        <option value="pes21">PES 21</option>
+        <option value="raw">RAW Data</option>
+      </select>
+    </div>
+    <div class="csv-buttons" id="csv-buttons">
+      <h2>CSV Configuration</h2>
+      <button id="download-csv" class="pes-indie-pop-up-button">Download CSV</button>
+      <button id="clear-players" class="pes-indie-pop-up-button">Clear Players</button>
+    </div>
   </div>
   
   <div id="aboutTab" class="tab">
@@ -39,9 +53,9 @@
       <b>linff163</b> for providing the list of special abilities by position
       <b>SRW</b> for helping on some corrections for the formula of FM for PES5 & FM to PES13 formula!
     </p>
-    <button id="evoweb-button">Visit Evoweb Official Thread</button>
-    <button id="privacy-button">Read Privacy Policy</button>
-</div>
+    <button id="evoweb-button" class="pes-indie-pop-up-button">Visit Evoweb Official Thread</button>
+    <button id="privacy-button" class="pes-indie-pop-up-button">Read Privacy Policy</button>
+  </div>
 
   <script src="js/popup.js"></script>
 </body>

@@ -30,6 +30,15 @@ body {
   display: block;
 }
 
+.csv-buttons {
+  display: none;
+  margin-top: 20px;
+}
+
+.csv-buttons.active {
+  display: block;
+}
+
 /* Estilos para el título de la configuración */
 h1 {
   font-size: 24px;
@@ -53,7 +62,7 @@ p {
 }
 
 /* Estilos para el botón "Visit Evoweb Official Thread" */
-#evoweb-button {
+.pes-indie-pop-up-button {
   background-color: #27ae60;
   color: #fff;
   border: none;
@@ -62,21 +71,7 @@ p {
   margin-top: 20px;
 }
 
-#evoweb-button:hover {
-  background-color: #219f55;
-}
-
-/* Estilos para el botón privacy */
-#privacy-button {
-  background-color: #27ae60;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-#privacy-button:hover {
+.pes-indie-pop-up-button:hover {
   background-color: #219f55;
 }
 

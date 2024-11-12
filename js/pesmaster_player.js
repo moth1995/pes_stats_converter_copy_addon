@@ -144,15 +144,28 @@ function AddButton(){
             function() {
                 console.log("Button clicked");
                 // Send a message to the background script to get the string
-    
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
-                var pesMasterPlayer = new PESMasterPlayer(doc);
-                var pesPlayer = new PESPlayer();
-                var psdString = pesPlayer.FromPESMasterPlayer(pesMasterPlayer);
-                console.log("Received string from background:", psdString);
-                CopyToClipboard(psdString);
-    
+                chrome.storage.local.get(["selectCopyMode"], function (result) {
+					const copyMode = result.selectCopyMode;
+					console.log(copyMode);
+
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+                    var pesMasterPlayer = new PESMasterPlayer(doc);
+                    var pesPlayer = new PESPlayer();
+                    pesPlayer.FromPESMasterPlayer(pesMasterPlayer);
+					if (copyMode == "one"){
+						var psdString = pesPlayer.PSDString();
+						console.log("Received string from background:", psdString);
+						CopyToClipboard(psdString);
+					} else if (copyMode == "multiple"){
+						let csvString = pesPlayer.CSVString();
+						AddPlayer(csvString);
+						return;
+					} else {
+						console.log("Invalid copy mode");
+						return;
+					}
+                });
             }
         );
     
