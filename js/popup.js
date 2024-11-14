@@ -114,11 +114,25 @@ document.addEventListener('DOMContentLoaded', function() {
       
 
 function DownloadCSV(){
-    chrome.storage.local.get(['playersData'], function(result) {
-		let playersData = result.playersData || [];
-        let csvString = playersData.join("\n");
-        let csvContent = "data:text/csv;charset=utf-8," + csvString;
+    chrome.storage.local.get(
+      ['playersData', 'players21Data', 'selectOptionFMInside',], 
+      function(result) {
+        let playersData = result.playersData || [];
+        let players21Data = result.players21Data || [];
+        let selectOptionFMInside = result.selectOptionFMInside || "pes5";
 
+        let csvString = "";
+        if (selectOptionFMInside === "pes5"){
+          csvString = playersData.join("\n");
+        } else if (selectOptionFMInside === "pes21"){
+          csvString = players21Data.join("\n");
+        } else {
+          alert("Unsupported option for " + selectOptionFMInside);
+          return;
+        }
+
+        let csvContent = "data:text/csv;charset=utf-8," + csvString;
+    
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
@@ -128,18 +142,36 @@ function DownloadCSV(){
         document.body.removeChild(link);
     
         console.log(csvString);
-    
-	});
+        
+      }
+    );
 }
 
 function ClearPlayers() {
-    let result = window.confirm("Are you sure?")
-    if (!result) {
-        return;
-    }
-    chrome.storage.local.remove(['playersData'], function() {
-        console.log('Players deleted');
-        alert("All players cleared!")
-    });
+    chrome.storage.local.get(
+      ['playersData', 'players21Data', 'selectOptionFMInside',], 
+      function(result) {
+        let userConfirmation = window.confirm("Are you sure?")
+        if (!userConfirmation) {
+            return;
+        }
+        let selectOptionFMInside = result.selectOptionFMInside || "pes5";
+
+        if (selectOptionFMInside === "pes5"){
+          chrome.storage.local.remove(['playersData'], function() {
+            console.log('Players deleted');
+            alert("All players cleared!")
+          });
+        } else if (selectOptionFMInside === "pes21"){
+          chrome.storage.local.remove(['players21Data'], function() {
+            console.log('Players deleted');
+            alert("All players cleared!")
+          });
+        } else {
+          alert("Unsupported option for " + selectOptionFMInside);
+          return;
+        }
+      }
+    );
     
 }

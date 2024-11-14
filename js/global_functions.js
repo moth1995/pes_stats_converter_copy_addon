@@ -9,6 +9,7 @@ function CopyToClipboard(text){
 };
 
 const PES5_CSV_COLUMNS = "ID,NAME,SHIRT_NAME,NATIONALITY,AGE,STRONG FOOT,INJURY TOLERANCE,REGISTERED POSITION,FAVOURED SIDE,GK  0,CWP  2,CBT  3,SB  4,DMF  5,WB  6,CMF  7,SMF  8,AMF  9,WF 10,SS  11,CF  12,ATTACK,DEFENSE,BALANCE,STAMINA,TOP SPEED,ACCELERATION,RESPONSE,AGILITY,DRIBBLE ACCURACY,DRIBBLE SPEED,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,SHOT POWER,SHOT TECHNIQUE,FREE KICK ACCURACY,CURLING,HEADING,JUMP,TECHNIQUE,AGGRESSION,MENTALITY,GOAL KEEPING,TEAM WORK,CONSISTENCY,CONDITION / FITNESS,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,DRIBBLING,TACTICAL DRIBBLE,POSITIONING,REACTION,PLAYMAKING,PASSING,SCORING,1-1 SCORING,POST PLAYER,LINES,MIDDLE SHOOTING,SIDE,CENTRE,PENALTIES,1-TOUCH PASS,OUTSIDE,MARKING,SLIDING,COVERING,D-LINE CONTROL,PENALTY STOPPER,1-ON-1 STOPPER,LONG THROW,HEIGHT,WEIGHT";
+const PES21_CSV_COLUMNS = "Id;Name;JapName;Shirt;ShirtNational;Commentary;Country;Country2;Height;Weight;Age;Foot;PlayingStyle;POS;GK;CB;LB;RB;DMF;CMF;LMF;RMF;AMF;LWF;RWF;SS;CF;OffensiveAwareness;BallControl;Dribbling;TightPossession;LowPass;LoftedPass;Finishing;Heading;PlaceKicking;Curl;Speed;Acceleration;KickingPower;Jump;PhysicalContact;Balance;Stamina;DefensiveAwareness;BallWinning;Aggression;GKAwareness;GKCatching;GKClearing;GKReflexes;GKReach;WeakFootUsage;WeakFootAcc;Form;InjuryResistance;Reputation;PlayingAttitude;Trickster;MazingRun;SpeedingBullet;IncisiveRun;LongBallExpert;EarlyCross;LongRanger;ScissorsFeint;DoubleTouch;FlipFlap;MarseilleTurn;Sombrero;CrossOverTurn;CutBehindAndTurn;ScotchMove;StepOnSkillcontrol;HeadingSpecial;LongRangeDrive;Chipshotcontrol;LongRangeShot;KnuckleShot;DippingShots;RisingShots;AcrobaticFinishing;HeelTrick;FirstTimeShot;OneTouchPass;ThroughPassing;WeightedPass;PinpointCrossing;OutsideCurler;Rabona;NoLookPass;LowLoftedPass;GKLowPunt;GKHighPunt;LongThrow;GKLongThrow;PenaltySpecialist;GKPenaltySaver;Gamesmanship;ManMarking;TrackBack;Interception;AcrobaticClear;Captaincy;SuperSub;FightingSpirit;Celebration1;Celebration2;DribblingHunching;DribblingArmMove.;RunningHunching;RunningArmMovement;CornerKicks;FreeKicks;PenaltyKick;DribbleMotion;YouthClub;OwnerClub;ContractUntil;LoanUntil;MarketValue;NationalCaps;Legend;Hand;WinnerGoldenBall;EditName;EditBasics;EditPosition;EditPositions;EditAbilities;EditPlayerSkills;EditPlayingStyle;EditCOMPlayingStyles;EditMovements;Edit1;Edit2;Edit3;Edit4;Edit5;Edit6;Edit7;Value1;Value2;Value3;Value2020_1;Value2020_2;Appearance;ListBoots;ListGloves;InEditFile;OverallStats";
 
 function AddPlayer(playerData) {
 	chrome.storage.local.get(['playersData'], function(result) {
@@ -20,7 +21,22 @@ function AddPlayer(playerData) {
 
 		playersData.push(playerData);
 		chrome.storage.local.set({ playersData: playersData }, function() {
-			console.log('Jugador agregado al array');
+			console.log('Player PES5 added to array5');
+		});
+	});
+}
+
+function AddPlayer21(player21Data) {
+	chrome.storage.local.get(['players21Data'], function(result) {
+		let players21Data = result.players21Data || [];
+
+		if (players21Data.length == 0) {
+			players21Data.push(PES21_CSV_COLUMNS);
+		}
+
+		players21Data.push(player21Data);
+		chrome.storage.local.set({ players21Data: players21Data }, function() {
+			console.log('Player PES21 added to array21');
 		});
 	});
 }

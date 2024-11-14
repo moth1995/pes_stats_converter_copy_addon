@@ -4,6 +4,7 @@ class PES21Player{
 		this.playerSkills = "";
 		this.COMPlayingStyles = "";
 		this.playingStyle = "";
+		this.positionsNumbers = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 	}
 
 	NameToShirtName(name) {
@@ -77,6 +78,249 @@ ${this.playingStyle}
 `;
 	}
 
+	CSVString(){
+		let foot = this.foot == "R" ? "True": "False";
+
+		this.positions.forEach(position => {
+
+			positionNoStar = position.replace("*", "");
+			let index = this.PES21PosToNum(positionNoStar);
+			this.positionsNumbers[index] = 1;
+
+			if (position.indexOf("*") > -1){
+				this.positionsNumbers[index] = 2;
+			}
+
+		});
+
+		return `;\
+${this.name};\
+${this.name};\
+${this.shirtName};\
+${this.shirtName};\
+-1;\
+${this.nationality};\
+0;\
+${this.height};\
+${this.weight};\
+${this.age};\
+${foot};\
+${this.PES21PlayingStyleToNumber(this.playingStyle)};\
+${this.PES21PosToNum(this.registeredPosition)};\
+${this.positionsNumbers.join(";")};\
+${this.offensiveAwareness};\
+${this.ballControl};\
+${this.dribbling};\
+${this.tightPossession};\
+${this.lowPass};\
+${this.loftedPass};\
+${this.finishing};\
+${this.heading};\
+${this.placeKicking};\
+${this.curl};\
+${this.speed};\
+${this.acceleration};\
+${this.kickingPower};\
+${this.jump};\
+${this.physicalContact};\
+${this.balance};\
+${this.stamina};\
+${this.defensiveAwareness};\
+${this.ballWinning};\
+${this.aggression};\
+${this.gkAwareness};\
+${this.gkCatching};\
+${this.gkClearing};\
+${this.gkReflexes};\
+${this.gkReach};\
+${this.weakFootUsage};\
+${this.weakFootAccuracy};\
+${this.form};\
+${this.injuryTolerance};\
+3;\
+2;\
+${this.CSVSkillEvaluator(this.trickster)};\
+${this.CSVSkillEvaluator(this.mazingRun)};\
+${this.CSVSkillEvaluator(this.speedingBullet)};\
+${this.CSVSkillEvaluator(this.incisiveRun)};\
+${this.CSVSkillEvaluator(this.longBallExpert)};\
+${this.CSVSkillEvaluator(this.earlyCross)};\
+${this.CSVSkillEvaluator(this.longRanger)};\
+${this.CSVSkillEvaluator(this.scissorsFeint)};\
+${this.CSVSkillEvaluator(this.doubleTouch)};\
+${this.CSVSkillEvaluator(this.flipFlap)};\
+${this.CSVSkillEvaluator(this.marseilleTurn)};\
+${this.CSVSkillEvaluator(this.sombrero)};\
+${this.CSVSkillEvaluator(this.crossOverTurn)};\
+${this.CSVSkillEvaluator(this.cutBehindAndTurn)};\
+${this.CSVSkillEvaluator(this.scotchMove)};\
+${this.CSVSkillEvaluator(this.stepOneBallControl)};\
+${this.CSVSkillEvaluator(this.headingPlayerSkill)};\
+${this.CSVSkillEvaluator(this.longRangeDrive)};\
+${this.CSVSkillEvaluator(this.chipShotControl)};\
+${this.CSVSkillEvaluator(this.longRangeShooting)};\
+${this.CSVSkillEvaluator(this.knuckleShots)};\
+${this.CSVSkillEvaluator(this.dippingShot)};\
+${this.CSVSkillEvaluator(this.risingShots)};\
+${this.CSVSkillEvaluator(this.acrobaticFinishing)};\
+${this.CSVSkillEvaluator(this.heelTrick)};\
+${this.CSVSkillEvaluator(this.firstTimeShot)};\
+${this.CSVSkillEvaluator(this.oneTouchPass)};\
+${this.CSVSkillEvaluator(this.throughPassing)};\
+${this.CSVSkillEvaluator(this.weightedPass)};\
+${this.CSVSkillEvaluator(this.pinpointCrossing)};\
+${this.CSVSkillEvaluator(this.outsideCurler)};\
+${this.CSVSkillEvaluator(this.rabona)};\
+${this.CSVSkillEvaluator(this.noLookPass)};\
+${this.CSVSkillEvaluator(this.lowLoftedPass)};\
+${this.CSVSkillEvaluator(this.gkLowPunt)};\
+${this.CSVSkillEvaluator(this.gkHighPunt)};\
+${this.CSVSkillEvaluator(this.longThrow)};\
+${this.CSVSkillEvaluator(this.gkLongThrow)};\
+${this.CSVSkillEvaluator(this.penaltySpecialist)};\
+${this.CSVSkillEvaluator(this.gkPenaltySaver)};\
+${this.CSVSkillEvaluator(this.gamesmanship)};\
+${this.CSVSkillEvaluator(this.manMarking)};\
+${this.CSVSkillEvaluator(this.trackBack)};\
+${this.CSVSkillEvaluator(this.interception)};\
+${this.CSVSkillEvaluator(this.acrobaticClear)};\
+${this.CSVSkillEvaluator(this.captaincy)};\
+${this.CSVSkillEvaluator(this.superSub)};\
+${this.CSVSkillEvaluator(this.fightingSpirit)};\
+0;\
+0;\
+1;\
+1;\
+1;\
+1;\
+1;\
+1;\
+1;\
+1;\
+0;\
+0;\
+01/01/0001 00:00:00;\
+01/01/0001 00:00:00;\
+0;\
+0;\
+False;\
+${foot};\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+False;\
+0;\
+False;\
+-1;\
+0;\
+0;\
+0;\
+0;\
+0;\
+False;\
+0;`;
+	}
+
+	CSVSkillEvaluator(skill){
+		return skill > 0 ? "True" : "False";
+	}
+
+	PES21PlayingStyleToNumber(playingStyle){
+		switch (playingStyle) {
+			case "":
+				return 0;
+			case "Goal Poacher":
+				return 1;
+			case "Dummy Runner":
+				return 2;
+			case "Fox in the Box":
+				return 3;
+			case "Prolific Winger":
+				return 4;
+			case "Classic No. 10":
+				return 5;
+			case "Hole Player":
+				return 6;
+			case "Box-to-Box":
+				return 7;
+			case "Anchor Man":
+				return 8;
+			case "The Destroyer":
+				return 9;
+			case "Extra Frontman":
+				return 10;
+			case "Offensive Full-back":
+				return 11;
+			case "Defensive Full-back":
+				return 12;
+			case "Target Man":
+				return 13;
+			case "Creative Playmaker":
+				return 14;
+			case "Build Up":
+				return 15;
+			case "Offensive Goalkeeper":
+				return 16;
+			case "Defensive Goalkeeper":
+				return 17;
+			case "Roaming Flank":
+				return 18;
+			case "Cross Specialist":
+				return 19;
+			case "Orchestrator":
+				return 20;
+			case "Full-back Finisher":
+				return 21;
+			default:
+				return 0;
+		}
+	}
+
+	PES21PosToNum(position) {
+		switch (position) {
+			case "GK":
+				return 0;
+			case "CB":
+				return 1;
+			case "LB":
+				return 2;
+			case "RB":
+				return 3;
+			case "DMF":
+				return 4;
+			case "CMF":
+				return 5;
+			case "LMF":
+				return 6;
+			case "RMF":
+				return 7;
+			case "AMF":
+				return 8;
+			case "LWF":
+				return 9;
+			case "RWF":
+				return 10;
+			case "SS":
+				return 11;
+			case "CF":
+				return 12;
+			default:
+				return 0;
+		}
+	}
 	FromFIFA17To23Player(fifaPlayer){
 		return "";
 	}

@@ -203,9 +203,13 @@ function AddButton(){
                     var psdString = pesPlayer.PSDString();
                     console.log("Received string from background:", psdString);
                     CopyToClipboard(psdString);
-                } else if (copyMode == "multiple"){
+                } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5"){
                     let csvString = pesPlayer.CSVString();
                     AddPlayer(csvString);
+                    return;
+                } else if (copyMode == "multiple" && selectedOptionFMInside == "pes21"){
+                    let csvString = pesPlayer.CSVString();
+                    AddPlayer21(csvString);
                     return;
                 } else {
                     console.log("Invalid copy mode");

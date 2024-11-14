@@ -144,9 +144,16 @@ function AddButton(){
             function() {
                 console.log("Button clicked");
                 // Send a message to the background script to get the string
-                chrome.storage.local.get(["selectCopyMode"], function (result) {
+                chrome.storage.local.get(["selectOptionFMInside", "selectCopyMode"], function (result) {
+                    const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
 					const copyMode = result.selectCopyMode || "one";
+                    console.log(selectedOptionFMInside);
 					console.log(copyMode);
+
+                    if (selectedOptionFMInside != "pes5"){
+                        console.log("Only PES5 supported for this website");
+                        return;
+                    }
 
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
@@ -157,7 +164,7 @@ function AddButton(){
 						var psdString = pesPlayer.PSDString();
 						console.log("Received string from background:", psdString);
 						CopyToClipboard(psdString);
-					} else if (copyMode == "multiple"){
+                    } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5"){
 						let csvString = pesPlayer.CSVString();
 						AddPlayer(csvString);
 						return;
