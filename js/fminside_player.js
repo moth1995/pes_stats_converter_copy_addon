@@ -181,8 +181,8 @@ function AddButton(){
             console.log("Button clicked");
             
             chrome.storage.local.get(["selectOptionFMInside", "selectCopyMode"], function (result) {
-                const selectedOptionFMInside = result.selectOptionFMInside;
-                const copyMode = result.selectCopyMode;
+                const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
+                const copyMode = result.selectCopyMode || "one";
                 console.log(selectedOptionFMInside);
                 console.log(copyMode);
                 const parser = new DOMParser();

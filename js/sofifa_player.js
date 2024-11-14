@@ -190,7 +190,7 @@ function AddButton(){
 				console.log("Button clicked");
 				// Send a message to the background script to get the string
 				chrome.storage.local.get(["selectCopyMode"], function (result) {
-					const copyMode = result.selectCopyMode;
+					const copyMode = result.selectCopyMode || "one";
 					console.log(copyMode);
 					const parser = new DOMParser();
 					const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
