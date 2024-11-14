@@ -79,11 +79,11 @@ ${this.playingStyle}
 	}
 
 	CSVString(){
-		let foot = this.foot == "R" ? "True": "False";
+		let foot = this.foot == "L" ? "True": "False";
 
 		this.positions.forEach(position => {
 
-			positionNoStar = position.replace("*", "");
+			let positionNoStar = position.replace("*", "");
 			let index = this.PES21PosToNum(positionNoStar);
 			this.positionsNumbers[index] = 1;
 
@@ -99,7 +99,7 @@ ${this.name};\
 ${this.shirtName};\
 ${this.shirtName};\
 -1;\
-${this.nationality};\
+${this.PES21NationToNum(this.nationality)};\
 0;\
 ${this.height};\
 ${this.weight};\
@@ -321,6 +321,12 @@ False;\
 				return 0;
 		}
 	}
+
+	PES21NationToNum(nation) {
+		return PES21_COUNTRY_MAP[nation] !== undefined ? PES21_COUNTRY_MAP[nation] : 0;
+	}
+	
+
 	FromFIFA17To23Player(fifaPlayer){
 		return "";
 	}

@@ -159,12 +159,12 @@ function ClearPlayers() {
 
         if (selectOptionFMInside === "pes5"){
           chrome.storage.local.remove(['playersData'], function() {
-            console.log('Players deleted');
+            console.log('Players5 deleted');
             alert("All players cleared!")
           });
         } else if (selectOptionFMInside === "pes21"){
           chrome.storage.local.remove(['players21Data'], function() {
-            console.log('Players deleted');
+            console.log('Players21 deleted');
             alert("All players cleared!")
           });
         } else {
