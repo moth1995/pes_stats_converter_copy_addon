@@ -1120,7 +1120,7 @@ ${clamp(40, 123, this.weight)}`;
 		this.age = parseInt(pesMasterPlayer.info["Age"]);
 		this.nation = pesMasterPlayer.info["Nationality"];
 		this.nationality = pesMasterPlayer.info["Nationality"] in pesIndieNationalities ? pesIndieNationalities[pesMasterPlayer.info["Nationality"]] : "Free Nationality";
-		this.foot = pesMasterPlayer.info["Foot"] == "Left" ? "L" : "R" ;
+		this.foot = pesMasterPlayer.info["Stronger Foot"] == "Left" ? "L" : "R" ;
 		this.favouredSide = GetFavSide(pesMasterPlayer.positions, false);
 
 		this.height = parseInt(pesMasterPlayer.info["Height (cm)"]);
