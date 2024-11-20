@@ -3,6 +3,8 @@ class PES13Player extends PESPlayer{
     constructor() {
         super();
 
+        this.positionsNumbers = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
         this.classicN10Positions = ["CMF", "AMF"];
         this.anchorManPositions = ["DMF", "CMF"];
         this.tricksterPositions = ["RMF", "LMF", "RWF", "LWF", "SS"];
@@ -24,7 +26,88 @@ class PES13Player extends PESPlayer{
 
         this.indexCards = "";
 
+        this.s01OneTouch = 0;
+        this.s02OutsideCurve = 0;
+        this.s03LongThrow = 0;
+        this.s04SuperSub = 0;
+        this.s05SpeedMerchant = 0;
+        this.s06LongRangeDrive = 0;
+        this.s07ShoulderFeintSkills = 0;
+        this.s08TurningSkills = 0;
+        this.s09RouletteSkills = 0;
+        this.s10FlipFlapSkills = 0;
+        this.s11FlickingSkills = 0;
+        this.s12ScissorsSkills = 0;
+        this.s13StepOnSkills = 0;
+        this.s14DeftTouchSkills = 0;
+        this.s15KnuckleShot = 0;
+        this.s16JumpingVolley = 0;
+        this.s17ScissorKick = 0;
+        this.s18HeelFlick = 0;
+        this.s19WeightedPass = 0;
+        this.s20DoubleTouch = 0;
+        this.s21RunAround = 0;
+        this.s22Sombrero = 0;
+        this.s23Drag180 = 0;
+        this.s24LungingTackle = 0;
+        this.s25DivingHeader = 0;
+        this.s26GkLongThrow = 0;
+        this.p01ClassicNo10 = 0;
+        this.p02AnchorMan = 0;
+        this.p03Trickster = 0;
+        this.p04DartingRun = 0;
+        this.p05MazingRun = 0;
+        this.p06PinpointPass = 0;
+        this.p07EarlyCross = 0;
+        this.p08BoxToBox = 0;
+        this.p09IncisiveRun = 0;
+        this.p10LongRanger = 0;
+        this.p11Enforcer = 0;
+        this.p12GoalPoacher = 0;
+        this.p13DummyRunner = 0;
+        this.p14FreeRoaming = 0;
+        this.p15Talisman = 0;
+        this.p16FoxInTheBox = 0;
+        this.p17OffensiveSideback = 0;
+        this.p18TrackBack = 0;
+        
     }
+
+	PES13PosToNum(position) {
+		switch (position) {
+			case "GK":
+				return 0;
+            case "SW":
+                return 1;
+			case "CB":
+				return 2;
+			case "LB":
+				return 3;
+			case "RB":
+				return 4;
+			case "DMF":
+				return 5;
+			case "CMF":
+				return 6;
+			case "LMF":
+				return 7;
+			case "RMF":
+				return 8;
+			case "AMF":
+				return 9;
+			case "LWF":
+				return 10;
+			case "RWF":
+				return 11;
+			case "SS":
+				return 12;
+			case "CF":
+				return 13;
+			default:
+				return 0;
+		}
+	}
+
 
     FromFMPlayer(fmPlayer){
         super.FromFMPlayer(fmPlayer);
@@ -152,6 +235,7 @@ class PES13Player extends PESPlayer{
             && this.playmaking
         ){
             this.indexCards += "P01 - Classic No.10" + "\n";
+            this.p01ClassicNo10 = 1;
         }
 
         if (
@@ -160,6 +244,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Work Rate"] < 12
         ){
             this.indexCards += "P02 - Anchor Man" + "\n";
+            this.p02AnchorMan = 1;
         }
         
         if (
@@ -168,6 +253,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Dribbling"] >= 16
         ){
             this.indexCards += "P05 - Mazing Run" + "\n";
+            this.p05MazingRun = 1;
         }
         
         if (
@@ -176,6 +262,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Passing"] >= 16
         ){
             this.indexCards += "P06 - Pinpoint Pass" + "\n";
+            this.p06PinpointPass = 1;
         }
 
         if(
@@ -184,6 +271,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Crossing"] >= 16
         ){
             this.indexCards += "P07 - Early Cross" + "\n";
+            this.p07EarlyCross = 1;
         }
 
         if(
@@ -192,6 +280,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Work Rate"] >= 16
         ){
             this.indexCards += "P08 - Box to Box" + "\n";
+            this.p08BoxToBox = 1;
         }
 
         if(
@@ -200,6 +289,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Long Shots"] >= 16
         ){
             this.indexCards += "P10 - Long Ranger" + "\n";
+            this.p10LongRanger = 1;
         }
 
         if(
@@ -208,6 +298,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Aggression"] >= 16
         ){
             this.indexCards += "P11 - Enforcer" + "\n";
+            this.p11Enforcer = 1;
         }
 
         if(
@@ -216,6 +307,7 @@ class PES13Player extends PESPlayer{
             && this.lines
         ){
             this.indexCards += "P12 - Goal Poacher" + "\n";
+            this.p12GoalPoacher = 1;
         }
 
         if(
@@ -224,6 +316,7 @@ class PES13Player extends PESPlayer{
             && this.lines
         ){
             this.indexCards += "P14 - Free Roaming" + "\n";
+            this.p14FreeRoaming = 1;
         }
 
         if(
@@ -232,6 +325,7 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Leadership"] >= 16
         ){
             this.indexCards += "P15 - Talisman" + "\n";
+            this.p15Talisman = 1;
         }
 
         if(
@@ -240,36 +334,42 @@ class PES13Player extends PESPlayer{
             && fmPlayer.stats["Work Rate"] >= 16
         ){
             this.indexCards += "P18 - Track Back" + "\n";
+            this.p18TrackBack = 1;
         }
 
         if(
             this.oneTouchPass
         ){
             this.indexCards += "S01 - 1-Touch Play" + "\n";
+            this.s01OneTouch = 1;
         }
 
         if(
             this.outside
         ){
             this.indexCards += "S02 - Outside Curve" + "\n";
+            this.s02OutsideCurve = 1;
         }
 
         if(
             fmPlayer.stats["Long Throws"] >= 16
         ){
             this.indexCards += "S03 - Long Throw" + "\n";
+            this.s03LongThrow = 1;
         }
 
         if(
             Average([fmPlayer.stats["Long Shots"], fmPlayer.stats["Long Shots"]]) >= 16
         ){
             this.indexCards += "S05 - Speed Merchant" + "\n";
+            this.s05SpeedMerchant = 1;
         }
 
         if(
             this.sliding
         ){
             this.indexCards += "S24 - Lunging Tackle" + "\n";
+            this.s24LungingTackle = 1;
         }
     }
     
@@ -327,5 +427,123 @@ PLAYER INDEX CARDS
 ${this.indexCards}
 `;
 	}
+
+    CSVString(){
+
+        this.positions.forEach(position => {
+			let index = this.PES13PosToNum(position);
+			this.positionsNumbers[index] = 1;
+		});
+		let regPosIndex = this.PES13PosToNum(this.registeredPosition);
+		this.positionsNumbers[regPosIndex] = 1;
+
+        return `,\
+${this.name},\
+${this.shirtName},\
+${this.name},\
+2,\
+0,\
+${clamp(15, 46, this.age)},\
+${this.nation},\
+${this.foot},\
+${clamp(40, 123, this.weight)},\
+${clamp(148, 205, this.height)},\
+${this.condition},\
+${this.weakFootAccuracy},\
+${this.weakFootFrequency},\
+${this.injuryTolerance},\
+1,\
+0,\
+${this.positionsNumbers},\
+${this.registeredPosition},\
+${LimitStat99(this.attack)},\
+${LimitStat99(this.defence)},\
+${LimitStat99(this.header)},\
+${LimitStat99(this.dribbleAccuracy)},\
+${LimitStat99(this.shortPassAccuracy)},\
+${LimitStat99(this.shortPassSpeed)},\
+${LimitStat99(this.longPassAccuracy)},\
+${LimitStat99(this.longPassSpeed)},\
+${LimitStat99(this.shotAccuracy)},\
+${LimitStat99(this.freeKickAccuracy)},\
+${LimitStat99(this.curling)},\
+${LimitStat99(this.technique)},\
+${LimitStat99(this.goalkeeping)},\
+${LimitStat99(this.response)},\
+${LimitStat99(this.explosivePower)},\
+${LimitStat99(this.dribbleSpeed)},\
+${LimitStat99(this.topSpeed)},\
+${LimitStat99(this.balance)},\
+${LimitStat99(this.stamina)},\
+${LimitStat99(this.shotPower)},\
+${LimitStat99(this.jump)},\
+${LimitStat99(this.tenacity)},\
+${LimitStat99(this.teamwork)},\
+${this.s01OneTouch},\
+${this.s02OutsideCurve},\
+${this.s03LongThrow},\
+${this.s04SuperSub},\
+${this.s05SpeedMerchant},\
+${this.s06LongRangeDrive},\
+${this.s07ShoulderFeintSkills},\
+${this.s08TurningSkills},\
+${this.s09RouletteSkills},\
+${this.s10FlipFlapSkills},\
+${this.s11FlickingSkills},\
+${this.s12ScissorsSkills},\
+${this.s13StepOnSkills},\
+${this.s14DeftTouchSkills},\
+${this.s15KnuckleShot},\
+${this.s16JumpingVolley},\
+${this.s17ScissorKick},\
+${this.s18HeelFlick},\
+${this.s19WeightedPass},\
+${this.s20DoubleTouch},\
+${this.s21RunAround},\
+${this.s22Sombrero},\
+${this.s23Drag180},\
+${this.s24LungingTackle},\
+${this.s25DivingHeader},\
+${this.s26GkLongThrow},\
+${this.p01ClassicNo10},\
+${this.p02AnchorMan},\
+${this.p03Trickster},\
+${this.p04DartingRun},\
+${this.p05MazingRun},\
+${this.p06PinpointPass},\
+${this.p07EarlyCross},\
+${this.p08BoxToBox},\
+${this.p09IncisiveRun},\
+${this.p10LongRanger},\
+${this.p11Enforcer},\
+${this.p12GoalPoacher},\
+${this.p13DummyRunner},\
+${this.p14FreeRoaming},\
+${this.p15Talisman},\
+${this.p16FoxInTheBox},\
+${this.p17OffensiveSideback},\
+${this.p18TrackBack},\
+${this.attackAwareness},\
+${this.defenceAwareness},\
+1,\
+1,\
+Default,\
+0,\
+131,\
+0,\
+4317,\
+0,\
+0,\
+0,\
+0,\
+1,\
+1,\
+1,\
+1,\
+0,\
+0,\
+,\
+99,`;
+    }
 
 }

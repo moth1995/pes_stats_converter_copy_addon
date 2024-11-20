@@ -207,6 +207,10 @@ function AddButton(){
                     let csvString = pesPlayer.CSVString();
                     AddPlayer(csvString);
                     return;
+                } else if (copyMode == "multiple" && selectedOptionFMInside == "pes13"){
+                    let csvString = pesPlayer.CSVString();
+                    AddPlayer13(csvString);
+                    return;
                 } else if (copyMode == "multiple" && selectedOptionFMInside == "pes21"){
                     let csvString = pesPlayer.CSVString();
                     AddPlayer21(csvString);

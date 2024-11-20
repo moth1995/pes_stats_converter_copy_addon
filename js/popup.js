@@ -115,15 +115,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function DownloadCSV(){
     chrome.storage.local.get(
-      ['playersData', 'players21Data', 'selectOptionFMInside',], 
+      ['playersData', 'players13Data', 'players21Data', 'selectOptionFMInside',], 
       function(result) {
         let playersData = result.playersData || [];
+        let players13Data = result.players13Data || [];
         let players21Data = result.players21Data || [];
         let selectOptionFMInside = result.selectOptionFMInside || "pes5";
 
+        let encoding = "utf-8";
         let csvString = "";
         if (selectOptionFMInside === "pes5"){
           csvString = playersData.join("\n");
+        } else if (selectOptionFMInside === "pes13"){
+          csvString = players13Data.join("\n");
+          encoding = "windows-1252";
         } else if (selectOptionFMInside === "pes21"){
           csvString = players21Data.join("\n");
         } else {
@@ -131,11 +136,12 @@ function DownloadCSV(){
           return;
         }
 
-        let csvContent = "data:text/csv;charset=utf-8," + csvString;
+        let csvContent = "data:text/csv;charset=" + encoding + "," + csvString;
     
         const encodedUri = encodeURI(csvContent);
+        const fixedEncodedURI = encodedUri.replaceAll('#', '%23');      
         const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
+        link.setAttribute("href", fixedEncodedURI);
         link.setAttribute("download", "Players.csv");
         document.body.appendChild(link);
         link.click();
@@ -149,7 +155,7 @@ function DownloadCSV(){
 
 function ClearPlayers() {
     chrome.storage.local.get(
-      ['playersData', 'players21Data', 'selectOptionFMInside',], 
+      ['playersData', 'players13Data', 'players21Data', 'selectOptionFMInside',], 
       function(result) {
         let userConfirmation = window.confirm("Are you sure?")
         if (!userConfirmation) {
@@ -160,6 +166,11 @@ function ClearPlayers() {
         if (selectOptionFMInside === "pes5"){
           chrome.storage.local.remove(['playersData'], function() {
             console.log('Players5 deleted');
+            alert("All players cleared!")
+          });
+        } else if (selectOptionFMInside === "pes13"){
+          chrome.storage.local.remove(['players13Data'], function() {
+            console.log('Players13 deleted');
             alert("All players cleared!")
           });
         } else if (selectOptionFMInside === "pes21"){

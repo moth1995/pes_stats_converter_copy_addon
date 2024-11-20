@@ -9,6 +9,7 @@ function CopyToClipboard(text){
 };
 
 const PES5_CSV_COLUMNS = "ID,NAME,SHIRT_NAME,NATIONALITY,AGE,STRONG FOOT,INJURY TOLERANCE,REGISTERED POSITION,FAVOURED SIDE,GK  0,CWP  2,CBT  3,SB  4,DMF  5,WB  6,CMF  7,SMF  8,AMF  9,WF 10,SS  11,CF  12,ATTACK,DEFENSE,BALANCE,STAMINA,TOP SPEED,ACCELERATION,RESPONSE,AGILITY,DRIBBLE ACCURACY,DRIBBLE SPEED,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,SHOT POWER,SHOT TECHNIQUE,FREE KICK ACCURACY,CURLING,HEADING,JUMP,TECHNIQUE,AGGRESSION,MENTALITY,GOAL KEEPING,TEAM WORK,CONSISTENCY,CONDITION / FITNESS,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,DRIBBLING,TACTICAL DRIBBLE,POSITIONING,REACTION,PLAYMAKING,PASSING,SCORING,1-1 SCORING,POST PLAYER,LINES,MIDDLE SHOOTING,SIDE,CENTRE,PENALTIES,1-TOUCH PASS,OUTSIDE,MARKING,SLIDING,COVERING,D-LINE CONTROL,PENALTY STOPPER,1-ON-1 STOPPER,LONG THROW,HEIGHT,WEIGHT";
+const PES13_CSV_COLUMNS = "INDEX,NAME,SHIRTNAME,JAPANESE PLAYER NAME,SPACING,COMMENTARY,AGE,NATIONALITY,FOOT,WEIGHT,HEIGHT,FORM,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,INJURY TOLERANCE,GROWTH TYPE,MARKET PRICE,GK 0,SW 1,CB 2,LB 3,RB 4,DMF 5,CMF 6,LMF 7,RMF 8,AMF 9,LWF 10,RWF 11,SS 12,CF 13,POSITION,ATTACK,DEFENCE,HEADER ACCURACY,DRIBBLE ACCURACY,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,PLACE KICKING,SWERVE,BALL CONTROLL,GOAL KEEPING SKILLS,RESPONSE,EXPLOSIVE POWER,DRIBBLE SPEED,TOP SPEED,BODY BALANCE,STAMINA,KICKING POWER,JUMP,TENACITY,TEAMWORK,S01 1-TOUCH PLAY,S02 OUTSIDE CURVE,S03 LONG THROW,S04 SUPER-SUB,S05 SPEED MERCHANT,S06 LONG RANGE DRIVE,S07 SHOULDER FEINT SKILLS,S08 TURNING SKILLS,S09 ROULETTE SKILLS,S10 FLIP FLAP SKILLS,S11 FLICKING SKILLS,S12 SCISSORS SKILLS,S13 STEP ON SKILLS,S14 DEFT TOUCH SKILLS,S15 KNUCKLE SHOT,S16 JUMPING VOLLEY,S17 SCISSOR KICK,S18 HEEL FLICK,S19 WEIGHTED PASS,S20 DOUBLE TOUCH,S21 RUN AROUND,S22 SOMBRERO,S23 180 DRAG,S24 LUNGING TACKLE,S25 DIVING HEADER,S26 GK LONG THROW,P01 CLASSIC NO.10,P02 ANCHOR MAN,P03 TRICKSTER,P04 DARTING RUN,P05 MAZING RUN,P06 PINPOINT PASS,P07 EARLY CROSS,P08 BOX TO BOX,P09 INCISIVE RUN,P10 LONG RANGER,P11 ENFORCER,P12 GOAL POACHER,P13 DUMMY RUNNER,P14 FREE ROAMING,P15 TALISMAN,P16 FOX IN THE BOX,P17 OFFENSIVE SIDEBACK,P18 TRACK BACK,ATTACK AWARENESS,DEFENCE AWARENESS,SKIN COLOR,SKIN TEXTURE,FACE MODE,LINKED FACE,FACE SLOT,LINKED HAIR,HAIR SLOT,BOOTS,UNTUCKED SHIRT,TIGHT KIT,GLOVES,DRIBBLE STYLE,FREE KICK STYLE,PENALTY KICK STYLE,DROP KICK STYLE,GOAL CELEBRATION STYLE #1,GOAL CELEBRATION STYLE #2,CLUB TEAM,NUMBER,NATIONAL TEAM";
 const PES21_CSV_COLUMNS = "Id;Name;JapName;Shirt;ShirtNational;Commentary;Country;Country2;Height;Weight;Age;Foot;PlayingStyle;POS;GK;CB;LB;RB;DMF;CMF;LMF;RMF;AMF;LWF;RWF;SS;CF;OffensiveAwareness;BallControl;Dribbling;TightPossession;LowPass;LoftedPass;Finishing;Heading;PlaceKicking;Curl;Speed;Acceleration;KickingPower;Jump;PhysicalContact;Balance;Stamina;DefensiveAwareness;BallWinning;Aggression;GKAwareness;GKCatching;GKClearing;GKReflexes;GKReach;WeakFootUsage;WeakFootAcc;Form;InjuryResistance;Reputation;PlayingAttitude;Trickster;MazingRun;SpeedingBullet;IncisiveRun;LongBallExpert;EarlyCross;LongRanger;ScissorsFeint;DoubleTouch;FlipFlap;MarseilleTurn;Sombrero;CrossOverTurn;CutBehindAndTurn;ScotchMove;StepOnSkillcontrol;HeadingSpecial;LongRangeDrive;Chipshotcontrol;LongRangeShot;KnuckleShot;DippingShots;RisingShots;AcrobaticFinishing;HeelTrick;FirstTimeShot;OneTouchPass;ThroughPassing;WeightedPass;PinpointCrossing;OutsideCurler;Rabona;NoLookPass;LowLoftedPass;GKLowPunt;GKHighPunt;LongThrow;GKLongThrow;PenaltySpecialist;GKPenaltySaver;Gamesmanship;ManMarking;TrackBack;Interception;AcrobaticClear;Captaincy;SuperSub;FightingSpirit;Celebration1;Celebration2;DribblingHunching;DribblingArmMove.;RunningHunching;RunningArmMovement;CornerKicks;FreeKicks;PenaltyKick;DribbleMotion;YouthClub;OwnerClub;ContractUntil;LoanUntil;MarketValue;NationalCaps;Legend;Hand;WinnerGoldenBall;EditName;EditBasics;EditPosition;EditPositions;EditAbilities;EditPlayerSkills;EditPlayingStyle;EditCOMPlayingStyles;EditMovements;Edit1;Edit2;Edit3;Edit4;Edit5;Edit6;Edit7;Value1;Value2;Value3;Value2020_1;Value2020_2;Appearance;ListBoots;ListGloves;InEditFile;OverallStats";
 
 function AddPlayer(playerData) {
@@ -22,6 +23,23 @@ function AddPlayer(playerData) {
 		playersData.push(playerData);
 		chrome.storage.local.set({ playersData: playersData }, function() {
 			console.log('Player PES5 added to array5');
+		});
+	});
+}
+
+function AddPlayer13(player13Data) {
+	console.log(player13Data)
+	chrome.storage.local.get(['players13Data'], function(result) {
+		let players13Data = result.players13Data || [];
+
+		if (players13Data.length == 0) {
+			players13Data.push(PES13_CSV_COLUMNS);
+		}
+
+		players13Data.push(player13Data);
+		console.log(players13Data);
+		chrome.storage.local.set({ players13Data: players13Data }, function() {
+			console.log('Player PES13 added to array13');
 		});
 	});
 }
