@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const downloadCSVButton = document.getElementById('download-csv');
     const clearPlayersButton = document.getElementById('clear-players');
+    const removeLastPlayerButton = document.getElementById('remove-last-player');
 
     downloadCSVButton.addEventListener('click', function() {
         DownloadCSV();
@@ -109,6 +110,9 @@ document.addEventListener('DOMContentLoaded', function() {
     clearPlayersButton.addEventListener('click', function() {
         ClearPlayers();
     });
+    removeLastPlayerButton.addEventListener('click', function() {
+      RemoveLastPlayer();
+  });
 
 });
       
@@ -184,5 +188,41 @@ function ClearPlayers() {
         }
       }
     );
-    
+}
+
+function RemoveLastPlayer(){
+  chrome.storage.local.get(
+    ['playersData', 'players13Data', 'players21Data', 'selectOptionFMInside',], 
+    function(result) {
+      let userConfirmation = window.confirm("Are you sure?")
+      if (!userConfirmation) {
+          return;
+      }
+      let selectOptionFMInside = result.selectOptionFMInside || "pes5";
+      let playersData = result.playersData || [];
+      let players13Data = result.players13Data || [];
+      let players21Data = result.players21Data || [];
+      if (selectOptionFMInside === "pes5" && playersData.length > 0){
+        let playerPopped = playersData.pop();
+        console.log("Player removed" + playerPopped);
+        chrome.storage.local.set({ playersData: playersData }, function() {
+          alert("Last player from PES5 removed!");
+        });
+      } else if (selectOptionFMInside === "pes13" && players13Data.length > 0){
+        let playerPopped = players13Data.pop();
+        console.log("Player removed" + playerPopped);
+        chrome.storage.local.set({ players13Data: players13Data }, function() {
+          alert("Last player from PES13 removed!");
+        });
+      } else if (selectOptionFMInside === "pes21" && players21Data.length > 0){
+        let playerPopped = players21Data.pop();
+        console.log("Player removed" + playerPopped);
+        chrome.storage.local.set({ players21Data: players21Data }, function() {
+          alert("Last player from PES21 removed!");
+        });
+      } else {
+        alert("Unsupported option for " + selectOptionFMInside);
+      }
+    }
+  );
 }
