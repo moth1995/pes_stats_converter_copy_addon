@@ -68,7 +68,7 @@ class SOFIFAPlayer {
 			const value = parseInt(items[i].querySelector('em').textContent);
 			values.push(value);
 			//console.log(value);
-			const tooltip = items[i].querySelector('span[data-tippy-content]');
+			const tooltip = items[i].querySelector('span[data-tippy-right-start]');
 			const textContent = tooltip !== null ? tooltip.textContent : items[i].textContent.split(' ').pop();
 			//console.log(textContent);
 			tooltips.push(textContent);
