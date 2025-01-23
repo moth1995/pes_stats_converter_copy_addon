@@ -361,11 +361,8 @@ False;\
   }
 
   ConvertFIFAStatToPES21(fifaStat) {
-    console.log(fifaStat);
     fifaStat = Math.round(fifaStat);
-    console.log(fifaStat);
     fifaStat = clamp(40, 99, fifaStat);
-    console.log(fifaStat);
     const mapping = [
       { fifa: [99, 99], pes: 99 },
       { fifa: [98, 98], pes: 98 },
@@ -452,7 +449,10 @@ False;\
     this.positions = [];
 
     for (let index = 0; index < fifaPlayer.posiciones.length; index++) {
-      this.positions.push(FIFAToPES21Positions(fifaPlayer.posiciones[index]));
+      let pos = FIFAToPES21Positions(fifaPlayer.posiciones[index]);
+      if (!this.positions.includes(pos)) {
+        this.positions.push();
+      }
     }
 
     this.height = parseInt(fifaPlayer.height);
