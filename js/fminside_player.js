@@ -1,101 +1,101 @@
-class FMInsidePlayer{
-    constructor(doc){
-        this.doc = doc;
-        this.GetBasicInfo();
-        this.GetStats();
-        this.GetRoles();
-    }
+class FMInsidePlayer {
+  constructor(doc) {
+    this.doc = doc;
+    this.GetBasicInfo();
+    this.GetStats();
+    this.GetRoles();
+  }
 
-    GetBasicInfo(){
-        this.name = this.doc.querySelector('#player_info #player .title h1').getAttribute('title');
-        this.ability = this.doc.querySelector('#ability').textContent;
-        this.potential = this.doc.querySelector('#potential').textContent;
-        console.log(this.name, this.ability, this.potential);
-        const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
-        this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
-        console.log(this.nationality);
-        
-        var info = {};
-        var positionType = [];
-        lis.forEach(function(li){
-            var key = li.querySelector("span.key").textContent;
-            var valueElement = li.querySelector("span.value");
-            var value = "";
-            if (valueElement.querySelector("span.desktop_positions")){
-                value = valueElement.querySelector("span.desktop_positions").textContent;
-                valueElement.querySelector("span.desktop_positions").querySelectorAll("span").forEach(span => {
-                    console.log(span.getAttribute("title"));
-                    positionType.push(span.getAttribute("title"));
-                });
-            }
-            else{
-                value = valueElement.textContent;
-            }
-            info[key] = value;
-        })
-        this.positionType = positionType;
+  GetBasicInfo() {
+    this.name = this.doc.querySelector('#player_info #player .title h1').getAttribute('title');
+    this.ability = this.doc.querySelector('#ability').textContent;
+    this.potential = this.doc.querySelector('#potential').textContent;
+    console.log(this.name, this.ability, this.potential);
+    const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
+    this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
+    console.log(this.nationality);
 
-        this.info = info;
-
-        console.log(this.info);
-    }
-
-    StatToObject(){
-        var dictionary = {};
-        var rows = this.doc.querySelectorAll('table tr');
-        rows.forEach(function(row) {
-            var acronymElement = row.querySelector('acronym');
-          
-            var tdElement = row.querySelector('.stat');
-            var value = null;
-            var key = acronymElement.textContent;
-            for (let j = 0; j < tdElement.classList.length; j++) {
-                const className = tdElement.classList[j];
-                if (className.startsWith('value_')) {
-                    value = parseInt(className.split('_')[1], 10);
-                    break;
-                }
-            }
-            if (isNaN(value) || value === null || value === undefined) {
-                value = 1;
-            }
-
-            dictionary[key] = value;
+    var info = {};
+    var positionType = [];
+    lis.forEach(function (li) {
+      var key = li.querySelector("span.key").textContent;
+      var valueElement = li.querySelector("span.value");
+      var value = "";
+      if (valueElement.querySelector("span.desktop_positions")) {
+        value = valueElement.querySelector("span.desktop_positions").textContent;
+        valueElement.querySelector("span.desktop_positions").querySelectorAll("span").forEach(span => {
+          console.log(span.getAttribute("title"));
+          positionType.push(span.getAttribute("title"));
         });
-        return dictionary;
-    }
+      }
+      else {
+        value = valueElement.textContent;
+      }
+      info[key] = value;
+    })
+    this.positionType = positionType;
 
-    GetStats(){
-        this.stats = this.StatToObject();
-        console.log(this.stats);
-    }
+    this.info = info;
 
-    GetRoles(){
-        var roles = {};
-        try{
-            const rolesLis = this.doc.querySelector('#player > div:nth-child(4)').querySelector('ol').querySelectorAll('li:not(.last)');
-            rolesLis.forEach(function(li){
-                var key = li.querySelector("span.key").textContent;
-                var valueElement = li.querySelector("span.value");
-                var value = valueElement.textContent;
-                roles[key] = parseFloat(value);
-            })    
+    console.log(this.info);
+  }
+
+  StatToObject() {
+    var dictionary = {};
+    var rows = this.doc.querySelectorAll('table tr');
+    rows.forEach(function (row) {
+      var acronymElement = row.querySelector('acronym');
+
+      var tdElement = row.querySelector('.stat');
+      var value = null;
+      var key = acronymElement.textContent;
+      for (let j = 0; j < tdElement.classList.length; j++) {
+        const className = tdElement.classList[j];
+        if (className.startsWith('value_')) {
+          value = parseInt(className.split('_')[1], 10);
+          break;
         }
-        catch(err){
-            console.log(err);
-            console.log("No roles found");
-        }
-        this.roles = roles;
-        console.log(this.roles);
-    }
+      }
+      if (isNaN(value) || value === null || value === undefined) {
+        value = 1;
+      }
 
-    FromFMPlayer(fmPlayer){
-        // Method just added to prevent crash when raw option is selected
-    }
+      dictionary[key] = value;
+    });
+    return dictionary;
+  }
 
-    PSDString(){
-        let defaultValue = 1;
-        return `Name: ${this.info["Name"]}
+  GetStats() {
+    this.stats = this.StatToObject();
+    console.log(this.stats);
+  }
+
+  GetRoles() {
+    var roles = {};
+    try {
+      const rolesLis = this.doc.querySelector('#player > div:nth-child(4)').querySelector('ol').querySelectorAll('li:not(.last)');
+      rolesLis.forEach(function (li) {
+        var key = li.querySelector("span.key").textContent;
+        var valueElement = li.querySelector("span.value");
+        var value = valueElement.textContent;
+        roles[key] = parseFloat(value);
+      })
+    }
+    catch (err) {
+      console.log(err);
+      console.log("No roles found");
+    }
+    this.roles = roles;
+    console.log(this.roles);
+  }
+
+  FromFMPlayer(fmPlayer) {
+    // Method just added to prevent crash when raw option is selected
+  }
+
+  PSDString() {
+    let defaultValue = 1;
+    return `Name: ${this.info["Name"]}
 Nationality: ${this.nationality in pesIndieNationalities ? pesIndieNationalities[this.nationality] : "Free Nationality"}
 Age: ${parseInt(this.info["Age"])}
 Current Ability: ${this.ability}
@@ -162,68 +162,68 @@ Reflexes ${(typeof this.stats["Reflexes"] !== "undefined") ? this.stats["Reflexe
 Rushing Out (Tendency) ${(typeof this.stats["Rushing Out (Tendency)"] !== "undefined") ? this.stats["Rushing Out (Tendency)"] : defaultValue}
 Throwing ${(typeof this.stats["Throwing"] !== "undefined") ? this.stats["Throwing"] : defaultValue}
 `;
-    }
-    
+  }
+
 }
 
 // create button element
-function AddButton(){
-	const currentUrl = window.location.href;
-	var button = document.createElement("button");
-	button.style.position = "fixed";
-	button.style.bottom = "20px";
-	button.style.right = "20px";
-    button.innerHTML = "PES Stats Copy";
-    // add event listener to button
-    button.addEventListener(
-        "click", 
-        function() {
-            console.log("Button clicked");
-            
-            chrome.storage.local.get(["selectOptionFMInside", "selectCopyMode"], function (result) {
-                const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
-                const copyMode = result.selectCopyMode || "one";
-                console.log(selectedOptionFMInside);
-                console.log(copyMode);
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
-                var FMPlayer = new FMInsidePlayer(doc);
-                // Convert into pes
-                var pesPlayer = new PESPlayer();
-                if (selectedOptionFMInside==="pes21"){
-                    pesPlayer = new PES21Player();
-                } else if (selectedOptionFMInside==="pes13") {
-                    pesPlayer = new PES13Player();
-                } else if (selectedOptionFMInside==="raw") {
-                    pesPlayer = FMPlayer;
-                }
-                // Use the string result
-                pesPlayer.FromFMPlayer(FMPlayer);
-                if (copyMode == "one"){
-                    var psdString = pesPlayer.PSDString();
-                    console.log("Received string from background:", psdString);
-                    CopyToClipboard(psdString);
-                } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5"){
-                    let csvString = pesPlayer.CSVString();
-                    AddPlayer(csvString);
-                    return;
-                } else if (copyMode == "multiple" && selectedOptionFMInside == "pes13"){
-                    let csvString = pesPlayer.CSVString();
-                    AddPlayer13(csvString);
-                    return;
-                } else if (copyMode == "multiple" && selectedOptionFMInside == "pes21"){
-                    let csvString = pesPlayer.CSVString();
-                    AddPlayer21(csvString);
-                    return;
-                } else {
-                    console.log("Invalid copy mode");
-                    return;
-                }
-            });
+function AddButton() {
+  const currentUrl = window.location.href;
+  var button = document.createElement("button");
+  button.style.position = "fixed";
+  button.style.bottom = "20px";
+  button.style.right = "20px";
+  button.innerHTML = "PES Stats Copy";
+  // add event listener to button
+  button.addEventListener(
+    "click",
+    function () {
+      console.log("Button clicked");
+
+      chrome.storage.local.get(["selectOptionFMInside", "selectCopyMode"], function (result) {
+        const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
+        const copyMode = result.selectCopyMode || "one";
+        console.log(selectedOptionFMInside);
+        console.log(copyMode);
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+        var FMPlayer = new FMInsidePlayer(doc);
+        // Convert into pes
+        var pesPlayer = new PESPlayer();
+        if (selectedOptionFMInside === "pes21") {
+          pesPlayer = new PES21Player();
+        } else if (selectedOptionFMInside === "pes13") {
+          pesPlayer = new PES13Player();
+        } else if (selectedOptionFMInside === "raw") {
+          pesPlayer = FMPlayer;
         }
-    );
-	// append button to body
-	document.body.appendChild(button);
+        // Use the string result
+        pesPlayer.FromFMPlayer(FMPlayer);
+        if (copyMode == "one") {
+          var psdString = pesPlayer.PSDString();
+          console.log("Received string from background:", psdString);
+          CopyToClipboard(psdString);
+        } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5") {
+          let csvString = pesPlayer.CSVString();
+          AddPlayer(csvString);
+          return;
+        } else if (copyMode == "multiple" && selectedOptionFMInside == "pes13") {
+          let csvString = pesPlayer.CSVString();
+          AddPlayer13(csvString);
+          return;
+        } else if (copyMode == "multiple" && selectedOptionFMInside == "pes21") {
+          let csvString = pesPlayer.CSVString();
+          AddPlayer21(csvString);
+          return;
+        } else {
+          console.log("Invalid copy mode");
+          return;
+        }
+      });
+    }
+  );
+  // append button to body
+  document.body.appendChild(button);
 };
 
 
