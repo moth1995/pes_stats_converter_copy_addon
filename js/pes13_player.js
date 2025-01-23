@@ -108,6 +108,189 @@ class PES13Player extends PESPlayer {
     }
   }
 
+  FromFIFA17To23Player(fifaPlayer) {
+    super.FromFIFA17To23Player(fifaPlayer);
+
+    this.explosivePower = Average([this.acceleration, this.agility]);
+    this.tenacity = this.mentality;
+
+    this.registeredPosition = FIFAToPES21Positions(fifaPlayer.posicionReg);
+
+    this.positions = [];
+
+    for (let index = 0; index < fifaPlayer.posiciones.length; index++) {
+      let pos = FIFAToPES21Positions(fifaPlayer.posiciones[index]);
+      if (!this.positions.includes(pos) && pos != this.registeredPosition) {
+        this.positions.push(pos);
+      }
+    }
+
+    this.attackAwareness = 2;
+    this.defenceAwareness = 2;
+
+    this.GetIndexCardsFromSoFIFA(fifaPlayer);
+
+  }
+
+  GetIndexCardsFromSoFIFA(sofifaPlayer) {
+    
+    if (
+      (this.classicN10Positions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.classicN10Positions))
+      && stringInArray(sofifaPlayer.playerSpecialties, "Playmaker")
+    ) {
+      this.indexCards += "P01 - Classic No.10" + "\n";
+      this.p01ClassicNo10 = 1;
+    }
+
+    if (
+      (this.tricksterPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.tricksterPositions))
+      && (
+        stringInArray(sofifaPlayer.traits, "Trickster")
+        || stringInArray(sofifaPlayer.traits, "Trickster +")
+      )
+    ) {
+      this.indexCards += "P03 - Trickster" + "\n";
+      this.p01ClassicNo10 = 1;
+    }
+
+    if (
+      (this.dartingRunPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.dartingRunPositions))
+      && stringInArray(sofifaPlayer.playerSpecialties, "Speedster")
+    ) {
+      this.indexCards += "P04 - Darting Run" + "\n";
+      this.p04DartingRun = 1;
+    }
+
+    if (
+      (this.mazingRunPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.mazingRunPositions))
+      && (
+        stringInArray(sofifaPlayer.playerSpecialties, "Dribbler")
+        || stringInArray(sofifaPlayer.traits, "Technical")
+        || stringInArray(sofifaPlayer.traits, "Technical +")
+      )
+    ) {
+      this.indexCards += "P05 - Mazing Run" + "\n";
+      this.p05MazingRun = 1;
+    }
+
+    if (
+      (this.pinPointPassPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.pinPointPassPositions))
+      && (
+        stringInArray(sofifaPlayer.traits, "Long Ball Pass")
+        || stringInArray(sofifaPlayer.traits, "Long Ball Pass +")
+        || stringInArray(sofifaPlayer.traits, "Incisive Pass")
+        || stringInArray(sofifaPlayer.traits, "Incisive Pass +")
+      )
+    ) {
+      this.indexCards += "P06 - Pinpoint Pass" + "\n";
+      this.p06PinpointPass = 1;
+    }
+
+    if (
+      (this.earlyCrossPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.earlyCrossPositions))
+      && (
+        stringInArray(sofifaPlayer.playerSpecialties, "Crosser")
+        || stringInArray(sofifaPlayer.traits, "Whipped Cross")
+        || stringInArray(sofifaPlayer.traits, "Whipped Cross +")
+      )
+    ) {
+      this.indexCards += "P07 - Early Cross" + "\n";
+      this.p07EarlyCross = 1;
+    }
+
+    if (
+      (this.boxToBoxPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.boxToBoxPositions))
+      && stringInArray(sofifaPlayer.playerSpecialties, "Engine")
+    ) {
+      this.indexCards += "P08 - Box to Box" + "\n";
+      this.p08BoxToBox = 1;
+    }
+
+    if (
+      (this.longRangerPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.longRangerPositions))
+      && stringInArray(sofifaPlayer.playerSpecialties, "Distance shooter")
+    ) {
+      this.indexCards += "P10 - Long Ranger" + "\n";
+      this.p10LongRanger = 1;
+    }
+
+    if (
+      (this.goalPoacherPositions.includes(this.registeredPosition)
+        || this.PositionsInIndexCardPositions(this.goalPoacherPositions))
+      && stringInArray(sofifaPlayer.playerSpecialties, "Poacher")
+    ) {
+      this.indexCards += "P12 - Goal Poacher" + "\n";
+      this.p12GoalPoacher = 1;
+    }
+
+    if (
+      stringInArray(sofifaPlayer.traits, "First Touch")
+      || stringInArray(sofifaPlayer.traits, "First Touch +")
+  ) {
+      this.indexCards += "S01 - 1-Touch Play" + "\n";
+      this.s01OneTouch = 1;
+    }
+
+    if (
+      stringInArray(sofifaPlayer.traits, "Trivela")
+      || stringInArray(sofifaPlayer.traits, "Trivela +")
+    ) {
+      this.indexCards += "S02 - Outside Curve" + "\n";
+      this.s02OutsideCurve = 1;
+    }
+
+    if (
+      stringInArray(sofifaPlayer.traits, "Long Throw")
+      || stringInArray(sofifaPlayer.traits, "Long Throw +")
+    ) {
+      this.indexCards += "S03 - Long Throw" + "\n";
+      this.s03LongThrow = 1;
+    }
+
+    if (
+      stringInArray(sofifaPlayer.traits, "Acrobatic")
+      || stringInArray(sofifaPlayer.traits, "Acrobatic +")
+    ) {
+      this.indexCards += "S17 - Scissor Kick" + "\n";
+      this.s17ScissorKick = 1;
+    }
+
+    if (
+      stringInArray(sofifaPlayer.traits, "Rapid")
+      || stringInArray(sofifaPlayer.traits, "Rapid +")
+    ) {
+      this.indexCards += "S21 - Run Around" + "\n";
+      this.s21RunAround = 1;
+    }
+
+    if (
+      stringInArray(sofifaPlayer.traits, "Slide Tackle")
+      || stringInArray(sofifaPlayer.traits, "Slide Tackle +")
+    ) {
+      this.indexCards += "S24 - Lunging Tackle" + "\n";
+      this.s24LungingTackle = 1;
+    }
+
+    if (
+      this.registeredPosition === "GK"
+      && (
+        stringInArray(sofifaPlayer.traits, "Far Throw")
+        || stringInArray(sofifaPlayer.traits, "Far Throw +")  
+      )
+    ) {
+      this.indexCards += "S26 - GK Long Throw" + "\n";
+      this.s26GkLongThrow = 1;
+    }
+
+  }
 
   FromFMPlayer(fmPlayer) {
     super.FromFMPlayer(fmPlayer);
