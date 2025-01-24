@@ -450,8 +450,13 @@ False;\
 
     for (let index = 0; index < fifaPlayer.posiciones.length; index++) {
       let pos = FIFAToPES21Positions(fifaPlayer.posiciones[index]);
-      if (!this.positions.includes(pos)) {
-        this.positions.push();
+      
+      if (this.positions.includes(pos)) continue;
+
+      if (this.registeredPosition === pos) {
+        this.positions.push("*" + pos);
+      } else {
+        this.positions.push(pos);
       }
     }
 
