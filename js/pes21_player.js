@@ -529,8 +529,7 @@ False;\
     else {
       defensiveAwarenessStat = fifaPlayer.defending["Marking"];
     }
-    console.log("defensiveAwarenessStat")
-    console.log(defensiveAwarenessStat);
+    
     this.defensiveAwareness = this.ConvertFIFAStatToPES21(defensiveAwarenessStat);
     if (defensiveAwarenessStat < fifaPlayer.mentality["Interceptions"]) {
       this.defensiveAwareness++;
