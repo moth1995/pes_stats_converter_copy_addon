@@ -428,7 +428,7 @@ False;\
     for (const entry of mapping) {
       const [max, min] = entry.fifa;
       if (min <= fifaStat && fifaStat <= max) {
-        return entry.pes;
+        return clamp(40, 99, entry.pes);
       }
     }
 
