@@ -362,7 +362,6 @@ False;\
 
   ConvertFIFAStatToPES21(fifaStat) {
     fifaStat = Math.round(fifaStat);
-    fifaStat = clamp(40, 99, fifaStat);
     const mapping = [
       { fifa: [99, 99], pes: 99 },
       { fifa: [98, 98], pes: 98 },
