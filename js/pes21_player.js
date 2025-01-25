@@ -477,6 +477,12 @@ False;\
 
     //field players
     this.offensiveAwareness = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Att. Position"]);
+    if (fifaPlayer.mentality["Att. Position"] < fifaPlayer.movement["Reactions"]) {
+      this.offensiveAwareness++;
+    }
+    else if (fifaPlayer.mentality["Att. Position"] > fifaPlayer.movement["Reactions"]) {
+      this.offensiveAwareness--;
+    }
     this.ballControl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Ball control"]);
     this.dribbling = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Dribbling"]);
     this.tightPossession = this.ConvertFIFAStatToPES21(Average([fifaPlayer.skill["Ball control"], fifaPlayer.mentality["Composure"]]));
@@ -497,16 +503,31 @@ False;\
     this.finishing = this.ConvertFIFAStatToPES21(fifaPlayer.attacking["Finishing"]);
     if (
       fifaPlayer.attacking["Finishing"] < fifaPlayer.attacking["Volleys"]
-      || fifaPlayer.attacking["Finishing"] < fifaPlayer.power["Long shots"]
-      || fifaPlayer.attacking["Finishing"] < fifaPlayer.mentality["Penalties"]
     ) {
       this.finishing++;
     }
-    else {
+    else if (
+      fifaPlayer.attacking["Finishing"] > fifaPlayer.attacking["Volleys"]
+    ){
+      this.finishing--;
+    }
+    if (
+      this.finishing < this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
+    ) {
+      this.finishing++;
+    }
+    else if (
+      this.finishing > this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
+    ){
       this.finishing--;
     }
     this.heading = this.ConvertFIFAStatToPES21(fifaPlayer.attacking["Heading accuracy"]);
-    this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.15 + fifaPlayer.skill["FK Accuracy"] * 0.7 + fifaPlayer.power["Shot power"] * 0.15);
+    this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.3 + fifaPlayer.skill["FK Accuracy"] * 0.7);
+
+    if (this.placeKicking < 60){
+      this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.7 + fifaPlayer.skill["FK Accuracy"] * 0.3);
+    }
+
     this.curl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Curve"]);
     this.speed = this.ConvertFIFAStatToPES21(fifaPlayer.movement["Sprint speed"]);
     this.acceleration = this.ConvertFIFAStatToPES21(fifaPlayer.movement["Acceleration"]);
