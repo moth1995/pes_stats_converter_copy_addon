@@ -332,28 +332,28 @@ False;\
 
     let form = 4;
 
-    if (40 <= fifaStat && fifaStat < 66) {
+    if (40 <= fifaStat && fifaStat < 61) {
       form = 1;
     }
-    else if (66 <= fifaStat && fifaStat < 71) {
+    else if (61 <= fifaStat && fifaStat < 66) {
       form = 2;
     }
-    else if (71 <= fifaStat && fifaStat < 76) {
+    else if (66 <= fifaStat && fifaStat < 71) {
       form = 3;
     }
-    else if (76 <= fifaStat && fifaStat < 81) {
+    else if (71 <= fifaStat && fifaStat < 76) {
       form = 4;
     }
-    else if (81 <= fifaStat && fifaStat < 86) {
+    else if (76 <= fifaStat && fifaStat < 81) {
       form = 5;
     }
-    else if (86 <= fifaStat && fifaStat < 91) {
+    else if (81 <= fifaStat && fifaStat < 86) {
       form = 6;
     }
-    else if (91 <= fifaStat && fifaStat < 96) {
+    else if (86 <= fifaStat && fifaStat < 94) {
       form = 7;
     }
-    else if (96 <= fifaStat) {
+    else if (94 <= fifaStat) {
       form = 8;
     }
 
