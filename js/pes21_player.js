@@ -525,7 +525,7 @@ False;\
     this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.3 + fifaPlayer.skill["FK Accuracy"] * 0.7);
 
     if (this.placeKicking < 60){
-      this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.7 + fifaPlayer.skill["FK Accuracy"] * 0.3);
+      this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"]);
     }
 
     this.curl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Curve"]);
