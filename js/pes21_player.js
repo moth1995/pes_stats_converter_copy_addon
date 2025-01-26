@@ -599,7 +599,10 @@ False;\
         || this.registeredPosition == "LWF"
         || this.registeredPosition == "CF"
       )
-      && stringInArray(fifaPlayer.traits, "Acrobatic")
+      && (
+        stringInArray(fifaPlayer.traits, "Acrobatic")
+        || stringInArray(fifaPlayer.traits, "Acrobatic +")
+      )
     ) {
       this.acrobaticFinishing = 1;
       this.playerSkills += "*Acrobatic Finishing" + "\n";
@@ -607,14 +610,20 @@ False;\
       this.acrobaticFinishing = 0;
     }
 
-    // if (fmPlayer.stats["LEADERSHIP"] >= 13) {
-    //   this.captaincy = 1;
-    //   this.playerSkills += "*Captaincy" + "\n";
-    // } else {
-    //   this.captaincy = 0;
-    // }
+    if (
+      stringInArray(fifaPlayer.traits, "Leadership")
+      || stringInArray(fifaPlayer.traits, "Leadership +")
+    ) {
+      this.captaincy = 1;
+      this.playerSkills += "*Captaincy" + "\n";
+    } else {
+      this.captaincy = 0;
+    }
 
-    if (stringInArray(fifaPlayer.traits, "Chip Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Chip Shot")
+      || stringInArray(fifaPlayer.traits, "Chip Shot +")
+    ) {
       this.chipShotControl = 1;
       this.playerSkills += "*Chip Shot Control" + "\n";
     } else {
@@ -649,7 +658,10 @@ False;\
     //   this.doubleTouch = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Relentless")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Relentless")
+      || stringInArray(fifaPlayer.traits, "Relentless +")
+    ) {
       this.fightingSpirit = 1;
       this.playerSkills += "*Fighting Spirit" + "\n";
     } else {
@@ -684,7 +696,10 @@ False;\
     //   this.gkHighPunt = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Far Throw")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Far Throw")
+      || stringInArray(fifaPlayer.traits, "Far Throw +")
+    ) {
       this.gkLongThrow = 1;
       this.playerSkills += "*GK Long Throw" + "\n";
     } else {
@@ -705,7 +720,10 @@ False;\
     //   this.gkPenaltySaver = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Power Header")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Power Header")
+      || stringInArray(fifaPlayer.traits, "Power Header +")
+    ) {
       this.headingPlayerSkill = 1;
       this.playerSkills += "*Heading" + "\n";
     } else {
@@ -719,7 +737,10 @@ False;\
     //   this.heelTrick = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Intercept")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Intercept")
+      || stringInArray(fifaPlayer.traits, "Intercept +")
+    ) {
       this.interception = 1;
       this.playerSkills += "*Interception" + "\n";
     } else {
@@ -733,28 +754,40 @@ False;\
     //   this.knuckleShots = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Finesse Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Finesse Shot")
+      || stringInArray(fifaPlayer.traits, "Finesse Shot +")
+    ) {
       this.longRangeDrive = 1;
       this.playerSkills += "*Long Range Drive" + "\n";
     } else {
       this.longRangeDrive = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Long Throw")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Long Throw")
+      || stringInArray(fifaPlayer.traits, "Long Throw +")
+    ) {
       this.longThrow = 1;
       this.playerSkills += "*Long Throw" + "\n";
     } else {
       this.longThrow = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Pinged Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Pinged Pass")
+      || stringInArray(fifaPlayer.traits, "Pinged Pass +")
+    ) {
       this.lowLoftedPass = 1;
       this.playerSkills += "*Low Lofted Pass" + "\n";
     } else {
       this.lowLoftedPass = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Block")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Block")
+      || stringInArray(fifaPlayer.traits, "Block +")
+    ) {
       this.manMarking = 1;
       this.playerSkills += "*Man Marking" + "\n";
     } else {
@@ -768,14 +801,20 @@ False;\
     //   this.marseilleTurn = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Power Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Power Shot")
+      || stringInArray(fifaPlayer.traits, "Power Shot +")
+    ) {
       this.longRangeShooting = 1;
       this.playerSkills += "*Long Range Shooting" + "\n";
     } else {
       this.longRangeShooting = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Tiki-Taka")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Tiki Taka")
+      || stringInArray(fifaPlayer.traits, "Tiki Taka +")
+    ) {
       this.oneTouchPass = 1;
       this.playerSkills += "*One Touch Pass" + "\n";
     } else {
@@ -789,7 +828,10 @@ False;\
     //   this.noLookPass = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Trivela")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Trivela")
+      || stringInArray(fifaPlayer.traits, "Trivela +")
+    ) {
       this.outsideCurler = 1;
       this.playerSkills += "*Outside Curler" + "\n";
     } else {
@@ -803,7 +845,10 @@ False;\
     //   this.penaltySpecialist = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Whipped Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Whipped Pass")
+      || stringInArray(fifaPlayer.traits, "Whipped Pass +")
+    ) {
       this.pinpointCrossing = 1;
       this.playerSkills += "*Pinpoint Crossing" + "\n";
     } else {
@@ -859,7 +904,10 @@ False;\
     //   this.superSub = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Incisive Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Incisive Pass")
+      || stringInArray(fifaPlayer.traits, "Incisive Pass +")
+    ) {
       this.throughPassing = 1;
       this.playerSkills += "*Through Passing" + "\n";
     } else {
@@ -873,7 +921,10 @@ False;\
     //   this.trackBack = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Long Ball Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Long Ball Pass")
+      || stringInArray(fifaPlayer.traits, "Long Ball Pass +")
+    ) {
       this.weightedPass = 1;
       this.playerSkills += "*Weighted Pass" + "\n";
     } else {
@@ -888,7 +939,10 @@ False;\
         || this.registeredPosition == "DMF"
         || this.registeredPosition == "CMF"
       )
-      && stringInArray(fifaPlayer.traits, "Acrobatic")
+      && (
+        stringInArray(fifaPlayer.traits, "Acrobatic")
+        || stringInArray(fifaPlayer.traits, "Acrobatic +")
+      )
     ) {
       this.acrobaticClear = 1;
       this.playerSkills += "*Acrobatic Clear" + "\n";
@@ -919,7 +973,10 @@ False;\
       this.longBallExpert = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Power Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Power Shot")
+      || stringInArray(fifaPlayer.traits, "Power Shot +")
+    ) {
       this.longRanger = 1;
       this.COMPlayingStyles += "*Long Ranger" + "\n";
     } else {
@@ -933,14 +990,20 @@ False;\
       this.mazingRun = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Rapid")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Rapid")
+      || stringInArray(fifaPlayer.traits, "Rapid +")
+    ) {
       this.speedingBullet = 1;
       this.COMPlayingStyles += "*Speeding Bullet" + "\n";
     } else {
       this.speedingBullet = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Trickster")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Trickster")
+      || stringInArray(fifaPlayer.traits, "Trickster +")
+    ) {
       this.trickster = 1;
       this.COMPlayingStyles += "*Trickster" + "\n";
     } else {
