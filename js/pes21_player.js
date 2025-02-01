@@ -33,6 +33,7 @@ Age: ${this.age}
 Foot: ${this.foot}
 Registered Position: ${this.registeredPosition}
 Positions: ${this.positions}
+Reputation: ${this.reputation}
 
 APPEARANCE:
 Height: ${this.height} cm
@@ -137,7 +138,7 @@ ${this.weakFootUsage};\
 ${this.weakFootAccuracy};\
 ${this.form};\
 ${this.injuryTolerance};\
-3;\
+${this.reputation};\
 2;\
 ${this.CSVSkillEvaluator(this.trickster)};\
 ${this.CSVSkillEvaluator(this.mazingRun)};\
@@ -461,6 +462,8 @@ False;\
 
     this.height = parseInt(fifaPlayer.height);
     this.weight = parseInt(fifaPlayer.weight);
+
+    this.reputation = Math.round((((fifaPlayer.internationalReputation - 1) / 4) * 7 + 1) * - 1) * - 1;
 
     this.injuryTolerance = 2;
     if (stringInArray(fifaPlayer.traits, "solid player") || stringInArray(fifaPlayer.traits, "Injury free")) {
@@ -1050,6 +1053,8 @@ False;\
     this.age = parseInt(fmPlayer.info["Age"]);
     this.nationality = fmPlayer.nationality;
     this.foot = fmPlayer.info["Foot"] == "Left" ? "L" : "R";
+
+    this.reputation = 3;
 
     this.height = parseInt(fmPlayer.info["Height"]);
     this.weight = parseInt(fmPlayer.info["Weight"]);
