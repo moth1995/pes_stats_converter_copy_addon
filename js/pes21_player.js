@@ -846,8 +846,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Whipped Pass")
-      || stringInArray(fifaPlayer.traits, "Whipped Pass +")
+      stringInArray(fifaPlayer.traits, "Whipped Cross")
+      || stringInArray(fifaPlayer.traits, "Whipped Cross +")
     ) {
       this.pinpointCrossing = 1;
       this.playerSkills += "*Pinpoint Crossing" + "\n";
