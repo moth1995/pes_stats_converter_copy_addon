@@ -48,6 +48,8 @@ class PESPlayer {
         return 'WF';
       case 'LF':
       case 'RF':
+      case 'LS':
+      case 'RS':
       case 'CF':
         return 'SS';
       case 'ST':

@@ -433,6 +433,8 @@ function FIFAToPES21Positions(position) {
     case 'LF':
     case 'RF':
     case 'CF':
+    case 'LS':
+    case 'RS':
       return 'SS';
     case 'ST':
       return 'CF';
