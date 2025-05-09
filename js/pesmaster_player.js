@@ -129,6 +129,7 @@ class PESMasterPlayer{
 
 // create button element
 function AddButton(){
+    const currentUrl = window.location.href;
 	const language = document.querySelector("html").getAttribute("lang");
 	var button = document.createElement("button");
 	button.style.position = "fixed";
@@ -136,6 +137,10 @@ function AddButton(){
     button.style.top = "50%";
 	button.style.right = "20px";
     button.style.transform = 'translateY(-50%)';
+    var selectElement = document.getElementsByName("version")[0];
+
+
+
     if (language == "en-US") {
         button.innerHTML = "PES Stats Copy";
         // add event listener to button
@@ -150,28 +155,45 @@ function AddButton(){
                     console.log(selectedOptionFMInside);
 					console.log(copyMode);
 
-                    if (selectedOptionFMInside != "pes5"){
-                        console.log("Only PES5 supported for this website");
-                        return;
-                    }
-
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
                     var pesMasterPlayer = new PESMasterPlayer(doc);
-                    var pesPlayer = new PESPlayer();
+
+                    var pesPlayer = null;
+                    if (selectedOptionFMInside === "pes5") {
+                        pesPlayer = new PESPlayer();
+                    } else if (selectedOptionFMInside === "pes21") {
+                        pesPlayer = new PES21Player();
+                    } else if (selectedOptionFMInside === "pes13") {
+                        pesPlayer = new PES13Player();
+                    } else {
+                        console.log("Invalid option for convertion")
+                        return;
+                    }
+
                     pesPlayer.FromPESMasterPlayer(pesMasterPlayer);
-					if (copyMode == "one"){
-						var psdString = pesPlayer.PSDString();
-						console.log("Received string from background:", psdString);
-						CopyToClipboard(psdString);
-                    } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5"){
-						let csvString = pesPlayer.CSVString();
-						AddPlayer(csvString);
-						return;
-					} else {
-						console.log("Invalid copy mode");
-						return;
-					}
+
+
+					if (copyMode == "one") {
+                        var psdString = pesPlayer.PSDString();
+                        console.log("Received string from background:", psdString);
+                        CopyToClipboard(psdString);
+                    } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5") {
+                        let csvString = pesPlayer.CSVString();
+                        AddPlayer(csvString);
+                        return;
+                    } else if (copyMode == "multiple" && selectedOptionFMInside == "pes13") {
+                        let csvString = pesPlayer.CSVString();
+                        AddPlayer13(csvString);
+                        return;
+                    } else if (copyMode == "multiple" && selectedOptionFMInside == "pes21") {
+                        let csvString = pesPlayer.CSVString();
+                        AddPlayer21(csvString);
+                        return;
+                    } else {
+                        console.log("Invalid copy mode");
+                        return;
+                    }
                 });
             }
         );
