@@ -1840,5 +1840,8 @@ False;\
     if (pesMasterPlayer.specialStats.includes("Full-back Finisher")){
         this.playingStyle = "Full-back Finisher";
     }
+    if (pesMasterPlayer.specialStats.includes("Prolific Winger")){
+        this.playingStyle = "Prolific Winger";
+    }
    }
 }
