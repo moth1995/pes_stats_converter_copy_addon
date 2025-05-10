@@ -1415,18 +1415,22 @@ False;\
     }
   }
 
-  function EfootballWeakFoot(weakFoot) {
+  function Efootball2021WeakFoot(weakFoot) {
     switch (weakFoot) {
       case "Slightly Low":
+        return 1;
       case "Almost Never":
         return 1;
       case "Medium":
+        return 2;
       case "Rarely":
         return 2;
       case "High":
+        return 3;
       case "Occasionally":
         return 3;
       case "Very High":
+        return 4;
       case "Regularly":
         return 4;
     }
@@ -1436,7 +1440,7 @@ False;\
     this.shirtName = this.NameToShirtName(this.name);
     this.age = parseInt(pesMasterPlayer.info["Age"]);
     this.nation = pesMasterPlayer.info["Nationality"];
-    this.nationality = pesMasterPlayer.info["Nationality"] in pesIndieNationalities ? pesIndieNationalities[pesMasterPlayer.info["Nationality"]] : "Free Nationality";
+    this.nationality = pesMasterPlayer.info["Nationality"];
     this.height = parseInt(pesMasterPlayer.info["Height (cm)"]);
     this.weight = parseInt(pesMasterPlayer.info["Weight"]);
     this.positions = pesMasterPlayer.positions;
@@ -1468,8 +1472,8 @@ False;\
     this.gkClearing = pesMasterPlayer.stats["GK Parrying"];
     this.gkReflexes = pesMasterPlayer.stats["GK Reflexes"];
     this.injuryTolerance = EfootballInjuryResistance(pesMasterPlayer.stats["Injury Resistance"]);
-    this.weakFootAccuracy = EfootballWeakFoot(pesMasterPlayer.stats["Weak Foot Acc."]);
-    this.weakFootUsage = EfootballWeakFoot(pesMasterPlayer.stats["Weak Foot Usage"]);
+    this.weakFootAccuracy = Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Acc."]);
+    this.weakFootUsage = Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Usage"]);
     this.condition = EfootballCondition(pesMasterPlayer.info["Condition"]);
     this.form = EfootballCondition(pesMasterPlayer.info["Condition"]);
 
@@ -1554,9 +1558,9 @@ False;\
     } else {
         this.longRangeShooting = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Knucle Shot")){
+    if (pesMasterPlayer?.specialStats?.includes("Knuckle Shot")){
           this.knuckleShots = 1;
-          this.playerSkills += "*Knucle Shot" + "\n";
+          this.playerSkills += "*Knuckle Shot" + "\n";
     } else {
           this.knuckleShots = 0;
     }
@@ -1776,67 +1780,65 @@ False;\
     } else {
           this.longRanger = 0;
     }
-    //if (pesMasterPlayer?.specialStats?.includes("Goal Poacher")){
-    //            this.playingStyle = "Goal Poacher";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Dummy Runner")){
-    //                 this.playingStyle = "Dummy Runner";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Fox in the Box")){
-    //                      this.playingStyle = "Fox in the Box";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Classic No. 10")){
-     //               this.playingStyle = "Classic No. 10";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Hole Player")){
-    //                this.playingStyle = "Hole Player";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Box-to-Box")){
-    //                this.playingStyle = "Box-to-Box";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Anchor Man")){
-     //               this.playingStyle = "Anchor Man";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("The Destroyer")){
-     //                this.playingStyle = "The Destroyer";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Extra Frontman")){
-    //                this.playingStyle = "Extra Frontman";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Offensive Full-back")){
-     //               this.playingStyle = "Offensive Full-back";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Defensive Full-back")){
-    //                this.playingStyle = "Defensive Full-back";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Target Man")){
-    //                this.playingStyle = "Target Man";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Creative Playmaker")){
-     //               this.playingStyle = "Creative Playmaker";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Build Up")){
-     //               this.playingStyle = "Build Up";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Offensive Goalkeeper")){
-     //               this.playingStyle = "Offensive Goalkeeper";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Defensive Goalkeeper")){
-    //                this.playingStyle = "Defensive Goalkeeper";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Roaming Flank")){
-    //                this.playingStyle = "Roaming Flank";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Cross Specialist")){
-     //               this.playingStyle = "Cross Specialist";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Orchestrator"){
-     //               this.playingStyle = "Orchestrator";
-    //}
-    //if (pesMasterPlayer?.specialStats?.includes("Full-back Finisher")){
-    //                this.playingStyle = "Full-back Finisher";
-    //}
+    if (pesMasterPlayer.specialStats.includes("Goal Poacher")){
+        this.playingStyle = "Goal Poacher";
+    }
+    if (pesMasterPlayer.specialStats.includes("Dummy Runner")){
+        this.playingStyle = "Dummy Runner";
+    }
+    if (pesMasterPlayer.specialStats.includes("Fox in the Box")){
+        this.playingStyle = "Fox in the Box";
+    }
+    if (pesMasterPlayer.specialStats.includes("Classic No. 10")){
+        this.playingStyle = "Classic No. 10";
+    }
+    if (pesMasterPlayer.specialStats.includes("Hole Player")){
+        this.playingStyle = "Hole Player";
+    }
+    if (pesMasterPlayer.specialStats.includes("Box-to-Box")){
+        this.playingStyle = "Box-to-Box";
+    }
+    if (pesMasterPlayer.specialStats.includes("Anchor Man")){
+        this.playingStyle = "Anchor Man";
+    }
+    if (pesMasterPlayer.specialStats.includes("The Destroyer")){
+        this.playingStyle = "The Destroyer";
+    }
+    if (pesMasterPlayer.specialStats.includes("Extra Frontman")){
+        this.playingStyle = "Extra Frontman";
+    }
+    if (pesMasterPlayer.specialStats.includes("Offensive Full-back")){
+        this.playingStyle = "Offensive Full-back";
+    }
+    if (pesMasterPlayer.specialStats.includes("Defensive Full-back")){
+        this.playingStyle = "Defensive Full-back";
+    }
+    if (pesMasterPlayer.specialStats?.includes("Target Man")){
+        this.playingStyle = "Target Man";
+    }
+    if (pesMasterPlayer.specialStats.includes("Creative Playmaker")){
+        this.playingStyle = "Creative Playmaker";
+    }
+    if (pesMasterPlayer.specialStats.includes("Build Up")){
+        this.playingStyle = "Build Up";
+    }
+    if (pesMasterPlayer.specialStats.includes("Offensive Goalkeeper")){
+        this.playingStyle = "Offensive Goalkeeper";
+    }
+    if (pesMasterPlayer.specialStats.includes("Defensive Goalkeeper")){
+        this.playingStyle = "Defensive Goalkeeper";
+    }
+    if (pesMasterPlayer.specialStats.includes("Roaming Flank")){
+        this.playingStyle = "Roaming Flank";
+    }
+    if (pesMasterPlayer.specialStats.includes("Cross Specialist")){
+        this.playingStyle = "Cross Specialist";
+    }
+    if (pesMasterPlayer.specialStats.includes("Orchestrator")){
+        this.playingStyle = "Orchestrator";
+    }
+    if (pesMasterPlayer.specialStats.includes("Full-back Finisher")){
+        this.playingStyle = "Full-back Finisher";
+    }
    }
-
-  
 }
