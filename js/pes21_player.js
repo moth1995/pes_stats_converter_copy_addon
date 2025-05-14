@@ -1,6 +1,7 @@
 class PES21Player {
 
   constructor() {
+    this.reputation = 3;
     this.playerSkills = "";
     this.COMPlayingStyles = "";
     this.playingStyle = "";
@@ -33,6 +34,7 @@ Age: ${this.age}
 Foot: ${this.foot}
 Registered Position: ${this.registeredPosition}
 Positions: ${this.positions}
+Reputation: ${this.reputation}
 
 APPEARANCE:
 Height: ${this.height} cm
@@ -137,7 +139,7 @@ ${this.weakFootUsage};\
 ${this.weakFootAccuracy};\
 ${this.form};\
 ${this.injuryTolerance};\
-3;\
+${this.reputation};\
 2;\
 ${this.CSVSkillEvaluator(this.trickster)};\
 ${this.CSVSkillEvaluator(this.mazingRun)};\
@@ -332,28 +334,28 @@ False;\
 
     let form = 4;
 
-    if (40 <= fifaStat && fifaStat < 66) {
+    if (40 <= fifaStat && fifaStat < 61) {
       form = 1;
     }
-    else if (66 <= fifaStat && fifaStat < 71) {
+    else if (61 <= fifaStat && fifaStat < 66) {
       form = 2;
     }
-    else if (71 <= fifaStat && fifaStat < 76) {
+    else if (66 <= fifaStat && fifaStat < 71) {
       form = 3;
     }
-    else if (76 <= fifaStat && fifaStat < 81) {
+    else if (71 <= fifaStat && fifaStat < 76) {
       form = 4;
     }
-    else if (81 <= fifaStat && fifaStat < 86) {
+    else if (76 <= fifaStat && fifaStat < 81) {
       form = 5;
     }
-    else if (86 <= fifaStat && fifaStat < 91) {
+    else if (81 <= fifaStat && fifaStat < 86) {
       form = 6;
     }
-    else if (91 <= fifaStat && fifaStat < 96) {
+    else if (86 <= fifaStat && fifaStat < 94) {
       form = 7;
     }
-    else if (96 <= fifaStat) {
+    else if (94 <= fifaStat) {
       form = 8;
     }
 
@@ -362,7 +364,6 @@ False;\
 
   ConvertFIFAStatToPES21(fifaStat) {
     fifaStat = Math.round(fifaStat);
-    fifaStat = clamp(40, 99, fifaStat);
     const mapping = [
       { fifa: [99, 99], pes: 99 },
       { fifa: [98, 98], pes: 98 },
@@ -429,7 +430,7 @@ False;\
     for (const entry of mapping) {
       const [max, min] = entry.fifa;
       if (min <= fifaStat && fifaStat <= max) {
-        return entry.pes;
+        return clamp(40, 99, entry.pes);
       }
     }
 
@@ -450,13 +451,20 @@ False;\
 
     for (let index = 0; index < fifaPlayer.posiciones.length; index++) {
       let pos = FIFAToPES21Positions(fifaPlayer.posiciones[index]);
-      if (!this.positions.includes(pos)) {
-        this.positions.push();
+
+      if (this.positions.includes(pos)) continue;
+
+      if (this.registeredPosition === pos) {
+        this.positions.push("*" + pos);
+      } else {
+        this.positions.push(pos);
       }
     }
 
     this.height = parseInt(fifaPlayer.height);
     this.weight = parseInt(fifaPlayer.weight);
+
+    this.reputation = Math.round((((fifaPlayer.internationalReputation - 1) / 4) * 7 + 1) * - 1) * - 1;
 
     this.injuryTolerance = 2;
     if (stringInArray(fifaPlayer.traits, "solid player") || stringInArray(fifaPlayer.traits, "Injury free")) {
@@ -473,6 +481,12 @@ False;\
 
     //field players
     this.offensiveAwareness = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Att. Position"]);
+    if (fifaPlayer.mentality["Att. Position"] < fifaPlayer.movement["Reactions"]) {
+      this.offensiveAwareness++;
+    }
+    else if (fifaPlayer.mentality["Att. Position"] > fifaPlayer.movement["Reactions"]) {
+      this.offensiveAwareness--;
+    }
     this.ballControl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Ball control"]);
     this.dribbling = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Dribbling"]);
     this.tightPossession = this.ConvertFIFAStatToPES21(Average([fifaPlayer.skill["Ball control"], fifaPlayer.mentality["Composure"]]));
@@ -493,16 +507,31 @@ False;\
     this.finishing = this.ConvertFIFAStatToPES21(fifaPlayer.attacking["Finishing"]);
     if (
       fifaPlayer.attacking["Finishing"] < fifaPlayer.attacking["Volleys"]
-      || fifaPlayer.attacking["Finishing"] < fifaPlayer.power["Long shots"]
-      || fifaPlayer.attacking["Finishing"] < fifaPlayer.mentality["Penalties"]
     ) {
       this.finishing++;
     }
-    else {
+    else if (
+      fifaPlayer.attacking["Finishing"] > fifaPlayer.attacking["Volleys"]
+    ){
+      this.finishing--;
+    }
+    if (
+      this.finishing < this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
+    ) {
+      this.finishing++;
+    }
+    else if (
+      this.finishing > this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
+    ){
       this.finishing--;
     }
     this.heading = this.ConvertFIFAStatToPES21(fifaPlayer.attacking["Heading accuracy"]);
-    this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.15 + fifaPlayer.skill["FK Accuracy"] * 0.7 + fifaPlayer.power["Shot power"] * 0.15);
+    this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.3 + fifaPlayer.skill["FK Accuracy"] * 0.7);
+    
+    if (this.placeKicking < 60){
+      this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"]);
+    }
+
     this.curl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Curve"]);
     this.speed = this.ConvertFIFAStatToPES21(fifaPlayer.movement["Sprint speed"]);
     this.acceleration = this.ConvertFIFAStatToPES21(fifaPlayer.movement["Acceleration"]);
@@ -523,7 +552,7 @@ False;\
       defensiveAwarenessStat = fifaPlayer.defending["Defensive awareness"];
     }
     else {
-      defensiveAwarenessStat = defensiveAwarenessStat;
+      defensiveAwarenessStat = fifaPlayer.defending["Marking"];;
     }
     
     this.defensiveAwareness = this.ConvertFIFAStatToPES21(defensiveAwarenessStat);
@@ -574,7 +603,10 @@ False;\
         || this.registeredPosition == "LWF"
         || this.registeredPosition == "CF"
       )
-      && stringInArray(fifaPlayer.traits, "Acrobatic")
+      && (
+        stringInArray(fifaPlayer.traits, "Acrobatic")
+        || stringInArray(fifaPlayer.traits, "Acrobatic +")
+      )
     ) {
       this.acrobaticFinishing = 1;
       this.playerSkills += "*Acrobatic Finishing" + "\n";
@@ -582,14 +614,20 @@ False;\
       this.acrobaticFinishing = 0;
     }
 
-    // if (fmPlayer.stats["LEADERSHIP"] >= 13) {
-    //   this.captaincy = 1;
-    //   this.playerSkills += "*Captaincy" + "\n";
-    // } else {
-    //   this.captaincy = 0;
-    // }
+    if (
+      stringInArray(fifaPlayer.traits, "Leadership")
+      || stringInArray(fifaPlayer.traits, "Leadership +")
+    ) {
+      this.captaincy = 1;
+      this.playerSkills += "*Captaincy" + "\n";
+    } else {
+      this.captaincy = 0;
+    }
 
-    if (stringInArray(fifaPlayer.traits, "Chip Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Chip Shot")
+      || stringInArray(fifaPlayer.traits, "Chip Shot +")
+    ) {
       this.chipShotControl = 1;
       this.playerSkills += "*Chip Shot Control" + "\n";
     } else {
@@ -624,7 +662,10 @@ False;\
     //   this.doubleTouch = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Relentless")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Relentless")
+      || stringInArray(fifaPlayer.traits, "Relentless +")
+    ) {
       this.fightingSpirit = 1;
       this.playerSkills += "*Fighting Spirit" + "\n";
     } else {
@@ -659,7 +700,10 @@ False;\
     //   this.gkHighPunt = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Far Throw")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Far Throw")
+      || stringInArray(fifaPlayer.traits, "Far Throw +")
+    ) {
       this.gkLongThrow = 1;
       this.playerSkills += "*GK Long Throw" + "\n";
     } else {
@@ -680,7 +724,10 @@ False;\
     //   this.gkPenaltySaver = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Power Header")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Power Header")
+      || stringInArray(fifaPlayer.traits, "Power Header +")
+    ) {
       this.headingPlayerSkill = 1;
       this.playerSkills += "*Heading" + "\n";
     } else {
@@ -694,7 +741,10 @@ False;\
     //   this.heelTrick = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Intercept")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Intercept")
+      || stringInArray(fifaPlayer.traits, "Intercept +")
+    ) {
       this.interception = 1;
       this.playerSkills += "*Interception" + "\n";
     } else {
@@ -708,28 +758,40 @@ False;\
     //   this.knuckleShots = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Finesse Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Finesse Shot")
+      || stringInArray(fifaPlayer.traits, "Finesse Shot +")
+    ) {
       this.longRangeDrive = 1;
       this.playerSkills += "*Long Range Drive" + "\n";
     } else {
       this.longRangeDrive = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Long Throw")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Long Throw")
+      || stringInArray(fifaPlayer.traits, "Long Throw +")
+    ) {
       this.longThrow = 1;
       this.playerSkills += "*Long Throw" + "\n";
     } else {
       this.longThrow = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Pinged Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Pinged Pass")
+      || stringInArray(fifaPlayer.traits, "Pinged Pass +")
+    ) {
       this.lowLoftedPass = 1;
       this.playerSkills += "*Low Lofted Pass" + "\n";
     } else {
       this.lowLoftedPass = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Block")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Block")
+      || stringInArray(fifaPlayer.traits, "Block +")
+    ) {
       this.manMarking = 1;
       this.playerSkills += "*Man Marking" + "\n";
     } else {
@@ -743,14 +805,20 @@ False;\
     //   this.marseilleTurn = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Power Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Power Shot")
+      || stringInArray(fifaPlayer.traits, "Power Shot +")
+    ) {
       this.longRangeShooting = 1;
       this.playerSkills += "*Long Range Shooting" + "\n";
     } else {
       this.longRangeShooting = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Tiki-Taka")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Tiki Taka")
+      || stringInArray(fifaPlayer.traits, "Tiki Taka +")
+    ) {
       this.oneTouchPass = 1;
       this.playerSkills += "*One Touch Pass" + "\n";
     } else {
@@ -764,7 +832,10 @@ False;\
     //   this.noLookPass = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Trivela")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Trivela")
+      || stringInArray(fifaPlayer.traits, "Trivela +")
+    ) {
       this.outsideCurler = 1;
       this.playerSkills += "*Outside Curler" + "\n";
     } else {
@@ -778,7 +849,10 @@ False;\
     //   this.penaltySpecialist = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Whipped Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Whipped Cross")
+      || stringInArray(fifaPlayer.traits, "Whipped Cross +")
+    ) {
       this.pinpointCrossing = 1;
       this.playerSkills += "*Pinpoint Crossing" + "\n";
     } else {
@@ -834,7 +908,10 @@ False;\
     //   this.superSub = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Incisive Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Incisive Pass")
+      || stringInArray(fifaPlayer.traits, "Incisive Pass +")
+    ) {
       this.throughPassing = 1;
       this.playerSkills += "*Through Passing" + "\n";
     } else {
@@ -848,7 +925,10 @@ False;\
     //   this.trackBack = 0;
     // }
 
-    if (stringInArray(fifaPlayer.traits, "Long Ball Pass")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Long Ball Pass")
+      || stringInArray(fifaPlayer.traits, "Long Ball Pass +")
+    ) {
       this.weightedPass = 1;
       this.playerSkills += "*Weighted Pass" + "\n";
     } else {
@@ -863,7 +943,10 @@ False;\
         || this.registeredPosition == "DMF"
         || this.registeredPosition == "CMF"
       )
-      && stringInArray(fifaPlayer.traits, "Acrobatic")
+      && (
+        stringInArray(fifaPlayer.traits, "Acrobatic")
+        || stringInArray(fifaPlayer.traits, "Acrobatic +")
+      )
     ) {
       this.acrobaticClear = 1;
       this.playerSkills += "*Acrobatic Clear" + "\n";
@@ -894,7 +977,10 @@ False;\
       this.longBallExpert = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Power Shot")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Power Shot")
+      || stringInArray(fifaPlayer.traits, "Power Shot +")
+    ) {
       this.longRanger = 1;
       this.COMPlayingStyles += "*Long Ranger" + "\n";
     } else {
@@ -908,14 +994,20 @@ False;\
       this.mazingRun = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Rapid")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Rapid")
+      || stringInArray(fifaPlayer.traits, "Rapid +")
+    ) {
       this.speedingBullet = 1;
       this.COMPlayingStyles += "*Speeding Bullet" + "\n";
     } else {
       this.speedingBullet = 0;
     }
 
-    if (stringInArray(fifaPlayer.traits, "Trickster")) {
+    if (
+      stringInArray(fifaPlayer.traits, "Trickster")
+      || stringInArray(fifaPlayer.traits, "Trickster +")
+    ) {
       this.trickster = 1;
       this.COMPlayingStyles += "*Trickster" + "\n";
     } else {
@@ -1388,8 +1480,7 @@ False;\
     //return this.PSDString();
   }
 
-  FromPESMasterPlayer(pesMasterPlayer) {
-  function EfootballInjuryResistance(injury) {
+  EfootballInjuryResistance(injury) {
     switch (injury) {
       case "Low":
         return 1;
@@ -1400,7 +1491,7 @@ False;\
     }
   }
 
-  function EfootballCondition(condition) {
+  EfootballCondition(condition) {
     switch (condition) {
       case "A":
         return 8;
@@ -1415,7 +1506,7 @@ False;\
     }
   }
 
-  function Efootball2021WeakFoot(weakFoot) {
+  Efootball2021WeakFoot(weakFoot) {
     switch (weakFoot) {
       case "Slightly Low":
         return 1;
@@ -1435,6 +1526,8 @@ False;\
         return 4;
     }
   }
+
+  FromPESMasterPlayer(pesMasterPlayer) {
     console.log(typeof pesMasterPlayer.specialStats);
     this.name = pesMasterPlayer.name;
     this.shirtName = this.NameToShirtName(this.name);
@@ -1471,11 +1564,11 @@ False;\
     this.gkCatching = pesMasterPlayer.stats["GK Catching"];
     this.gkClearing = pesMasterPlayer.stats["GK Parrying"];
     this.gkReflexes = pesMasterPlayer.stats["GK Reflexes"];
-    this.injuryTolerance = EfootballInjuryResistance(pesMasterPlayer.stats["Injury Resistance"]);
-    this.weakFootAccuracy = Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Acc."]);
-    this.weakFootUsage = Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Usage"]);
-    this.condition = EfootballCondition(pesMasterPlayer.info["Condition"]);
-    this.form = EfootballCondition(pesMasterPlayer.info["Condition"]);
+    this.injuryTolerance = this.EfootballInjuryResistance(pesMasterPlayer.stats["Injury Resistance"]);
+    this.weakFootAccuracy = this.Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Acc."]);
+    this.weakFootUsage = this.Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Usage"]);
+    this.condition = this.EfootballCondition(pesMasterPlayer.info["Condition"]);
+    this.form = this.EfootballCondition(pesMasterPlayer.info["Condition"]);
 
     if (pesMasterPlayer?.specialStats?.includes("Scissors Feint")){
         this.scissorsFeint = 1;
@@ -1843,5 +1936,5 @@ False;\
     if (pesMasterPlayer.specialStats.includes("Prolific Winger")){
         this.playingStyle = "Prolific Winger";
     }
-   }
+  }
 }
