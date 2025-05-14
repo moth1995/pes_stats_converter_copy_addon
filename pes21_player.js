@@ -1415,32 +1415,27 @@ False;\
     }
   }
 
-  function Efootball2021WeakFoot(weakFoot) {
+  function EfootballWeakFoot(weakFoot) {
     switch (weakFoot) {
       case "Slightly Low":
-        return 1;
       case "Almost Never":
         return 1;
       case "Medium":
-        return 2;
       case "Rarely":
         return 2;
       case "High":
-        return 3;
       case "Occasionally":
         return 3;
       case "Very High":
-        return 4;
       case "Regularly":
         return 4;
     }
   }
-    console.log(typeof pesMasterPlayer.specialStats);
     this.name = pesMasterPlayer.name;
     this.shirtName = this.NameToShirtName(this.name);
     this.age = parseInt(pesMasterPlayer.info["Age"]);
     this.nation = pesMasterPlayer.info["Nationality"];
-    this.nationality = pesMasterPlayer.info["Nationality"];
+    this.nationality = pesMasterPlayer.info["Nationality"] in pesIndieNationalities ? pesIndieNationalities[pesMasterPlayer.info["Nationality"]] : "Free Nationality";
     this.height = parseInt(pesMasterPlayer.info["Height (cm)"]);
     this.weight = parseInt(pesMasterPlayer.info["Weight"]);
     this.positions = pesMasterPlayer.positions;
@@ -1472,376 +1467,389 @@ False;\
     this.gkClearing = pesMasterPlayer.stats["GK Parrying"];
     this.gkReflexes = pesMasterPlayer.stats["GK Reflexes"];
     this.injuryTolerance = EfootballInjuryResistance(pesMasterPlayer.stats["Injury Resistance"]);
-    this.weakFootAccuracy = Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Acc."]);
-    this.weakFootUsage = Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Usage"]);
+    this.weakFootAccuracy = EfootballWeakFoot(pesMasterPlayer.stats["Weak Foot Acc."]);
+    this.weakFootUsage = EfootballWeakFoot(pesMasterPlayer.stats["Weak Foot Usage"]);
     this.condition = EfootballCondition(pesMasterPlayer.info["Condition"]);
     this.form = EfootballCondition(pesMasterPlayer.info["Condition"]);
 
-    if (pesMasterPlayer?.specialStats?.includes("Scissors Feint")){
+    if (pesMasterPlayer.specialStats.includes("Scissors Feint")){
         this.scissorsFeint = 1;
         this.playerSkills += "*Scissors Feint" + "\n";
     } else {
         this.scissorsFeint = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Double Touch")){
+    if (pesMasterPlayer.specialStats.includes("Double Touch")){
             this.doubleTouch = 1;
             this.playerSkills += "*Double Touch" + "\n";
         } else {
             this.doubleTouch = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Flip Flap")){
+    if (pesMasterPlayer.specialStats.includes("Flip Flap")){
         this.flipFlap = 1;
         this.playerSkills += "*Flip Flap" + "\n";
     } else {
         this.flipFlap = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Marseille Turn")){
+    if (pesMasterPlayer.specialStats.includes("Marseille Turn")){
         this.marseilleTurn = 1;
         this.playerSkills += "*Marseille Turn" + "\n";
     } else {
         this.marseilleTurn = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Sombrero")){
+    if (pesMasterPlayer.specialStats.includes("Sombrero")){
           this.sombrero = 1;
           this.playerSkills += "*Sombrero" + "\n";
     } else {
           this.sombrero = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Chop Turn")){
+    if (pesMasterPlayer.specialStats.includes("Chop Turn")){
         this.crossOverTurn = 1;
         this.playerSkills += "*Cross Over Turn" + "\n";
     } else {
         this.crossOverTurn = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Cut Behind & Turn")){
+    if (pesMasterPlayer.specialStats.includes("Cut Behind & Turn")){
         this.cutBehindAndTurn = 1;
         this.playerSkills += "*Cut Behind And Turn" + "\n";
     } else {
         this.cutBehindAndTurn = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Scotch Move")){
+    if (pesMasterPlayer.specialStats.includes("Scotch Move")){
           this.scotchMove = 1;
           this.playerSkills += "*Scotch Move" + "\n";
     } else {
           this.scotchMove = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Sole Control")){
+    if (pesMasterPlayer.specialStats.includes("Sole Control")){
         this.stepOneBallControl = 1;
         this.playerSkills += "*Step On Skill Control" + "\n";
     } else {
         this.stepOneBallControl = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Heading")){
+    if (pesMasterPlayer.specialStats.includes("Heading")){
         this.headingPlayerSkill = 1;
         this.playerSkills += "*Heading" + "\n";
     } else {
         this.headingPlayerSkill = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Long-Range Curler")){
+    if (pesMasterPlayer.specialStats.includes("Long-Range Curler")){
           this.longRangeDrive = 1;
           this.playerSkills += "*Long Range Drive" + "\n";
     } else {
           this.longRangeDrive = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Chip Shot Control")){
+    if (pesMasterPlayer.specialStats.includes("Chip Shot Control")){
         this.chipShotControl = 1;
         this.playerSkills += "*Chip Shot Control" + "\n";
     } else {
         this.chipShotControl = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Long-Range Shooting")){
+    if (pesMasterPlayer.specialStats.includes("Long-Range Shooting")){
         this.longRangeShooting = 1;
         this.playerSkills += "*Long Range Shot" + "\n";
     } else {
         this.longRangeShooting = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Knuckle Shot")){
+    if (pesMasterPlayer.specialStats.includes("Knucle Shot")){
           this.knuckleShots = 1;
-          this.playerSkills += "*Knuckle Shot" + "\n";
+          this.playerSkills += "*Knucle Shot" + "\n";
     } else {
           this.knuckleShots = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Dipping Shot")){
+    if (pesMasterPlayer.specialStats.includes("Dipping Shot")){
         this.dippingShot = 1;
         this.playerSkills += "*Dipping Shot" + "\n";
     } else {
         this.dippingShot = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Rising Shot")){
+    if (pesMasterPlayer.specialStats.includes("Rising Shot")){
         this.risingShots = 1;
         this.playerSkills += "*Rising Shot" + "\n";
     } else {
         this.risingShots = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Acrobatic Finishing")){
+    if (pesMasterPlayer.specialStats.includes("Acrobatic Finishing")){
           this.acrobaticFinishing = 1;
           this.playerSkills += "*Acrobatic Finishing" + "\n";
     } else {
           this.acrobaticFinishing = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Heel Trick")){
+    if (pesMasterPlayer.specialStats.includes("Heel Trick")){
         this.heelTrick = 1;
         this.playerSkills += "*Heel Trick" + "\n";
     } else {
         this.heelTrick = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("First-time Shot")){
+    if (pesMasterPlayer.specialStats.includes("First-time Shot")){
         this.firstTimeShot = 1;
         this.playerSkills += "*First-time Shot" + "\n";
     } else {
         this.firstTimeShot = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("One-touch Pass")){
+    if (pesMasterPlayer.specialStats.includes("One-touch Pass")){
           this.oneTouchPass = 1;
           this.playerSkills += "*One-touch Pass" + "\n";
     } else {
           this.oneTouchPass = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Through Passing")){
+    if (pesMasterPlayer.specialStats.includes("Through Passing")){
         this.throughPassing = 1;
         this.playerSkills += "*Through Passing" + "\n";
     } else {
         this.throughPassing = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Weighted Pass")){
+    if (pesMasterPlayer.specialStats.includes("Weighted Pass")){
         this.weightedPass = 1;
         this.playerSkills += "*Weighted Pass" + "\n";
     } else {
         this.weightedPass = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Pinpoint Crossing")){
+    if (pesMasterPlayer.specialStats.includes("Pinpoint Crossing")){
           this.pinpointCrossing = 1;
           this.playerSkills += "*Pinpoint Crossing" + "\n";
     } else {
           this.pinpointCrossing = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Outside Curler")){
+    if (pesMasterPlayer.specialStats.includes("Outside Curler")){
         this.outsideCurler = 1;
         this.playerSkills += "*Outside Curler" + "\n";
     } else {
         this.outsideCurler = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Rabona")){
+    if (pesMasterPlayer.specialStats.includes("Rabona")){
         this.rabona = 1;
         this.playerSkills += "*Rabona" + "\n";
     } else {
         this.rabona = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("No Look Pass")){
+    if (pesMasterPlayer.specialStats.includes("No Look Pass")){
           this.noLookPass = 1;
           this.playerSkills += "*No Look Pass" + "\n";
     } else {
           this.noLookPass = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Low Lofted Pass")){
+    if (pesMasterPlayer.specialStats.includes("Low Lofted Pass")){
         this.lowLoftedPass = 1;
         this.playerSkills += "*Low Lofted Pass" + "\n";
     } else {
         this.lowLoftedPass = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("GK Low Punt")){
+    if (pesMasterPlayer.specialStats.includes("GK Low Punt")){
         this.gkLowPunt = 1;
         this.playerSkills += "*GK Low Punt" + "\n";
     } else {
         this.gkLowPunt = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("GK High Punt")){
+    if (pesMasterPlayer.specialStats.includes("GK High Punt")){
           this.gkHighPunt = 1;
           this.playerSkills += "*GK High Punt" + "\n";
     } else {
           this.gkHighPunt = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Long Throw")){
+    if (pesMasterPlayer.specialStats.includes("Long Throw")){
         this.longThrow = 1;
         this.playerSkills += "*Long Throw" + "\n";
     } else {
         this.longThrow = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("GK Long Throw")){
+    if (pesMasterPlayer.specialStats.includes("GK Long Throw")){
         this.gkLongThrow = 1;
         this.playerSkills += "*GK Long Throw" + "\n";
     } else {
         this.gkLongThrow = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Penalty Specialist")){
+    if (pesMasterPlayer.specialStats.includes("Penalty Specialist")){
           this.penaltySpecialist = 1;
           this.playerSkills += "*Penalty Specialist" + "\n";
     } else {
           this.penaltySpecialist = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("GK Penalty Saver")){
+    if (pesMasterPlayer.specialStats.includes("GK Penalty Saver")){
         this.gkPenaltySaver = 1;
         this.playerSkills += "*GK Penalty Saver" + "\n";
     } else {
         this.gkPenaltySaver = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Gamesmanship")){
+    if (pesMasterPlayer.specialStats.includes("Gamesmanship")){
         this.gamesmanship = 1;
         this.playerSkills += "*Gamesmanship" + "\n";
     } else {
         this.gamesmanship = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Man Marking")){
+    if (pesMasterPlayer.specialStats.includes("Man Marking")){
           this.manMarking = 1;
           this.playerSkills += "*Man Marking" + "\n";
     } else {
           this.manMarking = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Track Back")){
+    if (pesMasterPlayer.specialStats.includes("Track Back")){
         this.trackBack = 1;
         this.playerSkills += "*Track Back" + "\n";
     } else {
         this.trackBack = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Interception")){
+    if (pesMasterPlayer.specialStats.includes("Interception")){
         this.interception = 1;
         this.playerSkills += "*Interception" + "\n";
     } else {
         this.interception = 0;
     }
+    if (pesMasterPlayer.specialStats.includes("Scissors Feint")){
+          this.scissorsFeint = 1;
+          this.playerSkills += "*Scissors Feint" + "\n";
+    } else {
+          this.scissorsFeint = 0;
+    }
 
-    if (pesMasterPlayer?.specialStats?.includes("Acrobatic Clearance")){
+    if (pesMasterPlayer.specialStats.includes("Acrobatic Clearance")){
         this.acrobaticClear = 1;
         this.playerSkills += "*Acrobatic Clear" + "\n";
     } else {
         this.acrobaticClear = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Captaincy")){
+    if (pesMasterPlayer.specialStats.includes("Captaincy")){
         this.captaincy = 1;
         this.playerSkills += "*Captaincy" + "\n";
     } else {
         this.captaincy = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Super-sub")){
+    if (pesMasterPlayer.specialStats.includes("Super-sub")){
           this.superSub = 1;
           this.playerSkills += "*Super-sub" + "\n";
     } else {
           this.superSub = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Fighting Spirit")){
+    if (pesMasterPlayer.specialStats.includes("Fighting Spirit")){
         this.fightingSpirit = 1;
         this.playerSkills += "*Fighting Spirit" + "\n";
     } else {
         this.fightingSpirit = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Trickster")){
+    if (pesMasterPlayer.specialStats.includes("Trickster")){
         this.trickster = 1;
         this.COMPlayingStyles += "*Trickster" + "\n";
     } else {
         this.trickster = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Mazing Run")){
+    if (pesMasterPlayer.specialStats.includes("Mazing Run")){
         this.mazingRun = 1;
         this.COMPlayingStyles += "*Mazing Run" + "\n";
     } else {
         this.mazingRun = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Speeding Bullet")){
+    if (pesMasterPlayer.specialStats.includes("Speeding Bullet")){
         this.speedingBullet = 1;
         this.COMPlayingStyles += "*Speeding Bullet" + "\n";
     } else {
         this.speedingBullet = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Incisive Run")){
+    if (pesMasterPlayer.specialStats.includes("Incisive Run")){
           this.incisiveRun = 1;
           this.COMPlayingStyles += "*Incisive Run" + "\n";
     } else {
           this.incisiveRun = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Long Ball Expert")){
+    if (pesMasterPlayer.specialStats.includes("Long Ball Expert")){
         this.longBallExpert = 1;
         this.COMPlayingStyles += "*Long Ball Expert" + "\n";
     } else {
         this.longBallExpert = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Early Crosser")){
+    if (pesMasterPlayer.specialStats.includes("Early Crosser")){
         this.earlyCross = 1;
         this.COMPlayingStyles += "*Early Crosser" + "\n";
     } else {
         this.earlyCross = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Long Ranger")){
+    if (pesMasterPlayer.specialStats.includes("Long Ranger")){
           this.longRanger = 1;
           this.playerSkills += "*Long Ranger" + "\n";
     } else {
           this.longRanger = 0;
     }
+
+    if (pesMasterPlayer.specialStats.includes("Long Ranger")){
+              this.longRanger = 1;
+              this.playerSkills += "*Long Ranger" + "\n";
+        } else {
+              this.longRanger = 0;
+        }
+  }
     if (pesMasterPlayer.specialStats.includes("Goal Poacher")){
-        this.playingStyle = "Goal Poacher";
+                this.playingStyle = "Goal Poacher";
     }
     if (pesMasterPlayer.specialStats.includes("Dummy Runner")){
-        this.playingStyle = "Dummy Runner";
+                     this.playingStyle = "Dummy Runner";
     }
     if (pesMasterPlayer.specialStats.includes("Fox in the Box")){
-        this.playingStyle = "Fox in the Box";
+                          this.playingStyle = "Fox in the Box";
     }
     if (pesMasterPlayer.specialStats.includes("Classic No. 10")){
-        this.playingStyle = "Classic No. 10";
+                    this.playingStyle = "Classic No. 10";
     }
-    if (pesMasterPlayer.specialStats.includes("Hole Player")){
-        this.playingStyle = "Hole Player";
+    if (pesMasterPlayer.specialStats.includes ("Hole Player")){
+                    this.playingStyle = "Hole Player";
     }
-    if (pesMasterPlayer.specialStats.includes("Box-to-Box")){
-        this.playingStyle = "Box-to-Box";
+    if (pesMasterPlayer.specialStats.includes ("Box-to-Box")){
+                    this.playingStyle = "Box-to-Box";
     }
-    if (pesMasterPlayer.specialStats.includes("Anchor Man")){
-        this.playingStyle = "Anchor Man";
+    if (pesMasterPlayer.specialStats.includes ("Anchor Man")){
+                    this.playingStyle = "Anchor Man";
     }
-    if (pesMasterPlayer.specialStats.includes("The Destroyer")){
-        this.playingStyle = "The Destroyer";
+    if (pesMasterPlayer.specialStats.includes ("The Destroyer")){
+                     this.playingStyle = "The Destroyer";
     }
     if (pesMasterPlayer.specialStats.includes("Extra Frontman")){
-        this.playingStyle = "Extra Frontman";
+                    this.playingStyle = "Extra Frontman";
     }
     if (pesMasterPlayer.specialStats.includes("Offensive Full-back")){
-        this.playingStyle = "Offensive Full-back";
+                    this.playingStyle = "Offensive Full-back";
     }
     if (pesMasterPlayer.specialStats.includes("Defensive Full-back")){
-        this.playingStyle = "Defensive Full-back";
+                    this.playingStyle = "Defensive Full-back";
     }
-    if (pesMasterPlayer.specialStats?.includes("Target Man")){
-        this.playingStyle = "Target Man";
+    if (pesMasterPlayer.specialStats.includes("Target Man")){
+                    this.playingStyle = "Target Man";
     }
     if (pesMasterPlayer.specialStats.includes("Creative Playmaker")){
-        this.playingStyle = "Creative Playmaker";
+                    this.playingStyle = "Creative Playmaker";
     }
     if (pesMasterPlayer.specialStats.includes("Build Up")){
-        this.playingStyle = "Build Up";
+                    this.playingStyle = "Build Up";
     }
     if (pesMasterPlayer.specialStats.includes("Offensive Goalkeeper")){
-        this.playingStyle = "Offensive Goalkeeper";
+                    this.playingStyle = "Offensive Goalkeeper";
     }
     if (pesMasterPlayer.specialStats.includes("Defensive Goalkeeper")){
-        this.playingStyle = "Defensive Goalkeeper";
+                    this.playingStyle = "Defensive Goalkeeper";
     }
     if (pesMasterPlayer.specialStats.includes("Roaming Flank")){
-        this.playingStyle = "Roaming Flank";
+                    this.playingStyle = "Roaming Flank";
     }
     if (pesMasterPlayer.specialStats.includes("Cross Specialist")){
-        this.playingStyle = "Cross Specialist";
+                    this.playingStyle = "Cross Specialist";
     }
-    if (pesMasterPlayer.specialStats.includes("Orchestrator")){
-        this.playingStyle = "Orchestrator";
+    if (pesMasterPlayer.specialStats.includes ("Orchestrator"){
+                    this.playingStyle = "Orchestrator";
     }
     if (pesMasterPlayer.specialStats.includes("Full-back Finisher")){
-        this.playingStyle = "Full-back Finisher";
-    }
-    if (pesMasterPlayer.specialStats.includes("Prolific Winger")){
-        this.playingStyle = "Prolific Winger";
+                    this.playingStyle = "Full-back Finisher";
     }
    }
+
+  
 }
