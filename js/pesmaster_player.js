@@ -161,8 +161,6 @@ function AddButton(){
                         pesPlayer = new PESPlayer();
                     } else if (selectedOptionFMInside === "pes21") {
                         pesPlayer = new PES21Player();
-                    } else if (selectedOptionFMInside === "pes13") {
-                        pesPlayer = new PES13Player();
                     } else {
                         console.log("Invalid option for convertion")
                         return;
@@ -178,10 +176,6 @@ function AddButton(){
                     } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5") {
                         let csvString = pesPlayer.CSVString();
                         AddPlayer(csvString);
-                        return;
-                    } else if (copyMode == "multiple" && selectedOptionFMInside == "pes13") {
-                        let csvString = pesPlayer.CSVString();
-                        AddPlayer13(csvString);
                         return;
                     } else if (copyMode == "multiple" && selectedOptionFMInside == "pes21") {
                         let csvString = pesPlayer.CSVString();
