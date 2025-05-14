@@ -137,9 +137,6 @@ function AddButton(){
     button.style.top = "50%";
 	button.style.right = "20px";
     button.style.transform = 'translateY(-50%)';
-    var selectElement = document.getElementsByName("version")[0];
-
-
 
     if (language == "en-US") {
         button.innerHTML = "PES Stats Copy";
