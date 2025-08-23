@@ -48,7 +48,7 @@ Tight Possession: ${this.tightPossession}
 Low Pass: ${this.lowPass}
 Lofted Pass: ${this.loftedPass}
 Finishing: ${this.finishing}
-Header: ${this.heading}
+Heading: ${this.heading}
 Place Kicking: ${this.placeKicking}
 Curl: ${this.curl}
 Speed: ${this.speed}
@@ -58,7 +58,7 @@ Jump: ${this.jump}
 Physical Contact: ${this.physicalContact}
 Balance: ${this.balance}
 Stamina: ${this.stamina}
-Defence Awareness: ${this.defensiveAwareness}
+Defensive Awareness: ${this.defensiveAwareness}
 Ball Winning: ${this.ballWinning}
 Aggression: ${this.aggression}
 GK Awareness: ${this.gkAwareness}
@@ -68,8 +68,8 @@ GK Reflexes: ${this.gkReflexes}
 GK Reach: ${this.gkReach}
 Weak Foot Usage: ${this.weakFootUsage}
 Weak Foot Accuracy: ${this.weakFootAccuracy}
-Form: ${this.form}
-Injury Tolerance: ${this.injuryTolerance}
+Conditioning: ${this.form}
+Injury Resistance: ${this.injuryTolerance}
 
 CARD PLAYER SKILL:
 ${this.playerSkills}
@@ -643,7 +643,7 @@ False;\
 
     // if (this.dribbling >= 82 && this.ballControl >= 84) {
     //   this.cutBehindAndTurn = 1;
-    //   this.playerSkills += "*Cut Behind And Turn" + "\n";
+    //   this.playerSkills += "*Cut Behind & Turn" + "\n";
     // } else {
     //   this.cutBehindAndTurn = 0;
     // }
@@ -674,7 +674,7 @@ False;\
 
     // if (this.offensiveAwareness >= 83 && this.finishing >= 82) {
     //   this.firstTimeShot = 1;
-    //   this.playerSkills += "*First Time Shot" + "\n";
+    //   this.playerSkills += "*First-time Shot" + "\n";
     // } else {
     //   this.firstTimeShot = 0;
     // }
@@ -753,7 +753,7 @@ False;\
 
     // if (this.finishing >= 85 && this.placeKicking >= 75) {
     //   this.knuckleShots = 1;
-    //   this.playerSkills += "*Knuckle Shots" + "\n";
+    //   this.playerSkills += "*Knuckle Shot" + "\n";
     // } else {
     //   this.knuckleShots = 0;
     // }
@@ -820,7 +820,7 @@ False;\
       || stringInArray(fifaPlayer.traits, "Tiki Taka +")
     ) {
       this.oneTouchPass = 1;
-      this.playerSkills += "*One Touch Pass" + "\n";
+      this.playerSkills += "*One-touch Pass" + "\n";
     } else {
       this.oneTouchPass = 0;
     }
@@ -896,14 +896,14 @@ False;\
 
     // if (this.ballControl >= 84) {
     //   this.stepOneBallControl = 1;
-    //   this.playerSkills += "*Step On Skill control" + "\n";
+    //   this.playerSkills += "*Step On Ball Control" + "\n";
     // } else {
     //   this.stepOneBallControl = 0;
     // }
 
     // if (this.finishing >= 80 && this.acceleration >= 80 && this.stamina >= 65) {
     //   this.superSub = 1;
-    //   this.playerSkills += "*Super Sub" + "\n";
+    //   this.playerSkills += "*Super-sub" + "\n";
     // } else {
     //   this.superSub = 0;
     // }
@@ -1160,7 +1160,7 @@ False;\
     }
     if (this.dribbling >= 82 && this.ballControl >= 84) {
       this.cutBehindAndTurn = 1;
-      this.playerSkills += "*Cut Behind And Turn" + "\n";
+      this.playerSkills += "*Cut Behind & Turn" + "\n";
     } else {
       this.cutBehindAndTurn = 0;
     }
@@ -1186,7 +1186,7 @@ False;\
 
     if (this.offensiveAwareness >= 83 && this.finishing >= 82) {
       this.firstTimeShot = 1;
-      this.playerSkills += "*First Time Shot" + "\n";
+      this.playerSkills += "*First-time Shot" + "\n";
     } else {
       this.firstTimeShot = 0;
     }
@@ -1256,7 +1256,7 @@ False;\
 
     if (this.finishing >= 85 && this.placeKicking >= 75) {
       this.knuckleShots = 1;
-      this.playerSkills += "*Knuckle Shots" + "\n";
+      this.playerSkills += "*Knuckle Shot" + "\n";
     } else {
       this.knuckleShots = 0;
     }
@@ -1305,7 +1305,7 @@ False;\
 
     if (this.lowPass >= 85 && this.ballControl >= 80) {
       this.oneTouchPass = 1;
-      this.playerSkills += "*One Touch Pass" + "\n";
+      this.playerSkills += "*One-touch Pass" + "\n";
     } else {
       this.oneTouchPass = 0;
     }
@@ -1375,14 +1375,14 @@ False;\
 
     if (this.ballControl >= 84) {
       this.stepOneBallControl = 1;
-      this.playerSkills += "*Step On Skill control" + "\n";
+      this.playerSkills += "*Step On Ball Control" + "\n";
     } else {
       this.stepOneBallControl = 0;
     }
 
     if (this.finishing >= 80 && this.acceleration >= 80 && this.stamina >= 65) {
       this.superSub = 1;
-      this.playerSkills += "*Super Sub" + "\n";
+      this.playerSkills += "*Super-sub" + "\n";
     } else {
       this.superSub = 0;
     }
@@ -1609,7 +1609,7 @@ False;\
     }
     if (pesMasterPlayer?.specialStats?.includes("Cut Behind & Turn")){
         this.cutBehindAndTurn = 1;
-        this.playerSkills += "*Cut Behind And Turn" + "\n";
+        this.playerSkills += "*Cut Behind & Turn" + "\n";
     } else {
         this.cutBehindAndTurn = 0;
     }
@@ -1622,7 +1622,7 @@ False;\
 
     if (pesMasterPlayer?.specialStats?.includes("Sole Control")){
         this.stepOneBallControl = 1;
-        this.playerSkills += "*Step On Skill Control" + "\n";
+        this.playerSkills += "*Step On Ball Control" + "\n";
     } else {
         this.stepOneBallControl = 0;
     }
@@ -1647,7 +1647,7 @@ False;\
     }
     if (pesMasterPlayer?.specialStats?.includes("Long-Range Shooting")){
         this.longRangeShooting = 1;
-        this.playerSkills += "*Long Range Shot" + "\n";
+        this.playerSkills += "*Long Range Shooting" + "\n";
     } else {
         this.longRangeShooting = 0;
     }
@@ -1666,7 +1666,7 @@ False;\
     }
     if (pesMasterPlayer?.specialStats?.includes("Rising Shot")){
         this.risingShots = 1;
-        this.playerSkills += "*Rising Shot" + "\n";
+        this.playerSkills += "*Rising Shots" + "\n";
     } else {
         this.risingShots = 0;
     }
@@ -1863,7 +1863,7 @@ False;\
     }
     if (pesMasterPlayer?.specialStats?.includes("Early Crosser")){
         this.earlyCross = 1;
-        this.COMPlayingStyles += "*Early Crosser" + "\n";
+        this.COMPlayingStyles += "*Early Cross" + "\n";
     } else {
         this.earlyCross = 0;
     }
