@@ -67,5 +67,11 @@
         "16": "pes_indie_16.png",
         "48": "pes_indie_48.png",
         "128": "pes_indie_128.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+          "id": "pesstatscopy@pesindie.com",
+          "strict_min_version": "109.0"
+        }
     }
 }
