@@ -36,7 +36,7 @@ jobs:
 
       - name: Create ZIP
         run: |
-          ( cd src && zip -r "../dist/${ARCHIVE_NAME}.zip" . )
+          (mkdir dist && cd src && zip -r "../dist/${ARCHIVE_NAME}.zip" . )
 
       - name: SHA256 checksum
         run: |
