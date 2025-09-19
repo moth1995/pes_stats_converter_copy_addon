@@ -1,0 +1,58 @@
+name: Release on tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    env:
+      TAG_NAME: ${{ github.ref_name }}
+      ARCHIVE_NAME: pes_stats_copy_addon-${{ github.ref_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Verify tag vs manifest (python)
+        run: |
+          python3 - <<'PY'
+          import json, os, re, sys
+          with open('src/manifest.json','r',encoding='utf-8') as f:
+              v = json.load(f).get('version','')
+          tag = os.environ['TAG_NAME']
+          tag = re.sub(r'^[vV]', '', tag)
+          tag = re.split(r'[-+]', tag)[0]
+          print(f"manifest: {v} | tag: {tag}")
+          sys.exit(0 if v == tag else 1)
+          PY
+
+      - name: Create ZIP
+        run: |
+          ( cd src && zip -r "../dist/${ARCHIVE_NAME}.zip" . )
+
+      - name: SHA256 checksum
+        run: |
+          cd dist
+          sha256sum "${ARCHIVE_NAME}.zip" > "${ARCHIVE_NAME}.zip.sha256"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Release ${{ env.TAG_NAME }}"
+          tag_name: "${{ env.TAG_NAME }}"
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(env.TAG_NAME, '-rc') || contains(env.TAG_NAME, '-beta') || contains(env.TAG_NAME, '-alpha') }}
+          files: |
+            dist/${{ env.ARCHIVE_NAME }}.zip
+            dist/${{ env.ARCHIVE_NAME }}.zip.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
