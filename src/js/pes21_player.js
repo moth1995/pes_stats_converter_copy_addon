@@ -480,11 +480,11 @@ False;\
     this.weakFootUsage = this.weakFootAccuracy > 1 ? this.weakFootAccuracy - 1 : this.weakFootAccuracy;
 
     //field players
-    this.offensiveAwareness = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Att. Position"]);
-    if (fifaPlayer.mentality["Att. Position"] < fifaPlayer.movement["Reactions"]) {
+    this.offensiveAwareness = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Attack position"]);
+    if (fifaPlayer.mentality["Attck position"] < fifaPlayer.movement["Reactions"]) {
       this.offensiveAwareness++;
     }
-    else if (fifaPlayer.mentality["Att. Position"] > fifaPlayer.movement["Reactions"]) {
+    else if (fifaPlayer.mentality["Attack position"] > fifaPlayer.movement["Reactions"]) {
       this.offensiveAwareness--;
     }
     this.ballControl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Ball control"]);
