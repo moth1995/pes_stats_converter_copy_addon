@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PES Indie Converter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="banner">PES Indie Converter</div>
+
+  <!-- Bottoni per le tabs -->
+  <div>
+    <button class="tab-button" data-tab="settings">Settings</button>
+    <button class="tab-button" data-tab="about">About</button>
+  </div>
+
+  <!-- Tab Settings -->
+  <div id="settings" class="tab active">
+    <h1>Configuration</h1>
+
+    <label for="selectOptionFMInside">Target PES Version:</label>
+    <select id="selectOptionFMInside">
+      <option value="pes5">PES 5</option>
+      <option value="pes13">PES 13</option>
+      <option value="pes21">PES 21</option>
+    </select>
+
+    <label for="selectCopyMode">Copy Mode:</label>
+    <select id="selectCopyMode">
+      <option value="one">Single Player</option>
+      <option value="multiple">Multiple Players</option>
+    </select>
+
+    <!-- Pulsanti CSV -->
+    <div id="csv-buttons" class="csv-buttons">
+      <button id="download-csv">Download CSV</button>
+      <button id="clear-players">Clear All Players</button>
+      <button id="remove-last-player">Remove Last Player</button>
+    </div>
+  </div>
+
+  <!-- Tab About -->
+  <div id="about" class="tab">
+    <h2>About</h2>
+    <p>This extension converts FIFA/SoFIFA/PESMaster stats into PES formats (PES5, PES13, PES21).</p>
+    <p>Developed for the PES Indie community.</p>
+
+    <button id="evoweb-button" class="pes-indie-pop-up-button">Visit Evoweb Official Thread</button>
+    <button id="privacy-button" class="pes-indie-pop-up-button">Privacy Policy</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

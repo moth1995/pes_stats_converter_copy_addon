@@ -1,0 +1,121 @@
+body {
+  width: 370px;
+  height: 370px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 20px;
+  background-color: #0a0f24; /* blu scuro */
+  color: #FFFFFF;
+  overflow-y: auto;
+}
+
+/* Banner */
+.banner {
+  background-color: #1c2541;
+  color: #00BFFF;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* Bottoni tab */
+.tab-button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.tab-button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabs */
+.tab {
+  display: none;
+  margin-top: 20px;
+  background-color: #121a3a;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.tab.active {
+  display: block;
+}
+
+/* Titoli */
+h1, h2 {
+  color: #00BFFF;
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* Select */
+select {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  background-color: #1c2541;
+  color: #fff;
+  border: 1px solid #00BFFF;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+/* Bottoni CSV e generici */
+button {
+  background-color: #00BFFF;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #009ACD;
+}
+
+/* CSV buttons container */
+.csv-buttons {
+  display: none;
+  margin-top: 20px;
+}
+
+.csv-buttons.active {
+  display: block;
+}
+
+/* Bottoni Evoweb / Privacy */
+.pes-indie-pop-up-button {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.pes-indie-pop-up-button:hover {
+  background-color: #219f55;
+}
