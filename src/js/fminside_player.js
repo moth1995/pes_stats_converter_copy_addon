@@ -8,8 +8,9 @@ class FMInsidePlayer {
 
   GetBasicInfo() {
     this.name = this.doc.querySelector('#player_info #player .title h1').getAttribute('title');
-    this.ability = this.doc.querySelector('#ability').textContent;
-    this.potential = this.doc.querySelector('#potential').textContent;
+    const ratingSpans = this.doc.querySelectorAll('.card.superstar');
+    this.ability = ratingSpans[0] ? ratingSpans[0].textContent.trim() : null;
+    this.potential = ratingSpans[1] ? ratingSpans[1].textContent.trim() : null;
     console.log(this.name, this.ability, this.potential);
     const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
     this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
