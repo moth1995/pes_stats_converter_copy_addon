@@ -36,6 +36,16 @@ class FMInsidePlayer {
     })
     this.positionType = positionType;
 
+    // best way to handle the new changes on the website
+    if ("Left foot" in info && "Right foot" in info && !("Foot" in info)){
+      if (parseInt(info["Left foot"]) > parseInt(info["Right foot"])){
+        info["Foot"] = "Left";
+      }
+      else{
+        info["Foot"] = "Right";
+      }
+    }
+
     this.info = info;
 
     console.log(this.info);
