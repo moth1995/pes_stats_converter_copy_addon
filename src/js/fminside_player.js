@@ -11,6 +11,10 @@ class FMInsidePlayer {
     const ratingSpans = this.doc.querySelector('#player_info .meta').querySelectorAll('.card');
     this.ability = ratingSpans[0] ? ratingSpans[0].textContent.trim() : null;
     this.potential = ratingSpans[1] ? ratingSpans[1].textContent.trim() : null;
+    if (!this.potential){
+      //special case for when potential is variable, we use the same as ability as there's no way to calculate it
+      this.potential = this.ability
+    }
     console.log(this.name, this.ability, this.potential);
     const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
     this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
