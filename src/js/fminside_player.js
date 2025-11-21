@@ -46,6 +46,11 @@ class FMInsidePlayer {
       }
     }
 
+    // temporary, probably forever... until they readd it in the site
+    if (!("Weight" in info)){
+      info["Weight"] = "75 kg";
+    }
+
     this.info = info;
 
     console.log(this.info);
