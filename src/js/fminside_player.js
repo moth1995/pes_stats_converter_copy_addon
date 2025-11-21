@@ -8,8 +8,13 @@ class FMInsidePlayer {
 
   GetBasicInfo() {
     this.name = this.doc.querySelector('#player_info #player .title h1').getAttribute('title');
-    this.ability = this.doc.querySelector('#ability').textContent;
-    this.potential = this.doc.querySelector('#potential').textContent;
+    const ratingSpans = this.doc.querySelector('#player_info .meta').querySelectorAll('.card');
+    this.ability = ratingSpans[0] ? ratingSpans[0].textContent.trim() : null;
+    this.potential = ratingSpans[1] ? ratingSpans[1].textContent.trim() : null;
+    if (!this.potential){
+      //special case for when potential is variable, we use the same as ability as there's no way to calculate it
+      this.potential = this.ability
+    }
     console.log(this.name, this.ability, this.potential);
     const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
     this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
@@ -34,6 +39,21 @@ class FMInsidePlayer {
       info[key] = value;
     })
     this.positionType = positionType;
+
+    // best way to handle the new changes on the website
+    if ("Left foot" in info && "Right foot" in info && !("Foot" in info)){
+      if (parseInt(info["Left foot"]) > parseInt(info["Right foot"])){
+        info["Foot"] = "Left";
+      }
+      else{
+        info["Foot"] = "Right";
+      }
+    }
+
+    // temporary, probably forever... until they readd it in the site
+    if (!("Weight" in info)){
+      info["Weight"] = "75 kg";
+    }
 
     this.info = info;
 
