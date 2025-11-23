@@ -1,5 +1,4 @@
 class PES13Player extends PESPlayer {
-
   constructor() {
     super();
 
@@ -14,7 +13,16 @@ class PES13Player extends PESPlayer {
     this.earlyCrossPositions = ["RB", "LB", "RMF", "LMF", "RWF", "LWF"];
     this.boxToBoxPositions = ["DMF", "CMF", "RMF", "LMF", "AMF"];
     this.incisiveRunPositions = ["RB", "LB", "RMF", "LMF", "RWF", "LWF"];
-    this.longRangerPositions = ["CB", "RB", "LB", "DMF", "CMF", "AMF", "RMF", "LMF"];
+    this.longRangerPositions = [
+      "CB",
+      "RB",
+      "LB",
+      "DMF",
+      "CMF",
+      "AMF",
+      "RMF",
+      "LMF",
+    ];
     this.enforcerPositions = ["DMF", "CMF"];
     this.goalPoacherPositions = ["SS", "CF"];
     this.dummyRunnerPositions = ["SS", "CF"];
@@ -70,7 +78,6 @@ class PES13Player extends PESPlayer {
     this.p16FoxInTheBox = 0;
     this.p17OffensiveSideback = 0;
     this.p18TrackBack = 0;
-
   }
 
   PES13PosToNum(position) {
@@ -129,167 +136,154 @@ class PES13Player extends PESPlayer {
     this.defenceAwareness = 2;
 
     this.GetIndexCardsFromSoFIFA(fifaPlayer);
-
   }
 
   GetIndexCardsFromSoFIFA(sofifaPlayer) {
-    
     if (
-      (this.classicN10Positions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.classicN10Positions))
-      && stringInArray(sofifaPlayer.playerSpecialties, "Playmaker")
+      (this.classicN10Positions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.classicN10Positions)) &&
+      stringInArray(sofifaPlayer.playerSpecialties, "Playmaker")
     ) {
       this.indexCards += "P01 - Classic No.10" + "\n";
       this.p01ClassicNo10 = 1;
     }
 
     if (
-      (this.tricksterPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.tricksterPositions))
-      && (
-        stringInArray(sofifaPlayer.traits, "Trickster")
-        || stringInArray(sofifaPlayer.traits, "Trickster +")
-      )
+      (this.tricksterPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.tricksterPositions)) &&
+      (stringInArray(sofifaPlayer.traits, "Trickster") ||
+        stringInArray(sofifaPlayer.traits, "Trickster +"))
     ) {
       this.indexCards += "P03 - Trickster" + "\n";
       this.p01ClassicNo10 = 1;
     }
 
     if (
-      (this.dartingRunPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.dartingRunPositions))
-      && stringInArray(sofifaPlayer.playerSpecialties, "Speedster")
+      (this.dartingRunPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.dartingRunPositions)) &&
+      stringInArray(sofifaPlayer.playerSpecialties, "Speedster")
     ) {
       this.indexCards += "P04 - Darting Run" + "\n";
       this.p04DartingRun = 1;
     }
 
     if (
-      (this.mazingRunPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.mazingRunPositions))
-      && (
-        stringInArray(sofifaPlayer.playerSpecialties, "Dribbler")
-        || stringInArray(sofifaPlayer.traits, "Technical")
-        || stringInArray(sofifaPlayer.traits, "Technical +")
-      )
+      (this.mazingRunPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.mazingRunPositions)) &&
+      (stringInArray(sofifaPlayer.playerSpecialties, "Dribbler") ||
+        stringInArray(sofifaPlayer.traits, "Technical") ||
+        stringInArray(sofifaPlayer.traits, "Technical +"))
     ) {
       this.indexCards += "P05 - Mazing Run" + "\n";
       this.p05MazingRun = 1;
     }
 
     if (
-      (this.pinPointPassPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.pinPointPassPositions))
-      && (
-        stringInArray(sofifaPlayer.traits, "Long Ball Pass")
-        || stringInArray(sofifaPlayer.traits, "Long Ball Pass +")
-        || stringInArray(sofifaPlayer.traits, "Incisive Pass")
-        || stringInArray(sofifaPlayer.traits, "Incisive Pass +")
-      )
+      (this.pinPointPassPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.pinPointPassPositions)) &&
+      (stringInArray(sofifaPlayer.traits, "Long Ball Pass") ||
+        stringInArray(sofifaPlayer.traits, "Long Ball Pass +") ||
+        stringInArray(sofifaPlayer.traits, "Incisive Pass") ||
+        stringInArray(sofifaPlayer.traits, "Incisive Pass +"))
     ) {
       this.indexCards += "P06 - Pinpoint Pass" + "\n";
       this.p06PinpointPass = 1;
     }
 
     if (
-      (this.earlyCrossPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.earlyCrossPositions))
-      && (
-        stringInArray(sofifaPlayer.playerSpecialties, "Crosser")
-        || stringInArray(sofifaPlayer.traits, "Whipped Cross")
-        || stringInArray(sofifaPlayer.traits, "Whipped Cross +")
-      )
+      (this.earlyCrossPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.earlyCrossPositions)) &&
+      (stringInArray(sofifaPlayer.playerSpecialties, "Crosser") ||
+        stringInArray(sofifaPlayer.traits, "Whipped Cross") ||
+        stringInArray(sofifaPlayer.traits, "Whipped Cross +"))
     ) {
       this.indexCards += "P07 - Early Cross" + "\n";
       this.p07EarlyCross = 1;
     }
 
     if (
-      (this.boxToBoxPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.boxToBoxPositions))
-      && stringInArray(sofifaPlayer.playerSpecialties, "Engine")
+      (this.boxToBoxPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.boxToBoxPositions)) &&
+      stringInArray(sofifaPlayer.playerSpecialties, "Engine")
     ) {
       this.indexCards += "P08 - Box to Box" + "\n";
       this.p08BoxToBox = 1;
     }
 
     if (
-      (this.longRangerPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.longRangerPositions))
-      && stringInArray(sofifaPlayer.playerSpecialties, "Distance shooter")
+      (this.longRangerPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.longRangerPositions)) &&
+      stringInArray(sofifaPlayer.playerSpecialties, "Distance shooter")
     ) {
       this.indexCards += "P10 - Long Ranger" + "\n";
       this.p10LongRanger = 1;
     }
 
     if (
-      (this.goalPoacherPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.goalPoacherPositions))
-      && stringInArray(sofifaPlayer.playerSpecialties, "Poacher")
+      (this.goalPoacherPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.goalPoacherPositions)) &&
+      stringInArray(sofifaPlayer.playerSpecialties, "Poacher")
     ) {
       this.indexCards += "P12 - Goal Poacher" + "\n";
       this.p12GoalPoacher = 1;
     }
 
     if (
-      stringInArray(sofifaPlayer.traits, "First Touch")
-      || stringInArray(sofifaPlayer.traits, "First Touch +")
-  ) {
+      stringInArray(sofifaPlayer.traits, "First Touch") ||
+      stringInArray(sofifaPlayer.traits, "First Touch +")
+    ) {
       this.indexCards += "S01 - 1-Touch Play" + "\n";
       this.s01OneTouch = 1;
     }
 
     if (
-      stringInArray(sofifaPlayer.traits, "Trivela")
-      || stringInArray(sofifaPlayer.traits, "Trivela +")
+      stringInArray(sofifaPlayer.traits, "Trivela") ||
+      stringInArray(sofifaPlayer.traits, "Trivela +")
     ) {
       this.indexCards += "S02 - Outside Curve" + "\n";
       this.s02OutsideCurve = 1;
     }
 
     if (
-      stringInArray(sofifaPlayer.traits, "Long Throw")
-      || stringInArray(sofifaPlayer.traits, "Long Throw +")
+      stringInArray(sofifaPlayer.traits, "Long Throw") ||
+      stringInArray(sofifaPlayer.traits, "Long Throw +")
     ) {
       this.indexCards += "S03 - Long Throw" + "\n";
       this.s03LongThrow = 1;
     }
 
     if (
-      stringInArray(sofifaPlayer.traits, "Acrobatic")
-      || stringInArray(sofifaPlayer.traits, "Acrobatic +")
+      stringInArray(sofifaPlayer.traits, "Acrobatic") ||
+      stringInArray(sofifaPlayer.traits, "Acrobatic +")
     ) {
       this.indexCards += "S17 - Scissor Kick" + "\n";
       this.s17ScissorKick = 1;
     }
 
     if (
-      stringInArray(sofifaPlayer.traits, "Rapid")
-      || stringInArray(sofifaPlayer.traits, "Rapid +")
+      stringInArray(sofifaPlayer.traits, "Rapid") ||
+      stringInArray(sofifaPlayer.traits, "Rapid +")
     ) {
       this.indexCards += "S21 - Run Around" + "\n";
       this.s21RunAround = 1;
     }
 
     if (
-      stringInArray(sofifaPlayer.traits, "Slide Tackle")
-      || stringInArray(sofifaPlayer.traits, "Slide Tackle +")
+      stringInArray(sofifaPlayer.traits, "Slide Tackle") ||
+      stringInArray(sofifaPlayer.traits, "Slide Tackle +")
     ) {
       this.indexCards += "S24 - Lunging Tackle" + "\n";
       this.s24LungingTackle = 1;
     }
 
     if (
-      this.registeredPosition === "GK"
-      && (
-        stringInArray(sofifaPlayer.traits, "Far Throw")
-        || stringInArray(sofifaPlayer.traits, "Far Throw +")  
-      )
+      this.registeredPosition === "GK" &&
+      (stringInArray(sofifaPlayer.traits, "Far Throw") ||
+        stringInArray(sofifaPlayer.traits, "Far Throw +"))
     ) {
       this.indexCards += "S26 - GK Long Throw" + "\n";
       this.s26GkLongThrow = 1;
     }
-
   }
 
   FromFMPlayer(fmPlayer) {
@@ -297,18 +291,27 @@ class PES13Player extends PESPlayer {
 
     let FMPositions = FMPositionStringToArray(fmPlayer.info["Position(s)"]);
     console.log(FMPositions);
-    this.registeredPosition = FMPositions.includes("AMC") && FMPositions.includes("ST") ? "SS" : FMToPES21Positions(FMPositions[0]);
+    this.registeredPosition =
+      FMPositions.includes("AMC") && FMPositions.includes("ST")
+        ? "SS"
+        : FMToPES21Positions(FMPositions[0]);
     this.positions = [];
 
     for (let index = 0; index < FMPositions.length; index++) {
       let pos = FMToPES21Positions(FMPositions[index]);
-      if (this.registeredPosition != pos && !(this.positions.includes(pos))) {
+      if (this.registeredPosition != pos && !this.positions.includes(pos)) {
         this.positions.push(pos);
       }
     }
 
-    this.explosivePower = Average([FMToPESStat99(fmPlayer.stats["Acceleration"]), FMToPESStat99(fmPlayer.stats["Agility"])]);
-    this.tenacity = Average([FMToPESStat99(fmPlayer.stats["Leadership"]), FMToPESStat99(fmPlayer.stats["Determination"])]);
+    this.explosivePower = Average([
+      FMToPESStat99(fmPlayer.stats["Acceleration"]),
+      FMToPESStat99(fmPlayer.stats["Agility"]),
+    ]);
+    this.tenacity = Average([
+      FMToPESStat99(fmPlayer.stats["Leadership"]),
+      FMToPESStat99(fmPlayer.stats["Determination"]),
+    ]);
 
     let rushingOut = 0;
     let workRate = fmPlayer.stats["Work Rate"];
@@ -316,16 +319,14 @@ class PES13Player extends PESPlayer {
     try {
       rushingOut = fmPlayer.stats["Rushing Out (Tendency)"];
     } catch (error) {
-      rushingOut = 0
+      rushingOut = 0;
     }
 
     switch (this.registeredPosition) {
       case "GK":
         this.defenceAwareness = 2;
-        if (rushingOut < 6)
-          this.attackAwareness = 1;
-        else if (rushingOut < 15)
-          this.attackAwareness = 2;
+        if (rushingOut < 6) this.attackAwareness = 1;
+        else if (rushingOut < 15) this.attackAwareness = 2;
         else this.attackAwareness = 3;
         break;
       case "CB":
@@ -404,153 +405,144 @@ class PES13Player extends PESPlayer {
 
   PositionsInIndexCardPositions(IndexCardPositions) {
     for (let index = 0; index < this.positions.length; index++) {
-      if (IndexCardPositions.includes(this.positions[index]))
-        return true;
+      if (IndexCardPositions.includes(this.positions[index])) return true;
     }
     return false;
   }
 
   PES13GetIndexCardsFromFM(fmPlayer) {
-
     if (
-      (this.classicN10Positions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.classicN10Positions))
-      && this.playmaking
+      (this.classicN10Positions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.classicN10Positions)) &&
+      this.playmaking
     ) {
       this.indexCards += "P01 - Classic No.10" + "\n";
       this.p01ClassicNo10 = 1;
     }
 
     if (
-      (this.anchorManPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.anchorManPositions))
-      && fmPlayer.stats["Work Rate"] < 12
+      (this.anchorManPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.anchorManPositions)) &&
+      fmPlayer.stats["Work Rate"] < 12
     ) {
       this.indexCards += "P02 - Anchor Man" + "\n";
       this.p02AnchorMan = 1;
     }
 
     if (
-      (this.mazingRunPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.mazingRunPositions))
-      && fmPlayer.stats["Dribbling"] >= 16
+      (this.mazingRunPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.mazingRunPositions)) &&
+      fmPlayer.stats["Dribbling"] >= 16
     ) {
       this.indexCards += "P05 - Mazing Run" + "\n";
       this.p05MazingRun = 1;
     }
 
     if (
-      (this.pinPointPassPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.pinPointPassPositions))
-      && fmPlayer.stats["Passing"] >= 16
+      (this.pinPointPassPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.pinPointPassPositions)) &&
+      fmPlayer.stats["Passing"] >= 16
     ) {
       this.indexCards += "P06 - Pinpoint Pass" + "\n";
       this.p06PinpointPass = 1;
     }
 
     if (
-      (this.earlyCrossPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.earlyCrossPositions))
-      && fmPlayer.stats["Crossing"] >= 16
+      (this.earlyCrossPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.earlyCrossPositions)) &&
+      fmPlayer.stats["Crossing"] >= 16
     ) {
       this.indexCards += "P07 - Early Cross" + "\n";
       this.p07EarlyCross = 1;
     }
 
     if (
-      (this.boxToBoxPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.boxToBoxPositions))
-      && fmPlayer.stats["Work Rate"] >= 16
+      (this.boxToBoxPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.boxToBoxPositions)) &&
+      fmPlayer.stats["Work Rate"] >= 16
     ) {
       this.indexCards += "P08 - Box to Box" + "\n";
       this.p08BoxToBox = 1;
     }
 
     if (
-      (this.longRangerPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.longRangerPositions))
-      && fmPlayer.stats["Long Shots"] >= 16
+      (this.longRangerPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.longRangerPositions)) &&
+      fmPlayer.stats["Long Shots"] >= 16
     ) {
       this.indexCards += "P10 - Long Ranger" + "\n";
       this.p10LongRanger = 1;
     }
 
     if (
-      (this.enforcerPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.enforcerPositions))
-      && fmPlayer.stats["Aggression"] >= 16
+      (this.enforcerPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.enforcerPositions)) &&
+      fmPlayer.stats["Aggression"] >= 16
     ) {
       this.indexCards += "P11 - Enforcer" + "\n";
       this.p11Enforcer = 1;
     }
 
     if (
-      (this.goalPoacherPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.goalPoacherPositions))
-      && this.lines
+      (this.goalPoacherPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.goalPoacherPositions)) &&
+      this.lines
     ) {
       this.indexCards += "P12 - Goal Poacher" + "\n";
       this.p12GoalPoacher = 1;
     }
 
     if (
-      (this.freeRoamingPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.freeRoamingPositions))
-      && this.lines
+      (this.freeRoamingPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.freeRoamingPositions)) &&
+      this.lines
     ) {
       this.indexCards += "P14 - Free Roaming" + "\n";
       this.p14FreeRoaming = 1;
     }
 
     if (
-      (this.talismanPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.talismanPositions))
-      && fmPlayer.stats["Leadership"] >= 16
+      (this.talismanPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.talismanPositions)) &&
+      fmPlayer.stats["Leadership"] >= 16
     ) {
       this.indexCards += "P15 - Talisman" + "\n";
       this.p15Talisman = 1;
     }
 
     if (
-      (this.trackBackPositions.includes(this.registeredPosition)
-        || this.PositionsInIndexCardPositions(this.trackBackPositions))
-      && fmPlayer.stats["Work Rate"] >= 16
+      (this.trackBackPositions.includes(this.registeredPosition) ||
+        this.PositionsInIndexCardPositions(this.trackBackPositions)) &&
+      fmPlayer.stats["Work Rate"] >= 16
     ) {
       this.indexCards += "P18 - Track Back" + "\n";
       this.p18TrackBack = 1;
     }
 
-    if (
-      this.oneTouchPass
-    ) {
+    if (this.oneTouchPass) {
       this.indexCards += "S01 - 1-Touch Play" + "\n";
       this.s01OneTouch = 1;
     }
 
-    if (
-      this.outside
-    ) {
+    if (this.outside) {
       this.indexCards += "S02 - Outside Curve" + "\n";
       this.s02OutsideCurve = 1;
     }
 
-    if (
-      fmPlayer.stats["Long Throws"] >= 16
-    ) {
+    if (fmPlayer.stats["Long Throws"] >= 16) {
       this.indexCards += "S03 - Long Throw" + "\n";
       this.s03LongThrow = 1;
     }
 
     if (
-      Average([fmPlayer.stats["Long Shots"], fmPlayer.stats["Long Shots"]]) >= 16
+      Average([fmPlayer.stats["Long Shots"], fmPlayer.stats["Long Shots"]]) >=
+      16
     ) {
       this.indexCards += "S05 - Speed Merchant" + "\n";
       this.s05SpeedMerchant = 1;
     }
 
-    if (
-      this.sliding
-    ) {
+    if (this.sliding) {
       this.indexCards += "S24 - Lunging Tackle" + "\n";
       this.s24LungingTackle = 1;
     }
@@ -563,7 +555,9 @@ Nationality: ${this.nationality}
 Age: ${clamp(15, 46, this.age)}
 Foot: ${this.foot}
 Side: ${this.favouredSide}
-Positions: ${this.registeredPosition}*${this.positions.length > 0 ? "," : ""}${this.positions}
+Positions: ${this.registeredPosition}*${this.positions.length > 0 ? "," : ""}${
+      this.positions
+    }
 
 APPEARANCE
 Height: ${clamp(148, 205, this.height)} cm
@@ -612,8 +606,7 @@ ${this.indexCards}
   }
 
   CSVString() {
-
-    this.positions.forEach(position => {
+    this.positions.forEach((position) => {
       let index = this.PES13PosToNum(position);
       this.positionsNumbers[index] = 1;
     });
@@ -728,5 +721,4 @@ Default,\
 ,\
 99,`;
   }
-
 }

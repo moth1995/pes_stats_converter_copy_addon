@@ -7,17 +7,26 @@ class FMInsidePlayer {
   }
 
   GetBasicInfo() {
-    this.name = this.doc.querySelector('#player_info #player .title h1').getAttribute('title');
-    const ratingSpans = this.doc.querySelector('#player_info .meta').querySelectorAll('.card');
+    this.name = this.doc
+      .querySelector("#player_info #player .title h1")
+      .getAttribute("title");
+    const ratingSpans = this.doc
+      .querySelector("#player_info .meta")
+      .querySelectorAll(".card");
     this.ability = ratingSpans[0] ? ratingSpans[0].textContent.trim() : null;
     this.potential = ratingSpans[1] ? ratingSpans[1].textContent.trim() : null;
-    if (!this.potential){
+    if (!this.potential) {
       //special case for when potential is variable, we use the same as ability as there's no way to calculate it
-      this.potential = this.ability
+      this.potential = this.ability;
     }
     console.log(this.name, this.ability, this.potential);
-    const lis = this.doc.querySelector('div#player_info').querySelector('div.column').querySelectorAll("li");
-    this.nationality = this.doc.querySelector("span.value:nth-child(1) > a:nth-child(1)").textContent;
+    const lis = this.doc
+      .querySelector("div#player_info")
+      .querySelector("div.column")
+      .querySelectorAll("li");
+    this.nationality = this.doc.querySelector(
+      "span.value:nth-child(1) > a:nth-child(1)"
+    ).textContent;
     console.log(this.nationality);
 
     var info = {};
@@ -27,31 +36,34 @@ class FMInsidePlayer {
       var valueElement = li.querySelector("span.value");
       var value = "";
       if (valueElement.querySelector("span.desktop_positions")) {
-        value = valueElement.querySelector("span.desktop_positions").textContent;
-        valueElement.querySelector("span.desktop_positions").querySelectorAll("span").forEach(span => {
-          console.log(span.getAttribute("title"));
-          positionType.push(span.getAttribute("title"));
-        });
-      }
-      else {
+        value = valueElement.querySelector(
+          "span.desktop_positions"
+        ).textContent;
+        valueElement
+          .querySelector("span.desktop_positions")
+          .querySelectorAll("span")
+          .forEach((span) => {
+            console.log(span.getAttribute("title"));
+            positionType.push(span.getAttribute("title"));
+          });
+      } else {
         value = valueElement.textContent;
       }
       info[key] = value;
-    })
+    });
     this.positionType = positionType;
 
     // best way to handle the new changes on the website
-    if ("Left foot" in info && "Right foot" in info && !("Foot" in info)){
-      if (parseInt(info["Left foot"]) > parseInt(info["Right foot"])){
+    if ("Left foot" in info && "Right foot" in info && !("Foot" in info)) {
+      if (parseInt(info["Left foot"]) > parseInt(info["Right foot"])) {
         info["Foot"] = "Left";
-      }
-      else{
+      } else {
         info["Foot"] = "Right";
       }
     }
 
     // temporary, probably forever... until they readd it in the site
-    if (!("Weight" in info)){
+    if (!("Weight" in info)) {
       info["Weight"] = "75 kg";
     }
 
@@ -62,17 +74,17 @@ class FMInsidePlayer {
 
   StatToObject() {
     var dictionary = {};
-    var rows = this.doc.querySelectorAll('table tr');
+    var rows = this.doc.querySelectorAll("table tr");
     rows.forEach(function (row) {
-      var acronymElement = row.querySelector('acronym');
+      var acronymElement = row.querySelector("acronym");
 
-      var tdElement = row.querySelector('.stat');
+      var tdElement = row.querySelector(".stat");
       var value = null;
       var key = acronymElement.textContent;
       for (let j = 0; j < tdElement.classList.length; j++) {
         const className = tdElement.classList[j];
-        if (className.startsWith('value_')) {
-          value = parseInt(className.split('_')[1], 10);
+        if (className.startsWith("value_")) {
+          value = parseInt(className.split("_")[1], 10);
           break;
         }
       }
@@ -93,15 +105,17 @@ class FMInsidePlayer {
   GetRoles() {
     var roles = {};
     try {
-      const rolesLis = this.doc.querySelector('#player > div:nth-child(4)').querySelector('ol').querySelectorAll('li:not(.last)');
+      const rolesLis = this.doc
+        .querySelector("#player > div:nth-child(4)")
+        .querySelector("ol")
+        .querySelectorAll("li:not(.last)");
       rolesLis.forEach(function (li) {
         var key = li.querySelector("span.key").textContent;
         var valueElement = li.querySelector("span.value");
         var value = valueElement.textContent;
         roles[key] = parseFloat(value);
-      })
-    }
-    catch (err) {
+      });
+    } catch (err) {
       console.log(err);
       console.log("No roles found");
     }
@@ -116,31 +130,71 @@ class FMInsidePlayer {
   PSDString() {
     let defaultValue = 1;
     return `Name: ${this.info["Name"]}
-Nationality: ${this.nationality in pesIndieNationalities ? pesIndieNationalities[this.nationality] : "Free Nationality"}
+Nationality: ${
+      this.nationality in pesIndieNationalities
+        ? pesIndieNationalities[this.nationality]
+        : "Free Nationality"
+    }
 Age: ${parseInt(this.info["Age"])}
 Current Ability: ${this.ability}
 Potencial : ${this.potential}
 Position: ${FMPositionStringToArray(this.info["Position(s)"])}
 Foot: ${this.info["Foot"] == "Left" ? "L" : "R"}
 
-APPEARANCE: 
+APPEARANCE:
 Height: ${parseInt(this.info["Height"])} cm
 Weight: ${parseInt(this.info["Weight"])} kg
 
-Technical Attributes 
-Corners ${(typeof this.stats["Corners"] !== "undefined") ? this.stats["Corners"] : defaultValue}
-Crossing ${(typeof this.stats["Crossing"] !== "undefined") ? this.stats["Crossing"] : defaultValue}
-Dribbling ${(typeof this.stats["Dribbling"] !== "undefined") ? this.stats["Dribbling"] : defaultValue}
-Finishing ${(typeof this.stats["Finishing"] !== "undefined") ? this.stats["Finishing"] : defaultValue}
+Technical Attributes
+Corners ${
+      typeof this.stats["Corners"] !== "undefined"
+        ? this.stats["Corners"]
+        : defaultValue
+    }
+Crossing ${
+      typeof this.stats["Crossing"] !== "undefined"
+        ? this.stats["Crossing"]
+        : defaultValue
+    }
+Dribbling ${
+      typeof this.stats["Dribbling"] !== "undefined"
+        ? this.stats["Dribbling"]
+        : defaultValue
+    }
+Finishing ${
+      typeof this.stats["Finishing"] !== "undefined"
+        ? this.stats["Finishing"]
+        : defaultValue
+    }
 First Touch ${this.stats["First Touch"]}
 Free Kick Taking ${this.stats["Free Kick Taking"]}
-Heading ${(typeof this.stats["Heading"] !== "undefined") ? this.stats["Heading"] : defaultValue}
-Long Shots ${(typeof this.stats["Long Shots"] !== "undefined") ? this.stats["Long Shots"] : defaultValue}
-Long Throws ${(typeof this.stats["Long Throws"] !== "undefined") ? this.stats["Long Throws"] : defaultValue}
-Marking ${(typeof this.stats["Marking"] !== "undefined") ? this.stats["Marking"] : defaultValue}
+Heading ${
+      typeof this.stats["Heading"] !== "undefined"
+        ? this.stats["Heading"]
+        : defaultValue
+    }
+Long Shots ${
+      typeof this.stats["Long Shots"] !== "undefined"
+        ? this.stats["Long Shots"]
+        : defaultValue
+    }
+Long Throws ${
+      typeof this.stats["Long Throws"] !== "undefined"
+        ? this.stats["Long Throws"]
+        : defaultValue
+    }
+Marking ${
+      typeof this.stats["Marking"] !== "undefined"
+        ? this.stats["Marking"]
+        : defaultValue
+    }
 Passing ${this.stats["Passing"]}
 Penalty Taking ${this.stats["Penalty Taking"]}
-Tackling ${(typeof this.stats["Tackling"] !== "undefined") ? this.stats["Tackling"] : defaultValue}
+Tackling ${
+      typeof this.stats["Tackling"] !== "undefined"
+        ? this.stats["Tackling"]
+        : defaultValue
+    }
 Technique ${this.stats["Technique"]}
 
 Mental Attributes
@@ -170,20 +224,63 @@ Stamina ${this.stats["Stamina"]}
 Strength ${this.stats["Strength"]}
 
 Goalkeeping Attributes
-Aerial Reach ${(typeof this.stats["Aerial Reach"] !== "undefined") ? this.stats["Aerial Reach"] : defaultValue}
-Command of Area ${(typeof this.stats["Command of Area"] !== "undefined") ? this.stats["Command of Area"] : defaultValue}
-Communication ${(typeof this.stats["Communication"] !== "undefined") ? this.stats["Communication"] : defaultValue}
-Eccentricity ${(typeof this.stats["Eccentricity"] !== "undefined") ? this.stats["Eccentricity"] : defaultValue}
-Handling ${(typeof this.stats["Handling"] !== "undefined") ? this.stats["Handling"] : defaultValue}
-Kicking ${(typeof this.stats["Kicking"] !== "undefined") ? this.stats["Kicking"] : defaultValue}
-One on Ones ${(typeof this.stats["One on Ones"] !== "undefined") ? this.stats["One on Ones"] : defaultValue}
-Punching (Tendency) ${(typeof this.stats["Punching (Tendency)"] !== "undefined") ? this.stats["Punching (Tendency)"] : defaultValue}
-Reflexes ${(typeof this.stats["Reflexes"] !== "undefined") ? this.stats["Reflexes"] : defaultValue}
-Rushing Out (Tendency) ${(typeof this.stats["Rushing Out (Tendency)"] !== "undefined") ? this.stats["Rushing Out (Tendency)"] : defaultValue}
-Throwing ${(typeof this.stats["Throwing"] !== "undefined") ? this.stats["Throwing"] : defaultValue}
+Aerial Reach ${
+      typeof this.stats["Aerial Reach"] !== "undefined"
+        ? this.stats["Aerial Reach"]
+        : defaultValue
+    }
+Command of Area ${
+      typeof this.stats["Command of Area"] !== "undefined"
+        ? this.stats["Command of Area"]
+        : defaultValue
+    }
+Communication ${
+      typeof this.stats["Communication"] !== "undefined"
+        ? this.stats["Communication"]
+        : defaultValue
+    }
+Eccentricity ${
+      typeof this.stats["Eccentricity"] !== "undefined"
+        ? this.stats["Eccentricity"]
+        : defaultValue
+    }
+Handling ${
+      typeof this.stats["Handling"] !== "undefined"
+        ? this.stats["Handling"]
+        : defaultValue
+    }
+Kicking ${
+      typeof this.stats["Kicking"] !== "undefined"
+        ? this.stats["Kicking"]
+        : defaultValue
+    }
+One on Ones ${
+      typeof this.stats["One on Ones"] !== "undefined"
+        ? this.stats["One on Ones"]
+        : defaultValue
+    }
+Punching (Tendency) ${
+      typeof this.stats["Punching (Tendency)"] !== "undefined"
+        ? this.stats["Punching (Tendency)"]
+        : defaultValue
+    }
+Reflexes ${
+      typeof this.stats["Reflexes"] !== "undefined"
+        ? this.stats["Reflexes"]
+        : defaultValue
+    }
+Rushing Out (Tendency) ${
+      typeof this.stats["Rushing Out (Tendency)"] !== "undefined"
+        ? this.stats["Rushing Out (Tendency)"]
+        : defaultValue
+    }
+Throwing ${
+      typeof this.stats["Throwing"] !== "undefined"
+        ? this.stats["Throwing"]
+        : defaultValue
+    }
 `;
   }
-
 }
 
 // create button element
@@ -195,18 +292,21 @@ function AddButton() {
   button.style.right = "20px";
   button.innerHTML = "PES Stats Copy";
   // add event listener to button
-  button.addEventListener(
-    "click",
-    function () {
-      console.log("Button clicked");
+  button.addEventListener("click", function () {
+    console.log("Button clicked");
 
-      chrome.storage.local.get(["selectOptionFMInside", "selectCopyMode"], function (result) {
+    chrome.storage.local.get(
+      ["selectOptionFMInside", "selectCopyMode"],
+      function (result) {
         const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
         const copyMode = result.selectCopyMode || "one";
         console.log(selectedOptionFMInside);
         console.log(copyMode);
         const parser = new DOMParser();
-        const doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+        const doc = parser.parseFromString(
+          document.documentElement.outerHTML,
+          "text/html"
+        );
         var FMPlayer = new FMInsidePlayer(doc);
         // Convert into pes
         var pesPlayer = new PESPlayer();
@@ -227,11 +327,17 @@ function AddButton() {
           let csvString = pesPlayer.CSVString();
           AddPlayer(csvString);
           return;
-        } else if (copyMode == "multiple" && selectedOptionFMInside == "pes13") {
+        } else if (
+          copyMode == "multiple" &&
+          selectedOptionFMInside == "pes13"
+        ) {
           let csvString = pesPlayer.CSVString();
           AddPlayer13(csvString);
           return;
-        } else if (copyMode == "multiple" && selectedOptionFMInside == "pes21") {
+        } else if (
+          copyMode == "multiple" &&
+          selectedOptionFMInside == "pes21"
+        ) {
           let csvString = pesPlayer.CSVString();
           AddPlayer21(csvString);
           return;
@@ -239,14 +345,11 @@ function AddButton() {
           console.log("Invalid copy mode");
           return;
         }
-      });
-    }
-  );
+      }
+    );
+  });
   // append button to body
   document.body.appendChild(button);
-};
-
-
+}
 
 AddButton();
-

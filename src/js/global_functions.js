@@ -1,23 +1,29 @@
 function CopyToClipboard(text) {
-  navigator.clipboard.writeText(text)
+  navigator.clipboard
+    .writeText(text)
     .then(() => {
       console.log("Text copied to clipboard");
     })
     .catch((error) => {
       console.error("Error copying text to clipboard:", error);
     });
-};
-
-function stringInArray(array, searchString) {
-  return array.some(item => item.toLowerCase() === searchString.toLowerCase());
 }
 
-const PES5_CSV_COLUMNS = "ID,NAME,SHIRT_NAME,NATIONALITY,AGE,STRONG FOOT,INJURY TOLERANCE,REGISTERED POSITION,FAVOURED SIDE,GK  0,CWP  2,CBT  3,SB  4,DMF  5,WB  6,CMF  7,SMF  8,AMF  9,WF 10,SS  11,CF  12,ATTACK,DEFENSE,BALANCE,STAMINA,TOP SPEED,ACCELERATION,RESPONSE,AGILITY,DRIBBLE ACCURACY,DRIBBLE SPEED,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,SHOT POWER,SHOT TECHNIQUE,FREE KICK ACCURACY,CURLING,HEADING,JUMP,TECHNIQUE,AGGRESSION,MENTALITY,GOAL KEEPING,TEAM WORK,CONSISTENCY,CONDITION / FITNESS,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,DRIBBLING,TACTICAL DRIBBLE,POSITIONING,REACTION,PLAYMAKING,PASSING,SCORING,1-1 SCORING,POST PLAYER,LINES,MIDDLE SHOOTING,SIDE,CENTRE,PENALTIES,1-TOUCH PASS,OUTSIDE,MARKING,SLIDING,COVERING,D-LINE CONTROL,PENALTY STOPPER,1-ON-1 STOPPER,LONG THROW,HEIGHT,WEIGHT";
-const PES13_CSV_COLUMNS = "INDEX,NAME,SHIRTNAME,JAPANESE PLAYER NAME,SPACING,COMMENTARY,AGE,NATIONALITY,FOOT,WEIGHT,HEIGHT,FORM,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,INJURY TOLERANCE,GROWTH TYPE,MARKET PRICE,GK 0,SW 1,CB 2,LB 3,RB 4,DMF 5,CMF 6,LMF 7,RMF 8,AMF 9,LWF 10,RWF 11,SS 12,CF 13,POSITION,ATTACK,DEFENCE,HEADER ACCURACY,DRIBBLE ACCURACY,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,PLACE KICKING,SWERVE,BALL CONTROLL,GOAL KEEPING SKILLS,RESPONSE,EXPLOSIVE POWER,DRIBBLE SPEED,TOP SPEED,BODY BALANCE,STAMINA,KICKING POWER,JUMP,TENACITY,TEAMWORK,S01 1-TOUCH PLAY,S02 OUTSIDE CURVE,S03 LONG THROW,S04 SUPER-SUB,S05 SPEED MERCHANT,S06 LONG RANGE DRIVE,S07 SHOULDER FEINT SKILLS,S08 TURNING SKILLS,S09 ROULETTE SKILLS,S10 FLIP FLAP SKILLS,S11 FLICKING SKILLS,S12 SCISSORS SKILLS,S13 STEP ON SKILLS,S14 DEFT TOUCH SKILLS,S15 KNUCKLE SHOT,S16 JUMPING VOLLEY,S17 SCISSOR KICK,S18 HEEL FLICK,S19 WEIGHTED PASS,S20 DOUBLE TOUCH,S21 RUN AROUND,S22 SOMBRERO,S23 180 DRAG,S24 LUNGING TACKLE,S25 DIVING HEADER,S26 GK LONG THROW,P01 CLASSIC NO.10,P02 ANCHOR MAN,P03 TRICKSTER,P04 DARTING RUN,P05 MAZING RUN,P06 PINPOINT PASS,P07 EARLY CROSS,P08 BOX TO BOX,P09 INCISIVE RUN,P10 LONG RANGER,P11 ENFORCER,P12 GOAL POACHER,P13 DUMMY RUNNER,P14 FREE ROAMING,P15 TALISMAN,P16 FOX IN THE BOX,P17 OFFENSIVE SIDEBACK,P18 TRACK BACK,ATTACK AWARENESS,DEFENCE AWARENESS,SKIN COLOR,SKIN TEXTURE,FACE MODE,LINKED FACE,FACE SLOT,LINKED HAIR,HAIR SLOT,BOOTS,UNTUCKED SHIRT,TIGHT KIT,GLOVES,DRIBBLE STYLE,FREE KICK STYLE,PENALTY KICK STYLE,DROP KICK STYLE,GOAL CELEBRATION STYLE #1,GOAL CELEBRATION STYLE #2,CLUB TEAM,NUMBER,NATIONAL TEAM";
-const PES21_CSV_COLUMNS = "Id;Name;JapName;Shirt;ShirtNational;Commentary;Country;Country2;Height;Weight;Age;Foot;PlayingStyle;POS;GK;CB;LB;RB;DMF;CMF;LMF;RMF;AMF;LWF;RWF;SS;CF;OffensiveAwareness;BallControl;Dribbling;TightPossession;LowPass;LoftedPass;Finishing;Heading;PlaceKicking;Curl;Speed;Acceleration;KickingPower;Jump;PhysicalContact;Balance;Stamina;DefensiveAwareness;BallWinning;Aggression;GKAwareness;GKCatching;GKClearing;GKReflexes;GKReach;WeakFootUsage;WeakFootAcc;Form;InjuryResistance;Reputation;PlayingAttitude;Trickster;MazingRun;SpeedingBullet;IncisiveRun;LongBallExpert;EarlyCross;LongRanger;ScissorsFeint;DoubleTouch;FlipFlap;MarseilleTurn;Sombrero;CrossOverTurn;CutBehindAndTurn;ScotchMove;StepOnSkillcontrol;HeadingSpecial;LongRangeDrive;Chipshotcontrol;LongRangeShot;KnuckleShot;DippingShots;RisingShots;AcrobaticFinishing;HeelTrick;FirstTimeShot;OneTouchPass;ThroughPassing;WeightedPass;PinpointCrossing;OutsideCurler;Rabona;NoLookPass;LowLoftedPass;GKLowPunt;GKHighPunt;LongThrow;GKLongThrow;PenaltySpecialist;GKPenaltySaver;Gamesmanship;ManMarking;TrackBack;Interception;AcrobaticClear;Captaincy;SuperSub;FightingSpirit;Celebration1;Celebration2;DribblingHunching;DribblingArmMove.;RunningHunching;RunningArmMovement;CornerKicks;FreeKicks;PenaltyKick;DribbleMotion;YouthClub;OwnerClub;ContractUntil;LoanUntil;MarketValue;NationalCaps;Legend;Hand;WinnerGoldenBall;EditName;EditBasics;EditPosition;EditPositions;EditAbilities;EditPlayerSkills;EditPlayingStyle;EditCOMPlayingStyles;EditMovements;Edit1;Edit2;Edit3;Edit4;Edit5;Edit6;Edit7;Value1;Value2;Value3;Value2020_1;Value2020_2;Appearance;ListBoots;ListGloves;InEditFile;OverallStats";
+function stringInArray(array, searchString) {
+  return array.some(
+    (item) => item.toLowerCase() === searchString.toLowerCase()
+  );
+}
+
+const PES5_CSV_COLUMNS =
+  "ID,NAME,SHIRT_NAME,NATIONALITY,AGE,STRONG FOOT,INJURY TOLERANCE,REGISTERED POSITION,FAVOURED SIDE,GK  0,CWP  2,CBT  3,SB  4,DMF  5,WB  6,CMF  7,SMF  8,AMF  9,WF 10,SS  11,CF  12,ATTACK,DEFENSE,BALANCE,STAMINA,TOP SPEED,ACCELERATION,RESPONSE,AGILITY,DRIBBLE ACCURACY,DRIBBLE SPEED,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,SHOT POWER,SHOT TECHNIQUE,FREE KICK ACCURACY,CURLING,HEADING,JUMP,TECHNIQUE,AGGRESSION,MENTALITY,GOAL KEEPING,TEAM WORK,CONSISTENCY,CONDITION / FITNESS,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,DRIBBLING,TACTICAL DRIBBLE,POSITIONING,REACTION,PLAYMAKING,PASSING,SCORING,1-1 SCORING,POST PLAYER,LINES,MIDDLE SHOOTING,SIDE,CENTRE,PENALTIES,1-TOUCH PASS,OUTSIDE,MARKING,SLIDING,COVERING,D-LINE CONTROL,PENALTY STOPPER,1-ON-1 STOPPER,LONG THROW,HEIGHT,WEIGHT";
+const PES13_CSV_COLUMNS =
+  "INDEX,NAME,SHIRTNAME,JAPANESE PLAYER NAME,SPACING,COMMENTARY,AGE,NATIONALITY,FOOT,WEIGHT,HEIGHT,FORM,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,INJURY TOLERANCE,GROWTH TYPE,MARKET PRICE,GK 0,SW 1,CB 2,LB 3,RB 4,DMF 5,CMF 6,LMF 7,RMF 8,AMF 9,LWF 10,RWF 11,SS 12,CF 13,POSITION,ATTACK,DEFENCE,HEADER ACCURACY,DRIBBLE ACCURACY,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,PLACE KICKING,SWERVE,BALL CONTROLL,GOAL KEEPING SKILLS,RESPONSE,EXPLOSIVE POWER,DRIBBLE SPEED,TOP SPEED,BODY BALANCE,STAMINA,KICKING POWER,JUMP,TENACITY,TEAMWORK,S01 1-TOUCH PLAY,S02 OUTSIDE CURVE,S03 LONG THROW,S04 SUPER-SUB,S05 SPEED MERCHANT,S06 LONG RANGE DRIVE,S07 SHOULDER FEINT SKILLS,S08 TURNING SKILLS,S09 ROULETTE SKILLS,S10 FLIP FLAP SKILLS,S11 FLICKING SKILLS,S12 SCISSORS SKILLS,S13 STEP ON SKILLS,S14 DEFT TOUCH SKILLS,S15 KNUCKLE SHOT,S16 JUMPING VOLLEY,S17 SCISSOR KICK,S18 HEEL FLICK,S19 WEIGHTED PASS,S20 DOUBLE TOUCH,S21 RUN AROUND,S22 SOMBRERO,S23 180 DRAG,S24 LUNGING TACKLE,S25 DIVING HEADER,S26 GK LONG THROW,P01 CLASSIC NO.10,P02 ANCHOR MAN,P03 TRICKSTER,P04 DARTING RUN,P05 MAZING RUN,P06 PINPOINT PASS,P07 EARLY CROSS,P08 BOX TO BOX,P09 INCISIVE RUN,P10 LONG RANGER,P11 ENFORCER,P12 GOAL POACHER,P13 DUMMY RUNNER,P14 FREE ROAMING,P15 TALISMAN,P16 FOX IN THE BOX,P17 OFFENSIVE SIDEBACK,P18 TRACK BACK,ATTACK AWARENESS,DEFENCE AWARENESS,SKIN COLOR,SKIN TEXTURE,FACE MODE,LINKED FACE,FACE SLOT,LINKED HAIR,HAIR SLOT,BOOTS,UNTUCKED SHIRT,TIGHT KIT,GLOVES,DRIBBLE STYLE,FREE KICK STYLE,PENALTY KICK STYLE,DROP KICK STYLE,GOAL CELEBRATION STYLE #1,GOAL CELEBRATION STYLE #2,CLUB TEAM,NUMBER,NATIONAL TEAM";
+const PES21_CSV_COLUMNS =
+  "Id;Name;JapName;Shirt;ShirtNational;Commentary;Country;Country2;Height;Weight;Age;Foot;PlayingStyle;POS;GK;CB;LB;RB;DMF;CMF;LMF;RMF;AMF;LWF;RWF;SS;CF;OffensiveAwareness;BallControl;Dribbling;TightPossession;LowPass;LoftedPass;Finishing;Heading;PlaceKicking;Curl;Speed;Acceleration;KickingPower;Jump;PhysicalContact;Balance;Stamina;DefensiveAwareness;BallWinning;Aggression;GKAwareness;GKCatching;GKClearing;GKReflexes;GKReach;WeakFootUsage;WeakFootAcc;Form;InjuryResistance;Reputation;PlayingAttitude;Trickster;MazingRun;SpeedingBullet;IncisiveRun;LongBallExpert;EarlyCross;LongRanger;ScissorsFeint;DoubleTouch;FlipFlap;MarseilleTurn;Sombrero;CrossOverTurn;CutBehindAndTurn;ScotchMove;StepOnSkillcontrol;HeadingSpecial;LongRangeDrive;Chipshotcontrol;LongRangeShot;KnuckleShot;DippingShots;RisingShots;AcrobaticFinishing;HeelTrick;FirstTimeShot;OneTouchPass;ThroughPassing;WeightedPass;PinpointCrossing;OutsideCurler;Rabona;NoLookPass;LowLoftedPass;GKLowPunt;GKHighPunt;LongThrow;GKLongThrow;PenaltySpecialist;GKPenaltySaver;Gamesmanship;ManMarking;TrackBack;Interception;AcrobaticClear;Captaincy;SuperSub;FightingSpirit;Celebration1;Celebration2;DribblingHunching;DribblingArmMove.;RunningHunching;RunningArmMovement;CornerKicks;FreeKicks;PenaltyKick;DribbleMotion;YouthClub;OwnerClub;ContractUntil;LoanUntil;MarketValue;NationalCaps;Legend;Hand;WinnerGoldenBall;EditName;EditBasics;EditPosition;EditPositions;EditAbilities;EditPlayerSkills;EditPlayingStyle;EditCOMPlayingStyles;EditMovements;Edit1;Edit2;Edit3;Edit4;Edit5;Edit6;Edit7;Value1;Value2;Value3;Value2020_1;Value2020_2;Appearance;ListBoots;ListGloves;InEditFile;OverallStats";
 
 function AddPlayer(playerData) {
-  chrome.storage.local.get(['playersData'], function (result) {
+  chrome.storage.local.get(["playersData"], function (result) {
     let playersData = result.playersData || [];
 
     if (playersData.length == 0) {
@@ -26,14 +32,14 @@ function AddPlayer(playerData) {
 
     playersData.push(playerData);
     chrome.storage.local.set({ playersData: playersData }, function () {
-      console.log('Player PES5 added to array5');
+      console.log("Player PES5 added to array5");
     });
   });
 }
 
 function AddPlayer13(player13Data) {
-  console.log(player13Data)
-  chrome.storage.local.get(['players13Data'], function (result) {
+  console.log(player13Data);
+  chrome.storage.local.get(["players13Data"], function (result) {
     let players13Data = result.players13Data || [];
 
     if (players13Data.length == 0) {
@@ -43,13 +49,13 @@ function AddPlayer13(player13Data) {
     players13Data.push(player13Data);
     console.log(players13Data);
     chrome.storage.local.set({ players13Data: players13Data }, function () {
-      console.log('Player PES13 added to array13');
+      console.log("Player PES13 added to array13");
     });
   });
 }
 
 function AddPlayer21(player21Data) {
-  chrome.storage.local.get(['players21Data'], function (result) {
+  chrome.storage.local.get(["players21Data"], function (result) {
     let players21Data = result.players21Data || [];
 
     if (players21Data.length == 0) {
@@ -58,7 +64,7 @@ function AddPlayer21(player21Data) {
 
     players21Data.push(player21Data);
     chrome.storage.local.set({ players21Data: players21Data }, function () {
-      console.log('Player PES21 added to array21');
+      console.log("Player PES21 added to array21");
     });
   });
 }
@@ -84,7 +90,6 @@ function Average(numbers) {
   return sum / numbers.length;
 }
 
-
 function GetRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -93,55 +98,84 @@ function GetRandomInt(min, max) {
 
 function FMToPESStat99(stat) {
   stat = Math.round(stat);
-  let minArray = [40, 43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94, 97];
-  let maxArray = [43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94, 97, 100];
+  let minArray = [
+    40, 43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94,
+    97,
+  ];
+  let maxArray = [
+    43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94, 97,
+    100,
+  ];
   let PESStat = GetRandomInt(minArray[stat - 1], maxArray[stat - 1]);
   return PESStat;
 }
 
 function FMToPESStat1To8(stat) {
   stat = Math.round(stat);
-  let valuesArray = [1, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8];
+  let valuesArray = [
+    1, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8,
+  ];
   return valuesArray[stat - 1];
 }
 
 function FMToPESStatAToC(stat) {
   stat = Math.round(stat);
-  let valuesArray = ['C', 'C', 'C', 'C', 'C', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'A'];
+  let valuesArray = [
+    "C",
+    "C",
+    "C",
+    "C",
+    "C",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "A",
+    "A",
+    "A",
+    "A",
+    "A",
+    "A",
+  ];
   return valuesArray[stat - 1];
 }
 
 function FMToPESPositions(position) {
   switch (position) {
-    case 'GK':
-      return 'GK';
-    case 'DC':
-      return 'CBT';
-    case 'DL':
-    case 'DR':
-      return 'SB';
-    case 'DM':
-      return 'DMF';
-    case 'WBL':
-    case 'WBR':
-      return 'WB';
-    case 'MC':
-      return 'CMF';
-    case 'ML':
-    case 'MR':
-      return 'SMF';
-    case 'AMC':
-      return 'AMF';
-    case 'AML':
-    case 'AMR':
-      return 'WF';
+    case "GK":
+      return "GK";
+    case "DC":
+      return "CBT";
+    case "DL":
+    case "DR":
+      return "SB";
+    case "DM":
+      return "DMF";
+    case "WBL":
+    case "WBR":
+      return "WB";
+    case "MC":
+      return "CMF";
+    case "ML":
+    case "MR":
+      return "SMF";
+    case "AMC":
+      return "AMF";
+    case "AML":
+    case "AMR":
+      return "WF";
     // There's no equivalent of SS on FM
     /*case 'LF':
     case 'RF':
     case 'CF':
       return 'SS';*/
-    case 'ST':
-      return 'CF';
+    case "ST":
+      return "CF";
     default:
       return position;
   }
@@ -154,26 +188,24 @@ function FMPositionStringToArray(positions) {
 }
 
 function GetFavSide(positions, useLastChar) {
-
-  let favSide = 'B';
+  let favSide = "B";
   let bothSides = 0;
   let leftSide = 0;
   let rightSide = 0;
 
   for (let index = 0; index < positions.length; index++) {
     if (useLastChar) {
-      if (positions[index].slice(-1) === 'L') {
+      if (positions[index].slice(-1) === "L") {
         leftSide++;
-      } else if (positions[index].slice(-1) === 'R') {
+      } else if (positions[index].slice(-1) === "R") {
         rightSide++;
       } else {
         bothSides++;
       }
-    }
-    else {
-      if (positions[index][0] === 'L') {
+    } else {
+      if (positions[index][0] === "L") {
         leftSide++;
-      } else if (positions[index][0] === 'R') {
+      } else if (positions[index][0] === "R") {
         rightSide++;
       } else {
         bothSides++;
@@ -182,11 +214,11 @@ function GetFavSide(positions, useLastChar) {
   }
 
   if (bothSides > leftSide && bothSides > rightSide) {
-    favSide = 'B';
+    favSide = "B";
   } else if (leftSide > bothSides && leftSide > rightSide) {
-    favSide = 'L';
+    favSide = "L";
   } else if (rightSide > bothSides && rightSide > leftSide) {
-    favSide = 'R';
+    favSide = "R";
   }
 
   return favSide;
@@ -294,8 +326,8 @@ const gkHeightTable = {
   202: 68,
   203: 67,
   204: 66,
-  205: 65
-}
+  205: 65,
+};
 const playersHeightTable = {
   165: 95,
   166: 94,
@@ -338,14 +370,14 @@ const playersHeightTable = {
   203: 57,
   204: 56,
   205: 55,
-}
+};
 
 function heightTo99Stat(height, isGK) {
   if (isGK) {
     if (height in gkHeightTable) {
       return gkHeightTable[height];
     } else {
-      stat = height < 175 ? 95 : 55
+      stat = height < 175 ? 95 : 55;
       return stat;
     }
   }
@@ -353,52 +385,50 @@ function heightTo99Stat(height, isGK) {
   if (height in playersHeightTable) {
     return playersHeightTable[height];
   } else {
-    stat = height < 165 ? 95 : 55
+    stat = height < 165 ? 95 : 55;
     return stat;
   }
 }
 
 function hasSpecialAbility(abilityPositions, registeredPosition, positions) {
-  if (abilityPositions.includes(registeredPosition))
-    return true;
+  if (abilityPositions.includes(registeredPosition)) return true;
   for (let index = 0; index < positions.length; index++) {
     let position = positions[index];
-    if (abilityPositions.includes(position))
-      return true;
+    if (abilityPositions.includes(position)) return true;
   }
   return false;
 }
 
 function FMToPES21Positions(position) {
   switch (position) {
-    case 'GK':
-      return 'GK';
-    case 'DC':
-      return 'CB';
-    case 'DL':
-      return 'LB'
-    case 'DR':
-      return 'RB';
-    case 'DM':
-      return 'DMF';
-    case 'WBL':
-      return 'LB'
-    case 'WBR':
-      return 'RB';
-    case 'MC':
-      return 'CMF';
-    case 'ML':
-      return 'LMF';
-    case 'MR':
-      return 'RMF';
-    case 'AMC':
-      return 'AMF';
-    case 'AML':
-      return 'LWF';
-    case 'AMR':
-      return 'RWF';
-    case 'ST':
-      return 'CF';
+    case "GK":
+      return "GK";
+    case "DC":
+      return "CB";
+    case "DL":
+      return "LB";
+    case "DR":
+      return "RB";
+    case "DM":
+      return "DMF";
+    case "WBL":
+      return "LB";
+    case "WBR":
+      return "RB";
+    case "MC":
+      return "CMF";
+    case "ML":
+      return "LMF";
+    case "MR":
+      return "RMF";
+    case "AMC":
+      return "AMF";
+    case "AML":
+      return "LWF";
+    case "AMR":
+      return "RWF";
+    case "ST":
+      return "CF";
     default:
       return position;
   }
@@ -406,38 +436,38 @@ function FMToPES21Positions(position) {
 
 function FIFAToPES21Positions(position) {
   switch (position) {
-    case 'GK':
-      return 'GK';
-    case 'CB':
-      return 'CB';
-    case 'LB':
-    case 'LWB':
-        return 'LB';
-    case 'RB':
-    case 'RWB':
-        return 'RB';
-    case 'CDM':
-      return 'DMF';
-    case 'CM':
-      return 'CMF';
-    case 'LM':
-      return 'LMF';
-    case 'RM':
-      return 'RMF';
-    case 'CAM':
-      return 'AMF';
-    case 'LW':
-      return 'LWF';
-    case 'RW':
-      return 'RWF';
-    case 'LF':
-    case 'RF':
-    case 'CF':
-    case 'LS':
-    case 'RS':
-      return 'SS';
-    case 'ST':
-      return 'CF';
+    case "GK":
+      return "GK";
+    case "CB":
+      return "CB";
+    case "LB":
+    case "LWB":
+      return "LB";
+    case "RB":
+    case "RWB":
+      return "RB";
+    case "CDM":
+      return "DMF";
+    case "CM":
+      return "CMF";
+    case "LM":
+      return "LMF";
+    case "RM":
+      return "RMF";
+    case "CAM":
+      return "AMF";
+    case "LW":
+      return "LWF";
+    case "RW":
+      return "RWF";
+    case "LF":
+    case "RF":
+    case "CF":
+    case "LS":
+    case "RS":
+      return "SS";
+    case "ST":
+      return "CF";
     default:
       return position;
   }
@@ -460,7 +490,9 @@ function CAPoints(ca) {
 
 function FMStatTOPES21(statFromFormula, max, min, ca) {
   let caPoints = CAPoints(ca);
-  return Math.round(clamp(40, 99, (max - min) / 20 * (statFromFormula) + min + caPoints));
+  return Math.round(
+    clamp(40, 99, ((max - min) / 20) * statFromFormula + min + caPoints)
+  );
 }
 
 function FMToPES21Stat1To3(stat) {
@@ -501,40 +533,100 @@ function getPlayingStyle(role, position) {
   const styleRules = {
     "Goalkeeper Defensive": ["goalkeeper defensive"],
     "Goalkeeper Offensive": ["sweeper keeper"],
-    "The Destroyer": ["libero", "centre-back", "central defender", "ball-winning midfielder"],
+    "The Destroyer": [
+      "libero",
+      "centre-back",
+      "central defender",
+      "ball-winning midfielder",
+    ],
     "Build Up": ["ball playing defender"],
     "Extra Frontman": ["no-nonsense centreback", "wide centre-back"],
     "Full Back Finisher": ["complete wing-back", "inverted wing-back"],
     "Offensive Full Back": ["full-back", "fing-back"],
     "Defensive Full Back": ["no-nonsense full-back"],
-    "Orchestrator": ["roaming playmaker", "deep-lying playmaker", "regista", "half-back"],
-    "Box To Box": ["segundo volante", "defensive midfielder", "box to box midfielder", "central midfielder", "carrilero", "defensive winger"],
+    Orchestrator: [
+      "roaming playmaker",
+      "deep-lying playmaker",
+      "regista",
+      "half-back",
+    ],
+    "Box To Box": [
+      "segundo volante",
+      "defensive midfielder",
+      "box to box midfielder",
+      "central midfielder",
+      "carrilero",
+      "defensive winger",
+    ],
     "Anchor Man": ["anchor man"],
-    "Hole Player": ["mezzala", "advanced playmaker", "wide playmaker", "wide midfielder", "second striker"],
+    "Hole Player": [
+      "mezzala",
+      "advanced playmaker",
+      "wide playmaker",
+      "wide midfielder",
+      "second striker",
+    ],
     "Classic N.10": ["roaming playmaker", "trequartista"],
     "Cross Specialist": ["winger", "wide target man"],
     "Roaming Flank": ["inverted winger", "inside forward"],
-    "Creative Playmaker": ["advanced playmaker", "attacking midfielder", "raumdeuter", "trequartista"],
-    "Dummy Runner": ["enganche", "deep lying forward", "false nine", "trequartista"],
+    "Creative Playmaker": [
+      "advanced playmaker",
+      "attacking midfielder",
+      "raumdeuter",
+      "trequartista",
+    ],
+    "Dummy Runner": [
+      "enganche",
+      "deep lying forward",
+      "false nine",
+      "trequartista",
+    ],
     "Prolific Winger": ["winger"],
-    "Goal Poacher": ["complete forward", "poacher", "target man", "pressing forward"],
+    "Goal Poacher": [
+      "complete forward",
+      "poacher",
+      "target man",
+      "pressing forward",
+    ],
     "Fox In The Box": ["advanced forward", "complete forward"],
-    "Target Man": ["deep lying forward", "target man"]
+    "Target Man": ["deep lying forward", "target man"],
   };
   const styleRulesByPosition = {
-    "GK": ["Goalkeeper Defensive", "Goalkeeper Offensive"],
-    "CB": ["The Destroyer", "Build Up", "Extra Frontman"],
-    "RB": ["Full Back Finisher", "Offensive Full Back", "Defensive Full Back"],
-    "LB": ["Full Back Finisher", "Offensive Full Back", "Defensive Full Back"],
-    "DMF": ["Orchestrator", "Box To Box", "The Destroyer", "Anchor Man"],
-    "CMF": ["Hole Player", "Classic N.10", "Orchestrator", "Box To Box", "The Destroyer"],
-    "RMF": ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
-    "LMF": ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
-    "AMF": ["Hole Player", "Creative Playmaker", "Dummy Runner", "Classic N.10"],
-    "RWF": ["Roaming Flank", "Creative Playmaker", "Prolific Winger", "Cross Specialist"],
-    "LWF": ["Roaming Flank", "Creative Playmaker", "Prolific Winger", "Cross Specialist"],
-    "SS": ["Creative Playmaker", "Goal Poacher", "Dummy Runner", "Hole Player", "Classic N.10"],
-    "CF": ["Fox In The Box", "Target Man", "Goal Poacher", "Dummy Runner"],
+    GK: ["Goalkeeper Defensive", "Goalkeeper Offensive"],
+    CB: ["The Destroyer", "Build Up", "Extra Frontman"],
+    RB: ["Full Back Finisher", "Offensive Full Back", "Defensive Full Back"],
+    LB: ["Full Back Finisher", "Offensive Full Back", "Defensive Full Back"],
+    DMF: ["Orchestrator", "Box To Box", "The Destroyer", "Anchor Man"],
+    CMF: [
+      "Hole Player",
+      "Classic N.10",
+      "Orchestrator",
+      "Box To Box",
+      "The Destroyer",
+    ],
+    RMF: ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
+    LMF: ["Cross Specialist", "Roaming Flank", "Hole Player", "Box To Box"],
+    AMF: ["Hole Player", "Creative Playmaker", "Dummy Runner", "Classic N.10"],
+    RWF: [
+      "Roaming Flank",
+      "Creative Playmaker",
+      "Prolific Winger",
+      "Cross Specialist",
+    ],
+    LWF: [
+      "Roaming Flank",
+      "Creative Playmaker",
+      "Prolific Winger",
+      "Cross Specialist",
+    ],
+    SS: [
+      "Creative Playmaker",
+      "Goal Poacher",
+      "Dummy Runner",
+      "Hole Player",
+      "Classic N.10",
+    ],
+    CF: ["Fox In The Box", "Target Man", "Goal Poacher", "Dummy Runner"],
   };
   let positionStyles = styleRulesByPosition[position];
   for (const style of positionStyles) {
@@ -559,293 +651,313 @@ function PES21GetPlayingStyle(FMBestSuitableRoles, pesPosition) {
 function PES21GetPositionWeight(position, fmPlayer) {
   switch (position) {
     case "*GK":
-      return fmPlayer.stats["Decisions"] * 0.1 +
+      return (
+        fmPlayer.stats["Decisions"] * 0.1 +
         fmPlayer.stats["Agility"] * 0.09 +
         fmPlayer.stats["Handling"] * 0.12 +
-        fmPlayer.stats["Reflexes"] * 0.12;
+        fmPlayer.stats["Reflexes"] * 0.12
+      );
     case "*CB":
-      return fmPlayer.stats["Marking"] * 0.1 +
+      return (
+        fmPlayer.stats["Marking"] * 0.1 +
         fmPlayer.stats["Decisions"] * 0.13 +
         fmPlayer.stats["Positioning"] * 0.1 +
         fmPlayer.stats["Acceleration"] * 0.09 +
         fmPlayer.stats["Jumping Reach"] * 0.08 +
         fmPlayer.stats["Pace"] * 0.08 +
-        fmPlayer.stats["Strength"] * 0.08;
+        fmPlayer.stats["Strength"] * 0.08
+      );
     case "*RB":
     case "*LB":
-      return fmPlayer.stats["Tackling"] * 0.07 +
+      return (
+        fmPlayer.stats["Tackling"] * 0.07 +
         fmPlayer.stats["Concentration"] * 0.07 +
         fmPlayer.stats["Decisions"] * 0.13 +
         fmPlayer.stats["Positioning"] * 0.14 +
         fmPlayer.stats["Acceleration"] * 0.15 +
         fmPlayer.stats["Agility"] * 0.07 +
-        fmPlayer.stats["Pace"] * 0.14;
+        fmPlayer.stats["Pace"] * 0.14
+      );
     case "*DMF":
-      return fmPlayer.stats["Tackling"] * 0.1 +
+      return (
+        fmPlayer.stats["Tackling"] * 0.1 +
         fmPlayer.stats["Decisions"] * 0.11 +
         fmPlayer.stats["Acceleration"] * 0.12 +
         fmPlayer.stats["Agility"] * 0.07 +
         fmPlayer.stats["Pace"] * 0.08 +
-        fmPlayer.stats["Strength"] * 0.07;
+        fmPlayer.stats["Strength"] * 0.07
+      );
     case "*RMF":
     case "*LMF":
-      return fmPlayer.stats["Acceleration"] * 0.26 +
+      return (
+        fmPlayer.stats["Acceleration"] * 0.26 +
         fmPlayer.stats["Agility"] * 0.07 +
-        fmPlayer.stats["Pace"] * 0.20 +
-        fmPlayer.stats["Stamina"] * 0.05;
+        fmPlayer.stats["Pace"] * 0.2 +
+        fmPlayer.stats["Stamina"] * 0.05
+      );
     case "*CMF":
-      return fmPlayer.stats["Passing"] * 0.1 +
+      return (
+        fmPlayer.stats["Passing"] * 0.1 +
         fmPlayer.stats["Decisions"] * 0.07 +
         fmPlayer.stats["Vision"] * 0.11 +
         fmPlayer.stats["Acceleration"] * 0.12 +
         fmPlayer.stats["Agility"] * 0.07 +
-        fmPlayer.stats["Pace"] * 0.1;
+        fmPlayer.stats["Pace"] * 0.1
+      );
     case "*RWF":
     case "*LWF":
-      return fmPlayer.stats["Dribbling"] * 0.07 +
+      return (
+        fmPlayer.stats["Dribbling"] * 0.07 +
         fmPlayer.stats["Acceleration"] * 0.28 +
         fmPlayer.stats["Agility"] * 0.05 +
-        fmPlayer.stats["Pace"] * 0.28;
+        fmPlayer.stats["Pace"] * 0.28
+      );
     case "*AMF":
-      return fmPlayer.stats["Passing"] * 0.06 +
+      return (
+        fmPlayer.stats["Passing"] * 0.06 +
         fmPlayer.stats["Vision"] * 0.09 +
         fmPlayer.stats["Acceleration"] * 0.23 +
-        fmPlayer.stats["Pace"] * 0.13;
+        fmPlayer.stats["Pace"] * 0.13
+      );
     case "*SS":
-      return fmPlayer.stats["Finishing"] * 0.08 +
+      return (
+        fmPlayer.stats["Finishing"] * 0.08 +
         fmPlayer.stats["Acceleration"] * 0.24 +
         fmPlayer.stats["Pace"] * 0.17 +
-        fmPlayer.stats["Strength"] * 0.06;
+        fmPlayer.stats["Strength"] * 0.06
+      );
     case "*CF":
-      return fmPlayer.stats["Heading"] * 0.13 +
+      return (
+        fmPlayer.stats["Heading"] * 0.13 +
         fmPlayer.stats["Acceleration"] * 0.17 +
         fmPlayer.stats["Jumping Reach"] * 0.12 +
-        fmPlayer.stats["Pace"] * 0.1;
+        fmPlayer.stats["Pace"] * 0.1
+      );
     default:
       return -1;
   }
 }
 
 const PES21_COUNTRY_MAP = {
-  'None': 0,
-  'Afghanistan': 1,
-  'Bahrain': 2,
-  'Bangladesh': 3,
-  'Bhutan': 4,
-  'Brunei': 5,
-  'Cambodia': 6,
-  'China': 7,
-  'Hong Kong': 8,
-  'India': 9,
-  'Indonesia': 10,
-  'Iran': 11,
-  'Iraq': 12,
-  'Japan': 13,
-  'Jordan': 14,
-  'North Korea': 15,
-  'South Korea': 16,
-  'Kuwait': 17,
-  'Laos': 18,
-  'Lebanon': 19,
-  'Macao': 20,
-  'Malaysia': 21,
-  'Maldives': 22,
-  'Mongolia': 23,
-  'Myanmar': 24,
-  'Nepal': 25,
-  'Oman': 26,
-  'Pakistan': 27,
-  'Palestine': 28,
-  'Philippines': 29,
-  'Qatar': 30,
-  'Saudi Arabia': 31,
-  'Singapore': 32,
-  'Sri Lanka': 33,
-  'Syria': 34,
-  'Thailand': 36,
-  'Uae': 37,
-  'Vietnam': 38,
-  'Yemen': 39,
-  'Kyrgyz Republic': 40,
-  'Tajikistan': 41,
-  'Turkmenistan': 42,
-  'East Timor': 43,
-  'Algeria': 44,
-  'Angola': 45,
-  'Benin': 46,
-  'Botswana': 47,
-  'Burkina Faso': 48,
-  'Burundi': 49,
-  'Cameroon': 50,
-  'Cape Verde': 51,
-  'Central African Rep.': 52,
-  'Chad': 53,
-  'The Comoros': 54,
-  'Congo Dr': 55,
-  'Côte d\'Ivoire': 56,
-  'Djibouti': 57,
-  'Egypt': 58,
-  'Equatorial Guinea': 59,
-  'Eritrea': 60,
-  'Ethiopia': 61,
-  'Gabon': 62,
-  'Republic of the Gambia': 63,
-  'Ghana': 64,
-  'Guinea': 65,
-  'Guinea-Bissau': 66,
-  'Kenya': 67,
-  'Lesotho': 68,
-  'Liberia': 69,
-  'Libya': 70,
-  'Madagascar': 71,
-  'Malawi': 72,
-  'Mali': 73,
-  'Mauritania': 74,
-  'Mauritius': 75,
-  'Morocco': 76,
-  'Mozambique': 77,
-  'Namibia': 78,
-  'Niger': 79,
-  'Nigeria': 80,
-  'Rwanda': 81,
-  'Sao Tomé and Principe': 82,
-  'Senegal': 83,
-  'Seychelles': 84,
-  'Sierra Leone': 85,
-  'Somalia': 86,
-  'South Africa': 87,
-  'Sudan': 88,
-  'Swaziland': 89,
-  'Tanzania': 90,
-  'Togo': 91,
-  'Tunisia': 92,
-  'Uganda': 93,
-  'Zambia': 94,
-  'Zimbabwe': 95,
-  'Congo': 98,
-  'Réunion': 100,
-  'Anguilla': 103,
-  'Antiqua and Barbuda': 104,
-  'Aruba': 105,
-  'The Bahamas': 106,
-  'Barbados': 107,
-  'Belize': 108,
-  'Bermuda': 109,
-  'Canada': 110,
-  'Cayman Islands': 111,
-  'Costa Rica': 112,
-  'Cuba': 113,
-  'Dominica': 114,
-  'Dominican Republic': 115,
-  'El Salvador': 116,
-  'Grenada': 117,
-  'Guadeloupe': 118,
-  'Guatemala': 119,
-  'Haiti': 120,
-  'Honduras': 121,
-  'Jamaica': 122,
-  'Martinique': 123,
-  'Mexico': 124,
-  'Montserrat': 125,
-  'Netherlands Antilles': 126,
-  'Nicaragua': 127,
-  'Panama': 128,
-  'Puerto Rico': 129,
-  'Saint Kitts and Nevis': 130,
-  'Saint Lucia': 131,
-  'St Vincent and Grenadines': 132,
-  'Trinidad and Tobago': 133,
-  'Turks and Caicos Is.': 134,
-  'United States': 135,
-  'British Virgin Islands': 136,
-  'U.S. Virgin Islands': 137,
-  'French Guiana': 138,
-  'Suriname': 139,
-  'Curaçao': 140,
-  'Argentina': 144,
-  'Bolivia': 145,
-  'Brazil': 146,
-  'Chile': 147,
-  'Colombia': 148,
-  'Ecuador': 149,
-  'Paraguay': 150,
-  'Peru': 151,
-  'Uruguay': 152,
-  'Venezuela': 153,
-  'Gyuana': 159,
-  'American Samoa': 161,
-  'Australia': 162,
-  'Cook Islands': 163,
-  'Fiji': 164,
-  'New Caledonia': 165,
-  'New Zealand': 166,
-  'Papua New Guinea': 167,
-  'Samoa': 168,
-  'Solomon Islands': 169,
-  'Tahiti': 170,
-  'Tonga': 171,
-  'Vanuatu': 172,
-  'Guam': 176,
-  'Palau': 184,
-  'Israel': 189,
-  'Turkey': 190,
-  'Albania': 191,
-  'Andorra': 192,
-  'Armenia': 193,
-  'Austria': 194,
-  'Azerbaijan': 195,
-  'Belarus': 196,
-  'Belgium': 197,
-  'Bosnia and Herzegovina': 198,
-  'Bulgaria': 199,
-  'Croatia': 200,
-  'Cyprus': 201,
-  'Czech Republic': 202,
-  'Denmark': 203,
-  'England': 204,
-  'Estonia': 205,
-  'Faroe Islands': 206,
-  'Finland': 207,
-  'France': 208,
-  'Georgia': 209,
-  'Germany': 210,
-  'Greece': 211,
-  'Hungary': 212,
-  'Iceland': 213,
-  'Republic of Ireland': 214,
-  'Italy': 215,
-  'Kazakhstan': 216,
-  'Latvia': 217,
-  'Liechtenstein': 218,
-  'Lithuania': 219,
-  'Luxembourg': 220,
-  'Macedonia': 221,
-  'Malta': 222,
-  'Moldova': 223,
-  'Netherlands': 224,
-  'Northern Ireland': 225,
-  'Norway': 226,
-  'Poland': 227,
-  'Portugal': 228,
-  'Romania': 229,
-  'Russia': 230,
-  'San Marino': 231,
-  'Scotland': 232,
-  'Slovakia': 234,
-  'Slovenia': 235,
-  'Spain': 236,
-  'Sweden': 237,
-  'Switzerland': 238,
-  'Ukraine': 239,
-  'Uzbekistan': 240,
-  'Wales': 241,
-  'Gibraltar': 245,
-  'Monaco': 250,
-  'Others': 260,
-  'Taiwan': 298,
-  'Serbia': 303,
-  'Montenegro': 304,
-  'Sint Maarten': 310,
-  'Kosovo': 311,
-  'South Sudan': 312
+  None: 0,
+  Afghanistan: 1,
+  Bahrain: 2,
+  Bangladesh: 3,
+  Bhutan: 4,
+  Brunei: 5,
+  Cambodia: 6,
+  China: 7,
+  "Hong Kong": 8,
+  India: 9,
+  Indonesia: 10,
+  Iran: 11,
+  Iraq: 12,
+  Japan: 13,
+  Jordan: 14,
+  "North Korea": 15,
+  "South Korea": 16,
+  Kuwait: 17,
+  Laos: 18,
+  Lebanon: 19,
+  Macao: 20,
+  Malaysia: 21,
+  Maldives: 22,
+  Mongolia: 23,
+  Myanmar: 24,
+  Nepal: 25,
+  Oman: 26,
+  Pakistan: 27,
+  Palestine: 28,
+  Philippines: 29,
+  Qatar: 30,
+  "Saudi Arabia": 31,
+  Singapore: 32,
+  "Sri Lanka": 33,
+  Syria: 34,
+  Thailand: 36,
+  Uae: 37,
+  Vietnam: 38,
+  Yemen: 39,
+  "Kyrgyz Republic": 40,
+  Tajikistan: 41,
+  Turkmenistan: 42,
+  "East Timor": 43,
+  Algeria: 44,
+  Angola: 45,
+  Benin: 46,
+  Botswana: 47,
+  "Burkina Faso": 48,
+  Burundi: 49,
+  Cameroon: 50,
+  "Cape Verde": 51,
+  "Central African Rep.": 52,
+  Chad: 53,
+  "The Comoros": 54,
+  "Congo Dr": 55,
+  "Côte d'Ivoire": 56,
+  Djibouti: 57,
+  Egypt: 58,
+  "Equatorial Guinea": 59,
+  Eritrea: 60,
+  Ethiopia: 61,
+  Gabon: 62,
+  "Republic of the Gambia": 63,
+  Ghana: 64,
+  Guinea: 65,
+  "Guinea-Bissau": 66,
+  Kenya: 67,
+  Lesotho: 68,
+  Liberia: 69,
+  Libya: 70,
+  Madagascar: 71,
+  Malawi: 72,
+  Mali: 73,
+  Mauritania: 74,
+  Mauritius: 75,
+  Morocco: 76,
+  Mozambique: 77,
+  Namibia: 78,
+  Niger: 79,
+  Nigeria: 80,
+  Rwanda: 81,
+  "Sao Tomé and Principe": 82,
+  Senegal: 83,
+  Seychelles: 84,
+  "Sierra Leone": 85,
+  Somalia: 86,
+  "South Africa": 87,
+  Sudan: 88,
+  Swaziland: 89,
+  Tanzania: 90,
+  Togo: 91,
+  Tunisia: 92,
+  Uganda: 93,
+  Zambia: 94,
+  Zimbabwe: 95,
+  Congo: 98,
+  Réunion: 100,
+  Anguilla: 103,
+  "Antiqua and Barbuda": 104,
+  Aruba: 105,
+  "The Bahamas": 106,
+  Barbados: 107,
+  Belize: 108,
+  Bermuda: 109,
+  Canada: 110,
+  "Cayman Islands": 111,
+  "Costa Rica": 112,
+  Cuba: 113,
+  Dominica: 114,
+  "Dominican Republic": 115,
+  "El Salvador": 116,
+  Grenada: 117,
+  Guadeloupe: 118,
+  Guatemala: 119,
+  Haiti: 120,
+  Honduras: 121,
+  Jamaica: 122,
+  Martinique: 123,
+  Mexico: 124,
+  Montserrat: 125,
+  "Netherlands Antilles": 126,
+  Nicaragua: 127,
+  Panama: 128,
+  "Puerto Rico": 129,
+  "Saint Kitts and Nevis": 130,
+  "Saint Lucia": 131,
+  "St Vincent and Grenadines": 132,
+  "Trinidad and Tobago": 133,
+  "Turks and Caicos Is.": 134,
+  "United States": 135,
+  "British Virgin Islands": 136,
+  "U.S. Virgin Islands": 137,
+  "French Guiana": 138,
+  Suriname: 139,
+  Curaçao: 140,
+  Argentina: 144,
+  Bolivia: 145,
+  Brazil: 146,
+  Chile: 147,
+  Colombia: 148,
+  Ecuador: 149,
+  Paraguay: 150,
+  Peru: 151,
+  Uruguay: 152,
+  Venezuela: 153,
+  Gyuana: 159,
+  "American Samoa": 161,
+  Australia: 162,
+  "Cook Islands": 163,
+  Fiji: 164,
+  "New Caledonia": 165,
+  "New Zealand": 166,
+  "Papua New Guinea": 167,
+  Samoa: 168,
+  "Solomon Islands": 169,
+  Tahiti: 170,
+  Tonga: 171,
+  Vanuatu: 172,
+  Guam: 176,
+  Palau: 184,
+  Israel: 189,
+  Turkey: 190,
+  Albania: 191,
+  Andorra: 192,
+  Armenia: 193,
+  Austria: 194,
+  Azerbaijan: 195,
+  Belarus: 196,
+  Belgium: 197,
+  "Bosnia and Herzegovina": 198,
+  Bulgaria: 199,
+  Croatia: 200,
+  Cyprus: 201,
+  "Czech Republic": 202,
+  Denmark: 203,
+  England: 204,
+  Estonia: 205,
+  "Faroe Islands": 206,
+  Finland: 207,
+  France: 208,
+  Georgia: 209,
+  Germany: 210,
+  Greece: 211,
+  Hungary: 212,
+  Iceland: 213,
+  "Republic of Ireland": 214,
+  Italy: 215,
+  Kazakhstan: 216,
+  Latvia: 217,
+  Liechtenstein: 218,
+  Lithuania: 219,
+  Luxembourg: 220,
+  Macedonia: 221,
+  Malta: 222,
+  Moldova: 223,
+  Netherlands: 224,
+  "Northern Ireland": 225,
+  Norway: 226,
+  Poland: 227,
+  Portugal: 228,
+  Romania: 229,
+  Russia: 230,
+  "San Marino": 231,
+  Scotland: 232,
+  Slovakia: 234,
+  Slovenia: 235,
+  Spain: 236,
+  Sweden: 237,
+  Switzerland: 238,
+  Ukraine: 239,
+  Uzbekistan: 240,
+  Wales: 241,
+  Gibraltar: 245,
+  Monaco: 250,
+  Others: 260,
+  Taiwan: 298,
+  Serbia: 303,
+  Montenegro: 304,
+  "Sint Maarten": 310,
+  Kosovo: 311,
+  "South Sudan": 312,
 };

@@ -1,14 +1,14 @@
 body {
-    width: 370px;
-    height: 370px;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #000000;
-    color: #FFFFFF;
-  }
+  width: 370px;
+  height: 370px;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #000000;
+  color: #ffffff;
+}
 /* Estilos de los botones de pestaña */
 .tab-button {
-  background-color: #00BFFF;
+  background-color: #00bfff;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -17,7 +17,7 @@ body {
 }
 
 .tab-button:hover {
-  background-color: #00BFFF;
+  background-color: #00bfff;
 }
 
 /* Estilos de las pestañas */
@@ -76,7 +76,7 @@ p {
 }
 
 .banner {
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 10px;
   text-align: center;
   font-size: 18px;

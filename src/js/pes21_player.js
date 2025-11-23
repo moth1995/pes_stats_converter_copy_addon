@@ -1,5 +1,4 @@
 class PES21Player {
-
   constructor() {
     this.reputation = 3;
     this.playerSkills = "";
@@ -9,18 +8,43 @@ class PES21Player {
   }
 
   NameToShirtName(name) {
-    const nameParts = name.split(' ');
+    const nameParts = name.split(" ");
     const lastName = nameParts[nameParts.length - 1].toUpperCase();
 
     // Replace characters that the PES editor doesn't recognize
     const translationMap = {
-      'Á': 'A', 'À': 'A', 'É': 'E', 'È': 'E', 'Í': 'I', 'Ì': 'I',
-      'Ó': 'O', 'Ò': 'O', 'Ú': 'U', 'Ù': 'U', 'Ü': 'U', 'Ñ': 'N', 'Ć': 'C',
-      'Â': 'A', 'Ä': 'A', 'Ê': 'E', 'Ë': 'E', 'Î': 'I', 'Ï': 'I',
-      'Ô': 'O', 'Ö': 'O', 'Û': 'U', 'Ü': 'U', 'Ç': 'C', 'Å': 'A', 'Ã': 'A',
+      Á: "A",
+      À: "A",
+      É: "E",
+      È: "E",
+      Í: "I",
+      Ì: "I",
+      Ó: "O",
+      Ò: "O",
+      Ú: "U",
+      Ù: "U",
+      Ü: "U",
+      Ñ: "N",
+      Ć: "C",
+      Â: "A",
+      Ä: "A",
+      Ê: "E",
+      Ë: "E",
+      Î: "I",
+      Ï: "I",
+      Ô: "O",
+      Ö: "O",
+      Û: "U",
+      Ü: "U",
+      Ç: "C",
+      Å: "A",
+      Ã: "A",
     };
 
-    const translatedLastName = Array.from(lastName, char => translationMap[char] || char).join('');
+    const translatedLastName = Array.from(
+      lastName,
+      (char) => translationMap[char] || char
+    ).join("");
 
     let formattedLastName = translatedLastName;
     return formattedLastName;
@@ -83,8 +107,7 @@ ${this.playingStyle}
   CSVString() {
     let foot = this.foot == "L" ? "True" : "False";
 
-    this.positions.forEach(position => {
-
+    this.positions.forEach((position) => {
       let positionNoStar = position.replace("*", "");
       let index = this.PES21PosToNum(positionNoStar);
       this.positionsNumbers[index] = 1;
@@ -92,7 +115,6 @@ ${this.playingStyle}
       if (position.indexOf("*") > -1) {
         this.positionsNumbers[index] = 2;
       }
-
     });
 
     return `;\
@@ -325,37 +347,31 @@ False;\
   }
 
   PES21NationToNum(nation) {
-    return PES21_COUNTRY_MAP[nation] !== undefined ? PES21_COUNTRY_MAP[nation] : 0;
+    return PES21_COUNTRY_MAP[nation] !== undefined
+      ? PES21_COUNTRY_MAP[nation]
+      : 0;
   }
 
   ConvertFIFAStatToPES21Form(fifaStat) {
-
     fifaStat = this.ConvertFIFAStatToPES21(fifaStat);
 
     let form = 4;
 
     if (40 <= fifaStat && fifaStat < 61) {
       form = 1;
-    }
-    else if (61 <= fifaStat && fifaStat < 66) {
+    } else if (61 <= fifaStat && fifaStat < 66) {
       form = 2;
-    }
-    else if (66 <= fifaStat && fifaStat < 71) {
+    } else if (66 <= fifaStat && fifaStat < 71) {
       form = 3;
-    }
-    else if (71 <= fifaStat && fifaStat < 76) {
+    } else if (71 <= fifaStat && fifaStat < 76) {
       form = 4;
-    }
-    else if (76 <= fifaStat && fifaStat < 81) {
+    } else if (76 <= fifaStat && fifaStat < 81) {
       form = 5;
-    }
-    else if (81 <= fifaStat && fifaStat < 86) {
+    } else if (81 <= fifaStat && fifaStat < 86) {
       form = 6;
-    }
-    else if (86 <= fifaStat && fifaStat < 94) {
+    } else if (86 <= fifaStat && fifaStat < 94) {
       form = 7;
-    }
-    else if (94 <= fifaStat) {
+    } else if (94 <= fifaStat) {
       form = 8;
     }
 
@@ -438,7 +454,6 @@ False;\
   }
 
   FromFIFA17To23Player(fifaPlayer) {
-
     this.name = fifaPlayer.name;
     this.shirtName = this.NameToShirtName(this.name);
     this.age = fifaPlayer.age;
@@ -464,106 +479,173 @@ False;\
     this.height = parseInt(fifaPlayer.height);
     this.weight = parseInt(fifaPlayer.weight);
 
-    this.reputation = Math.round((((fifaPlayer.internationalReputation - 1) / 4) * 7 + 1) * - 1) * - 1;
+    this.reputation =
+      Math.round(
+        (((fifaPlayer.internationalReputation - 1) / 4) * 7 + 1) * -1
+      ) * -1;
 
     this.injuryTolerance = 2;
-    if (stringInArray(fifaPlayer.traits, "solid player") || stringInArray(fifaPlayer.traits, "Injury free")) {
+    if (
+      stringInArray(fifaPlayer.traits, "solid player") ||
+      stringInArray(fifaPlayer.traits, "Injury free")
+    ) {
       this.injuryTolerance = 3;
-    }
-    else if (stringInArray(fifaPlayer.traits, "Injury prone")) {
+    } else if (stringInArray(fifaPlayer.traits, "Injury prone")) {
       this.injuryTolerance = 1;
     }
 
-    this.form = this.ConvertFIFAStatToPES21Form(this.registeredPosition === "GK" ? fifaPlayer.movement["Reactions"] : fifaPlayer.power["Stamina"]);
+    this.form = this.ConvertFIFAStatToPES21Form(
+      this.registeredPosition === "GK"
+        ? fifaPlayer.movement["Reactions"]
+        : fifaPlayer.power["Stamina"]
+    );
 
-    this.weakFootAccuracy = fifaPlayer.weakFoot > 1 ? fifaPlayer.weakFoot - 1 : fifaPlayer.weakFoot;
-    this.weakFootUsage = this.weakFootAccuracy > 1 ? this.weakFootAccuracy - 1 : this.weakFootAccuracy;
+    this.weakFootAccuracy =
+      fifaPlayer.weakFoot > 1 ? fifaPlayer.weakFoot - 1 : fifaPlayer.weakFoot;
+    this.weakFootUsage =
+      this.weakFootAccuracy > 1
+        ? this.weakFootAccuracy - 1
+        : this.weakFootAccuracy;
 
     //field players
-    this.offensiveAwareness = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Attack position"]);
-    if (fifaPlayer.mentality["Attck position"] < fifaPlayer.movement["Reactions"]) {
+    this.offensiveAwareness = this.ConvertFIFAStatToPES21(
+      fifaPlayer.mentality["Attack position"]
+    );
+    if (
+      fifaPlayer.mentality["Attck position"] < fifaPlayer.movement["Reactions"]
+    ) {
       this.offensiveAwareness++;
-    }
-    else if (fifaPlayer.mentality["Attack position"] > fifaPlayer.movement["Reactions"]) {
+    } else if (
+      fifaPlayer.mentality["Attack position"] > fifaPlayer.movement["Reactions"]
+    ) {
       this.offensiveAwareness--;
     }
-    this.ballControl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Ball control"]);
+    this.ballControl = this.ConvertFIFAStatToPES21(
+      fifaPlayer.skill["Ball control"]
+    );
     this.dribbling = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Dribbling"]);
-    this.tightPossession = this.ConvertFIFAStatToPES21(Average([fifaPlayer.skill["Ball control"], fifaPlayer.mentality["Composure"]]));
-    this.lowPass = this.ConvertFIFAStatToPES21(fifaPlayer.attacking["Short passing"]);
-    if (fifaPlayer.attacking["Short passing"] < fifaPlayer.mentality["Vision"]) {
+    this.tightPossession = this.ConvertFIFAStatToPES21(
+      Average([
+        fifaPlayer.skill["Ball control"],
+        fifaPlayer.mentality["Composure"],
+      ])
+    );
+    this.lowPass = this.ConvertFIFAStatToPES21(
+      fifaPlayer.attacking["Short passing"]
+    );
+    if (
+      fifaPlayer.attacking["Short passing"] < fifaPlayer.mentality["Vision"]
+    ) {
       this.lowPass++;
-    }
-    else if (fifaPlayer.attacking["Short passing"] > fifaPlayer.mentality["Vision"]) {
+    } else if (
+      fifaPlayer.attacking["Short passing"] > fifaPlayer.mentality["Vision"]
+    ) {
       this.lowPass--;
     }
-    this.loftedPass = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Long passing"] > fifaPlayer.attacking["Crossing"] ? fifaPlayer.skill["Long passing"] : fifaPlayer.attacking["Crossing"]);
-    if (fifaPlayer.attacking["Short passing"] < fifaPlayer.mentality["Vision"]) {
+    this.loftedPass = this.ConvertFIFAStatToPES21(
+      fifaPlayer.skill["Long passing"] > fifaPlayer.attacking["Crossing"]
+        ? fifaPlayer.skill["Long passing"]
+        : fifaPlayer.attacking["Crossing"]
+    );
+    if (
+      fifaPlayer.attacking["Short passing"] < fifaPlayer.mentality["Vision"]
+    ) {
       this.loftedPass++;
-    }
-    else if (fifaPlayer.attacking["Short passing"] > fifaPlayer.mentality["Vision"]) {
+    } else if (
+      fifaPlayer.attacking["Short passing"] > fifaPlayer.mentality["Vision"]
+    ) {
       this.loftedPass--;
     }
-    this.finishing = this.ConvertFIFAStatToPES21(fifaPlayer.attacking["Finishing"]);
-    if (
-      fifaPlayer.attacking["Finishing"] < fifaPlayer.attacking["Volleys"]
-    ) {
+    this.finishing = this.ConvertFIFAStatToPES21(
+      fifaPlayer.attacking["Finishing"]
+    );
+    if (fifaPlayer.attacking["Finishing"] < fifaPlayer.attacking["Volleys"]) {
       this.finishing++;
-    }
-    else if (
+    } else if (
       fifaPlayer.attacking["Finishing"] > fifaPlayer.attacking["Volleys"]
-    ){
+    ) {
       this.finishing--;
     }
     if (
-      this.finishing < this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
+      this.finishing <
+      this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
     ) {
       this.finishing++;
-    }
-    else if (
-      this.finishing > this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
-    ){
+    } else if (
+      this.finishing >
+      this.ConvertFIFAStatToPES21(fifaPlayer.power["Long shots"])
+    ) {
       this.finishing--;
     }
-    this.heading = this.ConvertFIFAStatToPES21(fifaPlayer.attacking["Heading accuracy"]);
-    this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"] * 0.3 + fifaPlayer.skill["FK Accuracy"] * 0.7);
-    
-    if (this.placeKicking < 60){
-      this.placeKicking = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Penalties"]);
+    this.heading = this.ConvertFIFAStatToPES21(
+      fifaPlayer.attacking["Heading accuracy"]
+    );
+    this.placeKicking = this.ConvertFIFAStatToPES21(
+      fifaPlayer.mentality["Penalties"] * 0.3 +
+        fifaPlayer.skill["FK Accuracy"] * 0.7
+    );
+
+    if (this.placeKicking < 60) {
+      this.placeKicking = this.ConvertFIFAStatToPES21(
+        fifaPlayer.mentality["Penalties"]
+      );
     }
 
     this.curl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Curve"]);
-    this.speed = this.ConvertFIFAStatToPES21(fifaPlayer.movement["Sprint speed"]);
-    this.acceleration = this.ConvertFIFAStatToPES21(fifaPlayer.movement["Acceleration"]);
-    this.kickingPower = this.ConvertFIFAStatToPES21(fifaPlayer.power["Shot power"] < 70 ? Average([fifaPlayer.power["Shot power"], fifaPlayer.power["Strength"]]) : fifaPlayer.power["Shot power"]);
+    this.speed = this.ConvertFIFAStatToPES21(
+      fifaPlayer.movement["Sprint speed"]
+    );
+    this.acceleration = this.ConvertFIFAStatToPES21(
+      fifaPlayer.movement["Acceleration"]
+    );
+    this.kickingPower = this.ConvertFIFAStatToPES21(
+      fifaPlayer.power["Shot power"] < 70
+        ? Average([
+            fifaPlayer.power["Shot power"],
+            fifaPlayer.power["Strength"],
+          ])
+        : fifaPlayer.power["Shot power"]
+    );
     this.jump = this.ConvertFIFAStatToPES21(fifaPlayer.power["Jumping"]);
-    this.physicalContact = this.ConvertFIFAStatToPES21(fifaPlayer.power["Strength"]);
-    this.balance = this.ConvertFIFAStatToPES21(Average([fifaPlayer.movement["Agility"], fifaPlayer.movement["Balance"]]));
+    this.physicalContact = this.ConvertFIFAStatToPES21(
+      fifaPlayer.power["Strength"]
+    );
+    this.balance = this.ConvertFIFAStatToPES21(
+      Average([fifaPlayer.movement["Agility"], fifaPlayer.movement["Balance"]])
+    );
     if (this.balance > fifaPlayer.movement["Reactions"]) {
       this.balance++;
-    }
-    else if (this.balance < fifaPlayer.movement["Reactions"]) {
+    } else if (this.balance < fifaPlayer.movement["Reactions"]) {
       this.balance--;
     }
-    this.stamina = this.ConvertFIFAStatToPES21(MinorThan(fifaPlayer.power["Stamina"], 60));
-    
+    this.stamina = this.ConvertFIFAStatToPES21(
+      MinorThan(fifaPlayer.power["Stamina"], 60)
+    );
+
     let defensiveAwarenessStat;
     if ("Defensive awareness" in fifaPlayer.defending) {
       defensiveAwarenessStat = fifaPlayer.defending["Defensive awareness"];
+    } else {
+      defensiveAwarenessStat = fifaPlayer.defending["Marking"];
     }
-    else {
-      defensiveAwarenessStat = fifaPlayer.defending["Marking"];;
-    }
-    
-    this.defensiveAwareness = this.ConvertFIFAStatToPES21(defensiveAwarenessStat);
+
+    this.defensiveAwareness = this.ConvertFIFAStatToPES21(
+      defensiveAwarenessStat
+    );
     if (defensiveAwarenessStat < fifaPlayer.mentality["Interceptions"]) {
       this.defensiveAwareness++;
-    }
-    else if (defensiveAwarenessStat > fifaPlayer.mentality["Interceptions"]) {
+    } else if (defensiveAwarenessStat > fifaPlayer.mentality["Interceptions"]) {
       this.defensiveAwareness--;
     }
-    this.ballWinning = this.ConvertFIFAStatToPES21(fifaPlayer.defending["Standing tackle"] > fifaPlayer.defending["Sliding tackle"] ? fifaPlayer.defending["Standing tackle"] : fifaPlayer.defending["Sliding tackle"]);
-    this.aggression = this.ConvertFIFAStatToPES21(fifaPlayer.mentality["Aggression"]);
+    this.ballWinning = this.ConvertFIFAStatToPES21(
+      fifaPlayer.defending["Standing tackle"] >
+        fifaPlayer.defending["Sliding tackle"]
+        ? fifaPlayer.defending["Standing tackle"]
+        : fifaPlayer.defending["Sliding tackle"]
+    );
+    this.aggression = this.ConvertFIFAStatToPES21(
+      fifaPlayer.mentality["Aggression"]
+    );
     this.gkAwareness = 40;
     this.gkCatching = 40;
     this.gkClearing = 40;
@@ -579,34 +661,50 @@ False;\
       this.finishing = clamp(40, 99, this.finishing + 10);
       this.heading = clamp(40, 99, this.heading + 20);
       this.curl = clamp(40, 99, this.curl + 10);
-      this.kickingPower = this.ConvertFIFAStatToPES21(fifaPlayer.goalkeeping["GK Kicking"]);
+      this.kickingPower = this.ConvertFIFAStatToPES21(
+        fifaPlayer.goalkeeping["GK Kicking"]
+      );
       this.jump = clamp(40, 99, this.jump + 10);
       this.physicalContact = clamp(40, 99, this.physicalContact + 15);
       this.stamina = clamp(40, 99, this.stamina + 20);
       this.defensiveAwareness = clamp(40, 99, this.defensiveAwareness + 5);
       this.ballWinning = clamp(40, 99, this.ballWinning + 5);
-      this.gkAwareness = this.ConvertFIFAStatToPES21(Average([fifaPlayer.goalkeeping["GK Diving"], fifaPlayer.goalkeeping["GK Handling"], fifaPlayer.goalkeeping["GK Positioning"], fifaPlayer.goalkeeping["GK Reflexes"]]) + 5);
-      this.gkCatching = this.ConvertFIFAStatToPES21(fifaPlayer.goalkeeping["GK Handling"] + 5);
-      this.gkClearing = this.ConvertFIFAStatToPES21(Average([fifaPlayer.goalkeeping["GK Diving"], fifaPlayer.goalkeeping["GK Handling"]]) + 5);
-      this.gkReflexes = this.ConvertFIFAStatToPES21(fifaPlayer.goalkeeping["GK Reflexes"] + 5);
-      this.gkReach = this.ConvertFIFAStatToPES21(fifaPlayer.goalkeeping["GK Positioning"] + 5);
+      this.gkAwareness = this.ConvertFIFAStatToPES21(
+        Average([
+          fifaPlayer.goalkeeping["GK Diving"],
+          fifaPlayer.goalkeeping["GK Handling"],
+          fifaPlayer.goalkeeping["GK Positioning"],
+          fifaPlayer.goalkeeping["GK Reflexes"],
+        ]) + 5
+      );
+      this.gkCatching = this.ConvertFIFAStatToPES21(
+        fifaPlayer.goalkeeping["GK Handling"] + 5
+      );
+      this.gkClearing = this.ConvertFIFAStatToPES21(
+        Average([
+          fifaPlayer.goalkeeping["GK Diving"],
+          fifaPlayer.goalkeeping["GK Handling"],
+        ]) + 5
+      );
+      this.gkReflexes = this.ConvertFIFAStatToPES21(
+        fifaPlayer.goalkeeping["GK Reflexes"] + 5
+      );
+      this.gkReach = this.ConvertFIFAStatToPES21(
+        fifaPlayer.goalkeeping["GK Positioning"] + 5
+      );
     }
 
     // //CARD PLAYER SKILL
 
     if (
-      (
-        this.registeredPosition == "SMF"
-        || this.registeredPosition == "AMF"
-        || this.registeredPosition == "SS"
-        || this.registeredPosition == "RWF"
-        || this.registeredPosition == "LWF"
-        || this.registeredPosition == "CF"
-      )
-      && (
-        stringInArray(fifaPlayer.traits, "Acrobatic")
-        || stringInArray(fifaPlayer.traits, "Acrobatic +")
-      )
+      (this.registeredPosition == "SMF" ||
+        this.registeredPosition == "AMF" ||
+        this.registeredPosition == "SS" ||
+        this.registeredPosition == "RWF" ||
+        this.registeredPosition == "LWF" ||
+        this.registeredPosition == "CF") &&
+      (stringInArray(fifaPlayer.traits, "Acrobatic") ||
+        stringInArray(fifaPlayer.traits, "Acrobatic +"))
     ) {
       this.acrobaticFinishing = 1;
       this.playerSkills += "*Acrobatic Finishing" + "\n";
@@ -615,8 +713,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Leadership")
-      || stringInArray(fifaPlayer.traits, "Leadership +")
+      stringInArray(fifaPlayer.traits, "Leadership") ||
+      stringInArray(fifaPlayer.traits, "Leadership +")
     ) {
       this.captaincy = 1;
       this.playerSkills += "*Captaincy" + "\n";
@@ -625,8 +723,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Chip Shot")
-      || stringInArray(fifaPlayer.traits, "Chip Shot +")
+      stringInArray(fifaPlayer.traits, "Chip Shot") ||
+      stringInArray(fifaPlayer.traits, "Chip Shot +")
     ) {
       this.chipShotControl = 1;
       this.playerSkills += "*Chip Shot Control" + "\n";
@@ -663,8 +761,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Relentless")
-      || stringInArray(fifaPlayer.traits, "Relentless +")
+      stringInArray(fifaPlayer.traits, "Relentless") ||
+      stringInArray(fifaPlayer.traits, "Relentless +")
     ) {
       this.fightingSpirit = 1;
       this.playerSkills += "*Fighting Spirit" + "\n";
@@ -701,8 +799,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Far Throw")
-      || stringInArray(fifaPlayer.traits, "Far Throw +")
+      stringInArray(fifaPlayer.traits, "Far Throw") ||
+      stringInArray(fifaPlayer.traits, "Far Throw +")
     ) {
       this.gkLongThrow = 1;
       this.playerSkills += "*GK Long Throw" + "\n";
@@ -725,8 +823,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Power Header")
-      || stringInArray(fifaPlayer.traits, "Power Header +")
+      stringInArray(fifaPlayer.traits, "Power Header") ||
+      stringInArray(fifaPlayer.traits, "Power Header +")
     ) {
       this.headingPlayerSkill = 1;
       this.playerSkills += "*Heading" + "\n";
@@ -742,8 +840,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Intercept")
-      || stringInArray(fifaPlayer.traits, "Intercept +")
+      stringInArray(fifaPlayer.traits, "Intercept") ||
+      stringInArray(fifaPlayer.traits, "Intercept +")
     ) {
       this.interception = 1;
       this.playerSkills += "*Interception" + "\n";
@@ -759,8 +857,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Finesse Shot")
-      || stringInArray(fifaPlayer.traits, "Finesse Shot +")
+      stringInArray(fifaPlayer.traits, "Finesse Shot") ||
+      stringInArray(fifaPlayer.traits, "Finesse Shot +")
     ) {
       this.longRangeDrive = 1;
       this.playerSkills += "*Long Range Drive" + "\n";
@@ -769,8 +867,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Long Throw")
-      || stringInArray(fifaPlayer.traits, "Long Throw +")
+      stringInArray(fifaPlayer.traits, "Long Throw") ||
+      stringInArray(fifaPlayer.traits, "Long Throw +")
     ) {
       this.longThrow = 1;
       this.playerSkills += "*Long Throw" + "\n";
@@ -779,8 +877,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Pinged Pass")
-      || stringInArray(fifaPlayer.traits, "Pinged Pass +")
+      stringInArray(fifaPlayer.traits, "Pinged Pass") ||
+      stringInArray(fifaPlayer.traits, "Pinged Pass +")
     ) {
       this.lowLoftedPass = 1;
       this.playerSkills += "*Low Lofted Pass" + "\n";
@@ -789,8 +887,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Block")
-      || stringInArray(fifaPlayer.traits, "Block +")
+      stringInArray(fifaPlayer.traits, "Block") ||
+      stringInArray(fifaPlayer.traits, "Block +")
     ) {
       this.manMarking = 1;
       this.playerSkills += "*Man Marking" + "\n";
@@ -806,8 +904,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Power Shot")
-      || stringInArray(fifaPlayer.traits, "Power Shot +")
+      stringInArray(fifaPlayer.traits, "Power Shot") ||
+      stringInArray(fifaPlayer.traits, "Power Shot +")
     ) {
       this.longRangeShooting = 1;
       this.playerSkills += "*Long Range Shooting" + "\n";
@@ -816,8 +914,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Tiki Taka")
-      || stringInArray(fifaPlayer.traits, "Tiki Taka +")
+      stringInArray(fifaPlayer.traits, "Tiki Taka") ||
+      stringInArray(fifaPlayer.traits, "Tiki Taka +")
     ) {
       this.oneTouchPass = 1;
       this.playerSkills += "*One-touch Pass" + "\n";
@@ -833,8 +931,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Trivela")
-      || stringInArray(fifaPlayer.traits, "Trivela +")
+      stringInArray(fifaPlayer.traits, "Trivela") ||
+      stringInArray(fifaPlayer.traits, "Trivela +")
     ) {
       this.outsideCurler = 1;
       this.playerSkills += "*Outside Curler" + "\n";
@@ -850,8 +948,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Whipped Cross")
-      || stringInArray(fifaPlayer.traits, "Whipped Cross +")
+      stringInArray(fifaPlayer.traits, "Whipped Cross") ||
+      stringInArray(fifaPlayer.traits, "Whipped Cross +")
     ) {
       this.pinpointCrossing = 1;
       this.playerSkills += "*Pinpoint Crossing" + "\n";
@@ -909,8 +1007,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Incisive Pass")
-      || stringInArray(fifaPlayer.traits, "Incisive Pass +")
+      stringInArray(fifaPlayer.traits, "Incisive Pass") ||
+      stringInArray(fifaPlayer.traits, "Incisive Pass +")
     ) {
       this.throughPassing = 1;
       this.playerSkills += "*Through Passing" + "\n";
@@ -926,8 +1024,8 @@ False;\
     // }
 
     if (
-      stringInArray(fifaPlayer.traits, "Long Ball Pass")
-      || stringInArray(fifaPlayer.traits, "Long Ball Pass +")
+      stringInArray(fifaPlayer.traits, "Long Ball Pass") ||
+      stringInArray(fifaPlayer.traits, "Long Ball Pass +")
     ) {
       this.weightedPass = 1;
       this.playerSkills += "*Weighted Pass" + "\n";
@@ -936,17 +1034,13 @@ False;\
     }
 
     if (
-      (
-        this.registeredPosition == "GK"
-        || this.registeredPosition == "CB"
-        || this.registeredPosition == "SB"
-        || this.registeredPosition == "DMF"
-        || this.registeredPosition == "CMF"
-      )
-      && (
-        stringInArray(fifaPlayer.traits, "Acrobatic")
-        || stringInArray(fifaPlayer.traits, "Acrobatic +")
-      )
+      (this.registeredPosition == "GK" ||
+        this.registeredPosition == "CB" ||
+        this.registeredPosition == "SB" ||
+        this.registeredPosition == "DMF" ||
+        this.registeredPosition == "CMF") &&
+      (stringInArray(fifaPlayer.traits, "Acrobatic") ||
+        stringInArray(fifaPlayer.traits, "Acrobatic +"))
     ) {
       this.acrobaticClear = 1;
       this.playerSkills += "*Acrobatic Clear" + "\n";
@@ -956,7 +1050,7 @@ False;\
 
     // // CARD STYLE COM
 
-    if ((this.loftedPass + this.curl) >= 165) {
+    if (this.loftedPass + this.curl >= 165) {
       this.earlyCross = 1;
       this.COMPlayingStyles += "*Early Cross" + "\n";
     } else {
@@ -978,8 +1072,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Power Shot")
-      || stringInArray(fifaPlayer.traits, "Power Shot +")
+      stringInArray(fifaPlayer.traits, "Power Shot") ||
+      stringInArray(fifaPlayer.traits, "Power Shot +")
     ) {
       this.longRanger = 1;
       this.COMPlayingStyles += "*Long Ranger" + "\n";
@@ -987,7 +1081,7 @@ False;\
       this.longRanger = 0;
     }
 
-    if ((this.dribbling + this.acceleration) >= 170) {
+    if (this.dribbling + this.acceleration >= 170) {
       this.mazingRun = 1;
       this.COMPlayingStyles += "*Mazing Run" + "\n";
     } else {
@@ -995,8 +1089,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Rapid")
-      || stringInArray(fifaPlayer.traits, "Rapid +")
+      stringInArray(fifaPlayer.traits, "Rapid") ||
+      stringInArray(fifaPlayer.traits, "Rapid +")
     ) {
       this.speedingBullet = 1;
       this.COMPlayingStyles += "*Speeding Bullet" + "\n";
@@ -1005,8 +1099,8 @@ False;\
     }
 
     if (
-      stringInArray(fifaPlayer.traits, "Trickster")
-      || stringInArray(fifaPlayer.traits, "Trickster +")
+      stringInArray(fifaPlayer.traits, "Trickster") ||
+      stringInArray(fifaPlayer.traits, "Trickster +")
     ) {
       this.trickster = 1;
       this.COMPlayingStyles += "*Trickster" + "\n";
@@ -1027,26 +1121,32 @@ False;\
         this.positions.push(FMToPES21Positions(FMPositions[index]));
       }
       */
-      let position = (fmPlayer.positionType[index] === "Natural" ? "*" : "") + FMToPES21Positions(FMPositions[index]);
+      let position =
+        (fmPlayer.positionType[index] === "Natural" ? "*" : "") +
+        FMToPES21Positions(FMPositions[index]);
       this.positions.push(position);
-
     }
     if (isSS) {
-      if (fmPlayer.positionType[FMPositions.indexOf("AMC")] === "Natural" && fmPlayer.positionType[FMPositions.indexOf("ST")] === "Natural")
+      if (
+        fmPlayer.positionType[FMPositions.indexOf("AMC")] === "Natural" &&
+        fmPlayer.positionType[FMPositions.indexOf("ST")] === "Natural"
+      )
         this.positions.push("*SS");
       else {
         this.positions.push("SS");
       }
     }
     let positionWeight = {};
-    this.positions.forEach(position => {
+    this.positions.forEach((position) => {
       if (position.includes("*")) {
         let weight = PES21GetPositionWeight(position, fmPlayer);
         positionWeight[position] = weight;
       }
     });
     console.log(positionWeight);
-    this.registeredPosition = (Object.keys(positionWeight).reduce((a, b) => positionWeight[a] > positionWeight[b] ? a : b)).replace("*", "");
+    this.registeredPosition = Object.keys(positionWeight)
+      .reduce((a, b) => (positionWeight[a] > positionWeight[b] ? a : b))
+      .replace("*", "");
     console.log(this.registeredPosition);
     this.currentAbility = parseInt(fmPlayer.ability);
     this.name = fmPlayer.info["Name"];
@@ -1078,53 +1178,628 @@ False;\
     }
 
     if (this.registeredPosition == "GK") {
-      this.offensiveAwareness = FMStatTOPES21(Average([fmPlayer.stats["Anticipation"], fmPlayer.stats["Technique"], fmPlayer.stats["Off the Ball"], fmPlayer.stats["Off the Ball"]]), maxStatsTable.find(row => row.position === this.registeredPosition).offensiveAwareness, minStatsTable.find(row => row.position === this.registeredPosition).offensiveAwareness, this.currentAbility);
-      this.ballControl = FMStatTOPES21(Average([fmPlayer.stats["Flair"], fmPlayer.stats["Flair"], fmPlayer.stats["Technique"], fmPlayer.stats["Technique"]]), maxStatsTable.find(row => row.position === this.registeredPosition).ballControl, minStatsTable.find(row => row.position === this.registeredPosition).ballControl, this.currentAbility);
-      this.dribbling = FMStatTOPES21(Average([fmPlayer.stats["First Touch"], fmPlayer.stats["First Touch"], fmPlayer.stats["Flair"], fmPlayer.stats["Flair"]]), maxStatsTable.find(row => row.position === this.registeredPosition).dribbling, minStatsTable.find(row => row.position === this.registeredPosition).dribbling, this.currentAbility);
-      this.tightPossession = FMStatTOPES21(Average([fmPlayer.stats["Eccentricity"], fmPlayer.stats["Eccentricity"], fmPlayer.stats["Technique"], fmPlayer.stats["Technique"], fmPlayer.stats["Strength"], fmPlayer.stats["Agility"], fmPlayer.stats["Balance"]]), maxStatsTable.find(row => row.position === this.registeredPosition).tightPossession, minStatsTable.find(row => row.position === this.registeredPosition).tightPossession, this.currentAbility);
-      this.lowPass = FMStatTOPES21(Average([fmPlayer.stats["Passing"], fmPlayer.stats["Passing"], fmPlayer.stats["Passing"], fmPlayer.stats["Technique"], fmPlayer.stats["Composure"]]), maxStatsTable.find(row => row.position === this.registeredPosition).lowPass, minStatsTable.find(row => row.position === this.registeredPosition).lowPass, this.currentAbility);
-      this.loftedPass = FMStatTOPES21(Average([fmPlayer.stats["Throwing"], fmPlayer.stats["Throwing"], fmPlayer.stats["Passing"], fmPlayer.stats["Passing"], fmPlayer.stats["Technique"]]), maxStatsTable.find(row => row.position === this.registeredPosition).loftedPass, minStatsTable.find(row => row.position === this.registeredPosition).loftedPass, this.currentAbility);
-      this.finishing = FMStatTOPES21(Average([fmPlayer.stats["Technique"], fmPlayer.stats["Technique"], fmPlayer.stats["Technique"], fmPlayer.stats["Composure"], fmPlayer.stats["Composure"]]), maxStatsTable.find(row => row.position === this.registeredPosition).finishing, minStatsTable.find(row => row.position === this.registeredPosition).finishing, this.currentAbility);
-      this.heading = FMStatTOPES21(Average([fmPlayer.stats["Technique"], fmPlayer.stats["Technique"], fmPlayer.stats["Technique"], fmPlayer.stats["Jumping Reach"]]), maxStatsTable.find(row => row.position === this.registeredPosition).heading, minStatsTable.find(row => row.position === this.registeredPosition).heading, this.currentAbility);
-      this.placeKicking = FMStatTOPES21(Average([fmPlayer.stats["Free Kick Taking"], fmPlayer.stats["Free Kick Taking"], fmPlayer.stats["Technique"], fmPlayer.stats["Penalty Taking"]]), maxStatsTable.find(row => row.position === this.registeredPosition).placeKicking, minStatsTable.find(row => row.position === this.registeredPosition).placeKicking, this.currentAbility);
-      this.curl = FMStatTOPES21(Average([fmPlayer.stats["Technique"], fmPlayer.stats["Technique"], fmPlayer.stats["Flair"], fmPlayer.stats["Flair"]]), maxStatsTable.find(row => row.position === this.registeredPosition).curl, minStatsTable.find(row => row.position === this.registeredPosition).curl, this.currentAbility);
-      this.speed = FMStatTOPES21(Average([fmPlayer.stats["Pace"], fmPlayer.stats["Pace"], fmPlayer.stats["Pace"], fmPlayer.stats["Acceleration"]]), maxStatsTable.find(row => row.position === this.registeredPosition).speed, minStatsTable.find(row => row.position === this.registeredPosition).speed, this.currentAbility);
-      this.acceleration = FMStatTOPES21(Average([fmPlayer.stats["Acceleration"], fmPlayer.stats["Acceleration"], fmPlayer.stats["Acceleration"], fmPlayer.stats["Agility"], fmPlayer.stats["Pace"]]), maxStatsTable.find(row => row.position === this.registeredPosition).acceleration, minStatsTable.find(row => row.position === this.registeredPosition).acceleration, this.currentAbility);
-      this.kickingPower = FMStatTOPES21(Average([fmPlayer.stats["Throwing"], fmPlayer.stats["Throwing"], fmPlayer.stats["Strength"], fmPlayer.stats["Strength"]]), maxStatsTable.find(row => row.position === this.registeredPosition).kickingPower, minStatsTable.find(row => row.position === this.registeredPosition).kickingPower, this.currentAbility);
-      this.jump = FMStatTOPES21(Average([fmPlayer.stats["Jumping Reach"], fmPlayer.stats["Jumping Reach"], fmPlayer.stats["Jumping Reach"], fmPlayer.stats["Strength"], fmPlayer.stats["Agility"]]), maxStatsTable.find(row => row.position === this.registeredPosition).jump, minStatsTable.find(row => row.position === this.registeredPosition).jump, this.currentAbility);
-      this.physicalContact = FMStatTOPES21(Average([fmPlayer.stats["Strength"], fmPlayer.stats["Strength"], fmPlayer.stats["Strength"], fmPlayer.stats["Strength"], fmPlayer.stats["Balance"]]), maxStatsTable.find(row => row.position === this.registeredPosition).physicalContact, minStatsTable.find(row => row.position === this.registeredPosition).physicalContact, this.currentAbility);
-      this.balance = FMStatTOPES21(Average([fmPlayer.stats["Balance"], fmPlayer.stats["Balance"], fmPlayer.stats["Balance"], fmPlayer.stats["Agility"], fmPlayer.stats["Agility"]]), maxStatsTable.find(row => row.position === this.registeredPosition).balance, minStatsTable.find(row => row.position === this.registeredPosition).balance, this.currentAbility);
-      this.stamina = FMStatTOPES21(Average([fmPlayer.stats["Stamina"], fmPlayer.stats["Stamina"], fmPlayer.stats["Stamina"], fmPlayer.stats["Natural Fitness"], fmPlayer.stats["Work Rate"]]), maxStatsTable.find(row => row.position === this.registeredPosition).stamina, minStatsTable.find(row => row.position === this.registeredPosition).stamina, this.currentAbility);
-      this.defensiveAwareness = FMStatTOPES21(Average([fmPlayer.stats["Positioning"], fmPlayer.stats["Positioning"], fmPlayer.stats["Rushing Out (Tendency)"], fmPlayer.stats["Bravery"]]), maxStatsTable.find(row => row.position === this.registeredPosition).defensiveAwareness, minStatsTable.find(row => row.position === this.registeredPosition).defensiveAwareness, this.currentAbility);
-      this.ballWinning = FMStatTOPES21(Average([fmPlayer.stats["Eccentricity"], fmPlayer.stats["Eccentricity"], fmPlayer.stats["Aggression"], fmPlayer.stats["Aggression"], fmPlayer.stats["Bravery"], fmPlayer.stats["Bravery"]]), maxStatsTable.find(row => row.position === this.registeredPosition).ballWinning, minStatsTable.find(row => row.position === this.registeredPosition).ballWinning, this.currentAbility);
-      this.aggression = FMStatTOPES21(Average([fmPlayer.stats["Aggression"], fmPlayer.stats["Aggression"], fmPlayer.stats["Aggression"], fmPlayer.stats["Determination"], fmPlayer.stats["Work Rate"], fmPlayer.stats["Work Rate"]]), maxStatsTable.find(row => row.position === this.registeredPosition).aggression, minStatsTable.find(row => row.position === this.registeredPosition).aggression, this.currentAbility);
-      this.gkAwareness = FMStatTOPES21(Average([fmPlayer.stats["Positioning"], fmPlayer.stats["Positioning"], fmPlayer.stats["Rushing Out (Tendency)"], fmPlayer.stats["One on Ones"], fmPlayer.stats["Command of Area"]]), maxStatsTable.find(row => row.position === this.registeredPosition).gkAwareness, minStatsTable.find(row => row.position === this.registeredPosition).gkAwareness, this.currentAbility);
-      this.gkCatching = FMStatTOPES21(Average([fmPlayer.stats["Handling"], fmPlayer.stats["Handling"], fmPlayer.stats["Handling"], fmPlayer.stats["Aerial Reach"], fmPlayer.stats["Aerial Reach"]]), maxStatsTable.find(row => row.position === this.registeredPosition).gkCatching, minStatsTable.find(row => row.position === this.registeredPosition).gkCatching, this.currentAbility);
-      this.gkClearing = FMStatTOPES21(Average([fmPlayer.stats["Kicking"], fmPlayer.stats["Kicking"], fmPlayer.stats["Kicking"], fmPlayer.stats["Kicking"], fmPlayer.stats["First Touch"]]), maxStatsTable.find(row => row.position === this.registeredPosition).gkClearing, minStatsTable.find(row => row.position === this.registeredPosition).gkClearing, this.currentAbility);
-      this.gkReflexes = FMStatTOPES21(Average([fmPlayer.stats["Reflexes"], fmPlayer.stats["Reflexes"], fmPlayer.stats["Reflexes"], fmPlayer.stats["Agility"], fmPlayer.stats["Natural Fitness"]]), maxStatsTable.find(row => row.position === this.registeredPosition).gkReflexes, minStatsTable.find(row => row.position === this.registeredPosition).gkReflexes, this.currentAbility);
-      this.gkReach = FMStatTOPES21(Average([fmPlayer.stats["Aerial Reach"], fmPlayer.stats["Aerial Reach"], fmPlayer.stats["Agility"], fmPlayer.stats["Agility"], fmPlayer.stats["Jumping Reach"]]), maxStatsTable.find(row => row.position === this.registeredPosition).gkReach, minStatsTable.find(row => row.position === this.registeredPosition).gkReach, this.currentAbility);
+      this.offensiveAwareness = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Anticipation"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Off the Ball"],
+          fmPlayer.stats["Off the Ball"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .offensiveAwareness,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .offensiveAwareness,
+        this.currentAbility
+      );
+      this.ballControl = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Flair"],
+          fmPlayer.stats["Flair"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballControl,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballControl,
+        this.currentAbility
+      );
+      this.dribbling = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["First Touch"],
+          fmPlayer.stats["First Touch"],
+          fmPlayer.stats["Flair"],
+          fmPlayer.stats["Flair"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .dribbling,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .dribbling,
+        this.currentAbility
+      );
+      this.tightPossession = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Eccentricity"],
+          fmPlayer.stats["Eccentricity"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Balance"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .tightPossession,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .tightPossession,
+        this.currentAbility
+      );
+      this.lowPass = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Composure"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .lowPass,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .lowPass,
+        this.currentAbility
+      );
+      this.loftedPass = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Throwing"],
+          fmPlayer.stats["Throwing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Technique"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .loftedPass,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .loftedPass,
+        this.currentAbility
+      );
+      this.finishing = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Composure"],
+          fmPlayer.stats["Composure"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .finishing,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .finishing,
+        this.currentAbility
+      );
+      this.heading = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Jumping Reach"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .heading,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .heading,
+        this.currentAbility
+      );
+      this.placeKicking = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Free Kick Taking"],
+          fmPlayer.stats["Free Kick Taking"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Penalty Taking"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .placeKicking,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .placeKicking,
+        this.currentAbility
+      );
+      this.curl = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Flair"],
+          fmPlayer.stats["Flair"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .curl,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .curl,
+        this.currentAbility
+      );
+      this.speed = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Pace"],
+          fmPlayer.stats["Pace"],
+          fmPlayer.stats["Pace"],
+          fmPlayer.stats["Acceleration"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .speed,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .speed,
+        this.currentAbility
+      );
+      this.acceleration = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Acceleration"],
+          fmPlayer.stats["Acceleration"],
+          fmPlayer.stats["Acceleration"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Pace"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .acceleration,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .acceleration,
+        this.currentAbility
+      );
+      this.kickingPower = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Throwing"],
+          fmPlayer.stats["Throwing"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .kickingPower,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .kickingPower,
+        this.currentAbility
+      );
+      this.jump = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Jumping Reach"],
+          fmPlayer.stats["Jumping Reach"],
+          fmPlayer.stats["Jumping Reach"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Agility"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .jump,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .jump,
+        this.currentAbility
+      );
+      this.physicalContact = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Balance"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .physicalContact,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .physicalContact,
+        this.currentAbility
+      );
+      this.balance = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Balance"],
+          fmPlayer.stats["Balance"],
+          fmPlayer.stats["Balance"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Agility"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .balance,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .balance,
+        this.currentAbility
+      );
+      this.stamina = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Stamina"],
+          fmPlayer.stats["Stamina"],
+          fmPlayer.stats["Stamina"],
+          fmPlayer.stats["Natural Fitness"],
+          fmPlayer.stats["Work Rate"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .stamina,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .stamina,
+        this.currentAbility
+      );
+      this.defensiveAwareness = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Positioning"],
+          fmPlayer.stats["Positioning"],
+          fmPlayer.stats["Rushing Out (Tendency)"],
+          fmPlayer.stats["Bravery"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .defensiveAwareness,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .defensiveAwareness,
+        this.currentAbility
+      );
+      this.ballWinning = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Eccentricity"],
+          fmPlayer.stats["Eccentricity"],
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Bravery"],
+          fmPlayer.stats["Bravery"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballWinning,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballWinning,
+        this.currentAbility
+      );
+      this.aggression = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Determination"],
+          fmPlayer.stats["Work Rate"],
+          fmPlayer.stats["Work Rate"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .aggression,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .aggression,
+        this.currentAbility
+      );
+      this.gkAwareness = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Positioning"],
+          fmPlayer.stats["Positioning"],
+          fmPlayer.stats["Rushing Out (Tendency)"],
+          fmPlayer.stats["One on Ones"],
+          fmPlayer.stats["Command of Area"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkAwareness,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkAwareness,
+        this.currentAbility
+      );
+      this.gkCatching = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Handling"],
+          fmPlayer.stats["Handling"],
+          fmPlayer.stats["Handling"],
+          fmPlayer.stats["Aerial Reach"],
+          fmPlayer.stats["Aerial Reach"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkCatching,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkCatching,
+        this.currentAbility
+      );
+      this.gkClearing = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Kicking"],
+          fmPlayer.stats["Kicking"],
+          fmPlayer.stats["Kicking"],
+          fmPlayer.stats["Kicking"],
+          fmPlayer.stats["First Touch"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkClearing,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkClearing,
+        this.currentAbility
+      );
+      this.gkReflexes = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Reflexes"],
+          fmPlayer.stats["Reflexes"],
+          fmPlayer.stats["Reflexes"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Natural Fitness"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkReflexes,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkReflexes,
+        this.currentAbility
+      );
+      this.gkReach = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Aerial Reach"],
+          fmPlayer.stats["Aerial Reach"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Jumping Reach"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkReach,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .gkReach,
+        this.currentAbility
+      );
     } else {
       //field players
-      this.offensiveAwareness = FMStatTOPES21(Average([fmPlayer.stats["Anticipation"], fmPlayer.stats["Finishing"], fmPlayer.stats["Off the Ball"], fmPlayer.stats["Off the Ball"]]), maxStatsTable.find(row => row.position === this.registeredPosition).offensiveAwareness, minStatsTable.find(row => row.position === this.registeredPosition).offensiveAwareness, this.currentAbility);
-      this.ballControl = FMStatTOPES21(Average([fmPlayer.stats["First Touch"], fmPlayer.stats["First Touch"], fmPlayer.stats["Dribbling"], fmPlayer.stats["Technique"]]), maxStatsTable.find(row => row.position === this.registeredPosition).ballControl, minStatsTable.find(row => row.position === this.registeredPosition).ballControl, this.currentAbility);
-      this.dribbling = FMStatTOPES21(Average([fmPlayer.stats["Dribbling"], fmPlayer.stats["Dribbling"], fmPlayer.stats["Dribbling"], fmPlayer.stats["Flair"]]), maxStatsTable.find(row => row.position === this.registeredPosition).dribbling, minStatsTable.find(row => row.position === this.registeredPosition).dribbling, this.currentAbility);
-      this.tightPossession = FMStatTOPES21(Average([fmPlayer.stats["Dribbling"], fmPlayer.stats["Dribbling"], fmPlayer.stats["Dribbling"], fmPlayer.stats["Technique"], fmPlayer.stats["Strength"], fmPlayer.stats["Agility"], fmPlayer.stats["Balance"]]), maxStatsTable.find(row => row.position === this.registeredPosition).tightPossession, minStatsTable.find(row => row.position === this.registeredPosition).tightPossession, this.currentAbility);
-      this.lowPass = FMStatTOPES21(Average([fmPlayer.stats["Passing"], fmPlayer.stats["Passing"], fmPlayer.stats["Passing"], fmPlayer.stats["Technique"], fmPlayer.stats["Composure"]]), maxStatsTable.find(row => row.position === this.registeredPosition).lowPass, minStatsTable.find(row => row.position === this.registeredPosition).lowPass, this.currentAbility);
-      this.loftedPass = FMStatTOPES21(Average([fmPlayer.stats["Crossing"], fmPlayer.stats["Crossing"], fmPlayer.stats["Passing"], fmPlayer.stats["Passing"], fmPlayer.stats["Technique"]]), maxStatsTable.find(row => row.position === this.registeredPosition).loftedPass, minStatsTable.find(row => row.position === this.registeredPosition).loftedPass, this.currentAbility);
-      this.finishing = FMStatTOPES21(Average([fmPlayer.stats["Finishing"], fmPlayer.stats["Finishing"], fmPlayer.stats["Finishing"], fmPlayer.stats["Composure"], fmPlayer.stats["Technique"]]), maxStatsTable.find(row => row.position === this.registeredPosition).finishing, minStatsTable.find(row => row.position === this.registeredPosition).finishing, this.currentAbility);
-      this.heading = FMStatTOPES21(Average([fmPlayer.stats["Heading"], fmPlayer.stats["Heading"], fmPlayer.stats["Finishing"], fmPlayer.stats["Jumping Reach"]]), maxStatsTable.find(row => row.position === this.registeredPosition).heading, minStatsTable.find(row => row.position === this.registeredPosition).heading, this.currentAbility);
-      this.placeKicking = FMStatTOPES21(Average([fmPlayer.stats["Free Kick Taking"], fmPlayer.stats["Free Kick Taking"], fmPlayer.stats["Corners"], fmPlayer.stats["Penalty Taking"]]), maxStatsTable.find(row => row.position === this.registeredPosition).placeKicking, minStatsTable.find(row => row.position === this.registeredPosition).placeKicking, this.currentAbility);
-      this.curl = FMStatTOPES21(Average([fmPlayer.stats["Technique"], fmPlayer.stats["Technique"], fmPlayer.stats["Flair"], fmPlayer.stats["Flair"]]), maxStatsTable.find(row => row.position === this.registeredPosition).curl, minStatsTable.find(row => row.position === this.registeredPosition).curl, this.currentAbility);
-      this.speed = FMStatTOPES21(Average([fmPlayer.stats["Pace"], fmPlayer.stats["Pace"], fmPlayer.stats["Pace"], fmPlayer.stats["Acceleration"]]), maxStatsTable.find(row => row.position === this.registeredPosition).speed, minStatsTable.find(row => row.position === this.registeredPosition).speed, this.currentAbility);
-      this.acceleration = FMStatTOPES21(Average([fmPlayer.stats["Acceleration"], fmPlayer.stats["Acceleration"], fmPlayer.stats["Acceleration"], fmPlayer.stats["Agility"], fmPlayer.stats["Pace"]]), maxStatsTable.find(row => row.position === this.registeredPosition).acceleration, minStatsTable.find(row => row.position === this.registeredPosition).acceleration, this.currentAbility);
-      this.kickingPower = FMStatTOPES21(Average([fmPlayer.stats["Long Shots"], fmPlayer.stats["Long Shots"], fmPlayer.stats["Strength"], fmPlayer.stats["Strength"]]), maxStatsTable.find(row => row.position === this.registeredPosition).kickingPower, minStatsTable.find(row => row.position === this.registeredPosition).kickingPower, this.currentAbility);
-      this.jump = FMStatTOPES21(Average([fmPlayer.stats["Jumping Reach"], fmPlayer.stats["Jumping Reach"], fmPlayer.stats["Jumping Reach"], fmPlayer.stats["Heading"], fmPlayer.stats["Agility"]]), maxStatsTable.find(row => row.position === this.registeredPosition).jump, minStatsTable.find(row => row.position === this.registeredPosition).jump, this.currentAbility);
-      this.physicalContact = FMStatTOPES21(Average([fmPlayer.stats["Strength"], fmPlayer.stats["Strength"], fmPlayer.stats["Strength"], fmPlayer.stats["Strength"], fmPlayer.stats["Balance"]]), maxStatsTable.find(row => row.position === this.registeredPosition).physicalContact, minStatsTable.find(row => row.position === this.registeredPosition).physicalContact, this.currentAbility);
-      this.balance = FMStatTOPES21(Average([fmPlayer.stats["Balance"], fmPlayer.stats["Balance"], fmPlayer.stats["Balance"], fmPlayer.stats["Agility"], fmPlayer.stats["Agility"]]), maxStatsTable.find(row => row.position === this.registeredPosition).balance, minStatsTable.find(row => row.position === this.registeredPosition).balance, this.currentAbility);
-      this.stamina = FMStatTOPES21(Average([fmPlayer.stats["Stamina"], fmPlayer.stats["Stamina"], fmPlayer.stats["Stamina"], fmPlayer.stats["Natural Fitness"], fmPlayer.stats["Work Rate"]]), maxStatsTable.find(row => row.position === this.registeredPosition).stamina, minStatsTable.find(row => row.position === this.registeredPosition).stamina, this.currentAbility);
-      this.defensiveAwareness = FMStatTOPES21(Average([fmPlayer.stats["Positioning"], fmPlayer.stats["Positioning"], fmPlayer.stats["Marking"], fmPlayer.stats["Tackling"]]), maxStatsTable.find(row => row.position === this.registeredPosition).defensiveAwareness, minStatsTable.find(row => row.position === this.registeredPosition).defensiveAwareness, this.currentAbility);
-      this.ballWinning = FMStatTOPES21(Average([fmPlayer.stats["Tackling"], fmPlayer.stats["Tackling"], fmPlayer.stats["Tackling"], fmPlayer.stats["Aggression"], fmPlayer.stats["Marking"], fmPlayer.stats["Bravery"]]), maxStatsTable.find(row => row.position === this.registeredPosition).ballWinning, minStatsTable.find(row => row.position === this.registeredPosition).ballWinning, this.currentAbility);
-      this.aggression = FMStatTOPES21(Average([fmPlayer.stats["Aggression"], fmPlayer.stats["Aggression"], fmPlayer.stats["Aggression"], fmPlayer.stats["Determination"], fmPlayer.stats["Work Rate"], fmPlayer.stats["Bravery"]]), maxStatsTable.find(row => row.position === this.registeredPosition).aggression, minStatsTable.find(row => row.position === this.registeredPosition).aggression, this.currentAbility);
+      this.offensiveAwareness = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Anticipation"],
+          fmPlayer.stats["Finishing"],
+          fmPlayer.stats["Off the Ball"],
+          fmPlayer.stats["Off the Ball"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .offensiveAwareness,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .offensiveAwareness,
+        this.currentAbility
+      );
+      this.ballControl = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["First Touch"],
+          fmPlayer.stats["First Touch"],
+          fmPlayer.stats["Dribbling"],
+          fmPlayer.stats["Technique"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballControl,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballControl,
+        this.currentAbility
+      );
+      this.dribbling = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Dribbling"],
+          fmPlayer.stats["Dribbling"],
+          fmPlayer.stats["Dribbling"],
+          fmPlayer.stats["Flair"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .dribbling,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .dribbling,
+        this.currentAbility
+      );
+      this.tightPossession = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Dribbling"],
+          fmPlayer.stats["Dribbling"],
+          fmPlayer.stats["Dribbling"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Balance"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .tightPossession,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .tightPossession,
+        this.currentAbility
+      );
+      this.lowPass = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Composure"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .lowPass,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .lowPass,
+        this.currentAbility
+      );
+      this.loftedPass = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Crossing"],
+          fmPlayer.stats["Crossing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Passing"],
+          fmPlayer.stats["Technique"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .loftedPass,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .loftedPass,
+        this.currentAbility
+      );
+      this.finishing = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Finishing"],
+          fmPlayer.stats["Finishing"],
+          fmPlayer.stats["Finishing"],
+          fmPlayer.stats["Composure"],
+          fmPlayer.stats["Technique"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .finishing,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .finishing,
+        this.currentAbility
+      );
+      this.heading = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Heading"],
+          fmPlayer.stats["Heading"],
+          fmPlayer.stats["Finishing"],
+          fmPlayer.stats["Jumping Reach"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .heading,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .heading,
+        this.currentAbility
+      );
+      this.placeKicking = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Free Kick Taking"],
+          fmPlayer.stats["Free Kick Taking"],
+          fmPlayer.stats["Corners"],
+          fmPlayer.stats["Penalty Taking"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .placeKicking,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .placeKicking,
+        this.currentAbility
+      );
+      this.curl = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Flair"],
+          fmPlayer.stats["Flair"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .curl,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .curl,
+        this.currentAbility
+      );
+      this.speed = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Pace"],
+          fmPlayer.stats["Pace"],
+          fmPlayer.stats["Pace"],
+          fmPlayer.stats["Acceleration"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .speed,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .speed,
+        this.currentAbility
+      );
+      this.acceleration = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Acceleration"],
+          fmPlayer.stats["Acceleration"],
+          fmPlayer.stats["Acceleration"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Pace"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .acceleration,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .acceleration,
+        this.currentAbility
+      );
+      this.kickingPower = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Long Shots"],
+          fmPlayer.stats["Long Shots"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .kickingPower,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .kickingPower,
+        this.currentAbility
+      );
+      this.jump = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Jumping Reach"],
+          fmPlayer.stats["Jumping Reach"],
+          fmPlayer.stats["Jumping Reach"],
+          fmPlayer.stats["Heading"],
+          fmPlayer.stats["Agility"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .jump,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .jump,
+        this.currentAbility
+      );
+      this.physicalContact = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Strength"],
+          fmPlayer.stats["Balance"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .physicalContact,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .physicalContact,
+        this.currentAbility
+      );
+      this.balance = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Balance"],
+          fmPlayer.stats["Balance"],
+          fmPlayer.stats["Balance"],
+          fmPlayer.stats["Agility"],
+          fmPlayer.stats["Agility"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .balance,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .balance,
+        this.currentAbility
+      );
+      this.stamina = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Stamina"],
+          fmPlayer.stats["Stamina"],
+          fmPlayer.stats["Stamina"],
+          fmPlayer.stats["Natural Fitness"],
+          fmPlayer.stats["Work Rate"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .stamina,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .stamina,
+        this.currentAbility
+      );
+      this.defensiveAwareness = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Positioning"],
+          fmPlayer.stats["Positioning"],
+          fmPlayer.stats["Marking"],
+          fmPlayer.stats["Tackling"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .defensiveAwareness,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .defensiveAwareness,
+        this.currentAbility
+      );
+      this.ballWinning = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Tackling"],
+          fmPlayer.stats["Tackling"],
+          fmPlayer.stats["Tackling"],
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Marking"],
+          fmPlayer.stats["Bravery"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballWinning,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .ballWinning,
+        this.currentAbility
+      );
+      this.aggression = FMStatTOPES21(
+        Average([
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Aggression"],
+          fmPlayer.stats["Determination"],
+          fmPlayer.stats["Work Rate"],
+          fmPlayer.stats["Bravery"],
+        ]),
+        maxStatsTable.find((row) => row.position === this.registeredPosition)
+          .aggression,
+        minStatsTable.find((row) => row.position === this.registeredPosition)
+          .aggression,
+        this.currentAbility
+      );
       this.gkAwareness = 40;
       this.gkCatching = 40;
       this.gkClearing = 40;
@@ -1177,7 +1852,12 @@ False;\
       this.doubleTouch = 0;
     }
 
-    if (fmPlayer.stats["Aggression"] >= 14 && fmPlayer.stats["Teamwork"] >= 14 && fmPlayer.stats["Work Rate"] >= 14 && fmPlayer.stats["Bravery"] >= 14) {
+    if (
+      fmPlayer.stats["Aggression"] >= 14 &&
+      fmPlayer.stats["Teamwork"] >= 14 &&
+      fmPlayer.stats["Work Rate"] >= 14 &&
+      fmPlayer.stats["Bravery"] >= 14
+    ) {
       this.fightingSpirit = 1;
       this.playerSkills += "*Fighting Spirit" + "\n";
     } else {
@@ -1233,7 +1913,10 @@ False;\
       this.gkPenaltySaver = 0;
     }
 
-    if (fmPlayer.stats["Jumping Reach"] >= 14 && fmPlayer.stats["Heading"] >= 14) {
+    if (
+      fmPlayer.stats["Jumping Reach"] >= 14 &&
+      fmPlayer.stats["Heading"] >= 14
+    ) {
       this.headingPlayerSkill = 1;
       this.playerSkills += "*Heading" + "\n";
     } else {
@@ -1261,7 +1944,11 @@ False;\
       this.knuckleShots = 0;
     }
 
-    if (fmPlayer.stats["Flair"] >= 14 && fmPlayer.stats["Technique"] >= 14 && fmPlayer.stats["Long Shots"] >= 10) {
+    if (
+      fmPlayer.stats["Flair"] >= 14 &&
+      fmPlayer.stats["Technique"] >= 14 &&
+      fmPlayer.stats["Long Shots"] >= 10
+    ) {
       this.longRangeDrive = 1;
       this.playerSkills += "*Long Range Drive" + "\n";
     } else {
@@ -1431,7 +2118,10 @@ False;\
       this.earlyCross = 0;
     }
 
-    if (this.registeredPosition === "RWF" || this.registeredPosition === "LWF") {
+    if (
+      this.registeredPosition === "RWF" ||
+      this.registeredPosition === "LWF"
+    ) {
       this.incisiveRun = 1;
       this.COMPlayingStyles += "*Incisive Run" + "\n";
     } else {
@@ -1475,7 +2165,10 @@ False;\
 
     // PLAYING STYLES
 
-    this.playingStyle = PES21GetPlayingStyle(fmPlayer.roles, this.registeredPosition);
+    this.playingStyle = PES21GetPlayingStyle(
+      fmPlayer.roles,
+      this.registeredPosition
+    );
 
     //return this.PSDString();
   }
@@ -1564,377 +2257,383 @@ False;\
     this.gkCatching = pesMasterPlayer.stats["GK Catching"];
     this.gkClearing = pesMasterPlayer.stats["GK Parrying"];
     this.gkReflexes = pesMasterPlayer.stats["GK Reflexes"];
-    this.injuryTolerance = this.EfootballInjuryResistance(pesMasterPlayer.stats["Injury Resistance"]);
-    this.weakFootAccuracy = this.Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Acc."]);
-    this.weakFootUsage = this.Efootball2021WeakFoot(pesMasterPlayer.stats["Weak Foot Usage"]);
+    this.injuryTolerance = this.EfootballInjuryResistance(
+      pesMasterPlayer.stats["Injury Resistance"]
+    );
+    this.weakFootAccuracy = this.Efootball2021WeakFoot(
+      pesMasterPlayer.stats["Weak Foot Acc."]
+    );
+    this.weakFootUsage = this.Efootball2021WeakFoot(
+      pesMasterPlayer.stats["Weak Foot Usage"]
+    );
     this.condition = this.EfootballCondition(pesMasterPlayer.info["Condition"]);
     this.form = this.EfootballCondition(pesMasterPlayer.info["Condition"]);
 
-    if (pesMasterPlayer?.specialStats?.includes("Scissors Feint")){
-        this.scissorsFeint = 1;
-        this.playerSkills += "*Scissors Feint" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Scissors Feint")) {
+      this.scissorsFeint = 1;
+      this.playerSkills += "*Scissors Feint" + "\n";
     } else {
-        this.scissorsFeint = 0;
+      this.scissorsFeint = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Double Touch")){
-            this.doubleTouch = 1;
-            this.playerSkills += "*Double Touch" + "\n";
-        } else {
-            this.doubleTouch = 0;
-    }
-    if (pesMasterPlayer?.specialStats?.includes("Flip Flap")){
-        this.flipFlap = 1;
-        this.playerSkills += "*Flip Flap" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Double Touch")) {
+      this.doubleTouch = 1;
+      this.playerSkills += "*Double Touch" + "\n";
     } else {
-        this.flipFlap = 0;
+      this.doubleTouch = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Marseille Turn")){
-        this.marseilleTurn = 1;
-        this.playerSkills += "*Marseille Turn" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Flip Flap")) {
+      this.flipFlap = 1;
+      this.playerSkills += "*Flip Flap" + "\n";
     } else {
-        this.marseilleTurn = 0;
+      this.flipFlap = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Sombrero")){
-          this.sombrero = 1;
-          this.playerSkills += "*Sombrero" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Marseille Turn")) {
+      this.marseilleTurn = 1;
+      this.playerSkills += "*Marseille Turn" + "\n";
     } else {
-          this.sombrero = 0;
+      this.marseilleTurn = 0;
+    }
+    if (pesMasterPlayer?.specialStats?.includes("Sombrero")) {
+      this.sombrero = 1;
+      this.playerSkills += "*Sombrero" + "\n";
+    } else {
+      this.sombrero = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Chop Turn")){
-        this.crossOverTurn = 1;
-        this.playerSkills += "*Cross Over Turn" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Chop Turn")) {
+      this.crossOverTurn = 1;
+      this.playerSkills += "*Cross Over Turn" + "\n";
     } else {
-        this.crossOverTurn = 0;
+      this.crossOverTurn = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Cut Behind & Turn")){
-        this.cutBehindAndTurn = 1;
-        this.playerSkills += "*Cut Behind & Turn" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Cut Behind & Turn")) {
+      this.cutBehindAndTurn = 1;
+      this.playerSkills += "*Cut Behind & Turn" + "\n";
     } else {
-        this.cutBehindAndTurn = 0;
+      this.cutBehindAndTurn = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Scotch Move")){
-          this.scotchMove = 1;
-          this.playerSkills += "*Scotch Move" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Scotch Move")) {
+      this.scotchMove = 1;
+      this.playerSkills += "*Scotch Move" + "\n";
     } else {
-          this.scotchMove = 0;
+      this.scotchMove = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Sole Control")){
-        this.stepOneBallControl = 1;
-        this.playerSkills += "*Step On Ball Control" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Sole Control")) {
+      this.stepOneBallControl = 1;
+      this.playerSkills += "*Step On Ball Control" + "\n";
     } else {
-        this.stepOneBallControl = 0;
+      this.stepOneBallControl = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Heading")){
-        this.headingPlayerSkill = 1;
-        this.playerSkills += "*Heading" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Heading")) {
+      this.headingPlayerSkill = 1;
+      this.playerSkills += "*Heading" + "\n";
     } else {
-        this.headingPlayerSkill = 0;
+      this.headingPlayerSkill = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Long-Range Curler")){
-          this.longRangeDrive = 1;
-          this.playerSkills += "*Long Range Drive" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Long-Range Curler")) {
+      this.longRangeDrive = 1;
+      this.playerSkills += "*Long Range Drive" + "\n";
     } else {
-          this.longRangeDrive = 0;
+      this.longRangeDrive = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Chip Shot Control")){
-        this.chipShotControl = 1;
-        this.playerSkills += "*Chip Shot Control" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Chip Shot Control")) {
+      this.chipShotControl = 1;
+      this.playerSkills += "*Chip Shot Control" + "\n";
     } else {
-        this.chipShotControl = 0;
+      this.chipShotControl = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Long-Range Shooting")){
-        this.longRangeShooting = 1;
-        this.playerSkills += "*Long Range Shooting" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Long-Range Shooting")) {
+      this.longRangeShooting = 1;
+      this.playerSkills += "*Long Range Shooting" + "\n";
     } else {
-        this.longRangeShooting = 0;
+      this.longRangeShooting = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Knuckle Shot")){
-          this.knuckleShots = 1;
-          this.playerSkills += "*Knuckle Shot" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Knuckle Shot")) {
+      this.knuckleShots = 1;
+      this.playerSkills += "*Knuckle Shot" + "\n";
     } else {
-          this.knuckleShots = 0;
+      this.knuckleShots = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Dipping Shot")){
-        this.dippingShot = 1;
-        this.playerSkills += "*Dipping Shot" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Dipping Shot")) {
+      this.dippingShot = 1;
+      this.playerSkills += "*Dipping Shot" + "\n";
     } else {
-        this.dippingShot = 0;
+      this.dippingShot = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Rising Shot")){
-        this.risingShots = 1;
-        this.playerSkills += "*Rising Shots" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Rising Shot")) {
+      this.risingShots = 1;
+      this.playerSkills += "*Rising Shots" + "\n";
     } else {
-        this.risingShots = 0;
+      this.risingShots = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Acrobatic Finishing")){
-          this.acrobaticFinishing = 1;
-          this.playerSkills += "*Acrobatic Finishing" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Acrobatic Finishing")) {
+      this.acrobaticFinishing = 1;
+      this.playerSkills += "*Acrobatic Finishing" + "\n";
     } else {
-          this.acrobaticFinishing = 0;
+      this.acrobaticFinishing = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Heel Trick")){
-        this.heelTrick = 1;
-        this.playerSkills += "*Heel Trick" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Heel Trick")) {
+      this.heelTrick = 1;
+      this.playerSkills += "*Heel Trick" + "\n";
     } else {
-        this.heelTrick = 0;
+      this.heelTrick = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("First-time Shot")){
-        this.firstTimeShot = 1;
-        this.playerSkills += "*First-time Shot" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("First-time Shot")) {
+      this.firstTimeShot = 1;
+      this.playerSkills += "*First-time Shot" + "\n";
     } else {
-        this.firstTimeShot = 0;
+      this.firstTimeShot = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("One-touch Pass")){
-          this.oneTouchPass = 1;
-          this.playerSkills += "*One-touch Pass" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("One-touch Pass")) {
+      this.oneTouchPass = 1;
+      this.playerSkills += "*One-touch Pass" + "\n";
     } else {
-          this.oneTouchPass = 0;
+      this.oneTouchPass = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Through Passing")){
-        this.throughPassing = 1;
-        this.playerSkills += "*Through Passing" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Through Passing")) {
+      this.throughPassing = 1;
+      this.playerSkills += "*Through Passing" + "\n";
     } else {
-        this.throughPassing = 0;
+      this.throughPassing = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Weighted Pass")){
-        this.weightedPass = 1;
-        this.playerSkills += "*Weighted Pass" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Weighted Pass")) {
+      this.weightedPass = 1;
+      this.playerSkills += "*Weighted Pass" + "\n";
     } else {
-        this.weightedPass = 0;
+      this.weightedPass = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Pinpoint Crossing")){
-          this.pinpointCrossing = 1;
-          this.playerSkills += "*Pinpoint Crossing" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Pinpoint Crossing")) {
+      this.pinpointCrossing = 1;
+      this.playerSkills += "*Pinpoint Crossing" + "\n";
     } else {
-          this.pinpointCrossing = 0;
+      this.pinpointCrossing = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Outside Curler")){
-        this.outsideCurler = 1;
-        this.playerSkills += "*Outside Curler" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Outside Curler")) {
+      this.outsideCurler = 1;
+      this.playerSkills += "*Outside Curler" + "\n";
     } else {
-        this.outsideCurler = 0;
+      this.outsideCurler = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Rabona")){
-        this.rabona = 1;
-        this.playerSkills += "*Rabona" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Rabona")) {
+      this.rabona = 1;
+      this.playerSkills += "*Rabona" + "\n";
     } else {
-        this.rabona = 0;
+      this.rabona = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("No Look Pass")){
-          this.noLookPass = 1;
-          this.playerSkills += "*No Look Pass" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("No Look Pass")) {
+      this.noLookPass = 1;
+      this.playerSkills += "*No Look Pass" + "\n";
     } else {
-          this.noLookPass = 0;
+      this.noLookPass = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Low Lofted Pass")){
-        this.lowLoftedPass = 1;
-        this.playerSkills += "*Low Lofted Pass" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Low Lofted Pass")) {
+      this.lowLoftedPass = 1;
+      this.playerSkills += "*Low Lofted Pass" + "\n";
     } else {
-        this.lowLoftedPass = 0;
+      this.lowLoftedPass = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("GK Low Punt")){
-        this.gkLowPunt = 1;
-        this.playerSkills += "*GK Low Punt" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("GK Low Punt")) {
+      this.gkLowPunt = 1;
+      this.playerSkills += "*GK Low Punt" + "\n";
     } else {
-        this.gkLowPunt = 0;
+      this.gkLowPunt = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("GK High Punt")){
-          this.gkHighPunt = 1;
-          this.playerSkills += "*GK High Punt" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("GK High Punt")) {
+      this.gkHighPunt = 1;
+      this.playerSkills += "*GK High Punt" + "\n";
     } else {
-          this.gkHighPunt = 0;
+      this.gkHighPunt = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Long Throw")){
-        this.longThrow = 1;
-        this.playerSkills += "*Long Throw" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Long Throw")) {
+      this.longThrow = 1;
+      this.playerSkills += "*Long Throw" + "\n";
     } else {
-        this.longThrow = 0;
+      this.longThrow = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("GK Long Throw")){
-        this.gkLongThrow = 1;
-        this.playerSkills += "*GK Long Throw" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("GK Long Throw")) {
+      this.gkLongThrow = 1;
+      this.playerSkills += "*GK Long Throw" + "\n";
     } else {
-        this.gkLongThrow = 0;
+      this.gkLongThrow = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Penalty Specialist")){
-          this.penaltySpecialist = 1;
-          this.playerSkills += "*Penalty Specialist" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Penalty Specialist")) {
+      this.penaltySpecialist = 1;
+      this.playerSkills += "*Penalty Specialist" + "\n";
     } else {
-          this.penaltySpecialist = 0;
+      this.penaltySpecialist = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("GK Penalty Saver")){
-        this.gkPenaltySaver = 1;
-        this.playerSkills += "*GK Penalty Saver" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("GK Penalty Saver")) {
+      this.gkPenaltySaver = 1;
+      this.playerSkills += "*GK Penalty Saver" + "\n";
     } else {
-        this.gkPenaltySaver = 0;
+      this.gkPenaltySaver = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Gamesmanship")){
-        this.gamesmanship = 1;
-        this.playerSkills += "*Gamesmanship" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Gamesmanship")) {
+      this.gamesmanship = 1;
+      this.playerSkills += "*Gamesmanship" + "\n";
     } else {
-        this.gamesmanship = 0;
+      this.gamesmanship = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Man Marking")){
-          this.manMarking = 1;
-          this.playerSkills += "*Man Marking" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Man Marking")) {
+      this.manMarking = 1;
+      this.playerSkills += "*Man Marking" + "\n";
     } else {
-          this.manMarking = 0;
+      this.manMarking = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Track Back")){
-        this.trackBack = 1;
-        this.playerSkills += "*Track Back" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Track Back")) {
+      this.trackBack = 1;
+      this.playerSkills += "*Track Back" + "\n";
     } else {
-        this.trackBack = 0;
+      this.trackBack = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Interception")){
-        this.interception = 1;
-        this.playerSkills += "*Interception" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Interception")) {
+      this.interception = 1;
+      this.playerSkills += "*Interception" + "\n";
     } else {
-        this.interception = 0;
+      this.interception = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Acrobatic Clearance")){
-        this.acrobaticClear = 1;
-        this.playerSkills += "*Acrobatic Clear" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Acrobatic Clearance")) {
+      this.acrobaticClear = 1;
+      this.playerSkills += "*Acrobatic Clear" + "\n";
     } else {
-        this.acrobaticClear = 0;
+      this.acrobaticClear = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Captaincy")){
-        this.captaincy = 1;
-        this.playerSkills += "*Captaincy" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Captaincy")) {
+      this.captaincy = 1;
+      this.playerSkills += "*Captaincy" + "\n";
     } else {
-        this.captaincy = 0;
+      this.captaincy = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Super-sub")){
-          this.superSub = 1;
-          this.playerSkills += "*Super-sub" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Super-sub")) {
+      this.superSub = 1;
+      this.playerSkills += "*Super-sub" + "\n";
     } else {
-          this.superSub = 0;
+      this.superSub = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Fighting Spirit")){
-        this.fightingSpirit = 1;
-        this.playerSkills += "*Fighting Spirit" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Fighting Spirit")) {
+      this.fightingSpirit = 1;
+      this.playerSkills += "*Fighting Spirit" + "\n";
     } else {
-        this.fightingSpirit = 0;
+      this.fightingSpirit = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Trickster")){
-        this.trickster = 1;
-        this.COMPlayingStyles += "*Trickster" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Trickster")) {
+      this.trickster = 1;
+      this.COMPlayingStyles += "*Trickster" + "\n";
     } else {
-        this.trickster = 0;
+      this.trickster = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Mazing Run")){
-        this.mazingRun = 1;
-        this.COMPlayingStyles += "*Mazing Run" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Mazing Run")) {
+      this.mazingRun = 1;
+      this.COMPlayingStyles += "*Mazing Run" + "\n";
     } else {
-        this.mazingRun = 0;
+      this.mazingRun = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Speeding Bullet")){
-        this.speedingBullet = 1;
-        this.COMPlayingStyles += "*Speeding Bullet" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Speeding Bullet")) {
+      this.speedingBullet = 1;
+      this.COMPlayingStyles += "*Speeding Bullet" + "\n";
     } else {
-        this.speedingBullet = 0;
+      this.speedingBullet = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Incisive Run")){
-          this.incisiveRun = 1;
-          this.COMPlayingStyles += "*Incisive Run" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Incisive Run")) {
+      this.incisiveRun = 1;
+      this.COMPlayingStyles += "*Incisive Run" + "\n";
     } else {
-          this.incisiveRun = 0;
+      this.incisiveRun = 0;
     }
 
-    if (pesMasterPlayer?.specialStats?.includes("Long Ball Expert")){
-        this.longBallExpert = 1;
-        this.COMPlayingStyles += "*Long Ball Expert" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Long Ball Expert")) {
+      this.longBallExpert = 1;
+      this.COMPlayingStyles += "*Long Ball Expert" + "\n";
     } else {
-        this.longBallExpert = 0;
+      this.longBallExpert = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Early Crosser")){
-        this.earlyCross = 1;
-        this.COMPlayingStyles += "*Early Cross" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Early Crosser")) {
+      this.earlyCross = 1;
+      this.COMPlayingStyles += "*Early Cross" + "\n";
     } else {
-        this.earlyCross = 0;
+      this.earlyCross = 0;
     }
-    if (pesMasterPlayer?.specialStats?.includes("Long Ranger")){
-          this.longRanger = 1;
-          this.playerSkills += "*Long Ranger" + "\n";
+    if (pesMasterPlayer?.specialStats?.includes("Long Ranger")) {
+      this.longRanger = 1;
+      this.playerSkills += "*Long Ranger" + "\n";
     } else {
-          this.longRanger = 0;
+      this.longRanger = 0;
     }
-    if (pesMasterPlayer.specialStats.includes("Goal Poacher")){
-        this.playingStyle = "Goal Poacher";
+    if (pesMasterPlayer.specialStats.includes("Goal Poacher")) {
+      this.playingStyle = "Goal Poacher";
     }
-    if (pesMasterPlayer.specialStats.includes("Dummy Runner")){
-        this.playingStyle = "Dummy Runner";
+    if (pesMasterPlayer.specialStats.includes("Dummy Runner")) {
+      this.playingStyle = "Dummy Runner";
     }
-    if (pesMasterPlayer.specialStats.includes("Fox in the Box")){
-        this.playingStyle = "Fox in the Box";
+    if (pesMasterPlayer.specialStats.includes("Fox in the Box")) {
+      this.playingStyle = "Fox in the Box";
     }
-    if (pesMasterPlayer.specialStats.includes("Classic No. 10")){
-        this.playingStyle = "Classic No. 10";
+    if (pesMasterPlayer.specialStats.includes("Classic No. 10")) {
+      this.playingStyle = "Classic No. 10";
     }
-    if (pesMasterPlayer.specialStats.includes("Hole Player")){
-        this.playingStyle = "Hole Player";
+    if (pesMasterPlayer.specialStats.includes("Hole Player")) {
+      this.playingStyle = "Hole Player";
     }
-    if (pesMasterPlayer.specialStats.includes("Box-to-Box")){
-        this.playingStyle = "Box-to-Box";
+    if (pesMasterPlayer.specialStats.includes("Box-to-Box")) {
+      this.playingStyle = "Box-to-Box";
     }
-    if (pesMasterPlayer.specialStats.includes("Anchor Man")){
-        this.playingStyle = "Anchor Man";
+    if (pesMasterPlayer.specialStats.includes("Anchor Man")) {
+      this.playingStyle = "Anchor Man";
     }
-    if (pesMasterPlayer.specialStats.includes("The Destroyer")){
-        this.playingStyle = "The Destroyer";
+    if (pesMasterPlayer.specialStats.includes("The Destroyer")) {
+      this.playingStyle = "The Destroyer";
     }
-    if (pesMasterPlayer.specialStats.includes("Extra Frontman")){
-        this.playingStyle = "Extra Frontman";
+    if (pesMasterPlayer.specialStats.includes("Extra Frontman")) {
+      this.playingStyle = "Extra Frontman";
     }
-    if (pesMasterPlayer.specialStats.includes("Offensive Full-back")){
-        this.playingStyle = "Offensive Full-back";
+    if (pesMasterPlayer.specialStats.includes("Offensive Full-back")) {
+      this.playingStyle = "Offensive Full-back";
     }
-    if (pesMasterPlayer.specialStats.includes("Defensive Full-back")){
-        this.playingStyle = "Defensive Full-back";
+    if (pesMasterPlayer.specialStats.includes("Defensive Full-back")) {
+      this.playingStyle = "Defensive Full-back";
     }
-    if (pesMasterPlayer.specialStats?.includes("Target Man")){
-        this.playingStyle = "Target Man";
+    if (pesMasterPlayer.specialStats?.includes("Target Man")) {
+      this.playingStyle = "Target Man";
     }
-    if (pesMasterPlayer.specialStats.includes("Creative Playmaker")){
-        this.playingStyle = "Creative Playmaker";
+    if (pesMasterPlayer.specialStats.includes("Creative Playmaker")) {
+      this.playingStyle = "Creative Playmaker";
     }
-    if (pesMasterPlayer.specialStats.includes("Build Up")){
-        this.playingStyle = "Build Up";
+    if (pesMasterPlayer.specialStats.includes("Build Up")) {
+      this.playingStyle = "Build Up";
     }
-    if (pesMasterPlayer.specialStats.includes("Offensive Goalkeeper")){
-        this.playingStyle = "Offensive Goalkeeper";
+    if (pesMasterPlayer.specialStats.includes("Offensive Goalkeeper")) {
+      this.playingStyle = "Offensive Goalkeeper";
     }
-    if (pesMasterPlayer.specialStats.includes("Defensive Goalkeeper")){
-        this.playingStyle = "Defensive Goalkeeper";
+    if (pesMasterPlayer.specialStats.includes("Defensive Goalkeeper")) {
+      this.playingStyle = "Defensive Goalkeeper";
     }
-    if (pesMasterPlayer.specialStats.includes("Roaming Flank")){
-        this.playingStyle = "Roaming Flank";
+    if (pesMasterPlayer.specialStats.includes("Roaming Flank")) {
+      this.playingStyle = "Roaming Flank";
     }
-    if (pesMasterPlayer.specialStats.includes("Cross Specialist")){
-        this.playingStyle = "Cross Specialist";
+    if (pesMasterPlayer.specialStats.includes("Cross Specialist")) {
+      this.playingStyle = "Cross Specialist";
     }
-    if (pesMasterPlayer.specialStats.includes("Orchestrator")){
-        this.playingStyle = "Orchestrator";
+    if (pesMasterPlayer.specialStats.includes("Orchestrator")) {
+      this.playingStyle = "Orchestrator";
     }
-    if (pesMasterPlayer.specialStats.includes("Full-back Finisher")){
-        this.playingStyle = "Full-back Finisher";
+    if (pesMasterPlayer.specialStats.includes("Full-back Finisher")) {
+      this.playingStyle = "Full-back Finisher";
     }
-    if (pesMasterPlayer.specialStats.includes("Prolific Winger")){
-        this.playingStyle = "Prolific Winger";
+    if (pesMasterPlayer.specialStats.includes("Prolific Winger")) {
+      this.playingStyle = "Prolific Winger";
     }
   }
 }
