@@ -1,67 +1,84 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Popup</title>
-  <link rel="stylesheet" href="css/popup.css">
-</head>
-<body>
-  <div class="banner">
-    <span>PES Stats Converter By PES5 Indie Team</span>
-  </div>
-  <div>
-    <button class="tab-button" data-tab="configurationTab">Configuration</button>
-    <button class="tab-button" data-tab="aboutTab">About</button>
-  </div>
-  
-  <div id="configurationTab" class="tab active">
-    <h1>Configuration</h1>
-    <div>
-      <label for="selectCopyMode">Copy Mode:</label>
-      <select id="selectCopyMode">
-        <option value="one">Copy One (PSD Style)</option>
-        <option value="multiple">Copy Multiple (CSV)</option>
-      </select>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Popup</title>
+    <link rel="stylesheet" href="css/popup.css" />
+  </head>
+  <body>
+    <div class="banner">
+      <span>PES Stats Converter By PES5 Indie Team</span>
     </div>
     <div>
-      <label for="selectOptionFMInside">Output stats for FMInside & SoFIFA:</label>
-      <select id="selectOptionFMInside">
-        <option value="pes5">PES 5</option>
-        <option value="pes13">PES 13</option>
-        <option value="pes21">PES 21</option>
-        <option value="raw">RAW Data</option>
-      </select>
+      <button class="tab-button" data-tab="configurationTab">
+        Configuration
+      </button>
+      <button class="tab-button" data-tab="aboutTab">About</button>
     </div>
-    <div class="csv-buttons" id="csv-buttons">
-      <h2>CSV Configuration</h2>
-      <button id="download-csv" class="pes-indie-pop-up-button">Download CSV</button>
-      <button id="clear-players" class="pes-indie-pop-up-button">Clear Players</button>
-      <button id="remove-last-player" class="pes-indie-pop-up-button">Remove Last Player</button>
-    </div>
-  </div>
-  
-  <div id="aboutTab" class="tab">
-    <h2>Developed by <br>PES Indie Team</h2>
-    <p>
-    <b> Credits </b> <br>
-      FIFA Formula by <b>Stavrello</b><br>
-      FM Formula by <b>DantePES6</b><br>
-      FM Formula for PES21 by <b>totti88</b><br>
-      Efootball to PES21 <b>Mohamed2746</b><br>
-      PES21 Formula by <b>DriemPES</b> and <b>DantePES6</b> for special abilities<br>
-      <b>Pato_Lucas18</b> and <b>fram_conflow</b> for providing help on PES21 Formula code<br>
-      <b>RiquelmeXeneizeLegendario</b>, <b>Benicio</b> and <b>Pato_Lucas18</b> for testing
-      <b>linff163</b> for providing the list of special abilities by position
-      <b>SRW</b> for helping on some corrections for the formula of FM for PES5 & FM to PES13 formula!
-      <b>jibibi</b> for providing a big insight on PES21 csv format!
-      <b>SRW</b> for the SoFIFA PES13 formula!
-      <b>juancortez</b> for the SoFIFA PES21 formula!
-      <b>luigipirillo54</b> for the PESMaster PES21 formula & code!
-    </p>
-    <button id="evoweb-button" class="pes-indie-pop-up-button">Visit Evoweb Official Thread</button>
-    <button id="privacy-button" class="pes-indie-pop-up-button">Read Privacy Policy</button>
-  </div>
 
-  <script src="js/popup.js"></script>
-</body>
+    <div id="configurationTab" class="tab active">
+      <h1>Configuration</h1>
+      <div>
+        <label for="selectCopyMode">Copy Mode:</label>
+        <select id="selectCopyMode">
+          <option value="one">Copy One (PSD Style)</option>
+          <option value="multiple">Copy Multiple (CSV)</option>
+        </select>
+      </div>
+      <div>
+        <label for="selectOptionFMInside"
+          >Output stats for FMInside & SoFIFA:</label
+        >
+        <select id="selectOptionFMInside">
+          <option value="pes5">PES 5</option>
+          <option value="pes13">PES 13</option>
+          <option value="pes21">PES 21</option>
+          <option value="raw">RAW Data</option>
+        </select>
+      </div>
+      <div class="csv-buttons" id="csv-buttons">
+        <h2>CSV Configuration</h2>
+        <button id="download-csv" class="pes-indie-pop-up-button">
+          Download CSV
+        </button>
+        <button id="clear-players" class="pes-indie-pop-up-button">
+          Clear Players
+        </button>
+        <button id="remove-last-player" class="pes-indie-pop-up-button">
+          Remove Last Player
+        </button>
+      </div>
+    </div>
+
+    <div id="aboutTab" class="tab">
+      <h2>Developed by <br />PES Indie Team</h2>
+      <p>
+        <b> Credits </b> <br />
+        FIFA Formula by <b>Stavrello</b><br />
+        FM Formula by <b>DantePES6</b><br />
+        FM Formula for PES21 by <b>totti88</b><br />
+        Efootball to PES21 <b>Mohamed2746</b><br />
+        PES21 Formula by <b>DriemPES</b> and <b>DantePES6</b> for special
+        abilities<br />
+        <b>Pato_Lucas18</b> and <b>fram_conflow</b> for providing help on PES21
+        Formula code<br />
+        <b>RiquelmeXeneizeLegendario</b>, <b>Benicio</b> and
+        <b>Pato_Lucas18</b> for testing <b>linff163</b> for providing the list
+        of special abilities by position <b>SRW</b> for helping on some
+        corrections for the formula of FM for PES5 & FM to PES13 formula!
+        <b>jibibi</b> for providing a big insight on PES21 csv format!
+        <b>SRW</b> for the SoFIFA PES13 formula! <b>juancortez</b> for the
+        SoFIFA PES21 formula! <b>luigipirillo54</b> for the PESMaster PES21
+        formula & code!
+      </p>
+      <button id="evoweb-button" class="pes-indie-pop-up-button">
+        Visit Evoweb Official Thread
+      </button>
+      <button id="privacy-button" class="pes-indie-pop-up-button">
+        Read Privacy Policy
+      </button>
+    </div>
+
+    <script src="js/popup.js"></script>
+  </body>
 </html>
