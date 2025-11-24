@@ -3,9 +3,10 @@ body {
   height: 370px;
   font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #000;
+  color: #fff;
 }
+
 /* Estilos de los botones de pestaña */
 .tab-button {
   background-color: #00bfff;
@@ -76,7 +77,7 @@ p {
 }
 
 .banner {
-  color: #ffffff;
+  color: #fff;
   padding: 10px;
   text-align: center;
   font-size: 18px;
