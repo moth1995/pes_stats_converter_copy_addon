@@ -1290,9 +1290,9 @@ False;\
       );
       this.placeKicking = FMStatTOPES21(
         Average([
-          fmPlayer.stats["Penalty Taking"],
-          fmPlayer.stats["Penalty Taking"],
-          fmPlayer.stats["Corners"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Technique"],
+          fmPlayer.stats["Vision"],
         ]),
         maxStatsTable.find((row) => row.position === this.registeredPosition)
           .placeKicking,
