@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Obtiene el elemento select
-  const select = document.getElementById("selectOptionFMInside");
+  const select = document.getElementById("select-option-fm-inside");
   console.log("Elemento select encontrado:", select);
 
   // Obtiene la opción guardada en la variable global (si existe)
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   });
 
-  const sCopyMode = document.getElementById("selectCopyMode");
+  const sCopyMode = document.getElementById("select-copy-mode");
   console.log("Elemento select encontrado:", sCopyMode);
 
   sCopyMode.addEventListener("change", function () {
