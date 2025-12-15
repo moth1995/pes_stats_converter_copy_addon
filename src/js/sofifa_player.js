@@ -51,12 +51,14 @@ class SOFIFAPlayer {
     console.log(`Weight: ${this.weight}kg`);
 
     this.nationality = this.doc
-      .querySelector("div.profile.clearfix > p > a")
+      .querySelector("div.profile.clearfix > p > a > img")
       .getAttribute("title");
 
     console.log(this.nationality);
 
-    const spans = this.doc.querySelectorAll("div.profile.clearfix > p > span");
+    const spans = this.doc.querySelectorAll(
+      "div.profile.clearfix > p > a > span"
+    );
     this.posiciones = Array.from(spans).map((span) => span.textContent);
 
     this.posicionReg = this.posiciones[0];
