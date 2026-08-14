@@ -43,7 +43,7 @@ class PES21Player {
 
     const translatedLastName = Array.from(
       lastName,
-      (char) => translationMap[char] || char
+      (char) => translationMap[char] || char,
     ).join("");
 
     let formattedLastName = translatedLastName;
@@ -481,7 +481,7 @@ False;\
 
     this.reputation =
       Math.round(
-        (((fifaPlayer.internationalReputation - 1) / 4) * 7 + 1) * -1
+        (((fifaPlayer.internationalReputation - 1) / 4) * 7 + 1) * -1,
       ) * -1;
 
     this.injuryTolerance = 2;
@@ -497,7 +497,7 @@ False;\
     this.form = this.ConvertFIFAStatToPES21Form(
       this.registeredPosition === "GK"
         ? fifaPlayer.movement["Reactions"]
-        : fifaPlayer.power["Stamina"]
+        : fifaPlayer.power["Stamina"],
     );
 
     this.weakFootAccuracy =
@@ -509,7 +509,7 @@ False;\
 
     //field players
     this.offensiveAwareness = this.ConvertFIFAStatToPES21(
-      fifaPlayer.mentality["Attack position"]
+      fifaPlayer.mentality["Attack position"],
     );
     if (
       fifaPlayer.mentality["Attck position"] < fifaPlayer.movement["Reactions"]
@@ -521,17 +521,17 @@ False;\
       this.offensiveAwareness--;
     }
     this.ballControl = this.ConvertFIFAStatToPES21(
-      fifaPlayer.skill["Ball control"]
+      fifaPlayer.skill["Ball control"],
     );
     this.dribbling = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Dribbling"]);
     this.tightPossession = this.ConvertFIFAStatToPES21(
       Average([
         fifaPlayer.skill["Ball control"],
         fifaPlayer.mentality["Composure"],
-      ])
+      ]),
     );
     this.lowPass = this.ConvertFIFAStatToPES21(
-      fifaPlayer.attacking["Short passing"]
+      fifaPlayer.attacking["Short passing"],
     );
     if (
       fifaPlayer.attacking["Short passing"] < fifaPlayer.mentality["Vision"]
@@ -545,7 +545,7 @@ False;\
     this.loftedPass = this.ConvertFIFAStatToPES21(
       fifaPlayer.skill["Long passing"] > fifaPlayer.attacking["Crossing"]
         ? fifaPlayer.skill["Long passing"]
-        : fifaPlayer.attacking["Crossing"]
+        : fifaPlayer.attacking["Crossing"],
     );
     if (
       fifaPlayer.attacking["Short passing"] < fifaPlayer.mentality["Vision"]
@@ -557,7 +557,7 @@ False;\
       this.loftedPass--;
     }
     this.finishing = this.ConvertFIFAStatToPES21(
-      fifaPlayer.attacking["Finishing"]
+      fifaPlayer.attacking["Finishing"],
     );
     if (fifaPlayer.attacking["Finishing"] < fifaPlayer.attacking["Volleys"]) {
       this.finishing++;
@@ -578,25 +578,25 @@ False;\
       this.finishing--;
     }
     this.heading = this.ConvertFIFAStatToPES21(
-      fifaPlayer.attacking["Heading accuracy"]
+      fifaPlayer.attacking["Heading accuracy"],
     );
     this.placeKicking = this.ConvertFIFAStatToPES21(
       fifaPlayer.mentality["Penalties"] * 0.3 +
-        fifaPlayer.skill["FK Accuracy"] * 0.7
+        fifaPlayer.skill["FK Accuracy"] * 0.7,
     );
 
     if (this.placeKicking < 60) {
       this.placeKicking = this.ConvertFIFAStatToPES21(
-        fifaPlayer.mentality["Penalties"]
+        fifaPlayer.mentality["Penalties"],
       );
     }
 
     this.curl = this.ConvertFIFAStatToPES21(fifaPlayer.skill["Curve"]);
     this.speed = this.ConvertFIFAStatToPES21(
-      fifaPlayer.movement["Sprint speed"]
+      fifaPlayer.movement["Sprint speed"],
     );
     this.acceleration = this.ConvertFIFAStatToPES21(
-      fifaPlayer.movement["Acceleration"]
+      fifaPlayer.movement["Acceleration"],
     );
     this.kickingPower = this.ConvertFIFAStatToPES21(
       fifaPlayer.power["Shot power"] < 70
@@ -604,14 +604,14 @@ False;\
             fifaPlayer.power["Shot power"],
             fifaPlayer.power["Strength"],
           ])
-        : fifaPlayer.power["Shot power"]
+        : fifaPlayer.power["Shot power"],
     );
     this.jump = this.ConvertFIFAStatToPES21(fifaPlayer.power["Jumping"]);
     this.physicalContact = this.ConvertFIFAStatToPES21(
-      fifaPlayer.power["Strength"]
+      fifaPlayer.power["Strength"],
     );
     this.balance = this.ConvertFIFAStatToPES21(
-      Average([fifaPlayer.movement["Agility"], fifaPlayer.movement["Balance"]])
+      Average([fifaPlayer.movement["Agility"], fifaPlayer.movement["Balance"]]),
     );
     if (this.balance > fifaPlayer.movement["Reactions"]) {
       this.balance++;
@@ -619,7 +619,7 @@ False;\
       this.balance--;
     }
     this.stamina = this.ConvertFIFAStatToPES21(
-      MinorThan(fifaPlayer.power["Stamina"], 60)
+      MinorThan(fifaPlayer.power["Stamina"], 60),
     );
 
     let defensiveAwarenessStat;
@@ -630,7 +630,7 @@ False;\
     }
 
     this.defensiveAwareness = this.ConvertFIFAStatToPES21(
-      defensiveAwarenessStat
+      defensiveAwarenessStat,
     );
     if (defensiveAwarenessStat < fifaPlayer.mentality["Interceptions"]) {
       this.defensiveAwareness++;
@@ -641,10 +641,10 @@ False;\
       fifaPlayer.defending["Standing tackle"] >
         fifaPlayer.defending["Sliding tackle"]
         ? fifaPlayer.defending["Standing tackle"]
-        : fifaPlayer.defending["Sliding tackle"]
+        : fifaPlayer.defending["Sliding tackle"],
     );
     this.aggression = this.ConvertFIFAStatToPES21(
-      fifaPlayer.mentality["Aggression"]
+      fifaPlayer.mentality["Aggression"],
     );
     this.gkAwareness = 40;
     this.gkCatching = 40;
@@ -662,7 +662,7 @@ False;\
       this.heading = clamp(40, 99, this.heading + 20);
       this.curl = clamp(40, 99, this.curl + 10);
       this.kickingPower = this.ConvertFIFAStatToPES21(
-        fifaPlayer.goalkeeping["GK Kicking"]
+        fifaPlayer.goalkeeping["GK Kicking"],
       );
       this.jump = clamp(40, 99, this.jump + 10);
       this.physicalContact = clamp(40, 99, this.physicalContact + 15);
@@ -675,22 +675,22 @@ False;\
           fifaPlayer.goalkeeping["GK Handling"],
           fifaPlayer.goalkeeping["GK Positioning"],
           fifaPlayer.goalkeeping["GK Reflexes"],
-        ]) + 5
+        ]) + 5,
       );
       this.gkCatching = this.ConvertFIFAStatToPES21(
-        fifaPlayer.goalkeeping["GK Handling"] + 5
+        fifaPlayer.goalkeeping["GK Handling"] + 5,
       );
       this.gkClearing = this.ConvertFIFAStatToPES21(
         Average([
           fifaPlayer.goalkeeping["GK Diving"],
           fifaPlayer.goalkeeping["GK Handling"],
-        ]) + 5
+        ]) + 5,
       );
       this.gkReflexes = this.ConvertFIFAStatToPES21(
-        fifaPlayer.goalkeeping["GK Reflexes"] + 5
+        fifaPlayer.goalkeeping["GK Reflexes"] + 5,
       );
       this.gkReach = this.ConvertFIFAStatToPES21(
-        fifaPlayer.goalkeeping["GK Positioning"] + 5
+        fifaPlayer.goalkeeping["GK Positioning"] + 5,
       );
     }
 
@@ -1110,7 +1110,7 @@ False;\
   }
 
   FromFMPlayer(fmPlayer) {
-    let FMPositions = FMPositionStringToArray(fmPlayer.info["Position(s)"]);
+    let FMPositions = FMPositionStringToArray(fmPlayer.info["Positions"]);
     console.log(FMPositions);
     //this.registeredPosition = FMPositions.includes("AMC") &&FMPositions.includes("ST") ? "SS" : FMToPES21Positions(FMPositions[0]);
     let isSS = FMPositions.includes("AMC") && FMPositions.includes("ST");
@@ -1189,7 +1189,7 @@ False;\
           .offensiveAwareness,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .offensiveAwareness,
-        this.currentAbility
+        this.currentAbility,
       );
       this.ballControl = FMStatTOPES21(
         Average([
@@ -1202,7 +1202,7 @@ False;\
           .ballControl,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .ballControl,
-        this.currentAbility
+        this.currentAbility,
       );
       this.dribbling = FMStatTOPES21(
         Average([
@@ -1215,7 +1215,7 @@ False;\
           .dribbling,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .dribbling,
-        this.currentAbility
+        this.currentAbility,
       );
       this.tightPossession = FMStatTOPES21(
         Average([
@@ -1231,7 +1231,7 @@ False;\
           .tightPossession,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .tightPossession,
-        this.currentAbility
+        this.currentAbility,
       );
       this.lowPass = FMStatTOPES21(
         Average([
@@ -1245,7 +1245,7 @@ False;\
           .lowPass,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .lowPass,
-        this.currentAbility
+        this.currentAbility,
       );
       this.loftedPass = FMStatTOPES21(
         Average([
@@ -1259,7 +1259,7 @@ False;\
           .loftedPass,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .loftedPass,
-        this.currentAbility
+        this.currentAbility,
       );
       this.finishing = FMStatTOPES21(
         Average([
@@ -1273,7 +1273,7 @@ False;\
           .finishing,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .finishing,
-        this.currentAbility
+        this.currentAbility,
       );
       this.heading = FMStatTOPES21(
         Average([
@@ -1286,7 +1286,7 @@ False;\
           .heading,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .heading,
-        this.currentAbility
+        this.currentAbility,
       );
       this.placeKicking = FMStatTOPES21(
         Average([
@@ -1298,7 +1298,7 @@ False;\
           .placeKicking,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .placeKicking,
-        this.currentAbility
+        this.currentAbility,
       );
       this.curl = FMStatTOPES21(
         Average([
@@ -1311,7 +1311,7 @@ False;\
           .curl,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .curl,
-        this.currentAbility
+        this.currentAbility,
       );
       this.speed = FMStatTOPES21(
         Average([
@@ -1324,7 +1324,7 @@ False;\
           .speed,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .speed,
-        this.currentAbility
+        this.currentAbility,
       );
       this.acceleration = FMStatTOPES21(
         Average([
@@ -1338,7 +1338,7 @@ False;\
           .acceleration,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .acceleration,
-        this.currentAbility
+        this.currentAbility,
       );
       this.kickingPower = FMStatTOPES21(
         Average([
@@ -1351,7 +1351,7 @@ False;\
           .kickingPower,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .kickingPower,
-        this.currentAbility
+        this.currentAbility,
       );
       this.jump = FMStatTOPES21(
         Average([
@@ -1365,7 +1365,7 @@ False;\
           .jump,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .jump,
-        this.currentAbility
+        this.currentAbility,
       );
       this.physicalContact = FMStatTOPES21(
         Average([
@@ -1379,7 +1379,7 @@ False;\
           .physicalContact,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .physicalContact,
-        this.currentAbility
+        this.currentAbility,
       );
       this.balance = FMStatTOPES21(
         Average([
@@ -1393,7 +1393,7 @@ False;\
           .balance,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .balance,
-        this.currentAbility
+        this.currentAbility,
       );
       this.stamina = FMStatTOPES21(
         Average([
@@ -1407,7 +1407,7 @@ False;\
           .stamina,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .stamina,
-        this.currentAbility
+        this.currentAbility,
       );
       this.defensiveAwareness = FMStatTOPES21(
         Average([
@@ -1420,7 +1420,7 @@ False;\
           .defensiveAwareness,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .defensiveAwareness,
-        this.currentAbility
+        this.currentAbility,
       );
       this.ballWinning = FMStatTOPES21(
         Average([
@@ -1435,7 +1435,7 @@ False;\
           .ballWinning,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .ballWinning,
-        this.currentAbility
+        this.currentAbility,
       );
       this.aggression = FMStatTOPES21(
         Average([
@@ -1450,7 +1450,7 @@ False;\
           .aggression,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .aggression,
-        this.currentAbility
+        this.currentAbility,
       );
       this.gkAwareness = FMStatTOPES21(
         Average([
@@ -1464,7 +1464,7 @@ False;\
           .gkAwareness,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .gkAwareness,
-        this.currentAbility
+        this.currentAbility,
       );
       this.gkCatching = FMStatTOPES21(
         Average([
@@ -1478,7 +1478,7 @@ False;\
           .gkCatching,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .gkCatching,
-        this.currentAbility
+        this.currentAbility,
       );
       this.gkClearing = FMStatTOPES21(
         Average([
@@ -1492,7 +1492,7 @@ False;\
           .gkClearing,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .gkClearing,
-        this.currentAbility
+        this.currentAbility,
       );
       this.gkReflexes = FMStatTOPES21(
         Average([
@@ -1506,7 +1506,7 @@ False;\
           .gkReflexes,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .gkReflexes,
-        this.currentAbility
+        this.currentAbility,
       );
       this.gkReach = FMStatTOPES21(
         Average([
@@ -1520,7 +1520,7 @@ False;\
           .gkReach,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .gkReach,
-        this.currentAbility
+        this.currentAbility,
       );
     } else {
       //field players
@@ -1535,7 +1535,7 @@ False;\
           .offensiveAwareness,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .offensiveAwareness,
-        this.currentAbility
+        this.currentAbility,
       );
       this.ballControl = FMStatTOPES21(
         Average([
@@ -1548,7 +1548,7 @@ False;\
           .ballControl,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .ballControl,
-        this.currentAbility
+        this.currentAbility,
       );
       this.dribbling = FMStatTOPES21(
         Average([
@@ -1561,7 +1561,7 @@ False;\
           .dribbling,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .dribbling,
-        this.currentAbility
+        this.currentAbility,
       );
       this.tightPossession = FMStatTOPES21(
         Average([
@@ -1577,7 +1577,7 @@ False;\
           .tightPossession,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .tightPossession,
-        this.currentAbility
+        this.currentAbility,
       );
       this.lowPass = FMStatTOPES21(
         Average([
@@ -1591,7 +1591,7 @@ False;\
           .lowPass,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .lowPass,
-        this.currentAbility
+        this.currentAbility,
       );
       this.loftedPass = FMStatTOPES21(
         Average([
@@ -1605,7 +1605,7 @@ False;\
           .loftedPass,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .loftedPass,
-        this.currentAbility
+        this.currentAbility,
       );
       this.finishing = FMStatTOPES21(
         Average([
@@ -1619,7 +1619,7 @@ False;\
           .finishing,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .finishing,
-        this.currentAbility
+        this.currentAbility,
       );
       this.heading = FMStatTOPES21(
         Average([
@@ -1632,7 +1632,7 @@ False;\
           .heading,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .heading,
-        this.currentAbility
+        this.currentAbility,
       );
       this.placeKicking = FMStatTOPES21(
         Average([
@@ -1645,7 +1645,7 @@ False;\
           .placeKicking,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .placeKicking,
-        this.currentAbility
+        this.currentAbility,
       );
       this.curl = FMStatTOPES21(
         Average([
@@ -1658,7 +1658,7 @@ False;\
           .curl,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .curl,
-        this.currentAbility
+        this.currentAbility,
       );
       this.speed = FMStatTOPES21(
         Average([
@@ -1671,7 +1671,7 @@ False;\
           .speed,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .speed,
-        this.currentAbility
+        this.currentAbility,
       );
       this.acceleration = FMStatTOPES21(
         Average([
@@ -1685,7 +1685,7 @@ False;\
           .acceleration,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .acceleration,
-        this.currentAbility
+        this.currentAbility,
       );
       this.kickingPower = FMStatTOPES21(
         Average([
@@ -1698,7 +1698,7 @@ False;\
           .kickingPower,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .kickingPower,
-        this.currentAbility
+        this.currentAbility,
       );
       this.jump = FMStatTOPES21(
         Average([
@@ -1712,7 +1712,7 @@ False;\
           .jump,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .jump,
-        this.currentAbility
+        this.currentAbility,
       );
       this.physicalContact = FMStatTOPES21(
         Average([
@@ -1726,7 +1726,7 @@ False;\
           .physicalContact,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .physicalContact,
-        this.currentAbility
+        this.currentAbility,
       );
       this.balance = FMStatTOPES21(
         Average([
@@ -1740,7 +1740,7 @@ False;\
           .balance,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .balance,
-        this.currentAbility
+        this.currentAbility,
       );
       this.stamina = FMStatTOPES21(
         Average([
@@ -1754,7 +1754,7 @@ False;\
           .stamina,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .stamina,
-        this.currentAbility
+        this.currentAbility,
       );
       this.defensiveAwareness = FMStatTOPES21(
         Average([
@@ -1767,7 +1767,7 @@ False;\
           .defensiveAwareness,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .defensiveAwareness,
-        this.currentAbility
+        this.currentAbility,
       );
       this.ballWinning = FMStatTOPES21(
         Average([
@@ -1782,7 +1782,7 @@ False;\
           .ballWinning,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .ballWinning,
-        this.currentAbility
+        this.currentAbility,
       );
       this.aggression = FMStatTOPES21(
         Average([
@@ -1797,7 +1797,7 @@ False;\
           .aggression,
         minStatsTable.find((row) => row.position === this.registeredPosition)
           .aggression,
-        this.currentAbility
+        this.currentAbility,
       );
       this.gkAwareness = 40;
       this.gkCatching = 40;
@@ -2166,7 +2166,7 @@ False;\
 
     this.playingStyle = PES21GetPlayingStyle(
       fmPlayer.roles,
-      this.registeredPosition
+      this.registeredPosition,
     );
 
     //return this.PSDString();
@@ -2257,13 +2257,13 @@ False;\
     this.gkClearing = pesMasterPlayer.stats["GK Parrying"];
     this.gkReflexes = pesMasterPlayer.stats["GK Reflexes"];
     this.injuryTolerance = this.EfootballInjuryResistance(
-      pesMasterPlayer.stats["Injury Resistance"]
+      pesMasterPlayer.stats["Injury Resistance"],
     );
     this.weakFootAccuracy = this.Efootball2021WeakFoot(
-      pesMasterPlayer.stats["Weak Foot Acc."]
+      pesMasterPlayer.stats["Weak Foot Acc."],
     );
     this.weakFootUsage = this.Efootball2021WeakFoot(
-      pesMasterPlayer.stats["Weak Foot Usage"]
+      pesMasterPlayer.stats["Weak Foot Usage"],
     );
     this.condition = this.EfootballCondition(pesMasterPlayer.info["Condition"]);
     this.form = this.EfootballCondition(pesMasterPlayer.info["Condition"]);

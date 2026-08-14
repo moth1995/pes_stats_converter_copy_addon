@@ -8,7 +8,7 @@ class FMInsidePlayer {
 
   GetBasicInfo() {
     this.name = this.doc
-      .querySelector("#player_info #player .title h1")
+      .querySelector("#player_info #player .title p")
       .getAttribute("title");
     const ratingSpans = this.doc
       .querySelector("#player_info .meta")
@@ -25,22 +25,23 @@ class FMInsidePlayer {
       .querySelector("div.column")
       .querySelectorAll("li");
     this.nationality = this.doc.querySelector(
-      "span.value:nth-child(1) > a:nth-child(1)"
+      "span.value:nth-child(1) > a:nth-child(1)",
     ).textContent;
     console.log(this.nationality);
 
     var info = {};
     var positionType = [];
     lis.forEach(function (li) {
-      var key = li.querySelector("span.key").textContent;
+      var key = li
+        .querySelector("span.key")
+        .textContent.replace(":", "")
+        .trim();
       var valueElement = li.querySelector("span.value");
       var value = "";
-      if (valueElement.querySelector("span.desktop_positions")) {
-        value = valueElement.querySelector(
-          "span.desktop_positions"
-        ).textContent;
+      if (valueElement.querySelector("span.player_positions")) {
+        value = valueElement.querySelector("span.player_positions").textContent;
         valueElement
-          .querySelector("span.desktop_positions")
+          .querySelector("span.player_positions")
           .querySelectorAll("span")
           .forEach((span) => {
             console.log(span.getAttribute("title"));
@@ -51,6 +52,7 @@ class FMInsidePlayer {
       }
       info[key] = value;
     });
+    console.log(positionType);
     this.positionType = positionType;
 
     // best way to handle the new changes on the website
@@ -138,7 +140,7 @@ Nationality: ${
 Age: ${parseInt(this.info["Age"])}
 Current Ability: ${this.ability}
 Potencial : ${this.potential}
-Position: ${FMPositionStringToArray(this.info["Position(s)"])}
+Position: ${FMPositionStringToArray(this.info["Positions"])}
 Foot: ${this.info["Foot"] == "Left" ? "L" : "R"}
 
 APPEARANCE:
@@ -305,7 +307,7 @@ function AddButton() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(
           document.documentElement.outerHTML,
-          "text/html"
+          "text/html",
         );
         var FMPlayer = new FMInsidePlayer(doc);
         // Convert into pes
@@ -345,7 +347,7 @@ function AddButton() {
           console.log("Invalid copy mode");
           return;
         }
-      }
+      },
     );
   });
   // append button to body

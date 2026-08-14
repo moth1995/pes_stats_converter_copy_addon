@@ -140,7 +140,7 @@ class PESPlayer {
 
     const translatedLastName = Array.from(
       lastName,
-      (char) => translationMap[char] || char
+      (char) => translationMap[char] || char,
     ).join("");
 
     let formattedLastName = translatedLastName;
@@ -341,10 +341,10 @@ ${clamp(40, 123, this.weight)}`;
     }
 
     this.consistency = this.CalculateConsistency(
-      Average([fifaPlayer.power["Stamina"], fifaPlayer.overall])
+      Average([fifaPlayer.power["Stamina"], fifaPlayer.overall]),
     );
     this.condition = this.CalculateCondition(
-      Average([fifaPlayer.power["Stamina"], fifaPlayer.mentality["Composure"]])
+      Average([fifaPlayer.power["Stamina"], fifaPlayer.mentality["Composure"]]),
     );
 
     this.weakFootFrequency = this.GetWeekFoot(
@@ -352,7 +352,7 @@ ${clamp(40, 123, this.weight)}`;
       Average([
         fifaPlayer.movement["Balance"],
         fifaPlayer.mentality["Composure"],
-      ])
+      ]),
     );
     this.weakFootAccuracy = this.GetWeekFoot(
       fifaPlayer.weakFoot,
@@ -360,7 +360,7 @@ ${clamp(40, 123, this.weight)}`;
         fifaPlayer.skill["Dribbling"],
         fifaPlayer.skill["Ball control"],
         fifaPlayer.mentality["Vision"],
-      ])
+      ]),
     );
 
     if (this.registeredPosition == "GK") {
@@ -371,7 +371,7 @@ ${clamp(40, 123, this.weight)}`;
 
       let gkPositioning = MinorThan(
         fifaPlayer.goalkeeping["GK Positioning"],
-        60
+        60,
       );
       let gkDiving = MinorThan(fifaPlayer.goalkeeping["GK Diving"], 60);
       let defenceEXP =
@@ -467,7 +467,7 @@ ${clamp(40, 123, this.weight)}`;
 
       let headingAccuracy = MinorThan(
         fifaPlayer.attacking["Heading accuracy"],
-        41
+        41,
       );
       let headerEXP = headingAccuracy + fifaPlayer.internationalReputation;
       this.header = 25 + DivideIntegers(headerEXP, this.EXP_ID_Value);
@@ -518,7 +518,7 @@ ${clamp(40, 123, this.weight)}`;
       let attackEXP =
         DivideIntegers(
           positioning + positioning + fifaPlayer.movement["Reactions"],
-          3
+          3,
         ) + fifaPlayer.internationalReputation;
       this.attack =
         attackExtraPoints + DivideIntegers(attackEXP, this.EXP_ID_Value);
@@ -532,11 +532,11 @@ ${clamp(40, 123, this.weight)}`;
       let defensiveAwareness = MinorThan(defensiveAwarenessStat, 20);
       let standingTackle = MinorThan(
         fifaPlayer.defending["Standing tackle"],
-        20
+        20,
       );
       let defenceEXP = DivideIntegers(
         defensiveAwareness * 2 + standingTackle,
-        3
+        3,
       );
       let tempDefence =
         25 +
@@ -560,13 +560,13 @@ ${clamp(40, 123, this.weight)}`;
       let topSpeedEXP = fifaPlayer.movement["Sprint speed"];
       this.topSpeed = MinorThan(
         15 + DivideIntegers(topSpeedEXP, this.EXP_Value),
-        60
+        60,
       );
 
       let accelerationEXP = fifaPlayer.movement["Acceleration"];
       this.acceleration = MinorThan(
         15 + DivideIntegers(accelerationEXP, this.EXP_Value),
-        60
+        60,
       );
 
       let interceptions = MinorThan(fifaPlayer.mentality["Interceptions"], 53);
@@ -576,7 +576,7 @@ ${clamp(40, 123, this.weight)}`;
         25 +
         DivideIntegers(
           responseEXP + fifaPlayer.internationalReputation,
-          this.EXP_ID_Value
+          this.EXP_ID_Value,
         );
 
       let agility = MinorThan(fifaPlayer.movement["Agility"], 50);
@@ -642,7 +642,7 @@ ${clamp(40, 123, this.weight)}`;
 
       let headingAccuracy = MinorThan(
         fifaPlayer.attacking["Heading accuracy"],
-        50
+        50,
       );
       let headerEXP = headingAccuracy + fifaPlayer.internationalReputation;
       this.header = 25 + DivideIntegers(headerEXP, this.EXP_ID_Value);
@@ -672,13 +672,13 @@ ${clamp(40, 123, this.weight)}`;
 
       let teamworkEXP = DivideIntegers(
         fifaPlayer.mentality["Vision"] + positioning + aggression,
-        3
+        3,
       );
       this.teamwork =
         25 +
         DivideIntegers(
           teamworkEXP + fifaPlayer.internationalReputation,
-          this.EXP_ID_Value
+          this.EXP_ID_Value,
         );
 
       if (
@@ -687,13 +687,13 @@ ${clamp(40, 123, this.weight)}`;
       ) {
         teamworkEXP = DivideIntegers(
           fifaPlayer.mentality["Composure"] + aggression,
-          2
+          2,
         );
         this.teamwork =
           25 +
           DivideIntegers(
             teamworkEXP + fifaPlayer.internationalReputation,
-            this.EXP_ID_Value
+            this.EXP_ID_Value,
           );
       }
     }
@@ -721,7 +721,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.positioningPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.positioning = 1;
@@ -738,7 +738,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.reactionPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.reaction = 1;
@@ -752,7 +752,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.playmakingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.playmaking = 1;
@@ -769,7 +769,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.passingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.passing = 1;
@@ -786,7 +786,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.scoringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.scoring = 1;
@@ -803,7 +803,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.oneOnOneScoringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.oneOnOneScoring = 1;
@@ -818,7 +818,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.postPlayerPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.postPlayer = 1;
@@ -834,7 +834,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.linesPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.lines = 1;
@@ -849,7 +849,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.middleShootingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.middleShooting = 1;
@@ -898,7 +898,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.oneTouchPassPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.oneTouchPass = 1;
@@ -932,7 +932,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.markingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.marking = 1;
@@ -949,7 +949,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.slidingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.sliding = 1;
@@ -966,7 +966,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.coveringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.covering = 1;
@@ -980,7 +980,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.dLineControlPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.dLineControl = 1;
@@ -1018,7 +1018,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.longThrowPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.longThrow = 1;
@@ -1031,7 +1031,7 @@ ${clamp(40, 123, this.weight)}`;
   }
 
   FromFMPlayer(fmPlayer) {
-    let FMPositions = FMPositionStringToArray(fmPlayer.info["Position(s)"]);
+    let FMPositions = FMPositionStringToArray(fmPlayer.info["Positions"]);
     console.log(FMPositions);
     this.registeredPosition =
       FMPositions.includes("AMC") && FMPositions.includes("ST")
@@ -1066,48 +1066,48 @@ ${clamp(40, 123, this.weight)}`;
     this.weight = parseInt(fmPlayer.info["Weight"]);
 
     this.injuryTolerance = FMToPESStatAToC(
-      (fmPlayer.stats["Stamina"] + fmPlayer.stats["Natural Fitness"]) / 2
+      (fmPlayer.stats["Stamina"] + fmPlayer.stats["Natural Fitness"]) / 2,
     );
 
     if (this.registeredPosition == "GK") {
       this.attack = 30;
       this.defence = FMToPESStat99(
-        (fmPlayer.stats["Positioning"] + fmPlayer.stats["Command of Area"]) / 2
+        (fmPlayer.stats["Positioning"] + fmPlayer.stats["Command of Area"]) / 2,
       );
       this.balance = FMToPESStat99(fmPlayer.stats["Strength"]);
       this.stamina = Math.round(
-        (FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2
+        (FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2,
       );
       this.topSpeed = FMToPESStat99(fmPlayer.stats["Pace"]);
       this.acceleration = FMToPESStat99(fmPlayer.stats["Acceleration"]);
       this.response = FMToPESStat99(
-        fmPlayer.stats["Reflexes"] * 0.8 + fmPlayer.stats["Anticipation"] * 0.2
+        fmPlayer.stats["Reflexes"] * 0.8 + fmPlayer.stats["Anticipation"] * 0.2,
       );
       this.agility = FMToPESStat99(
-        (fmPlayer.stats["Agility"] + fmPlayer.stats["Aerial Reach"]) / 2
+        (fmPlayer.stats["Agility"] + fmPlayer.stats["Aerial Reach"]) / 2,
       );
       this.dribbleAccuracy = FMToPESStat99(
-        (fmPlayer.stats["Flair"] + fmPlayer.stats["First Touch"]) / 2
+        (fmPlayer.stats["Flair"] + fmPlayer.stats["First Touch"]) / 2,
       );
       this.dribbleSpeed = FMToPESStat99(
         (fmPlayer.stats["Flair"] +
           fmPlayer.stats["First Touch"] +
           fmPlayer.stats["Pace"]) /
-          3
+          3,
       );
       this.shortPassAccuracy = FMToPESStat99(fmPlayer.stats["Passing"]);
       this.shortPassSpeed = FMToPESStat99(
-        fmPlayer.stats["Passing"] * 0.8 + fmPlayer.stats["First Touch"] * 0.2
+        fmPlayer.stats["Passing"] * 0.8 + fmPlayer.stats["First Touch"] * 0.2,
       );
       this.longPassAccuracy = FMToPESStat99(fmPlayer.stats["Kicking"]);
       this.longPassSpeed = FMToPESStat99(
-        fmPlayer.stats["Kicking"] * 0.8 + fmPlayer.stats["First Touch"] * 0.2
+        fmPlayer.stats["Kicking"] * 0.8 + fmPlayer.stats["First Touch"] * 0.2,
       );
       this.shotAccuracy = 45;
       this.shotPower = FMToPESStat99(fmPlayer.stats["Kicking"]);
       this.shotTechnique = 45;
       this.freeKickAccuracy = FMToPESStat99(
-        fmPlayer.stats["Kicking"] * 0.4 + fmPlayer.stats["Flair"] * 0.6
+        fmPlayer.stats["Kicking"] * 0.4 + fmPlayer.stats["Flair"] * 0.6,
       );
       this.curling = 45;
       this.header = 55;
@@ -1115,36 +1115,36 @@ ${clamp(40, 123, this.weight)}`;
         Average([
           FMToPESStat99(
             (fmPlayer.stats["Jumping Reach"] + fmPlayer.stats["Aerial Reach"]) /
-              2
+              2,
           ),
           heightTo99Stat(this.height, true),
         ]) + 3;
       this.technique = FMToPESStat99(fmPlayer.stats["Flair"]);
       this.aggression = FMToPESStat99(
         fmPlayer.stats["Positioning"] * 0.7 +
-          fmPlayer.stats["Anticipation"] * 0.3
+          fmPlayer.stats["Anticipation"] * 0.3,
       );
       //this.mentality = FMToPESStat99((fmPlayer.stats["Rushing Out (Tendency)"] * 0.25 + fmPlayer.stats["One on Ones"] * 0.5 + fmPlayer.stats["Composure"] * 0.25));
       this.mentality = FMToPESStat99(
-        (fmPlayer.stats["Leadership"] + fmPlayer.stats["Determination"]) / 2
+        (fmPlayer.stats["Leadership"] + fmPlayer.stats["Determination"]) / 2,
       );
       this.goalkeeping = FMToPESStat99(
         fmPlayer.stats["Handling"] * 0.4 +
           fmPlayer.stats["Aerial Reach"] * 0.4 +
-          fmPlayer.stats["Command of Area"] * 0.2
+          fmPlayer.stats["Command of Area"] * 0.2,
       );
       this.teamwork = FMToPESStat99(fmPlayer.stats["Communication"]);
       this.consistency = FMToPESStat1To8(fmPlayer.stats["Determination"]);
       this.condition = FMToPESStat1To8(fmPlayer.stats["Natural Fitness"]);
       this.weakFootAccuracy = FMToPESStat1To8(
-        (2 + fmPlayer.stats["Kicking"]) / 2
+        (2 + fmPlayer.stats["Kicking"]) / 2,
       );
       this.weakFootFrequency = FMToPESStat1To8(fmPlayer.stats["Decisions"]);
     } else {
       //field players
       this.attack = FMToPESStat99(
         fmPlayer.stats["Off the Ball"] * 0.7 +
-          fmPlayer.stats["Anticipation"] * 0.3
+          fmPlayer.stats["Anticipation"] * 0.3,
       );
       if (
         this.registeredPosition == "CBT" ||
@@ -1163,7 +1163,7 @@ ${clamp(40, 123, this.weight)}`;
         fmPlayer.stats["Anticipation"] * 0.1 +
           fmPlayer.stats["Marking"] * 0.3 +
           fmPlayer.stats["Positioning"] * 0.5 +
-          fmPlayer.stats["Tackling"] * 0.1
+          fmPlayer.stats["Tackling"] * 0.1,
       );
       if (
         this.registeredPosition == "SMF" ||
@@ -1182,48 +1182,48 @@ ${clamp(40, 123, this.weight)}`;
       }
       this.balance = FMToPESStat99(fmPlayer.stats["Strength"]);
       this.stamina = Math.round(
-        (FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2
+        (FMToPESStat99(15) + FMToPESStat99(fmPlayer.stats["Stamina"])) / 2,
       );
       this.topSpeed = FMToPESStat99(fmPlayer.stats["Pace"]);
       this.acceleration = FMToPESStat99(fmPlayer.stats["Acceleration"]);
       this.response = FMToPESStat99(fmPlayer.stats["Anticipation"]);
       this.agility = FMToPESStat99(fmPlayer.stats["Agility"]);
       this.dribbleAccuracy = FMToPESStat99(
-        (fmPlayer.stats["Dribbling"] + fmPlayer.stats["First Touch"]) / 2
+        (fmPlayer.stats["Dribbling"] + fmPlayer.stats["First Touch"]) / 2,
       );
       this.dribbleSpeed = FMToPESStat99(
         fmPlayer.stats["Dribbling"] * 0.5 +
           fmPlayer.stats["Acceleration"] * 0.25 +
-          fmPlayer.stats["Pace"] * 0.25
+          fmPlayer.stats["Pace"] * 0.25,
       );
       this.shortPassAccuracy = FMToPESStat99(fmPlayer.stats["Passing"]);
       this.shortPassSpeed = FMToPESStat99(
-        (fmPlayer.stats["Passing"] + fmPlayer.stats["Technique"]) / 2
+        (fmPlayer.stats["Passing"] + fmPlayer.stats["Technique"]) / 2,
       );
       this.longPassAccuracy = FMToPESStat99(
-        (fmPlayer.stats["Crossing"] + fmPlayer.stats["Passing"]) / 2
+        (fmPlayer.stats["Crossing"] + fmPlayer.stats["Passing"]) / 2,
       );
       this.longPassSpeed = FMToPESStat99(
         (fmPlayer.stats["Crossing"] +
           fmPlayer.stats["Passing"] +
           fmPlayer.stats["Technique"]) /
-          3
+          3,
       );
       this.shotAccuracy = FMToPESStat99(
-        (fmPlayer.stats["Finishing"] + fmPlayer.stats["Composure"]) / 2
+        (fmPlayer.stats["Finishing"] + fmPlayer.stats["Composure"]) / 2,
       );
       this.shotPower = FMToPESStat99(
-        Average([fmPlayer.stats["Strength"], fmPlayer.stats["Long Shots"]])
+        Average([fmPlayer.stats["Strength"], fmPlayer.stats["Long Shots"]]),
       );
       this.shotTechnique = FMToPESStat99(
         (fmPlayer.stats["Finishing"] +
           fmPlayer.stats["First Touch"] +
           fmPlayer.stats["Technique"]) /
-          3
+          3,
       );
       this.freeKickAccuracy = FMToPESStat99(fmPlayer.stats["Free Kick Taking"]);
       this.curling = FMToPESStat99(
-        (fmPlayer.stats["Free Kick Taking"] + fmPlayer.stats["Corners"]) / 2
+        (fmPlayer.stats["Free Kick Taking"] + fmPlayer.stats["Corners"]) / 2,
       );
       this.header = FMToPESStat99(fmPlayer.stats["Heading"]);
       this.jump = Average([
@@ -1232,14 +1232,14 @@ ${clamp(40, 123, this.weight)}`;
       ]);
       if (this.registeredPosition == "CBT") this.jump += 3;
       this.technique = FMToPESStat99(
-        (fmPlayer.stats["Flair"] + fmPlayer.stats["Technique"]) / 2
+        (fmPlayer.stats["Flair"] + fmPlayer.stats["Technique"]) / 2,
       );
       this.aggression = FMToPESStat99(
-        fmPlayer.stats["Vision"] * 0.5 + fmPlayer.stats["Off the Ball"] * 0.5
+        fmPlayer.stats["Vision"] * 0.5 + fmPlayer.stats["Off the Ball"] * 0.5,
       );
       //this.mentality = FMToPESStat99((fmPlayer.stats["Work Rate"] * 0.7) + (fmPlayer.stats["Bravery"] * 0.3));
       this.mentality = FMToPESStat99(
-        (fmPlayer.stats["Leadership"] + fmPlayer.stats["Determination"]) / 2
+        (fmPlayer.stats["Leadership"] + fmPlayer.stats["Determination"]) / 2,
       );
       this.goalkeeping = 50;
       this.teamwork = FMToPESStat99(fmPlayer.stats["Teamwork"]);
@@ -1251,7 +1251,7 @@ ${clamp(40, 123, this.weight)}`;
           fmPlayer.stats["Technique"]) /
           3 +
           fmPlayer.stats["Finishing"]) /
-          2
+          2,
       );
       this.weakFootFrequency = FMToPESStat1To8(fmPlayer.stats["Decisions"]);
     }
@@ -1275,7 +1275,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.positioningPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.positioning = 1;
@@ -1289,7 +1289,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.reactionPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.reaction = 1;
@@ -1303,7 +1303,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.playmakingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.playmaking = 1;
@@ -1317,7 +1317,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.passingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.passing = 1;
@@ -1331,7 +1331,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.scoringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.scoring = 1;
@@ -1345,7 +1345,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.oneOnOneScoringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.oneOnOneScoring = 1;
@@ -1359,7 +1359,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.postPlayerPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.postPlayer = 1;
@@ -1373,7 +1373,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.linesPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.lines = 1;
@@ -1387,7 +1387,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.middleShootingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.middleShooting = 1;
@@ -1420,7 +1420,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.oneTouchPassPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.oneTouchPass = 1;
@@ -1441,7 +1441,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.markingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.marking = 1;
@@ -1455,7 +1455,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.slidingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.sliding = 1;
@@ -1468,7 +1468,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.coveringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.covering = 1;
@@ -1482,7 +1482,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.dLineControlPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.dLineControl = 1;
@@ -1513,7 +1513,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.longThrowPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.longThrow = 1;
@@ -1540,7 +1540,7 @@ ${clamp(40, 123, this.weight)}`;
     this.weight = parseInt(pesMasterPlayer.info["Weight"]);
 
     this.registeredPosition = EfootballToPESPosition(
-      pesMasterPlayer.info["Position"]
+      pesMasterPlayer.info["Position"],
     );
     this.positions = [];
 
@@ -1554,11 +1554,11 @@ ${clamp(40, 123, this.weight)}`;
         this.registeredPosition !=
           EfootballToPESPosition(pesMasterPlayer.positions[index]) &&
         !this.positions.includes(
-          EfootballToPESPosition(pesMasterPlayer.positions[index])
+          EfootballToPESPosition(pesMasterPlayer.positions[index]),
         )
       ) {
         this.positions.push(
-          EfootballToPESPosition(pesMasterPlayer.positions[index])
+          EfootballToPESPosition(pesMasterPlayer.positions[index]),
         );
         if (sidePositions.includes(pesMasterPlayer.positions[index]))
           sideCounter++;
@@ -1568,7 +1568,7 @@ ${clamp(40, 123, this.weight)}`;
     }
 
     this.injuryTolerance = EfootballInjuryResistance(
-      pesMasterPlayer.stats["Injury Resistance"]
+      pesMasterPlayer.stats["Injury Resistance"],
     );
 
     this.attack = pesMasterPlayer.stats["Offensive Awareness"];
@@ -1582,35 +1582,35 @@ ${clamp(40, 123, this.weight)}`;
         pesMasterPlayer.stats["Acceleration"],
         pesMasterPlayer.stats["Offensive Awareness"],
         pesMasterPlayer.stats["Tight Possession"],
-      ])
+      ]),
     );
     this.agility = Math.round(
       Average([
         pesMasterPlayer.stats["Ball Control"],
         pesMasterPlayer.stats["Tight Possession"],
         pesMasterPlayer.stats["Balance"],
-      ])
+      ]),
     );
     this.dribbleAccuracy = pesMasterPlayer.stats["Dribbling"];
     this.dribbleSpeed = Math.round(
       Average([
         pesMasterPlayer.stats["Dribbling"],
         pesMasterPlayer.stats["Speed"],
-      ])
+      ]),
     );
     this.shortPassAccuracy = pesMasterPlayer.stats["Low Pass"];
     this.shortPassSpeed = Math.round(
       Average([
         pesMasterPlayer.stats["Low Pass"],
         pesMasterPlayer.stats["Kicking Power"],
-      ])
+      ]),
     );
     this.longPassAccuracy = pesMasterPlayer.stats["Lofted Pass"];
     this.longPassSpeed = Math.round(
       Average([
         pesMasterPlayer.stats["Lofted Pass"],
         pesMasterPlayer.stats["Kicking Power"],
-      ])
+      ]),
     );
     this.shotAccuracy = pesMasterPlayer.stats["Finishing"];
     this.shotPower = pesMasterPlayer.stats["Kicking Power"];
@@ -1618,7 +1618,7 @@ ${clamp(40, 123, this.weight)}`;
       Average([
         pesMasterPlayer.stats["Finishing"],
         pesMasterPlayer.stats["Ball Control"],
-      ])
+      ]),
     );
     this.freeKickAccuracy = pesMasterPlayer.stats["Set Piece Taking"];
     this.curling = pesMasterPlayer.stats["Curl"];
@@ -1628,7 +1628,7 @@ ${clamp(40, 123, this.weight)}`;
     this.goalkeeping = 50;
     this.aggression = Math.round(
       0.8 * pesMasterPlayer.stats["Offensive Awareness"] +
-        0.2 * pesMasterPlayer.stats["Aggression"]
+        0.2 * pesMasterPlayer.stats["Aggression"],
     );
     this.mentality = Math.round(
       Average([
@@ -1636,26 +1636,26 @@ ${clamp(40, 123, this.weight)}`;
         pesMasterPlayer.stats["Tight Possession"],
         pesMasterPlayer.stats["Defensive Awareness"],
         pesMasterPlayer.stats["Aggression"],
-      ])
+      ]),
     );
     this.teamwork = Math.round(
       Average([
         pesMasterPlayer.stats["Tight Possession"],
         pesMasterPlayer.stats["Low Pass"],
         pesMasterPlayer.stats["Lofted Pass"],
-      ])
+      ]),
     );
     this.consistency = this.CalculateConsistency(
-      Average([pesMasterPlayer.stats["Stamina"], pesMasterPlayer.overall])
+      Average([pesMasterPlayer.stats["Stamina"], pesMasterPlayer.overall]),
     );
     this.condition = EfootballCondition(pesMasterPlayer.info["Condition"]);
     this.weakFootAccuracy = EfootballWeakFoot(
       pesMasterPlayer.stats["Weak Foot Acc."],
-      pesMasterPlayer.stats["Ball Control"]
+      pesMasterPlayer.stats["Ball Control"],
     );
     this.weakFootFrequency = EfootballWeakFoot(
       pesMasterPlayer.stats["Weak Foot Usage"],
-      pesMasterPlayer.stats["Ball Control"]
+      pesMasterPlayer.stats["Ball Control"],
     );
 
     switch (this.registeredPosition) {
@@ -1663,36 +1663,36 @@ ${clamp(40, 123, this.weight)}`;
         this.attack = 35;
         this.defence = Math.round(
           0.9 * pesMasterPlayer.stats["GK Awareness"] +
-            0.1 * pesMasterPlayer.stats["Defensive Awareness"]
+            0.1 * pesMasterPlayer.stats["Defensive Awareness"],
         );
         this.response = Math.round(
           0.8 * pesMasterPlayer.stats["GK Awareness"] +
-            0.2 * pesMasterPlayer.stats["Acceleration"]
+            0.2 * pesMasterPlayer.stats["Acceleration"],
         );
         this.agility = Math.round(
           0.3 * pesMasterPlayer.stats["GK Reflexes"] +
-            0.7 * pesMasterPlayer.stats["Balance"]
+            0.7 * pesMasterPlayer.stats["Balance"],
         );
         this.aggression = Math.round(
           0.6 * pesMasterPlayer.stats["Aggression"] +
-            0.4 * pesMasterPlayer.stats["GK Awareness"]
+            0.4 * pesMasterPlayer.stats["GK Awareness"],
         );
         this.mentality = Math.round(
           0.7 * pesMasterPlayer.stats["GK Awareness"] +
-            0.3 * pesMasterPlayer.stats["Defensive Awareness"]
+            0.3 * pesMasterPlayer.stats["Defensive Awareness"],
         );
         this.goalkeeping = Math.round(
           Average([
             pesMasterPlayer.stats["GK Awareness"],
             pesMasterPlayer.stats["GK Reach"],
-          ])
+          ]),
         );
         this.teamwork = Math.round(
           Average([
             pesMasterPlayer.stats["Offensive Awareness"],
             pesMasterPlayer.stats["Low Pass"],
             pesMasterPlayer.stats["Lofted Pass"],
-          ])
+          ]),
         );
         break;
       case "CBT":
@@ -1703,7 +1703,7 @@ ${clamp(40, 123, this.weight)}`;
             pesMasterPlayer.stats["Acceleration"],
             pesMasterPlayer.stats["Defensive Engagement"],
             pesMasterPlayer.stats["Defensive Awareness"],
-          ])
+          ]),
         );
         this.teamwork = Math.round(
           Average([
@@ -1711,7 +1711,7 @@ ${clamp(40, 123, this.weight)}`;
             pesMasterPlayer.stats["Low Pass"],
             pesMasterPlayer.stats["Lofted Pass"],
             pesMasterPlayer.stats["Defensive Awareness"],
-          ])
+          ]),
         );
         break;
       case "DMF":
@@ -1724,7 +1724,7 @@ ${clamp(40, 123, this.weight)}`;
             pesMasterPlayer.stats["Acceleration"],
             pesMasterPlayer.stats["Defensive Engagement"],
             pesMasterPlayer.stats["Tight Possession"],
-          ])
+          ]),
         );
         break;
     }
@@ -1758,7 +1758,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.positioningPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.positioning = 1;
@@ -1772,7 +1772,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.reactionPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.reaction = 1;
@@ -1786,7 +1786,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.playmakingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.playmaking = 1;
@@ -1803,7 +1803,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.passingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.passing = 1;
@@ -1817,7 +1817,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.scoringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.scoring = 1;
@@ -1832,7 +1832,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.oneOnOneScoringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.oneOnOneScoring = 1;
@@ -1847,7 +1847,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.postPlayerPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.postPlayer = 1;
@@ -1861,7 +1861,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.linesPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.lines = 1;
@@ -1876,7 +1876,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.middleShootingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.middleShooting = 1;
@@ -1921,7 +1921,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.oneTouchPassPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.oneTouchPass = 1;
@@ -1942,7 +1942,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.markingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.marking = 1;
@@ -1957,7 +1957,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.slidingPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.sliding = 1;
@@ -1970,7 +1970,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.coveringPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.covering = 1;
@@ -1985,7 +1985,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.dLineControlPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.dLineControl = 1;
@@ -2019,7 +2019,7 @@ ${clamp(40, 123, this.weight)}`;
       hasSpecialAbility(
         this.longThrowPositions,
         this.registeredPosition,
-        this.positions
+        this.positions,
       )
     ) {
       this.longThrow = 1;
