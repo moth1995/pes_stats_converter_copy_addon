@@ -1113,6 +1113,12 @@ False;\
       .replace("*", "");
     debugLog("pes21:fm", "registeredPosition", this.registeredPosition);
     this.currentAbility = parseInt(fmPlayer.ability);
+    const maxRow = maxStatsTable.find(
+      (row) => row.position === this.registeredPosition,
+    );
+    const minRow = minStatsTable.find(
+      (row) => row.position === this.registeredPosition,
+    );
     this.name = fmPlayer.info["Name"];
     this.shirtName = this.NameToShirtName(this.name);
     this.age = parseInt(fmPlayer.info["Age"]);
@@ -1149,9 +1155,9 @@ False;\
           fmPlayer.stats["Off the Ball"],
           fmPlayer.stats["Off the Ball"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .offensiveAwareness,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .offensiveAwareness,
         this.currentAbility,
       );
@@ -1162,9 +1168,9 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Technique"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .ballControl,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .ballControl,
         this.currentAbility,
       );
@@ -1175,9 +1181,9 @@ False;\
           fmPlayer.stats["Flair"],
           fmPlayer.stats["Flair"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .dribbling,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .dribbling,
         this.currentAbility,
       );
@@ -1191,9 +1197,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Balance"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .tightPossession,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .tightPossession,
         this.currentAbility,
       );
@@ -1205,9 +1211,9 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Composure"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .lowPass,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .lowPass,
         this.currentAbility,
       );
@@ -1219,9 +1225,9 @@ False;\
           fmPlayer.stats["Passing"],
           fmPlayer.stats["Technique"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .loftedPass,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .loftedPass,
         this.currentAbility,
       );
@@ -1233,9 +1239,9 @@ False;\
           fmPlayer.stats["Composure"],
           fmPlayer.stats["Composure"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .finishing,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .finishing,
         this.currentAbility,
       );
@@ -1246,9 +1252,9 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Jumping Reach"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .heading,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .heading,
         this.currentAbility,
       );
@@ -1258,9 +1264,9 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Vision"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .placeKicking,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .placeKicking,
         this.currentAbility,
       );
@@ -1271,9 +1277,9 @@ False;\
           fmPlayer.stats["Flair"],
           fmPlayer.stats["Flair"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .curl,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .curl,
         this.currentAbility,
       );
@@ -1284,9 +1290,9 @@ False;\
           fmPlayer.stats["Pace"],
           fmPlayer.stats["Acceleration"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .speed,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .speed,
         this.currentAbility,
       );
@@ -1298,9 +1304,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Pace"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .acceleration,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .acceleration,
         this.currentAbility,
       );
@@ -1311,9 +1317,9 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Strength"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .kickingPower,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .kickingPower,
         this.currentAbility,
       );
@@ -1325,9 +1331,9 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Agility"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .jump,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .jump,
         this.currentAbility,
       );
@@ -1339,9 +1345,9 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Balance"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .physicalContact,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .physicalContact,
         this.currentAbility,
       );
@@ -1353,9 +1359,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Agility"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .balance,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .balance,
         this.currentAbility,
       );
@@ -1367,9 +1373,9 @@ False;\
           fmPlayer.stats["Natural Fitness"],
           fmPlayer.stats["Work Rate"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .stamina,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .stamina,
         this.currentAbility,
       );
@@ -1380,9 +1386,9 @@ False;\
           fmPlayer.stats["Rushing Out (Tendency)"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .defensiveAwareness,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .defensiveAwareness,
         this.currentAbility,
       );
@@ -1395,9 +1401,9 @@ False;\
           fmPlayer.stats["Bravery"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .ballWinning,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .ballWinning,
         this.currentAbility,
       );
@@ -1410,9 +1416,9 @@ False;\
           fmPlayer.stats["Work Rate"],
           fmPlayer.stats["Work Rate"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .aggression,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .aggression,
         this.currentAbility,
       );
@@ -1424,9 +1430,9 @@ False;\
           fmPlayer.stats["One on Ones"],
           fmPlayer.stats["Command of Area"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .gkAwareness,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .gkAwareness,
         this.currentAbility,
       );
@@ -1438,9 +1444,9 @@ False;\
           fmPlayer.stats["Aerial Reach"],
           fmPlayer.stats["Aerial Reach"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .gkCatching,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .gkCatching,
         this.currentAbility,
       );
@@ -1452,9 +1458,9 @@ False;\
           fmPlayer.stats["Kicking"],
           fmPlayer.stats["First Touch"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .gkClearing,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .gkClearing,
         this.currentAbility,
       );
@@ -1466,9 +1472,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Natural Fitness"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .gkReflexes,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .gkReflexes,
         this.currentAbility,
       );
@@ -1480,9 +1486,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Jumping Reach"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .gkReach,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .gkReach,
         this.currentAbility,
       );
@@ -1495,9 +1501,9 @@ False;\
           fmPlayer.stats["Off the Ball"],
           fmPlayer.stats["Off the Ball"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .offensiveAwareness,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .offensiveAwareness,
         this.currentAbility,
       );
@@ -1508,9 +1514,9 @@ False;\
           fmPlayer.stats["Dribbling"],
           fmPlayer.stats["Technique"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .ballControl,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .ballControl,
         this.currentAbility,
       );
@@ -1521,9 +1527,9 @@ False;\
           fmPlayer.stats["Dribbling"],
           fmPlayer.stats["Flair"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .dribbling,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .dribbling,
         this.currentAbility,
       );
@@ -1537,9 +1543,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Balance"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .tightPossession,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .tightPossession,
         this.currentAbility,
       );
@@ -1551,9 +1557,9 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Composure"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .lowPass,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .lowPass,
         this.currentAbility,
       );
@@ -1565,9 +1571,9 @@ False;\
           fmPlayer.stats["Passing"],
           fmPlayer.stats["Technique"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .loftedPass,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .loftedPass,
         this.currentAbility,
       );
@@ -1579,9 +1585,9 @@ False;\
           fmPlayer.stats["Composure"],
           fmPlayer.stats["Technique"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .finishing,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .finishing,
         this.currentAbility,
       );
@@ -1592,9 +1598,9 @@ False;\
           fmPlayer.stats["Finishing"],
           fmPlayer.stats["Jumping Reach"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .heading,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .heading,
         this.currentAbility,
       );
@@ -1605,9 +1611,9 @@ False;\
           fmPlayer.stats["Corners"],
           fmPlayer.stats["Penalty Taking"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .placeKicking,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .placeKicking,
         this.currentAbility,
       );
@@ -1618,9 +1624,9 @@ False;\
           fmPlayer.stats["Flair"],
           fmPlayer.stats["Flair"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .curl,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .curl,
         this.currentAbility,
       );
@@ -1631,9 +1637,9 @@ False;\
           fmPlayer.stats["Pace"],
           fmPlayer.stats["Acceleration"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .speed,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .speed,
         this.currentAbility,
       );
@@ -1645,9 +1651,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Pace"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .acceleration,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .acceleration,
         this.currentAbility,
       );
@@ -1658,9 +1664,9 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Strength"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .kickingPower,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .kickingPower,
         this.currentAbility,
       );
@@ -1672,9 +1678,9 @@ False;\
           fmPlayer.stats["Heading"],
           fmPlayer.stats["Agility"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .jump,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .jump,
         this.currentAbility,
       );
@@ -1686,9 +1692,9 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Balance"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .physicalContact,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .physicalContact,
         this.currentAbility,
       );
@@ -1700,9 +1706,9 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Agility"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .balance,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .balance,
         this.currentAbility,
       );
@@ -1714,9 +1720,9 @@ False;\
           fmPlayer.stats["Natural Fitness"],
           fmPlayer.stats["Work Rate"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .stamina,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .stamina,
         this.currentAbility,
       );
@@ -1727,9 +1733,9 @@ False;\
           fmPlayer.stats["Marking"],
           fmPlayer.stats["Tackling"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .defensiveAwareness,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .defensiveAwareness,
         this.currentAbility,
       );
@@ -1742,9 +1748,9 @@ False;\
           fmPlayer.stats["Marking"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .ballWinning,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .ballWinning,
         this.currentAbility,
       );
@@ -1757,9 +1763,9 @@ False;\
           fmPlayer.stats["Work Rate"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxStatsTable.find((row) => row.position === this.registeredPosition)
+        maxRow
           .aggression,
-        minStatsTable.find((row) => row.position === this.registeredPosition)
+        minRow
           .aggression,
         this.currentAbility,
       );
