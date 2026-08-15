@@ -13,7 +13,7 @@ function CopyToClipboard(text) {
 
 function stringInArray(array, searchString) {
   return array.some(
-    (item) => item.toLowerCase() === searchString.toLowerCase()
+    (item) => item.toLowerCase() === searchString.toLowerCase(),
   );
 }
 
@@ -378,18 +378,14 @@ function heightTo99Stat(height, isGK) {
   if (isGK) {
     if (height in gkHeightTable) {
       return gkHeightTable[height];
-    } else {
-      stat = height < 175 ? 95 : 55;
-      return stat;
     }
+    return height < 175 ? 95 : 55;
   }
 
   if (height in playersHeightTable) {
     return playersHeightTable[height];
-  } else {
-    stat = height < 165 ? 95 : 55;
-    return stat;
   }
+  return height < 165 ? 95 : 55;
 }
 
 function hasSpecialAbility(abilityPositions, registeredPosition, positions) {
@@ -493,7 +489,7 @@ function CAPoints(ca) {
 function FMStatTOPES21(statFromFormula, max, min, ca) {
   let caPoints = CAPoints(ca);
   return Math.round(
-    clamp(40, 99, ((max - min) / 20) * statFromFormula + min + caPoints)
+    clamp(40, 99, ((max - min) / 20) * statFromFormula + min + caPoints),
   );
 }
 

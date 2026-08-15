@@ -23,9 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
       function () {
         console.log(
           "Valor guardado en el almacenamiento local, nuevo valor:" +
-            selectedValue
+            selectedValue,
         );
-      }
+      },
     );
   });
 
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Guarda la opción seleccionada en el almacenamiento local
     chrome.storage.local.set({ selectCopyMode: selectValue }, function () {
       console.log(
-        "Valor guardado en el almacenamiento local, nuevo valor:" + selectValue
+        "Valor guardado en el almacenamiento local, nuevo valor:" + selectValue,
       );
     });
   });
@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   var redirectButton = document.getElementById("evoweb-button");
   redirectButton.addEventListener("click", function () {
-    if (typeof chrome.tabs !== "undefined") {
+    if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.create) {
       // Desktop browsers
       chrome.tabs.create({ url: "https://evoweb.uk/threads/94290" });
-    } else if (typeof chrome.tabs.create === "undefined") {
+    } else {
       // Mobile browsers (e.g., Kiwi Browser, Yandex Browser)
       window.open("https://evoweb.uk/threads/94290", "_blank");
     }
@@ -98,10 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   var redirectButton = document.getElementById("privacy-button");
   redirectButton.addEventListener("click", function () {
-    if (typeof chrome.tabs !== "undefined") {
+    if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.create) {
       // Desktop browsers
       chrome.tabs.create({ url: "policy_privacy.html" });
-    } else if (typeof chrome.tabs.create === "undefined") {
+    } else {
       // Mobile browsers (e.g., Kiwi Browser, Yandex Browser)
       window.open("policy_privacy.html", "_blank");
     }
@@ -147,19 +147,33 @@ function DownloadCSV() {
         return;
       }
 
-      let csvContent = "data:text/csv;charset=" + encoding + "," + csvString;
+      let blob;
+      if (encoding === "windows-1252") {
+        // Encode the characters (Latin-1 compatible) to bytes so the declared
+        // windows-1252 charset matches the actual bytes. The previous data-URI +
+        // encodeURI approach emitted UTF-8 bytes while claiming windows-1252,
+        // garbling accented letters like ñ/Á. Characters above 0xFF are lossy.
+        const bytes = new Uint8Array(csvString.length);
+        for (let i = 0; i < csvString.length; i++) {
+          const code = csvString.charCodeAt(i);
+          bytes[i] = code <= 0xff ? code : 0x3f;
+        }
+        blob = new Blob([bytes], { type: "text/csv;charset=windows-1252" });
+      } else {
+        blob = new Blob([csvString], { type: "text/csv;charset=utf-8" });
+      }
 
-      const encodedUri = encodeURI(csvContent);
-      const fixedEncodedURI = encodedUri.replaceAll("#", "%23");
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.setAttribute("href", fixedEncodedURI);
+      link.setAttribute("href", url);
       link.setAttribute("download", "Players.csv");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(url);
 
       console.log(csvString);
-    }
+    },
   );
 }
 
@@ -192,7 +206,7 @@ function ClearPlayers() {
         alert("Unsupported option for " + selectOptionFMInside);
         return;
       }
-    }
+    },
   );
 }
 
@@ -229,6 +243,6 @@ function RemoveLastPlayer() {
       } else {
         alert("Unsupported option for " + selectOptionFMInside);
       }
-    }
+    },
   );
 }

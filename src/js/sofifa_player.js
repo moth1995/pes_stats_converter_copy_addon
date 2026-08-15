@@ -297,7 +297,7 @@ function AddButton() {
   document.body.appendChild(button);
 }
 
-supportedVersions = [
+const supportedVersions = [
   "FC 26",
   "FC 25",
   "FC 24",
