@@ -32,10 +32,15 @@ const ACCENT_TRANSLATION_MAP = {
   Ã: "A",
 };
 
-// Return the player's last name, uppercased and with accents flattened to the
-// characters the PES editor understands. Named `ShirtName` (not
-// `NameToShirtName`) so the converter classes can keep a thin delegating method
-// of that name without shadowing the free function.
+/**
+ * Return the player's last name, uppercased and with accents flattened to the
+ * characters the PES editor understands. Named `ShirtName` (not
+ * `NameToShirtName`) so the converter classes can keep a thin delegating method
+ * of that name without shadowing the free function.
+ *
+ * @param name - Full player name.
+ * @returns Flattened, uppercase last name.
+ */
 function ShirtName(name) {
   const nameParts = name.split(" ");
   const lastName = nameParts[nameParts.length - 1].toUpperCase();
@@ -45,9 +50,13 @@ function ShirtName(name) {
   ).join("");
 }
 
-// The old-gen PES (5/13) shirt-name editor pads short names with spaces so they
-// display correctly. PES21 does not, so apply this spacing only on the PES5/13
-// conversion path.
+/**
+ * Format a flattened shirt name for the old-gen PES (5/13) editor, which pads
+ * short names with spaces. PES21 does not, so apply only on the PES5/13 path.
+ *
+ * @param lastName - Already-flattened shirt name.
+ * @returns Space-padded shirt name.
+ */
 function FormatPES5ShirtName(lastName) {
   let formatted = lastName;
   if (formatted.length > 16) {

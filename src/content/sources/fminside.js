@@ -1,5 +1,9 @@
 "use strict";
 
+/**
+ * Scraper for FMInside player pages. Reads identity, ability/potential,
+ * position types, attributes and roles from the page DOM.
+ */
 class FMInsidePlayer {
   constructor(doc) {
     this.doc = doc;

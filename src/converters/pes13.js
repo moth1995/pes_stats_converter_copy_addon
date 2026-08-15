@@ -1,5 +1,10 @@
 "use strict";
 
+/**
+ * Converter producing PES 13 output (PSD text or CSV) from scraped FIFA or
+ * Football Manager player data. Extends PESPlayer and adds PES13-specific
+ * index cards, resistances, and CSV layout.
+ */
 class PES13Player extends PESPlayer {
   constructor() {
     super();

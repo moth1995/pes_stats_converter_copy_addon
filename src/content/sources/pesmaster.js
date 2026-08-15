@@ -1,5 +1,9 @@
 "use strict";
 
+/**
+ * Scraper for PESMaster eFootball player pages. Reads identity, stats,
+ * special skills and positions from the page DOM.
+ */
 class PESMasterPlayer {
   constructor(doc) {
     this.doc = doc;

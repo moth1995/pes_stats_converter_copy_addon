@@ -1,5 +1,9 @@
 "use strict";
 
+/**
+ * Converter producing old-gen PES 5 output (PSD text or CSV) from scraped
+ * FIFA, Football Manager, or eFootball player data.
+ */
 class PESPlayer {
   constructor() {
     this.EXP_Value = 1.179;
@@ -325,10 +329,7 @@ ${clamp(40, 123, this.weight)}`;
       let attackEXP = positioning;
       this.attack = 10 + DivideIntegers(attackEXP, this.EXP_ID_Value);
 
-      let gkPositioning = AtLeast(
-        fifaPlayer.goalkeeping["GK Positioning"],
-        60,
-      );
+      let gkPositioning = AtLeast(fifaPlayer.goalkeeping["GK Positioning"], 60);
       let gkDiving = AtLeast(fifaPlayer.goalkeeping["GK Diving"], 60);
       let defenceEXP =
         Average([gkPositioning, gkDiving]) + fifaPlayer.internationalReputation;
@@ -486,10 +487,7 @@ ${clamp(40, 123, this.weight)}`;
         defensiveAwarenessStat = fifaPlayer.defending["Marking"];
       }
       let defensiveAwareness = AtLeast(defensiveAwarenessStat, 20);
-      let standingTackle = AtLeast(
-        fifaPlayer.defending["Standing tackle"],
-        20,
-      );
+      let standingTackle = AtLeast(fifaPlayer.defending["Standing tackle"], 20);
       let defenceEXP = DivideIntegers(
         defensiveAwareness * 2 + standingTackle,
         3,

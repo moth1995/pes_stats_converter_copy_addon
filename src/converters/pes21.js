@@ -1,5 +1,9 @@
 "use strict";
 
+/**
+ * Converter producing PES 21/20 output (PSD text or CSV) from scraped FIFA,
+ * Football Manager, or eFootball player data.
+ */
 class PES21Player {
   constructor() {
     this.reputation = 3;
@@ -1155,10 +1159,8 @@ False;\
           fmPlayer.stats["Off the Ball"],
           fmPlayer.stats["Off the Ball"],
         ]),
-        maxRow
-          .offensiveAwareness,
-        minRow
-          .offensiveAwareness,
+        maxRow.offensiveAwareness,
+        minRow.offensiveAwareness,
         this.currentAbility,
       );
       this.ballControl = FMStatTOPES21(
@@ -1168,10 +1170,8 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Technique"],
         ]),
-        maxRow
-          .ballControl,
-        minRow
-          .ballControl,
+        maxRow.ballControl,
+        minRow.ballControl,
         this.currentAbility,
       );
       this.dribbling = FMStatTOPES21(
@@ -1181,10 +1181,8 @@ False;\
           fmPlayer.stats["Flair"],
           fmPlayer.stats["Flair"],
         ]),
-        maxRow
-          .dribbling,
-        minRow
-          .dribbling,
+        maxRow.dribbling,
+        minRow.dribbling,
         this.currentAbility,
       );
       this.tightPossession = FMStatTOPES21(
@@ -1197,10 +1195,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Balance"],
         ]),
-        maxRow
-          .tightPossession,
-        minRow
-          .tightPossession,
+        maxRow.tightPossession,
+        minRow.tightPossession,
         this.currentAbility,
       );
       this.lowPass = FMStatTOPES21(
@@ -1211,10 +1207,8 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Composure"],
         ]),
-        maxRow
-          .lowPass,
-        minRow
-          .lowPass,
+        maxRow.lowPass,
+        minRow.lowPass,
         this.currentAbility,
       );
       this.loftedPass = FMStatTOPES21(
@@ -1225,10 +1219,8 @@ False;\
           fmPlayer.stats["Passing"],
           fmPlayer.stats["Technique"],
         ]),
-        maxRow
-          .loftedPass,
-        minRow
-          .loftedPass,
+        maxRow.loftedPass,
+        minRow.loftedPass,
         this.currentAbility,
       );
       this.finishing = FMStatTOPES21(
@@ -1239,10 +1231,8 @@ False;\
           fmPlayer.stats["Composure"],
           fmPlayer.stats["Composure"],
         ]),
-        maxRow
-          .finishing,
-        minRow
-          .finishing,
+        maxRow.finishing,
+        minRow.finishing,
         this.currentAbility,
       );
       this.heading = FMStatTOPES21(
@@ -1252,10 +1242,8 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Jumping Reach"],
         ]),
-        maxRow
-          .heading,
-        minRow
-          .heading,
+        maxRow.heading,
+        minRow.heading,
         this.currentAbility,
       );
       this.placeKicking = FMStatTOPES21(
@@ -1264,10 +1252,8 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Vision"],
         ]),
-        maxRow
-          .placeKicking,
-        minRow
-          .placeKicking,
+        maxRow.placeKicking,
+        minRow.placeKicking,
         this.currentAbility,
       );
       this.curl = FMStatTOPES21(
@@ -1277,10 +1263,8 @@ False;\
           fmPlayer.stats["Flair"],
           fmPlayer.stats["Flair"],
         ]),
-        maxRow
-          .curl,
-        minRow
-          .curl,
+        maxRow.curl,
+        minRow.curl,
         this.currentAbility,
       );
       this.speed = FMStatTOPES21(
@@ -1290,10 +1274,8 @@ False;\
           fmPlayer.stats["Pace"],
           fmPlayer.stats["Acceleration"],
         ]),
-        maxRow
-          .speed,
-        minRow
-          .speed,
+        maxRow.speed,
+        minRow.speed,
         this.currentAbility,
       );
       this.acceleration = FMStatTOPES21(
@@ -1304,10 +1286,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Pace"],
         ]),
-        maxRow
-          .acceleration,
-        minRow
-          .acceleration,
+        maxRow.acceleration,
+        minRow.acceleration,
         this.currentAbility,
       );
       this.kickingPower = FMStatTOPES21(
@@ -1317,10 +1297,8 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Strength"],
         ]),
-        maxRow
-          .kickingPower,
-        minRow
-          .kickingPower,
+        maxRow.kickingPower,
+        minRow.kickingPower,
         this.currentAbility,
       );
       this.jump = FMStatTOPES21(
@@ -1331,10 +1309,8 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Agility"],
         ]),
-        maxRow
-          .jump,
-        minRow
-          .jump,
+        maxRow.jump,
+        minRow.jump,
         this.currentAbility,
       );
       this.physicalContact = FMStatTOPES21(
@@ -1345,10 +1321,8 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Balance"],
         ]),
-        maxRow
-          .physicalContact,
-        minRow
-          .physicalContact,
+        maxRow.physicalContact,
+        minRow.physicalContact,
         this.currentAbility,
       );
       this.balance = FMStatTOPES21(
@@ -1359,10 +1333,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Agility"],
         ]),
-        maxRow
-          .balance,
-        minRow
-          .balance,
+        maxRow.balance,
+        minRow.balance,
         this.currentAbility,
       );
       this.stamina = FMStatTOPES21(
@@ -1373,10 +1345,8 @@ False;\
           fmPlayer.stats["Natural Fitness"],
           fmPlayer.stats["Work Rate"],
         ]),
-        maxRow
-          .stamina,
-        minRow
-          .stamina,
+        maxRow.stamina,
+        minRow.stamina,
         this.currentAbility,
       );
       this.defensiveAwareness = FMStatTOPES21(
@@ -1386,10 +1356,8 @@ False;\
           fmPlayer.stats["Rushing Out (Tendency)"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxRow
-          .defensiveAwareness,
-        minRow
-          .defensiveAwareness,
+        maxRow.defensiveAwareness,
+        minRow.defensiveAwareness,
         this.currentAbility,
       );
       this.ballWinning = FMStatTOPES21(
@@ -1401,10 +1369,8 @@ False;\
           fmPlayer.stats["Bravery"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxRow
-          .ballWinning,
-        minRow
-          .ballWinning,
+        maxRow.ballWinning,
+        minRow.ballWinning,
         this.currentAbility,
       );
       this.aggression = FMStatTOPES21(
@@ -1416,10 +1382,8 @@ False;\
           fmPlayer.stats["Work Rate"],
           fmPlayer.stats["Work Rate"],
         ]),
-        maxRow
-          .aggression,
-        minRow
-          .aggression,
+        maxRow.aggression,
+        minRow.aggression,
         this.currentAbility,
       );
       this.gkAwareness = FMStatTOPES21(
@@ -1430,10 +1394,8 @@ False;\
           fmPlayer.stats["One on Ones"],
           fmPlayer.stats["Command of Area"],
         ]),
-        maxRow
-          .gkAwareness,
-        minRow
-          .gkAwareness,
+        maxRow.gkAwareness,
+        minRow.gkAwareness,
         this.currentAbility,
       );
       this.gkCatching = FMStatTOPES21(
@@ -1444,10 +1406,8 @@ False;\
           fmPlayer.stats["Aerial Reach"],
           fmPlayer.stats["Aerial Reach"],
         ]),
-        maxRow
-          .gkCatching,
-        minRow
-          .gkCatching,
+        maxRow.gkCatching,
+        minRow.gkCatching,
         this.currentAbility,
       );
       this.gkClearing = FMStatTOPES21(
@@ -1458,10 +1418,8 @@ False;\
           fmPlayer.stats["Kicking"],
           fmPlayer.stats["First Touch"],
         ]),
-        maxRow
-          .gkClearing,
-        minRow
-          .gkClearing,
+        maxRow.gkClearing,
+        minRow.gkClearing,
         this.currentAbility,
       );
       this.gkReflexes = FMStatTOPES21(
@@ -1472,10 +1430,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Natural Fitness"],
         ]),
-        maxRow
-          .gkReflexes,
-        minRow
-          .gkReflexes,
+        maxRow.gkReflexes,
+        minRow.gkReflexes,
         this.currentAbility,
       );
       this.gkReach = FMStatTOPES21(
@@ -1486,10 +1442,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Jumping Reach"],
         ]),
-        maxRow
-          .gkReach,
-        minRow
-          .gkReach,
+        maxRow.gkReach,
+        minRow.gkReach,
         this.currentAbility,
       );
     } else {
@@ -1501,10 +1455,8 @@ False;\
           fmPlayer.stats["Off the Ball"],
           fmPlayer.stats["Off the Ball"],
         ]),
-        maxRow
-          .offensiveAwareness,
-        minRow
-          .offensiveAwareness,
+        maxRow.offensiveAwareness,
+        minRow.offensiveAwareness,
         this.currentAbility,
       );
       this.ballControl = FMStatTOPES21(
@@ -1514,10 +1466,8 @@ False;\
           fmPlayer.stats["Dribbling"],
           fmPlayer.stats["Technique"],
         ]),
-        maxRow
-          .ballControl,
-        minRow
-          .ballControl,
+        maxRow.ballControl,
+        minRow.ballControl,
         this.currentAbility,
       );
       this.dribbling = FMStatTOPES21(
@@ -1527,10 +1477,8 @@ False;\
           fmPlayer.stats["Dribbling"],
           fmPlayer.stats["Flair"],
         ]),
-        maxRow
-          .dribbling,
-        minRow
-          .dribbling,
+        maxRow.dribbling,
+        minRow.dribbling,
         this.currentAbility,
       );
       this.tightPossession = FMStatTOPES21(
@@ -1543,10 +1491,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Balance"],
         ]),
-        maxRow
-          .tightPossession,
-        minRow
-          .tightPossession,
+        maxRow.tightPossession,
+        minRow.tightPossession,
         this.currentAbility,
       );
       this.lowPass = FMStatTOPES21(
@@ -1557,10 +1503,8 @@ False;\
           fmPlayer.stats["Technique"],
           fmPlayer.stats["Composure"],
         ]),
-        maxRow
-          .lowPass,
-        minRow
-          .lowPass,
+        maxRow.lowPass,
+        minRow.lowPass,
         this.currentAbility,
       );
       this.loftedPass = FMStatTOPES21(
@@ -1571,10 +1515,8 @@ False;\
           fmPlayer.stats["Passing"],
           fmPlayer.stats["Technique"],
         ]),
-        maxRow
-          .loftedPass,
-        minRow
-          .loftedPass,
+        maxRow.loftedPass,
+        minRow.loftedPass,
         this.currentAbility,
       );
       this.finishing = FMStatTOPES21(
@@ -1585,10 +1527,8 @@ False;\
           fmPlayer.stats["Composure"],
           fmPlayer.stats["Technique"],
         ]),
-        maxRow
-          .finishing,
-        minRow
-          .finishing,
+        maxRow.finishing,
+        minRow.finishing,
         this.currentAbility,
       );
       this.heading = FMStatTOPES21(
@@ -1598,10 +1538,8 @@ False;\
           fmPlayer.stats["Finishing"],
           fmPlayer.stats["Jumping Reach"],
         ]),
-        maxRow
-          .heading,
-        minRow
-          .heading,
+        maxRow.heading,
+        minRow.heading,
         this.currentAbility,
       );
       this.placeKicking = FMStatTOPES21(
@@ -1611,10 +1549,8 @@ False;\
           fmPlayer.stats["Corners"],
           fmPlayer.stats["Penalty Taking"],
         ]),
-        maxRow
-          .placeKicking,
-        minRow
-          .placeKicking,
+        maxRow.placeKicking,
+        minRow.placeKicking,
         this.currentAbility,
       );
       this.curl = FMStatTOPES21(
@@ -1624,10 +1560,8 @@ False;\
           fmPlayer.stats["Flair"],
           fmPlayer.stats["Flair"],
         ]),
-        maxRow
-          .curl,
-        minRow
-          .curl,
+        maxRow.curl,
+        minRow.curl,
         this.currentAbility,
       );
       this.speed = FMStatTOPES21(
@@ -1637,10 +1571,8 @@ False;\
           fmPlayer.stats["Pace"],
           fmPlayer.stats["Acceleration"],
         ]),
-        maxRow
-          .speed,
-        minRow
-          .speed,
+        maxRow.speed,
+        minRow.speed,
         this.currentAbility,
       );
       this.acceleration = FMStatTOPES21(
@@ -1651,10 +1583,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Pace"],
         ]),
-        maxRow
-          .acceleration,
-        minRow
-          .acceleration,
+        maxRow.acceleration,
+        minRow.acceleration,
         this.currentAbility,
       );
       this.kickingPower = FMStatTOPES21(
@@ -1664,10 +1594,8 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Strength"],
         ]),
-        maxRow
-          .kickingPower,
-        minRow
-          .kickingPower,
+        maxRow.kickingPower,
+        minRow.kickingPower,
         this.currentAbility,
       );
       this.jump = FMStatTOPES21(
@@ -1678,10 +1606,8 @@ False;\
           fmPlayer.stats["Heading"],
           fmPlayer.stats["Agility"],
         ]),
-        maxRow
-          .jump,
-        minRow
-          .jump,
+        maxRow.jump,
+        minRow.jump,
         this.currentAbility,
       );
       this.physicalContact = FMStatTOPES21(
@@ -1692,10 +1618,8 @@ False;\
           fmPlayer.stats["Strength"],
           fmPlayer.stats["Balance"],
         ]),
-        maxRow
-          .physicalContact,
-        minRow
-          .physicalContact,
+        maxRow.physicalContact,
+        minRow.physicalContact,
         this.currentAbility,
       );
       this.balance = FMStatTOPES21(
@@ -1706,10 +1630,8 @@ False;\
           fmPlayer.stats["Agility"],
           fmPlayer.stats["Agility"],
         ]),
-        maxRow
-          .balance,
-        minRow
-          .balance,
+        maxRow.balance,
+        minRow.balance,
         this.currentAbility,
       );
       this.stamina = FMStatTOPES21(
@@ -1720,10 +1642,8 @@ False;\
           fmPlayer.stats["Natural Fitness"],
           fmPlayer.stats["Work Rate"],
         ]),
-        maxRow
-          .stamina,
-        minRow
-          .stamina,
+        maxRow.stamina,
+        minRow.stamina,
         this.currentAbility,
       );
       this.defensiveAwareness = FMStatTOPES21(
@@ -1733,10 +1653,8 @@ False;\
           fmPlayer.stats["Marking"],
           fmPlayer.stats["Tackling"],
         ]),
-        maxRow
-          .defensiveAwareness,
-        minRow
-          .defensiveAwareness,
+        maxRow.defensiveAwareness,
+        minRow.defensiveAwareness,
         this.currentAbility,
       );
       this.ballWinning = FMStatTOPES21(
@@ -1748,10 +1666,8 @@ False;\
           fmPlayer.stats["Marking"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxRow
-          .ballWinning,
-        minRow
-          .ballWinning,
+        maxRow.ballWinning,
+        minRow.ballWinning,
         this.currentAbility,
       );
       this.aggression = FMStatTOPES21(
@@ -1763,10 +1679,8 @@ False;\
           fmPlayer.stats["Work Rate"],
           fmPlayer.stats["Bravery"],
         ]),
-        maxRow
-          .aggression,
-        minRow
-          .aggression,
+        maxRow.aggression,
+        minRow.aggression,
         this.currentAbility,
       );
       this.gkAwareness = 40;

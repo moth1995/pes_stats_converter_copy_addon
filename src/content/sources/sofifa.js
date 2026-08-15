@@ -1,5 +1,9 @@
 "use strict";
 
+/**
+ * Scraper for SoFIFA player pages. Reads version, identity, attributes, traits
+ * and specialties from the page DOM.
+ */
 class SOFIFAPlayer {
   constructor(doc) {
     this.doc = doc;
