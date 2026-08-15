@@ -37,7 +37,7 @@ const DEFAULT_EXPORTS = [
   "intOf",
   "debugLog",
   "debugWarn",
-  "MinorThan",
+  "AtLeast",
   "DivideIntegers",
   "Average",
   "GetRandomInt",

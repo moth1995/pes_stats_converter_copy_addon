@@ -583,7 +583,7 @@ False;\
       this.balance--;
     }
     this.stamina = this.ConvertFIFAStatToPES21(
-      MinorThan(fifaPlayer.power["Stamina"], 60),
+      AtLeast(fifaPlayer.power["Stamina"], 60),
     );
 
     let defensiveAwarenessStat;

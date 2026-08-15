@@ -31,7 +31,7 @@ window.PESConverter = {
 
   // Utility + name + ability helpers (see lib/utils.js, lib/names.js,
   // lib/abilities.js)
-  MinorThan,
+  AtLeast,
   DivideIntegers,
   Average,
   GetRandomInt,

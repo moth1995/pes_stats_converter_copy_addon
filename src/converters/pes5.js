@@ -129,7 +129,7 @@ class PESPlayer {
     else return 3;
   }
 
-  GetWeekFoot(weakFoot, average) {
+  GetWeakFoot(weakFoot, average) {
     if (weakFoot == 5) return 8;
     else if (weakFoot == 4 && average >= 85) return 7;
     else if (weakFoot == 4) return 6;
@@ -303,14 +303,14 @@ ${clamp(40, 123, this.weight)}`;
       Average([fifaPlayer.power["Stamina"], fifaPlayer.mentality["Composure"]]),
     );
 
-    this.weakFootFrequency = this.GetWeekFoot(
+    this.weakFootFrequency = this.GetWeakFoot(
       fifaPlayer.weakFoot,
       Average([
         fifaPlayer.movement["Balance"],
         fifaPlayer.mentality["Composure"],
       ]),
     );
-    this.weakFootAccuracy = this.GetWeekFoot(
+    this.weakFootAccuracy = this.GetWeakFoot(
       fifaPlayer.weakFoot,
       Average([
         fifaPlayer.skill["Dribbling"],
@@ -320,21 +320,21 @@ ${clamp(40, 123, this.weight)}`;
     );
 
     if (this.registeredPosition == "GK") {
-      //convertion formula for GK
-      let positioning = MinorThan(fifaPlayer.mentality["Attack position"], 30);
+      // conversion formula for GK
+      let positioning = AtLeast(fifaPlayer.mentality["Attack position"], 30);
       let attackEXP = positioning;
       this.attack = 10 + DivideIntegers(attackEXP, this.EXP_ID_Value);
 
-      let gkPositioning = MinorThan(
+      let gkPositioning = AtLeast(
         fifaPlayer.goalkeeping["GK Positioning"],
         60,
       );
-      let gkDiving = MinorThan(fifaPlayer.goalkeeping["GK Diving"], 60);
+      let gkDiving = AtLeast(fifaPlayer.goalkeeping["GK Diving"], 60);
       let defenceEXP =
         Average([gkPositioning, gkDiving]) + fifaPlayer.internationalReputation;
       this.defence = 25 + DivideIntegers(defenceEXP, this.EXP_ID_Value);
 
-      let strenght = MinorThan(fifaPlayer.power["Strength"], 60);
+      let strenght = AtLeast(fifaPlayer.power["Strength"], 60);
       let heightEXP = this.height - 100;
       let balanceEXP = strenght * 0.1 + gkPositioning * 0.3 + heightEXP * 0.6;
       this.balance = DivideIntegers(balanceEXP, this.EXP_Value);
@@ -342,13 +342,13 @@ ${clamp(40, 123, this.weight)}`;
         this.balance = Math.round(this.balance + this.balance * 0.15);
       }
 
-      let staminaEXP = MinorThan(fifaPlayer.power["Stamina"], 60);
+      let staminaEXP = AtLeast(fifaPlayer.power["Stamina"], 60);
       this.stamina = 15 + DivideIntegers(staminaEXP, this.EXP_Value);
 
-      let topSpeedEXP = MinorThan(fifaPlayer.movement["Sprint speed"], 55);
+      let topSpeedEXP = AtLeast(fifaPlayer.movement["Sprint speed"], 55);
       this.topSpeed = 15 + DivideIntegers(topSpeedEXP, this.EXP_Value);
 
-      let accelerationEXP = MinorThan(fifaPlayer.movement["Acceleration"], 55);
+      let accelerationEXP = AtLeast(fifaPlayer.movement["Acceleration"], 55);
       this.acceleration = 15 + DivideIntegers(accelerationEXP, this.EXP_Value);
 
       let responseEXP =
@@ -356,34 +356,34 @@ ${clamp(40, 123, this.weight)}`;
         fifaPlayer.internationalReputation;
       this.response = 25 + DivideIntegers(responseEXP, this.EXP_ID_Value);
 
-      let agility = MinorThan(fifaPlayer.movement["Agility"], 45);
+      let agility = AtLeast(fifaPlayer.movement["Agility"], 45);
       let agilityEXP = Average([agility, fifaPlayer.goalkeeping["GK Diving"]]);
       this.agility = 15 + DivideIntegers(agilityEXP, this.EXP_Value);
 
-      let dribbling = MinorThan(fifaPlayer.skill["Dribbling"], 45);
-      let ballControl = MinorThan(fifaPlayer.skill["Ball control"], 45);
+      let dribbling = AtLeast(fifaPlayer.skill["Dribbling"], 45);
+      let ballControl = AtLeast(fifaPlayer.skill["Ball control"], 45);
       let dribbleAccuracyEXP =
         Average([dribbling, ballControl]) + fifaPlayer.internationalReputation;
       this.dribbleAccuracy =
         25 + DivideIntegers(dribbleAccuracyEXP, this.EXP_ID_Value);
 
-      let sprintSpeed = MinorThan(fifaPlayer.movement["Sprint speed"], 50);
+      let sprintSpeed = AtLeast(fifaPlayer.movement["Sprint speed"], 50);
       let dribbleSpeedEXP = Average([dribbling, sprintSpeed]);
       this.dribbleSpeed = 15 + DivideIntegers(dribbleSpeedEXP, this.EXP_Value);
 
-      let shortPassing = MinorThan(fifaPlayer.attacking["Short passing"], 50);
+      let shortPassing = AtLeast(fifaPlayer.attacking["Short passing"], 50);
       let shortPassAccuracyEXP =
         shortPassing + fifaPlayer.internationalReputation;
       this.shortPassAccuracy =
         25 + DivideIntegers(shortPassAccuracyEXP, this.EXP_ID_Value);
 
-      let shotPower = MinorThan(fifaPlayer.power["Shot power"], 60);
+      let shotPower = AtLeast(fifaPlayer.power["Shot power"], 60);
       let shortPassSpeedEXP = Average([shortPassing, shotPower]);
       this.shortPassSpeed =
         15 + DivideIntegers(shortPassSpeedEXP, this.EXP_Value);
 
-      let longPassing = MinorThan(fifaPlayer.skill["Long passing"], 45);
-      let crossing = MinorThan(fifaPlayer.attacking["Crossing"], 45);
+      let longPassing = AtLeast(fifaPlayer.skill["Long passing"], 45);
+      let crossing = AtLeast(fifaPlayer.attacking["Crossing"], 45);
       let longPassAccuracyEXP =
         Average([longPassing, crossing, fifaPlayer.goalkeeping["GK Kicking"]]) +
         fifaPlayer.internationalReputation;
@@ -398,37 +398,37 @@ ${clamp(40, 123, this.weight)}`;
       this.longPassSpeed =
         15 + DivideIntegers(longPassSpeedEXP, this.EXP_Value);
 
-      let finishing = MinorThan(fifaPlayer.attacking["Finishing"], 50);
+      let finishing = AtLeast(fifaPlayer.attacking["Finishing"], 50);
       let shotAccuracyEXP = finishing + fifaPlayer.internationalReputation;
       this.shotAccuracy =
         25 + DivideIntegers(shotAccuracyEXP, this.EXP_ID_Value);
 
-      let shotPowerEXP = MinorThan(fifaPlayer.goalkeeping["GK Kicking"], 60);
+      let shotPowerEXP = AtLeast(fifaPlayer.goalkeeping["GK Kicking"], 60);
       this.shotPower = 15 + DivideIntegers(shotPowerEXP, this.EXP_Value);
 
-      let volleys = MinorThan(fifaPlayer.attacking["Volleys"], 30);
-      let longShots = MinorThan(fifaPlayer.power["Long shots"], 35);
+      let volleys = AtLeast(fifaPlayer.attacking["Volleys"], 30);
+      let longShots = AtLeast(fifaPlayer.power["Long shots"], 35);
       let shotTechniqueEXP = Average([volleys, longShots, ballControl]);
       this.shotTechnique =
         15 + DivideIntegers(shotTechniqueEXP, this.EXP_Value);
 
-      let fkAccuracy = MinorThan(fifaPlayer.skill["FK Accuracy"], 40);
+      let fkAccuracy = AtLeast(fifaPlayer.skill["FK Accuracy"], 40);
       let freeKickAccuracyEXP = fkAccuracy + fifaPlayer.internationalReputation;
       this.freeKickAccuracy =
         25 + DivideIntegers(freeKickAccuracyEXP, this.EXP_ID_Value);
 
-      let curve = MinorThan(fifaPlayer.skill["Curve"], 40);
+      let curve = AtLeast(fifaPlayer.skill["Curve"], 40);
       let curlingEXP = curve;
       this.curling = 15 + DivideIntegers(curlingEXP, this.EXP_Value);
 
-      let headingAccuracy = MinorThan(
+      let headingAccuracy = AtLeast(
         fifaPlayer.attacking["Heading accuracy"],
         41,
       );
       let headerEXP = headingAccuracy + fifaPlayer.internationalReputation;
       this.header = 25 + DivideIntegers(headerEXP, this.EXP_ID_Value);
 
-      let jumping = MinorThan(fifaPlayer.power["Jumping"], 60);
+      let jumping = AtLeast(fifaPlayer.power["Jumping"], 60);
       let jumpEXP = Average([
         jumping,
         fifaPlayer.goalkeeping["GK Diving"],
@@ -439,16 +439,16 @@ ${clamp(40, 123, this.weight)}`;
       let techniqueEXP = ballControl + fifaPlayer.internationalReputation;
       this.technique = 25 + DivideIntegers(techniqueEXP, this.EXP_ID_Value);
 
-      let reactions = MinorThan(fifaPlayer.movement["Reactions"], 53);
+      let reactions = AtLeast(fifaPlayer.movement["Reactions"], 53);
       let aggressionEXP = Average([reactions, positioning]);
       this.aggression = 15 + DivideIntegers(aggressionEXP, this.EXP_ID_Value);
 
-      let composure = MinorThan(fifaPlayer.mentality["Composure"], 50);
+      let composure = AtLeast(fifaPlayer.mentality["Composure"], 50);
       let mentalityEXP =
         Average([reactions, composure]) + fifaPlayer.internationalReputation;
       this.mentality = 25 + DivideIntegers(mentalityEXP, this.EXP_ID_Value);
 
-      let gkHandling = MinorThan(fifaPlayer.goalkeeping["GK Handling"], 60);
+      let gkHandling = AtLeast(fifaPlayer.goalkeeping["GK Handling"], 60);
       let goalkeepingEXP =
         Average([gkHandling, gkDiving]) + fifaPlayer.internationalReputation;
       this.goalkeeping = 25 + DivideIntegers(goalkeepingEXP, this.EXP_ID_Value);
@@ -485,8 +485,8 @@ ${clamp(40, 123, this.weight)}`;
       } else {
         defensiveAwarenessStat = fifaPlayer.defending["Marking"];
       }
-      let defensiveAwareness = MinorThan(defensiveAwarenessStat, 20);
-      let standingTackle = MinorThan(
+      let defensiveAwareness = AtLeast(defensiveAwarenessStat, 20);
+      let standingTackle = AtLeast(
         fifaPlayer.defending["Standing tackle"],
         20,
       );
@@ -503,30 +503,30 @@ ${clamp(40, 123, this.weight)}`;
           ? tempDefence
           : 15 + DivideIntegers(tempDefence, 1.238);
 
-      let strenght = MinorThan(fifaPlayer.power["Strength"], 60);
-      let balance = MinorThan(fifaPlayer.movement["Balance"], 60);
+      let strenght = AtLeast(fifaPlayer.power["Strength"], 60);
+      let balance = AtLeast(fifaPlayer.movement["Balance"], 60);
       let balanceEXP =
         strenght > balance ? strenght : DivideIntegers(strenght + balance, 2);
       this.balance = 15 + DivideIntegers(balanceEXP, this.EXP_Value);
 
-      let stamina = MinorThan(fifaPlayer.power["Stamina"], 63);
+      let stamina = AtLeast(fifaPlayer.power["Stamina"], 63);
       let staminaEXP = stamina + fifaPlayer.internationalReputation;
       this.stamina = 25 + DivideIntegers(staminaEXP, this.EXP_ID_Value);
 
       let topSpeedEXP = fifaPlayer.movement["Sprint speed"];
-      this.topSpeed = MinorThan(
+      this.topSpeed = AtLeast(
         15 + DivideIntegers(topSpeedEXP, this.EXP_Value),
         60,
       );
 
       let accelerationEXP = fifaPlayer.movement["Acceleration"];
-      this.acceleration = MinorThan(
+      this.acceleration = AtLeast(
         15 + DivideIntegers(accelerationEXP, this.EXP_Value),
         60,
       );
 
-      let interceptions = MinorThan(fifaPlayer.mentality["Interceptions"], 53);
-      let reactions = MinorThan(fifaPlayer.movement["Reactions"], 53);
+      let interceptions = AtLeast(fifaPlayer.mentality["Interceptions"], 53);
+      let reactions = AtLeast(fifaPlayer.movement["Reactions"], 53);
       let responseEXP = reactions > interceptions ? reactions : interceptions;
       this.response =
         25 +
@@ -535,35 +535,35 @@ ${clamp(40, 123, this.weight)}`;
           this.EXP_ID_Value,
         );
 
-      let agility = MinorThan(fifaPlayer.movement["Agility"], 50);
-      let acceleration = MinorThan(fifaPlayer.movement["Acceleration"], 60);
+      let agility = AtLeast(fifaPlayer.movement["Agility"], 50);
+      let acceleration = AtLeast(fifaPlayer.movement["Acceleration"], 60);
       let agilityEXP = (agility + acceleration) / 2;
       this.agility = 15 + DivideIntegers(agilityEXP, this.EXP_Value);
 
-      let dribbling = MinorThan(fifaPlayer.skill["Dribbling"], 55);
-      let ballControl = MinorThan(fifaPlayer.skill["Ball control"], 55);
+      let dribbling = AtLeast(fifaPlayer.skill["Dribbling"], 55);
+      let ballControl = AtLeast(fifaPlayer.skill["Ball control"], 55);
       let dribbleAccuracyEXP =
         (dribbling + ballControl) / 2 + fifaPlayer.internationalReputation;
       this.dribbleAccuracy =
         25 + DivideIntegers(dribbleAccuracyEXP, this.EXP_ID_Value);
 
-      let sprintSpeed = MinorThan(fifaPlayer.movement["Sprint speed"], 50);
+      let sprintSpeed = AtLeast(fifaPlayer.movement["Sprint speed"], 50);
       let dribbleSpeedEXP = (dribbling + sprintSpeed) / 2;
       this.dribbleSpeed = 15 + DivideIntegers(dribbleSpeedEXP, this.EXP_Value);
 
-      let shortPassing = MinorThan(fifaPlayer.attacking["Short passing"], 50);
+      let shortPassing = AtLeast(fifaPlayer.attacking["Short passing"], 50);
       let shortPassAccuracyEXP =
         shortPassing + fifaPlayer.internationalReputation;
       this.shortPassAccuracy =
         25 + DivideIntegers(shortPassAccuracyEXP, this.EXP_ID_Value);
 
-      let shotPower = MinorThan(fifaPlayer.power["Shot power"], 60);
+      let shotPower = AtLeast(fifaPlayer.power["Shot power"], 60);
       let shortPassSpeedEXP = (shortPassing + shotPower) / 2;
       this.shortPassSpeed =
         15 + DivideIntegers(shortPassSpeedEXP, this.EXP_Value);
 
-      let longPassing = MinorThan(fifaPlayer.skill["Long passing"], 45);
-      let crossing = MinorThan(fifaPlayer.attacking["Crossing"], 45);
+      let longPassing = AtLeast(fifaPlayer.skill["Long passing"], 45);
+      let crossing = AtLeast(fifaPlayer.attacking["Crossing"], 45);
       let longPassAccuracyEXP =
         (longPassing + crossing) / 2 + fifaPlayer.internationalReputation;
       this.longPassAccuracy =
@@ -573,7 +573,7 @@ ${clamp(40, 123, this.weight)}`;
       this.longPassSpeed =
         15 + DivideIntegers(longPassSpeedEXP, this.EXP_Value);
 
-      let finishing = MinorThan(fifaPlayer.attacking["Finishing"], 50);
+      let finishing = AtLeast(fifaPlayer.attacking["Finishing"], 50);
       let shotAccuracyEXP = finishing + fifaPlayer.internationalReputation;
       this.shotAccuracy =
         25 + DivideIntegers(shotAccuracyEXP, this.EXP_ID_Value);
@@ -581,29 +581,29 @@ ${clamp(40, 123, this.weight)}`;
       let shotPowerEXP = shotPower;
       this.shotPower = 15 + DivideIntegers(shotPowerEXP, this.EXP_Value);
 
-      let volleys = MinorThan(fifaPlayer.attacking["Volleys"], 50);
-      let longShots = MinorThan(fifaPlayer.power["Long shots"], 50);
+      let volleys = AtLeast(fifaPlayer.attacking["Volleys"], 50);
+      let longShots = AtLeast(fifaPlayer.power["Long shots"], 50);
       let shotTechniqueEXP = (volleys + longShots + ballControl) / 3;
       this.shotTechnique =
         15 + DivideIntegers(shotTechniqueEXP, this.EXP_Value);
 
-      let fkAccuracy = MinorThan(fifaPlayer.skill["FK Accuracy"], 50);
+      let fkAccuracy = AtLeast(fifaPlayer.skill["FK Accuracy"], 50);
       let freeKickAccuracyEXP = fkAccuracy + fifaPlayer.internationalReputation;
       this.freeKickAccuracy =
         25 + DivideIntegers(freeKickAccuracyEXP, this.EXP_ID_Value);
 
-      let curve = MinorThan(fifaPlayer.skill["Curve"], 55);
+      let curve = AtLeast(fifaPlayer.skill["Curve"], 55);
       let curlingEXP = curve;
       this.curling = 15 + DivideIntegers(curlingEXP, this.EXP_Value);
 
-      let headingAccuracy = MinorThan(
+      let headingAccuracy = AtLeast(
         fifaPlayer.attacking["Heading accuracy"],
         50,
       );
       let headerEXP = headingAccuracy + fifaPlayer.internationalReputation;
       this.header = 25 + DivideIntegers(headerEXP, this.EXP_ID_Value);
 
-      let jumping = MinorThan(fifaPlayer.power["Jumping"], 60);
+      let jumping = AtLeast(fifaPlayer.power["Jumping"], 60);
       let jumpEXP = jumping;
       this.jump = 15 + DivideIntegers(jumpEXP, this.EXP_Value);
 
@@ -618,7 +618,7 @@ ${clamp(40, 123, this.weight)}`;
         this.aggression = 15 + DivideIntegers(aggressionEXP, this.EXP_Value);
       }
 
-      let aggression = MinorThan(fifaPlayer.mentality["Aggression"], 45);
+      let aggression = AtLeast(fifaPlayer.mentality["Aggression"], 45);
 
       let mentalityEXP =
         (aggression + stamina) / 2 + fifaPlayer.internationalReputation;

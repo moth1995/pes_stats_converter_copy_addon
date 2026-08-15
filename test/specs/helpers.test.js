@@ -23,9 +23,9 @@ test("clamp bounds values", () => {
   assert.strictEqual(api.clamp(0, 10, 99), 10);
 });
 
-test("MinorThan returns the max of value and compare", () => {
-  assert.strictEqual(api.MinorThan(10, 60), 60);
-  assert.strictEqual(api.MinorThan(80, 60), 80);
+test("AtLeast returns the max of value and compare", () => {
+  assert.strictEqual(api.AtLeast(10, 60), 60);
+  assert.strictEqual(api.AtLeast(80, 60), 80);
 });
 
 test("DivideIntegers rounds the quotient", () => {

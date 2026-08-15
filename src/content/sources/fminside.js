@@ -150,7 +150,7 @@ Nationality: ${
     }
 Age: ${parseInt(this.info["Age"])}
 Current Ability: ${this.ability}
-Potencial : ${this.potential}
+Potential: ${this.potential}
 Position: ${FMPositionStringToArray(this.info["Positions"])}
 Foot: ${this.info["Foot"] == "Left" ? "L" : "R"}
 

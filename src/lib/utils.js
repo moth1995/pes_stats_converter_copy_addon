@@ -4,7 +4,7 @@
 // core.js so the converters can depend on a single stable utility module.
 
 // Return the largest of `value` and `compare` (i.e. a lower bound).
-function MinorThan(value, compare) {
+function AtLeast(value, compare) {
   return value < compare ? compare : value;
 }
 
