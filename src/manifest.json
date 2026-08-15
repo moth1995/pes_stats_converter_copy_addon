@@ -18,43 +18,43 @@
       ],
       "run_at": "document_idle",
       "js": [
-        "js/dom.js",
-        "js/global_functions.js",
-        "js/pes_player.js",
-        "js/pes21_player.js",
-        "js/pes13_player.js",
-        "js/nationalities.js",
-        "js/pes21_stats_table.js"
+        "lib/dom.js",
+        "lib/core.js",
+        "converters/pes5.js",
+        "converters/pes21.js",
+        "converters/pes13.js",
+        "data/nationalities.js",
+        "data/pes21-stats-table.js"
       ]
     },
     {
       "matches": ["*://*.sofifa.com/player/*"],
       "run_at": "document_idle",
-      "js": ["js/sofifa_player.js"]
+      "js": ["content/sources/sofifa.js"]
     },
     {
       "matches": ["*://*.fminside.net/players/*"],
       "run_at": "document_idle",
-      "js": ["js/fminside_player.js"]
+      "js": ["content/sources/fminside.js"]
     },
     {
       "matches": ["*://*.pesmaster.com/*/efootball-2022/player/*"],
       "run_at": "document_idle",
-      "js": ["js/pesmaster_player.js"]
+      "js": ["content/sources/pesmaster.js"]
     }
   ],
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "pes_indie_16.png",
-      "48": "pes_indie_48.png",
-      "128": "pes_indie_128.png"
+      "16": "icons/pes_indie_16.png",
+      "48": "icons/pes_indie_48.png",
+      "128": "icons/pes_indie_128.png"
     }
   },
   "icons": {
-    "16": "pes_indie_16.png",
-    "48": "pes_indie_48.png",
-    "128": "pes_indie_128.png"
+    "16": "icons/pes_indie_16.png",
+    "48": "icons/pes_indie_48.png",
+    "128": "icons/pes_indie_128.png"
   },
   "browser_specific_settings": {
     "gecko": {

@@ -4,19 +4,20 @@ const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
 
-const SRC_DIR = path.join(__dirname, "..", "src", "js");
+const SRC_DIR = path.join(__dirname, "..", "src");
 
-// Manifest content-script order for the converter/data files only. We exclude
-// the DOM scraper files (sofifa_player.js, fminside_player.js, pesmaster_player.js)
-// because they call document.* at load time and are not pure.
+// Manifest content-script order for the converter/data files only (paths are
+// relative to src/). We exclude the DOM scraper files
+// (content/sources/sofifa.js, fminside.js, pesmaster.js) because they call
+// document.* at load time and are not pure.
 const DEFAULT_FILES = [
-  "dom.js",
-  "global_functions.js",
-  "pes_player.js",
-  "pes21_player.js",
-  "pes13_player.js",
-  "nationalities.js",
-  "pes21_stats_table.js",
+  "lib/dom.js",
+  "lib/core.js",
+  "converters/pes5.js",
+  "converters/pes21.js",
+  "converters/pes13.js",
+  "data/nationalities.js",
+  "data/pes21-stats-table.js",
 ];
 
 // Classes and `const`/`let` declarations are lexical bindings in the VM, not
