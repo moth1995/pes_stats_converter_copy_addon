@@ -292,7 +292,7 @@ class PES13Player extends PESPlayer {
     super.FromFMPlayer(fmPlayer);
 
     let FMPositions = FMPositionStringToArray(fmPlayer.info["Positions"]);
-    console.log(FMPositions);
+    debugLog("pes13:fm", "positions", FMPositions);
     this.registeredPosition =
       FMPositions.includes("AMC") && FMPositions.includes("ST")
         ? "SS"

@@ -40,7 +40,7 @@ function AddPlayer(playerData) {
 }
 
 function AddPlayer13(player13Data) {
-  console.log(player13Data);
+  debugLog("core:storage", "adding player13", player13Data);
   chrome.storage.local.get(["players13Data"], function (result) {
     let players13Data = result.players13Data || [];
 
@@ -49,7 +49,7 @@ function AddPlayer13(player13Data) {
     }
 
     players13Data.push(player13Data);
-    console.log(players13Data);
+    debugLog("core:storage", "players13Data", players13Data);
     chrome.storage.local.set({ players13Data: players13Data }, function () {
       console.log("Player PES13 added to array13");
     });
@@ -71,32 +71,8 @@ function AddPlayer21(player21Data) {
   });
 }
 
-function MinorThan(value, compare) {
-  return value < compare ? compare : value;
-}
-
-function DivideIntegers(int1, int2) {
-  return Math.round(int1 / int2);
-}
-
-function Average(numbers) {
-  if (numbers.length === 0) {
-    return 0;
-  }
-
-  var sum = 0;
-  for (var i = 0; i < numbers.length; i++) {
-    sum += numbers[i];
-  }
-
-  return sum / numbers.length;
-}
-
-function GetRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-}
+// Low-level math/random helpers moved to lib/utils.js (kept as global
+// functions for the converters' bare-identifier call sites).
 
 function FMToPESStat99(stat) {
   stat = Math.round(stat);
@@ -147,84 +123,8 @@ function FMToPESStatAToC(stat) {
   return valuesArray[stat - 1];
 }
 
-function FMToPESPositions(position) {
-  switch (position) {
-    case "GK":
-      return "GK";
-    case "DC":
-      return "CBT";
-    case "DL":
-    case "DR":
-      return "SB";
-    case "DM":
-      return "DMF";
-    case "WBL":
-    case "WBR":
-      return "WB";
-    case "MC":
-      return "CMF";
-    case "ML":
-    case "MR":
-      return "SMF";
-    case "AMC":
-      return "AMF";
-    case "AML":
-    case "AMR":
-      return "WF";
-    // There's no equivalent of SS on FM
-    /*case 'LF':
-    case 'RF':
-    case 'CF':
-      return 'SS';*/
-    case "ST":
-      return "CF";
-    default:
-      return position;
-  }
-}
-
-function FMPositionStringToArray(positions) {
-  const trimmedString = positions.replace(/,\s*/g, ",");
-  const outputArray = trimmedString.split(",");
-  return outputArray;
-}
-
-function GetFavSide(positions, useLastChar) {
-  let favSide = "B";
-  let bothSides = 0;
-  let leftSide = 0;
-  let rightSide = 0;
-
-  for (let index = 0; index < positions.length; index++) {
-    if (useLastChar) {
-      if (positions[index].slice(-1) === "L") {
-        leftSide++;
-      } else if (positions[index].slice(-1) === "R") {
-        rightSide++;
-      } else {
-        bothSides++;
-      }
-    } else {
-      if (positions[index][0] === "L") {
-        leftSide++;
-      } else if (positions[index][0] === "R") {
-        rightSide++;
-      } else {
-        bothSides++;
-      }
-    }
-  }
-
-  if (bothSides > leftSide && bothSides > rightSide) {
-    favSide = "B";
-  } else if (leftSide > bothSides && leftSide > rightSide) {
-    favSide = "L";
-  } else if (rightSide > bothSides && rightSide > leftSide) {
-    favSide = "R";
-  }
-
-  return favSide;
-}
+// Position parsing/mapping helpers moved to lib/positions.js (kept as global
+// functions for the converters' bare-identifier call sites).
 
 function EfootballInjuryResistance(injury) {
   switch (injury) {
@@ -267,34 +167,6 @@ function EfootballWeakFoot(weakFoot, ballControl) {
     case "Regularly":
       return ballControl < 75 ? 7 : 8;
   }
-}
-
-function EfootballToPESPosition(position) {
-  switch (position) {
-    case "CB":
-      return "CBT";
-    case "RB":
-    case "LB":
-      return "SB";
-    case "RMF":
-    case "LMF":
-      return "SMF";
-    case "RWF":
-    case "LWF":
-      return "WF";
-    default:
-      return position;
-  }
-}
-
-function LimitStat99(stat) {
-  return stat <= 99 ? Math.round(stat) : 99;
-}
-
-function clamp(min, max, num) {
-  if (num < min) return min;
-  else if (num > max) return max;
-  return num;
 }
 
 const gkHeightTable = {
@@ -388,88 +260,8 @@ function heightTo99Stat(height, isGK) {
   return height < 165 ? 95 : 55;
 }
 
-function hasSpecialAbility(abilityPositions, registeredPosition, positions) {
-  if (abilityPositions.includes(registeredPosition)) return true;
-  for (let index = 0; index < positions.length; index++) {
-    let position = positions[index];
-    if (abilityPositions.includes(position)) return true;
-  }
-  return false;
-}
-
-function FMToPES21Positions(position) {
-  switch (position) {
-    case "GK":
-      return "GK";
-    case "DC":
-      return "CB";
-    case "DL":
-      return "LB";
-    case "DR":
-      return "RB";
-    case "DM":
-      return "DMF";
-    case "WBL":
-      return "LB";
-    case "WBR":
-      return "RB";
-    case "MC":
-      return "CMF";
-    case "ML":
-      return "LMF";
-    case "MR":
-      return "RMF";
-    case "AMC":
-      return "AMF";
-    case "AML":
-      return "LWF";
-    case "AMR":
-      return "RWF";
-    case "ST":
-      return "CF";
-    default:
-      return position;
-  }
-}
-
-function FIFAToPES21Positions(position) {
-  switch (position) {
-    case "GK":
-      return "GK";
-    case "CB":
-      return "CB";
-    case "LB":
-    case "LWB":
-      return "LB";
-    case "RB":
-    case "RWB":
-      return "RB";
-    case "CDM":
-      return "DMF";
-    case "CM":
-      return "CMF";
-    case "LM":
-      return "LMF";
-    case "RM":
-      return "RMF";
-    case "CAM":
-      return "AMF";
-    case "LW":
-      return "LWF";
-    case "RW":
-      return "RWF";
-    case "LF":
-    case "RF":
-    case "CF":
-    case "LS":
-    case "RS":
-      return "SS";
-    case "ST":
-      return "CF";
-    default:
-      return position;
-  }
-}
+// `hasSpecialAbility` and the PES21 position maps moved to lib/abilities.js
+// and lib/positions.js respectively (kept as global functions).
 
 function CAPoints(ca) {
   ca = ca * 2;
@@ -522,8 +314,7 @@ function GetMaxKeyFromObject(data) {
       maxKey = key;
     }
   }
-  console.log("Clave con el valor más alto:", maxKey);
-  console.log("Valor más alto:", maxValue);
+  debugLog("core:playing-style", "maxKey", maxKey, "maxValue", maxValue);
   return maxKey;
 }
 
@@ -628,7 +419,7 @@ function getPlayingStyle(role, position) {
   };
   let positionStyles = styleRulesByPosition[position];
   for (const style of positionStyles) {
-    console.log(style);
+    debugLog("core:playing-style", "checking style", style);
     if (styleRules[style].includes(role)) {
       return style;
     }
@@ -638,9 +429,9 @@ function getPlayingStyle(role, position) {
 
 function PES21GetPlayingStyle(FMBestSuitableRoles, pesPosition) {
   let role = GetMaxKeyFromObject(FMBestSuitableRoles).toLowerCase();
-  console.log("role before replace", role);
+  debugLog("core:playing-style", "role before replace", role);
   role = role.replace(/(\s+\(\w+\))/, "");
-  console.log("role after replace", role);
+  debugLog("core:playing-style", "role after replace", role);
   let playingStyle = getPlayingStyle(role, pesPosition);
 
   return playingStyle;

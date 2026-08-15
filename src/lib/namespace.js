@@ -13,12 +13,24 @@ window.PESConverter = {
   all,
   intOf,
 
+  // Debug logger
+  debugLog,
+  debugWarn,
+
   // Core helpers
   CopyToClipboard,
   stringInArray,
   AddPlayer,
   AddPlayer13,
   AddPlayer21,
+  heightTo99Stat,
+  GetMaxKeyFromObject,
+  getPlayingStyle,
+  PES21GetPlayingStyle,
+  PES21GetPositionWeight,
+
+  // Utility + name + ability helpers (see lib/utils.js, lib/names.js,
+  // lib/abilities.js)
   MinorThan,
   DivideIntegers,
   Average,
@@ -26,11 +38,8 @@ window.PESConverter = {
   LimitStat99,
   clamp,
   hasSpecialAbility,
-  heightTo99Stat,
-  GetMaxKeyFromObject,
-  getPlayingStyle,
-  PES21GetPlayingStyle,
-  PES21GetPositionWeight,
+  ShirtName,
+  FormatPES5ShirtName,
 
   // Stat conversion helpers
   FMToPESStat99,

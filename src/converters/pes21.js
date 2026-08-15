@@ -10,46 +10,8 @@ class PES21Player {
   }
 
   NameToShirtName(name) {
-    const nameParts = name.split(" ");
-    const lastName = nameParts[nameParts.length - 1].toUpperCase();
-
-    // Replace characters that the PES editor doesn't recognize
-    const translationMap = {
-      Á: "A",
-      À: "A",
-      É: "E",
-      È: "E",
-      Í: "I",
-      Ì: "I",
-      Ó: "O",
-      Ò: "O",
-      Ú: "U",
-      Ù: "U",
-      Ü: "U",
-      Ñ: "N",
-      Ć: "C",
-      Â: "A",
-      Ä: "A",
-      Ê: "E",
-      Ë: "E",
-      Î: "I",
-      Ï: "I",
-      Ô: "O",
-      Ö: "O",
-      Û: "U",
-      Ü: "U",
-      Ç: "C",
-      Å: "A",
-      Ã: "A",
-    };
-
-    const translatedLastName = Array.from(
-      lastName,
-      (char) => translationMap[char] || char,
-    ).join("");
-
-    let formattedLastName = translatedLastName;
-    return formattedLastName;
+    // PES21 does not pad shirt names with spaces.
+    return ShirtName(name);
   }
 
   PSDString() {
@@ -1113,7 +1075,7 @@ False;\
 
   FromFMPlayer(fmPlayer) {
     let FMPositions = FMPositionStringToArray(fmPlayer.info["Positions"]);
-    console.log(FMPositions);
+    debugLog("pes21:fm", "positions", FMPositions);
     //this.registeredPosition = FMPositions.includes("AMC") &&FMPositions.includes("ST") ? "SS" : FMToPES21Positions(FMPositions[0]);
     let isSS = FMPositions.includes("AMC") && FMPositions.includes("ST");
     this.positions = [];
@@ -1145,11 +1107,11 @@ False;\
         positionWeight[position] = weight;
       }
     });
-    console.log(positionWeight);
+    debugLog("pes21:fm", "positionWeight", positionWeight);
     this.registeredPosition = Object.keys(positionWeight)
       .reduce((a, b) => (positionWeight[a] > positionWeight[b] ? a : b))
       .replace("*", "");
-    console.log(this.registeredPosition);
+    debugLog("pes21:fm", "registeredPosition", this.registeredPosition);
     this.currentAbility = parseInt(fmPlayer.ability);
     this.name = fmPlayer.info["Name"];
     this.shirtName = this.NameToShirtName(this.name);
@@ -2222,7 +2184,7 @@ False;\
   }
 
   FromPESMasterPlayer(pesMasterPlayer) {
-    console.log(typeof pesMasterPlayer.specialStats);
+    debugLog("pes21:pesmaster", "specialStats", pesMasterPlayer.specialStats);
     this.name = pesMasterPlayer.name;
     this.shirtName = this.NameToShirtName(this.name);
     this.age = parseInt(pesMasterPlayer.info["Age"]);

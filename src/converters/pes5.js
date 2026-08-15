@@ -107,54 +107,8 @@ class PESPlayer {
   }
 
   NameToShirtName(name) {
-    const nameParts = name.split(" ");
-    const lastName = nameParts[nameParts.length - 1].toUpperCase();
-
-    // Replace characters that the PES editor doesn't recognize
-    const translationMap = {
-      Á: "A",
-      À: "A",
-      É: "E",
-      È: "E",
-      Í: "I",
-      Ì: "I",
-      Ó: "O",
-      Ò: "O",
-      Ú: "U",
-      Ù: "U",
-      Ü: "U",
-      Ñ: "N",
-      Ć: "C",
-      Â: "A",
-      Ä: "A",
-      Ê: "E",
-      Ë: "E",
-      Î: "I",
-      Ï: "I",
-      Ô: "O",
-      Ö: "O",
-      Û: "U",
-      Ü: "U",
-      Ç: "C",
-      Å: "A",
-      Ã: "A",
-    };
-
-    const translatedLastName = Array.from(
-      lastName,
-      (char) => translationMap[char] || char,
-    ).join("");
-
-    let formattedLastName = translatedLastName;
-    if (formattedLastName.length > 16) {
-      formattedLastName = formattedLastName.slice(0, 15);
-    } else if (formattedLastName.length < 5) {
-      formattedLastName = formattedLastName.split("").join("  ");
-    } else if (formattedLastName.length < 9) {
-      formattedLastName = formattedLastName.split("").join(" ");
-    }
-
-    return formattedLastName;
+    // PES5/13 shirt names are flattened AND padded for the on-screen editor.
+    return FormatPES5ShirtName(ShirtName(name));
   }
 
   CalculateConsistency(average) {
@@ -1034,7 +988,7 @@ ${clamp(40, 123, this.weight)}`;
 
   FromFMPlayer(fmPlayer) {
     let FMPositions = FMPositionStringToArray(fmPlayer.info["Positions"]);
-    console.log(FMPositions);
+    debugLog("pes5:fm", "positions", FMPositions);
     this.registeredPosition =
       FMPositions.includes("AMC") && FMPositions.includes("ST")
         ? "SS"
