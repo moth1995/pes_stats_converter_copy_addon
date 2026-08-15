@@ -10,6 +10,7 @@ const SRC_DIR = path.join(__dirname, "..", "src", "js");
 // the DOM scraper files (sofifa_player.js, fminside_player.js, pesmaster_player.js)
 // because they call document.* at load time and are not pure.
 const DEFAULT_FILES = [
+  "dom.js",
   "global_functions.js",
   "pes_player.js",
   "pes21_player.js",
@@ -22,6 +23,11 @@ const DEFAULT_FILES = [
 // global properties, so we must copy them out explicitly through a bridge
 // snippet evaluated inside the context.
 const DEFAULT_EXPORTS = [
+  "textOf",
+  "attrOf",
+  "first",
+  "all",
+  "intOf",
   "PESPlayer",
   "PES21Player",
   "PES13Player",

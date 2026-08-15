@@ -512,7 +512,7 @@ False;\
       fifaPlayer.mentality["Attack position"],
     );
     if (
-      fifaPlayer.mentality["Attck position"] < fifaPlayer.movement["Reactions"]
+      fifaPlayer.mentality["Attack position"] < fifaPlayer.movement["Reactions"]
     ) {
       this.offensiveAwareness++;
     } else if (
@@ -1814,7 +1814,7 @@ False;\
     } else {
       this.acrobaticFinishing = 0;
     }
-    if (fmPlayer.stats["LEADERSHIP"] >= 13) {
+    if (fmPlayer.stats["Leadership"] >= 13) {
       this.captaincy = 1;
       this.playerSkills += "*Captaincy" + "\n";
     } else {
@@ -1840,9 +1840,9 @@ False;\
     }
     if (this.finishing >= 85 && this.kickingPower >= 80) {
       this.dippingShot = 1;
-      this.playerSkill += "*Dipping Shot" + "\n";
+      this.playerSkills += "*Dipping Shot" + "\n";
     } else {
-      this.dippingShots = 0;
+      this.dippingShot = 0;
     }
     if (this.dribbling >= 79 && this.ballControl >= 84) {
       this.doubleTouch = 1;

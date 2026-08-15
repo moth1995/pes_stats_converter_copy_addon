@@ -1743,7 +1743,7 @@ ${clamp(40, 123, this.weight)}`;
     }
 
     if (
-      pesMasterPlayer.specialStats.includes("Games Man Ship") ||
+      pesMasterPlayer.specialStats.includes("Gamesmanship") ||
       pesMasterPlayer.stats["Ball Control"] > 85
     ) {
       this.tacticalDribble = 1;

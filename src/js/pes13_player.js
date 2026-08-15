@@ -155,7 +155,7 @@ class PES13Player extends PESPlayer {
         stringInArray(sofifaPlayer.traits, "Trickster +"))
     ) {
       this.indexCards += "P03 - Trickster" + "\n";
-      this.p01ClassicNo10 = 1;
+      this.p03Trickster = 1;
     }
 
     if (
