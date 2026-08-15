@@ -266,6 +266,11 @@ ${clamp(148, 205, this.height)},\
 ${clamp(40, 123, this.weight)}`;
   }
 
+  /**
+   * Fill PES5 stats from a scraped SoFIFA player.
+   * @param {Object} fifaPlayer
+   * @returns {void}
+   */
   FromFIFA17To23Player(fifaPlayer) {
     this.registeredPosition = this.ConvertPosition(fifaPlayer.posicionReg);
     this.positions = [];
@@ -984,6 +989,11 @@ ${clamp(40, 123, this.weight)}`;
     //return this.PSDString();
   }
 
+  /**
+   * Fill PES5 stats from a scraped FMInside player.
+   * @param {Object} fmPlayer
+   * @returns {void}
+   */
   FromFMPlayer(fmPlayer) {
     let FMPositions = FMPositionStringToArray(fmPlayer.info["Positions"]);
     debugLog("pes5:fm", "positions", FMPositions);
@@ -1478,6 +1488,11 @@ ${clamp(40, 123, this.weight)}`;
     //return this.PSDString();
   }
 
+  /**
+   * Fill PES5 stats from a scraped PESMaster player.
+   * @param {Object} pesMasterPlayer
+   * @returns {void}
+   */
   FromPESMasterPlayer(pesMasterPlayer) {
     this.name = pesMasterPlayer.name;
     this.shirtName = this.NameToShirtName(this.name);

@@ -122,6 +122,11 @@ class PES13Player extends PESPlayer {
     }
   }
 
+  /**
+   * Fill PES13 stats from a scraped SoFIFA player.
+   * @param {Object} fifaPlayer
+   * @returns {void}
+   */
   FromFIFA17To23Player(fifaPlayer) {
     super.FromFIFA17To23Player(fifaPlayer);
 
@@ -293,6 +298,11 @@ class PES13Player extends PESPlayer {
     }
   }
 
+  /**
+   * Fill PES13 stats from a scraped FMInside player.
+   * @param {Object} fmPlayer
+   * @returns {void}
+   */
   FromFMPlayer(fmPlayer) {
     super.FromFMPlayer(fmPlayer);
 

@@ -421,6 +421,11 @@ False;\
     return 40;
   }
 
+  /**
+   * Fill PES21 stats from a scraped SoFIFA player.
+   * @param {Object} fifaPlayer
+   * @returns {void}
+   */
   FromFIFA17To23Player(fifaPlayer) {
     this.name = fifaPlayer.name;
     this.shirtName = this.NameToShirtName(this.name);
@@ -1077,6 +1082,11 @@ False;\
     }
   }
 
+  /**
+   * Fill PES21 stats from a scraped FMInside player.
+   * @param {Object} fmPlayer
+   * @returns {void}
+   */
   FromFMPlayer(fmPlayer) {
     let FMPositions = FMPositionStringToArray(fmPlayer.info["Positions"]);
     debugLog("pes21:fm", "positions", FMPositions);
@@ -1123,6 +1133,11 @@ False;\
     const minRow = minStatsTable.find(
       (row) => row.position === this.registeredPosition,
     );
+    // All PES21 positions have a stat-table row; bail defensively if a new
+    // position code ever slips through so we don't dereference undefined.
+    if (!maxRow || !minRow) {
+      return;
+    }
     this.name = fmPlayer.info["Name"];
     this.shirtName = this.NameToShirtName(this.name);
     this.age = parseInt(fmPlayer.info["Age"]);
@@ -2103,6 +2118,11 @@ False;\
     }
   }
 
+  /**
+   * Fill PES21 stats from a scraped PESMaster player.
+   * @param {Object} pesMasterPlayer
+   * @returns {void}
+   */
   FromPESMasterPlayer(pesMasterPlayer) {
     debugLog("pes21:pesmaster", "specialStats", pesMasterPlayer.specialStats);
     this.name = pesMasterPlayer.name;

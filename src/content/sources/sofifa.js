@@ -5,6 +5,9 @@
  * and specialties from the page DOM.
  */
 class SOFIFAPlayer {
+  /**
+   * @param {Object} doc - Parsed SoFIFA player page document.
+   */
   constructor(doc) {
     this.doc = doc;
     this.GetVersion();

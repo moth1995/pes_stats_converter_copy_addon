@@ -5,6 +5,9 @@
  * position types, attributes and roles from the page DOM.
  */
 class FMInsidePlayer {
+  /**
+   * @param {Object} doc - Parsed FMInside player page document.
+   */
   constructor(doc) {
     this.doc = doc;
     this.GetBasicInfo();

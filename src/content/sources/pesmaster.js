@@ -5,6 +5,9 @@
  * special skills and positions from the page DOM.
  */
 class PESMasterPlayer {
+  /**
+   * @param {Object} doc - Parsed PESMaster player page document.
+   */
   constructor(doc) {
     this.doc = doc;
     this.GetBasicInfo();
