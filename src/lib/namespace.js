@@ -85,13 +85,26 @@ window.PESConverter = {
 // Source registry, populated by content/sources/*.js and consumed by
 // content/bootstrap.js. Isolated here (in the shared bundle) so scrapers can
 // register regardless of script load order.
+
+/** @type {SourceDescriptor[]} */
 window.PESConverter._sources = [];
+
+/**
+ * Register a content source. Called once per scraper file at load time.
+ *
+ * @param {SourceDescriptor} source
+ */
 window.PESConverter.registerSource = function (source) {
   window.PESConverter._sources.push(source);
 };
 
-// Wrap a converter so the bootstrap flow can render both PSD and CSV without
-// knowing the concrete class. Raw sources expose PSDString only.
+/**
+ * Wrap a converter so the bootstrap flow can render both PSD and CSV without
+ * knowing the concrete class. Raw sources expose PSDString only.
+ *
+ * @param {Object} converter
+ * @returns {ConverterResult}
+ */
 window.PESConverter.converterResult = function (converter) {
   return {
     psd: function () {

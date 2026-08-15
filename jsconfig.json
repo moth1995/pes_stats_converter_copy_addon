@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "ignoreDeprecations": "6.0",
+    "module": "none",
+    "checkJs": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmit": true,
+    "lib": ["es2021", "dom", "dom.iterable"]
+  },
+  "include": ["src"],
+  "exclude": ["test", "node_modules"]
+}

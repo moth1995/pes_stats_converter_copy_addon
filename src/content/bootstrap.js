@@ -8,6 +8,10 @@
 
 const SOURCES = window.PESConverter._sources;
 
+/**
+ * @returns {SourceDescriptor|null} the first matching source, or the first
+ *   registered source (to show its unsupported label), or null.
+ */
 function firstSourceThatMatches() {
   for (let i = 0; i < SOURCES.length; i++) {
     if (SOURCES[i].isSupported()) {
@@ -19,6 +23,10 @@ function firstSourceThatMatches() {
   return SOURCES[0] || null;
 }
 
+/**
+ * @param {string} format - "pes5", "pes13", or "pes21".
+ * @returns {typeof PESPlayer | typeof PES13Player | typeof PES21Player | null}
+ */
 function converterFor(format) {
   if (format === "pes5") return PESPlayer;
   if (format === "pes13") return PES13Player;
@@ -26,6 +34,12 @@ function converterFor(format) {
   return null; // "raw"
 }
 
+/**
+ * @param {SourceDescriptor} source
+ * @param {Object} scraped - scraped player object.
+ * @param {string} format - output format.
+ * @returns {ConverterResult|null}
+ */
 function convert(source, scraped, format) {
   // Preserve each source's original supported formats (e.g. PESMaster is
   // pes5/pes21 only, and only FMInside offers "raw").
@@ -52,6 +66,12 @@ function convert(source, scraped, format) {
   return window.PESConverter.converterResult(converter);
 }
 
+/**
+ * @param {ConverterResult} result
+ * @param {string} format
+ * @param {string} copyMode - "one" (clipboard) or "multiple" (CSV list).
+ * @returns {void}
+ */
 function render(result, format, copyMode) {
   if (copyMode === "one") {
     CopyToClipboard(result.psd());
@@ -74,6 +94,9 @@ function render(result, format, copyMode) {
   }
 }
 
+/**
+ * @param {SourceDescriptor} source
+ */
 function mountButton(source) {
   const button = document.createElement("button");
   button.style.position = "fixed";
