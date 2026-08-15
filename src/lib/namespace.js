@@ -81,3 +81,27 @@ window.PESConverter = {
   PES13_CSV_COLUMNS,
   PES21_CSV_COLUMNS,
 };
+
+// Source registry, populated by content/sources/*.js and consumed by
+// content/bootstrap.js. Isolated here (in the shared bundle) so scrapers can
+// register regardless of script load order.
+window.PESConverter._sources = [];
+window.PESConverter.registerSource = function (source) {
+  window.PESConverter._sources.push(source);
+};
+
+// Wrap a converter so the bootstrap flow can render both PSD and CSV without
+// knowing the concrete class. Raw sources expose PSDString only.
+window.PESConverter.converterResult = function (converter) {
+  return {
+    psd: function () {
+      return converter.PSDString();
+    },
+    csv:
+      typeof converter.CSVString === "function"
+        ? function () {
+            return converter.CSVString();
+          }
+        : null,
+  };
+};

@@ -173,101 +173,6 @@ class SOFIFAPlayer {
   }
 }
 
-function AddButton() {
-  const button = document.createElement("button");
-  button.style.position = "fixed";
-  button.style.bottom = "20px";
-  button.style.right = "20px";
-
-  const selectElement = document.getElementsByName("version")[0];
-  const selectedIndex = Array.from(selectElement.options).findIndex(
-    (option) => option.selected,
-  );
-  const selectedOption = selectElement.options[selectedIndex];
-  const version = selectedOption.text;
-
-  const language = document
-    .querySelectorAll("details.dropdown.dropdown-br")[1]
-    .querySelector("summary > img")
-    .getAttribute("title");
-
-  debugLog("sofifa", "version", version, "language", language);
-
-  if (supportedVersions.includes(version) && language == "United States") {
-    button.innerHTML = "PES Stats Copy";
-    button.addEventListener("click", function () {
-      debugLog("sofifa", "button clicked");
-
-      chrome.storage.local.get(
-        ["selectOptionFMInside", "selectCopyMode"],
-        function (result) {
-          const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
-          const copyMode = result.selectCopyMode || "one";
-
-          debugLog("sofifa", "settings", {
-            format: selectedOptionFMInside,
-            copyMode,
-          });
-
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(
-            document.documentElement.outerHTML,
-            "text/html",
-          );
-          var sofifaPlayer = new SOFIFAPlayer(doc);
-
-          var pesPlayer = null;
-          if (selectedOptionFMInside === "pes5") {
-            pesPlayer = new PESPlayer();
-          } else if (selectedOptionFMInside === "pes21") {
-            pesPlayer = new PES21Player();
-          } else if (selectedOptionFMInside === "pes13") {
-            pesPlayer = new PES13Player();
-          } else {
-            debugWarn("sofifa", "invalid option", selectedOptionFMInside);
-            return;
-          }
-
-          pesPlayer.FromFIFA17To23Player(sofifaPlayer);
-
-          if (copyMode == "one") {
-            var psdString = pesPlayer.PSDString();
-            debugLog("sofifa", "psd", psdString);
-            CopyToClipboard(psdString);
-          } else if (
-            copyMode == "multiple" &&
-            selectedOptionFMInside == "pes5"
-          ) {
-            AddPlayer(pesPlayer.CSVString());
-            return;
-          } else if (
-            copyMode == "multiple" &&
-            selectedOptionFMInside == "pes13"
-          ) {
-            AddPlayer13(pesPlayer.CSVString());
-            return;
-          } else if (
-            copyMode == "multiple" &&
-            selectedOptionFMInside == "pes21"
-          ) {
-            AddPlayer21(pesPlayer.CSVString());
-            return;
-          } else {
-            debugWarn("sofifa", "invalid copy mode", copyMode);
-            return;
-          }
-        },
-      );
-    });
-  } else if (language != "United States") {
-    button.innerHTML = "Please Select English Language";
-  } else {
-    button.innerHTML = "FIFA VERSION NOT SUPPORTED";
-  }
-
-  document.body.appendChild(button);
-}
-
 const supportedVersions = [
   "FC 26",
   "FC 25",
@@ -281,4 +186,41 @@ const supportedVersions = [
   "FIFA 17",
 ];
 
-AddButton();
+function sofifaVersion() {
+  const selectElement = document.getElementsByName("version")[0];
+  const selectedIndex = Array.from(selectElement.options).findIndex(
+    (option) => option.selected,
+  );
+  return selectElement.options[selectedIndex].text;
+}
+
+function sofifaLanguage() {
+  return document
+    .querySelectorAll("details.dropdown.dropdown-br")[1]
+    .querySelector("summary > img")
+    .getAttribute("title");
+}
+
+window.PESConverter.registerSource({
+  id: "sofifa",
+  converterMethod: "FromFIFA17To23Player",
+  supportedFormats: ["pes5", "pes13", "pes21"],
+  isSupported: function () {
+    return (
+      supportedVersions.includes(sofifaVersion()) &&
+      sofifaLanguage() === "United States"
+    );
+  },
+  label: function () {
+    if (sofifaLanguage() !== "United States") {
+      return "Please Select English Language";
+    }
+    if (!supportedVersions.includes(sofifaVersion())) {
+      return "FIFA VERSION NOT SUPPORTED";
+    }
+    return "PES Stats Copy";
+  },
+  build: function (doc) {
+    return new SOFIFAPlayer(doc);
+  },
+});

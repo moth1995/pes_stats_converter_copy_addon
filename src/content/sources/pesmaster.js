@@ -160,76 +160,26 @@ class PESMasterPlayer {
   }
 }
 
-function AddButton() {
-  const language = document.querySelector("html").getAttribute("lang");
-  const button = document.createElement("button");
-  button.style.position = "fixed";
-  button.style.top = "50%";
-  button.style.right = "20px";
-  button.style.transform = "translateY(-50%)";
-
-  if (language == "en-US") {
-    button.innerHTML = "PES Stats Copy";
-    button.addEventListener("click", function () {
-      debugLog("pesmaster", "button clicked");
-
-      chrome.storage.local.get(
-        ["selectOptionFMInside", "selectCopyMode"],
-        function (result) {
-          const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
-          const copyMode = result.selectCopyMode || "one";
-          debugLog("pesmaster", "settings", {
-            format: selectedOptionFMInside,
-            copyMode,
-          });
-
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(
-            document.documentElement.outerHTML,
-            "text/html",
-          );
-          var pesMasterPlayer = new PESMasterPlayer(doc);
-
-          var pesPlayer = null;
-          if (selectedOptionFMInside === "pes5") {
-            pesPlayer = new PESPlayer();
-          } else if (selectedOptionFMInside === "pes21") {
-            pesPlayer = new PES21Player();
-          } else {
-            debugWarn("pesmaster", "invalid option", selectedOptionFMInside);
-            return;
-          }
-
-          pesPlayer.FromPESMasterPlayer(pesMasterPlayer);
-
-          if (copyMode == "one") {
-            var psdString = pesPlayer.PSDString();
-            debugLog("pesmaster", "psd", psdString);
-            CopyToClipboard(psdString);
-          } else if (
-            copyMode == "multiple" &&
-            selectedOptionFMInside == "pes5"
-          ) {
-            AddPlayer(pesPlayer.CSVString());
-            return;
-          } else if (
-            copyMode == "multiple" &&
-            selectedOptionFMInside == "pes21"
-          ) {
-            AddPlayer21(pesPlayer.CSVString());
-            return;
-          } else {
-            debugWarn("pesmaster", "invalid copy mode", copyMode);
-            return;
-          }
-        },
-      );
-    });
-  } else {
-    button.innerHTML = "Please Select English Language";
-  }
-
-  document.body.appendChild(button);
-}
-
-AddButton();
+window.PESConverter.registerSource({
+  id: "pesmaster",
+  converterMethod: "FromPESMasterPlayer",
+  supportedFormats: ["pes5", "pes21"],
+  isSupported: function () {
+    return document.querySelector("html").getAttribute("lang") === "en-US";
+  },
+  label: function () {
+    if (document.querySelector("html").getAttribute("lang") !== "en-US") {
+      return "Please Select English Language";
+    }
+    return "PES Stats Copy";
+  },
+  buttonStyle: function (style) {
+    // PESMaster is vertically centered rather than bottom-anchored.
+    style.top = "50%";
+    style.bottom = "auto";
+    style.transform = "translateY(-50%)";
+  },
+  build: function (doc) {
+    return new PESMasterPlayer(doc);
+  },
+});

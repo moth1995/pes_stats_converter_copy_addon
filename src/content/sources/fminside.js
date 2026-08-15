@@ -296,71 +296,17 @@ Throwing ${
   }
 }
 
-function AddButton() {
-  const button = document.createElement("button");
-  button.style.position = "fixed";
-  button.style.bottom = "20px";
-  button.style.right = "20px";
-  button.innerHTML = "PES Stats Copy";
-
-  button.addEventListener("click", function () {
-    debugLog("fminside", "button clicked");
-
-    chrome.storage.local.get(
-      ["selectOptionFMInside", "selectCopyMode"],
-      function (result) {
-        const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
-        const copyMode = result.selectCopyMode || "one";
-        debugLog("fminside", "settings", {
-          format: selectedOptionFMInside,
-          copyMode,
-        });
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(
-          document.documentElement.outerHTML,
-          "text/html",
-        );
-        var FMPlayer = new FMInsidePlayer(doc);
-
-        var pesPlayer = new PESPlayer();
-        if (selectedOptionFMInside === "pes21") {
-          pesPlayer = new PES21Player();
-        } else if (selectedOptionFMInside === "pes13") {
-          pesPlayer = new PES13Player();
-        } else if (selectedOptionFMInside === "raw") {
-          pesPlayer = FMPlayer;
-        }
-
-        pesPlayer.FromFMPlayer(FMPlayer);
-        if (copyMode == "one") {
-          var psdString = pesPlayer.PSDString();
-          debugLog("fminside", "psd", psdString);
-          CopyToClipboard(psdString);
-        } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5") {
-          AddPlayer(pesPlayer.CSVString());
-          return;
-        } else if (
-          copyMode == "multiple" &&
-          selectedOptionFMInside == "pes13"
-        ) {
-          AddPlayer13(pesPlayer.CSVString());
-          return;
-        } else if (
-          copyMode == "multiple" &&
-          selectedOptionFMInside == "pes21"
-        ) {
-          AddPlayer21(pesPlayer.CSVString());
-          return;
-        } else {
-          debugWarn("fminside", "invalid copy mode", copyMode);
-          return;
-        }
-      },
-    );
-  });
-
-  document.body.appendChild(button);
-}
-
-AddButton();
+window.PESConverter.registerSource({
+  id: "fminside",
+  converterMethod: "FromFMPlayer",
+  supportedFormats: ["pes5", "pes13", "pes21", "raw"],
+  isSupported: function () {
+    return true;
+  },
+  label: function () {
+    return "PES Stats Copy";
+  },
+  build: function (doc) {
+    return new FMInsidePlayer(doc);
+  },
+});
