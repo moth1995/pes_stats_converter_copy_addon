@@ -24,6 +24,7 @@ class PESPlayer {
     this.coveringPositions = ["CBT", "CWP", "SB", "WB", "DMF"];
     this.dLineControlPositions = ["CBT", "CWP"];
     this.longThrowPositions = ["SB", "WB"];
+    this.positions = [];
     this.positionsNumbers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 
