@@ -24,7 +24,8 @@
         "converters/pes21.js",
         "converters/pes13.js",
         "data/nationalities.js",
-        "data/pes21-stats-table.js"
+        "data/pes21-stats-table.js",
+        "lib/namespace.js"
       ]
     },
     {

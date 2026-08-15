@@ -18,6 +18,7 @@ const DEFAULT_FILES = [
   "converters/pes13.js",
   "data/nationalities.js",
   "data/pes21-stats-table.js",
+  "lib/namespace.js",
 ];
 
 // Classes and `const`/`let` declarations are lexical bindings in the VM, not
