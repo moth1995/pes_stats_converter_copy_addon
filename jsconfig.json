@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2021",
-    "ignoreDeprecations": "6.0",
-    "module": "none",
+    "module": "preserve",
     "checkJs": true,
     "strict": true,
     "noImplicitAny": false,
