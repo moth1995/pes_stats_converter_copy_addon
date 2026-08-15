@@ -18,10 +18,11 @@ class FMInsidePlayer {
     this.ability = ratingSpans[0] ? ratingSpans[0].textContent.trim() : null;
     this.potential = ratingSpans[1] ? ratingSpans[1].textContent.trim() : null;
     if (!this.potential) {
-      //special case for when potential is variable, we use the same as ability as there's no way to calculate it
+      // Special case for when potential is variable, we use the same as
+      // ability as there's no way to calculate it.
       this.potential = this.ability;
     }
-    console.log(this.name, this.ability, this.potential);
+
     const lis = this.doc
       .querySelector("div#player_info")
       .querySelector("div.column")
@@ -29,7 +30,6 @@ class FMInsidePlayer {
     this.nationality = this.doc.querySelector(
       "span.value:nth-child(1) > a:nth-child(1)",
     ).textContent;
-    console.log(this.nationality);
 
     var info = {};
     var positionType = [];
@@ -46,7 +46,6 @@ class FMInsidePlayer {
           .querySelector("span.player_positions")
           .querySelectorAll("span")
           .forEach((span) => {
-            console.log(span.getAttribute("title"));
             positionType.push(span.getAttribute("title"));
           });
       } else {
@@ -54,10 +53,9 @@ class FMInsidePlayer {
       }
       info[key] = value;
     });
-    console.log(positionType);
     this.positionType = positionType;
 
-    // best way to handle the new changes on the website
+    // Best way to handle the new changes on the website.
     if ("Left foot" in info && "Right foot" in info && !("Foot" in info)) {
       if (parseInt(info["Left foot"]) > parseInt(info["Right foot"])) {
         info["Foot"] = "Left";
@@ -66,14 +64,21 @@ class FMInsidePlayer {
       }
     }
 
-    // temporary, probably forever... until they readd it in the site
+    // Temporary fallback while the site omits weight.
     if (!("Weight" in info)) {
       info["Weight"] = "75 kg";
     }
 
     this.info = info;
 
-    console.log(this.info);
+    debugLog("fminside", {
+      name: this.name,
+      ability: this.ability,
+      potential: this.potential,
+      nationality: this.nationality,
+      positionType: this.positionType,
+      info: this.info,
+    });
   }
 
   StatToObject() {
@@ -84,7 +89,6 @@ class FMInsidePlayer {
       var tdElement = row.querySelector(".stat");
 
       // Some rows (headers, group labels) have no acronym or stat cell.
-      // Skip them instead of throwing, matching the original intent.
       if (!acronymElement || !tdElement) {
         return;
       }
@@ -109,7 +113,7 @@ class FMInsidePlayer {
 
   GetStats() {
     this.stats = this.StatToObject();
-    console.log(this.stats);
+    debugLog("fminside", "stats", this.stats);
   }
 
   GetRoles() {
@@ -126,15 +130,14 @@ class FMInsidePlayer {
         roles[key] = parseFloat(value);
       });
     } catch (err) {
-      console.log(err);
-      console.log("No roles found");
+      debugWarn("fminside", "no roles found", err);
     }
     this.roles = roles;
-    console.log(this.roles);
+    debugLog("fminside", "roles", this.roles);
   }
 
   FromFMPlayer(fmPlayer) {
-    // Method just added to prevent crash when raw option is selected
+    // Method just added to prevent crash when raw option is selected.
   }
 
   PSDString() {
@@ -293,32 +296,33 @@ Throwing ${
   }
 }
 
-// create button element
 function AddButton() {
-  const currentUrl = window.location.href;
-  var button = document.createElement("button");
+  const button = document.createElement("button");
   button.style.position = "fixed";
   button.style.bottom = "20px";
   button.style.right = "20px";
   button.innerHTML = "PES Stats Copy";
-  // add event listener to button
+
   button.addEventListener("click", function () {
-    console.log("Button clicked");
+    debugLog("fminside", "button clicked");
 
     chrome.storage.local.get(
       ["selectOptionFMInside", "selectCopyMode"],
       function (result) {
         const selectedOptionFMInside = result.selectOptionFMInside || "pes5";
         const copyMode = result.selectCopyMode || "one";
-        console.log(selectedOptionFMInside);
-        console.log(copyMode);
+        debugLog("fminside", "settings", {
+          format: selectedOptionFMInside,
+          copyMode,
+        });
+
         const parser = new DOMParser();
         const doc = parser.parseFromString(
           document.documentElement.outerHTML,
           "text/html",
         );
         var FMPlayer = new FMInsidePlayer(doc);
-        // Convert into pes
+
         var pesPlayer = new PESPlayer();
         if (selectedOptionFMInside === "pes21") {
           pesPlayer = new PES21Player();
@@ -327,38 +331,35 @@ function AddButton() {
         } else if (selectedOptionFMInside === "raw") {
           pesPlayer = FMPlayer;
         }
-        // Use the string result
+
         pesPlayer.FromFMPlayer(FMPlayer);
         if (copyMode == "one") {
           var psdString = pesPlayer.PSDString();
-          console.log("Received string from background:", psdString);
+          debugLog("fminside", "psd", psdString);
           CopyToClipboard(psdString);
         } else if (copyMode == "multiple" && selectedOptionFMInside == "pes5") {
-          let csvString = pesPlayer.CSVString();
-          AddPlayer(csvString);
+          AddPlayer(pesPlayer.CSVString());
           return;
         } else if (
           copyMode == "multiple" &&
           selectedOptionFMInside == "pes13"
         ) {
-          let csvString = pesPlayer.CSVString();
-          AddPlayer13(csvString);
+          AddPlayer13(pesPlayer.CSVString());
           return;
         } else if (
           copyMode == "multiple" &&
           selectedOptionFMInside == "pes21"
         ) {
-          let csvString = pesPlayer.CSVString();
-          AddPlayer21(csvString);
+          AddPlayer21(pesPlayer.CSVString());
           return;
         } else {
-          console.log("Invalid copy mode");
+          debugWarn("fminside", "invalid copy mode", copyMode);
           return;
         }
       },
     );
   });
-  // append button to body
+
   document.body.appendChild(button);
 }
 
