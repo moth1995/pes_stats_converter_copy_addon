@@ -1,3 +1,5 @@
+"use strict";
+
 class PES21Player {
   constructor() {
     this.reputation = 3;

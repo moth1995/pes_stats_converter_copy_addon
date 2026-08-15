@@ -1,3 +1,5 @@
+"use strict";
+
 class FMInsidePlayer {
   constructor(doc) {
     this.doc = doc;
@@ -79,7 +81,6 @@ class FMInsidePlayer {
     var rows = this.doc.querySelectorAll("table tr");
     rows.forEach(function (row) {
       var acronymElement = row.querySelector("acronym");
-
       var tdElement = row.querySelector(".stat");
 
       // Some rows (headers, group labels) have no acronym or stat cell.

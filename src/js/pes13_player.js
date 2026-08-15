@@ -1,3 +1,5 @@
+"use strict";
+
 class PES13Player extends PESPlayer {
   constructor() {
     super();

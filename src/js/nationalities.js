@@ -1,3 +1,5 @@
+"use strict";
+
 const pesIndieNationalities = {
   // nationalities taken from fminside (fm24)
   Afghanistan: "Afghan",

@@ -1,3 +1,5 @@
+"use strict";
+
 class PESMasterPlayer {
   constructor(doc) {
     this.doc = doc;
@@ -9,14 +11,14 @@ class PESMasterPlayer {
 
   GetBasicInfo() {
     this.name = this.doc.querySelector(
-      ".top-header span:not([class])"
+      ".top-header span:not([class])",
     ).textContent;
     this.overall = parseInt(
-      this.doc.querySelector(".top-header").querySelector("span").textContent
+      this.doc.querySelector(".top-header").querySelector("span").textContent,
     );
     const rows = this.doc
       .querySelector(
-        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.player-main-column.player-info-column > table"
+        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.player-main-column.player-info-column > table",
       )
       .querySelectorAll("tr");
     var info = {};
@@ -119,7 +121,7 @@ class PESMasterPlayer {
   GetStats() {
     const statsTables = this.doc
       .querySelector(
-        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.flex.flex-column > div.stats-container > div"
+        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.flex.flex-column > div.stats-container > div",
       )
       .querySelectorAll("table.player-stats-modern");
     this.stats = {};
@@ -128,7 +130,7 @@ class PESMasterPlayer {
     }
     const characteristicsTable = this.doc
       .querySelector(
-        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.flex.flex-column > div.stats-container > div"
+        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.flex.flex-column > div.stats-container > div",
       )
       .querySelector("table.player-info");
     this.CharacteristicsTableToObject(characteristicsTable, this.stats);
@@ -138,7 +140,7 @@ class PESMasterPlayer {
   GetSpecialStats() {
     const lis = this.doc
       .querySelector(
-        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.flex.flex-column > div.cards-container.flex.flex-expand"
+        "body > div.main-wrapper > div > div.main-stats-cards-container.container-large.flex.flex-expand > div.flex.flex-column > div.cards-container.flex.flex-expand",
       )
       .querySelectorAll("li");
     var specialStats = [];
@@ -197,7 +199,7 @@ function AddButton() {
           const parser = new DOMParser();
           const doc = parser.parseFromString(
             document.documentElement.outerHTML,
-            "text/html"
+            "text/html",
           );
           var pesMasterPlayer = new PESMasterPlayer(doc);
 
@@ -235,7 +237,7 @@ function AddButton() {
             console.log("Invalid copy mode");
             return;
           }
-        }
+        },
       );
     });
   } else {

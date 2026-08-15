@@ -1,3 +1,5 @@
+"use strict";
+
 class SOFIFAPlayer {
   constructor(doc) {
     this.doc = doc;
@@ -13,7 +15,7 @@ class SOFIFAPlayer {
 
     // Encuentra el índice del elemento con el atributo "selected"
     var selectedIndex = Array.from(selectElement.options).findIndex(
-      (option) => option.selected
+      (option) => option.selected,
     );
 
     // Obtén el elemento <option> seleccionado
@@ -57,7 +59,7 @@ class SOFIFAPlayer {
     console.log(this.nationality);
 
     const spans = this.doc.querySelectorAll(
-      "div.profile.clearfix > p > a > span"
+      "div.profile.clearfix > p > a > span",
     );
     this.posiciones = Array.from(spans).map((span) => span.textContent);
 
@@ -134,14 +136,14 @@ class SOFIFAPlayer {
 
     const specialities =
       sofifa_stats[indexes.indexOf("Player specialities")].querySelectorAll(
-        "p"
+        "p",
       );
     this.playerSpecialties = [];
 
     if (specialities && specialities.length !== 0) {
       const lis = specialities;
       this.playerSpecialties = Array.from(specialities, (li) =>
-        li.querySelector("a").textContent.trim().replace("#", "")
+        li.querySelector("a").textContent.trim().replace("#", ""),
       );
     }
     console.log(this.playerSpecialties); // Output specialities array
@@ -166,22 +168,22 @@ class SOFIFAPlayer {
     console.log("preferedFoot: " + this.preferedFoot);
 
     this.weakFoot = parseInt(
-      profileLi[2].querySelector("svg").previousSibling.textContent
+      profileLi[2].querySelector("svg").previousSibling.textContent,
     );
     console.log("weakFoot: " + this.weakFoot);
 
     this.skillMoves = parseInt(
-      profileLi[1].querySelector("svg").previousSibling.textContent
+      profileLi[1].querySelector("svg").previousSibling.textContent,
     );
     console.log("skillMoves: " + this.skillMoves);
 
     this.internationalReputation = parseInt(
-      profileLi[3].querySelector("svg").previousSibling.textContent
+      profileLi[3].querySelector("svg").previousSibling.textContent,
     );
     console.log("internationalReputation: " + this.internationalReputation);
 
     this.overall = parseInt(
-      this.doc.querySelector("div.attribute > p:nth-child(2) > em").textContent
+      this.doc.querySelector("div.attribute > p:nth-child(2) > em").textContent,
     );
 
     console.log("overall: " + this.overall);
@@ -202,7 +204,7 @@ function AddButton() {
 
   // Encuentra el índice del elemento con el atributo "selected"
   var selectedIndex = Array.from(selectElement.options).findIndex(
-    (option) => option.selected
+    (option) => option.selected,
   );
 
   // Obtén el elemento <option> seleccionado
@@ -235,7 +237,7 @@ function AddButton() {
           const parser = new DOMParser();
           const doc = parser.parseFromString(
             document.documentElement.outerHTML,
-            "text/html"
+            "text/html",
           );
           var sofifaPlayer = new SOFIFAPlayer(doc);
 
@@ -283,7 +285,7 @@ function AddButton() {
             console.log("Invalid copy mode");
             return;
           }
-        }
+        },
       );
     });
   } else if (language != "United States") {

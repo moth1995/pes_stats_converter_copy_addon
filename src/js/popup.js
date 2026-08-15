@@ -1,3 +1,5 @@
+"use strict";
+
 document.addEventListener("DOMContentLoaded", function () {
   // Obtiene el elemento select
   const select = document.getElementById("select-option-fm-inside");

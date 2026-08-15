@@ -1,3 +1,5 @@
+"use strict";
+
 class PESPlayer {
   constructor() {
     this.EXP_Value = 1.179;
