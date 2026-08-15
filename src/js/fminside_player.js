@@ -81,6 +81,13 @@ class FMInsidePlayer {
       var acronymElement = row.querySelector("acronym");
 
       var tdElement = row.querySelector(".stat");
+
+      // Some rows (headers, group labels) have no acronym or stat cell.
+      // Skip them instead of throwing, matching the original intent.
+      if (!acronymElement || !tdElement) {
+        return;
+      }
+
       var value = null;
       var key = acronymElement.textContent;
       for (let j = 0; j < tdElement.classList.length; j++) {
