@@ -7,10 +7,10 @@
 /**
  * Map a Football Manager position code to its old-gen PES (5/13) equivalent.
  *
- * @param position - FM position code (e.g. "DC", "AMC").
- * @returns PES position code.
+ * @param {string} position - FM position code (e.g. "DC", "AMC").
+ * @returns {string} PES position code.
  */
-function FMToPESPositions(position) {
+function fmToPesPositions(position) {
   switch (position) {
     case "GK":
       return "GK";
@@ -45,10 +45,10 @@ function FMToPESPositions(position) {
 /**
  * Split a comma-separated position string into a trimmed array.
  *
- * @param positions - e.g. "AML, AMR, ST".
- * @returns Array of position codes.
+ * @param {string} positions - e.g. "AML, AMR, ST".
+ * @returns {string[]} Array of position codes.
  */
-function FMPositionStringToArray(positions) {
+function fmPositionStringToArray(positions) {
   const trimmedString = positions.replace(/,\s*/g, ",");
   return trimmedString.split(",");
 }
@@ -57,12 +57,13 @@ function FMPositionStringToArray(positions) {
  * Determine the player's favoured side ("B", "L", or "R") from their position
  * list.
  *
- * @param positions - Array of position codes.
- * @param useLastChar - True to inspect the last char (FM codes) instead of the
+ * @param {string[]} positions - Array of position codes.
+ * @param {boolean} useLastChar - True to inspect the last char (FM codes) instead of the
  *   first char (FIFA/eFootball codes).
- * @returns "B", "L", or "R".
+ * @returns {FavouredSide} "B", "L", or "R".
  */
-function GetFavSide(positions, useLastChar) {
+function getFavSide(positions, useLastChar) {
+  /** @type {FavouredSide} */
   let favSide = "B";
   let bothSides = 0;
   let leftSide = 0;
@@ -102,10 +103,10 @@ function GetFavSide(positions, useLastChar) {
 /**
  * Map an eFootball position code to its old-gen PES (5/13) equivalent.
  *
- * @param position - eFootball position code.
- * @returns PES position code.
+ * @param {string} position - eFootball position code.
+ * @returns {string} PES position code.
  */
-function EfootballToPESPosition(position) {
+function efootballToPesPosition(position) {
   switch (position) {
     case "CB":
       return "CBT";
@@ -126,10 +127,10 @@ function EfootballToPESPosition(position) {
 /**
  * Map a Football Manager position code to its PES21/20 equivalent.
  *
- * @param position - FM position code.
- * @returns PES21 position code.
+ * @param {string} position - FM position code.
+ * @returns {string} PES21 position code.
  */
-function FMToPES21Positions(position) {
+function fmToPes21Positions(position) {
   switch (position) {
     case "GK":
       return "GK";
@@ -167,10 +168,10 @@ function FMToPES21Positions(position) {
 /**
  * Map a FIFA position code to its PES21/20 equivalent.
  *
- * @param position - FIFA position code.
- * @returns PES21 position code.
+ * @param {string} position - FIFA position code.
+ * @returns {string} PES21 position code.
  */
-function FIFAToPES21Positions(position) {
+function fifaToPes21Positions(position) {
   switch (position) {
     case "GK":
       return "GK";

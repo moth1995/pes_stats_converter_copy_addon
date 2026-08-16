@@ -10,6 +10,7 @@
  *
  * @param {string} tag - Namespace label (e.g. "sofifa", "pes21:fm").
  * @param {...*} args - Values to log.
+ * @returns {void}
  */
 function debugLog(tag, ...args) {
   if (window.PES_DEBUG) {
@@ -18,14 +19,13 @@ function debugLog(tag, ...args) {
 }
 
 /**
- * Log a warning under a tagged namespace. No-op unless `window.PES_DEBUG` is
- * truthy.
+ * Log a warning under a tagged namespace. Unlike `debugLog` this is NOT gated
+ * by `window.PES_DEBUG`: warnings always reach the console.
  *
  * @param {string} tag - Namespace label (e.g. "bootstrap").
  * @param {...*} args - Values to log.
+ * @returns {void}
  */
 function debugWarn(tag, ...args) {
-  if (window.PES_DEBUG) {
-    console.warn("[pes:" + tag + "]", ...args);
-  }
+  console.warn("[pes:" + tag + "]", ...args);
 }
