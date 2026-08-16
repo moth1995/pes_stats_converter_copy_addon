@@ -1,39 +1,36 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Obtiene el elemento select
+  // Gets the select element
   const select = /** @type {HTMLSelectElement} */ (
     document.getElementById("select-option-fm-inside")
   );
-  console.log("Elemento select encontrado:", select);
+  console.log("Select element found:", select);
 
   if (!select) {
     return;
   }
 
-  // Obtiene la opción guardada en la variable global (si existe)
+  // Gets the saved option from the global variable (if it exists)
   chrome.storage.local.get(
     ["selectOptionFMInside"],
     /** @param {PESStorageData} result */ function (result) {
       // Fall back to the default format when nothing has been saved yet.
       const selectedOption = result.selectOptionFMInside || FORMAT.PES5;
 
-      // Establece la opción seleccionada en el select
+      // Sets the selected option in the select
       select.value = selectedOption;
     },
   );
 
-  // Maneja el evento de cambio del select
+  // Handles the select change event
   select.addEventListener("change", function () {
     let selectedValue = select.value;
-    // Guarda la opción seleccionada en el almacenamiento local
+    // Saves the selected option to local storage
     chrome.storage.local.set(
       { selectOptionFMInside: selectedValue },
       function () {
-        console.log(
-          "Valor guardado en el almacenamiento local, nuevo valor:" +
-            selectedValue,
-        );
+        console.log("Value saved to local storage, new value:" + selectedValue);
       },
     );
   });
@@ -41,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sCopyMode = /** @type {HTMLSelectElement} */ (
     document.getElementById("select-copy-mode")
   );
-  console.log("Elemento select encontrado:", sCopyMode);
+  console.log("Select element found:", sCopyMode);
 
   if (!sCopyMode) {
     return;
@@ -55,11 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
     }
-    // Guarda la opción seleccionada en el almacenamiento local
+    // Saves the selected option to local storage
     chrome.storage.local.set({ selectCopyMode: selectValue }, function () {
-      console.log(
-        "Valor guardado en el almacenamiento local, nuevo valor:" + selectValue,
-      );
+      console.log("Value saved to local storage, new value:" + selectValue);
     });
   });
 
@@ -75,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
       }
 
-      // Establece la opción seleccionada en el select
+      // Sets the selected option in the select
       sCopyMode.value = selectedOption;
     },
   );
@@ -100,9 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
   debugEnabledCheckbox.addEventListener("change", function () {
     const checked = debugEnabledCheckbox.checked;
     chrome.storage.local.set({ debugEnabled: checked }, function () {
-      console.log(
-        "Valor guardado en el almacenamiento local, nuevo valor:" + checked,
-      );
+      console.log("Value saved to local storage, new value:" + checked);
     });
   });
 });
