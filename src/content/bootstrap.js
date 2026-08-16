@@ -113,6 +113,57 @@ function render(result, format, copyMode) {
 }
 
 /**
+ * Render multiple converter results into CSV storage in one transaction.
+ *
+ * Batch sources always use CSV storage; clipboard mode is intentionally
+ * ignored because a team represents multiple players.
+ *
+ * @param {ConverterResult[]} results - Converted players.
+ * @param {Format} format - Output format.
+ * @returns {Promise<void>}
+ */
+async function renderMany(results, format) {
+  const rows = [];
+
+  for (const result of results) {
+    rows.push(result.csv());
+  }
+
+  await addPlayers(rows, format);
+}
+
+/**
+ * Update the floating button so its background acts as a progress bar.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @param {number} current - Completed players.
+ * @param {number} total - Total players.
+ * @returns {void}
+ */
+function updateButtonProgress(button, current, total) {
+  const percentage = total === 0 ? 0 : Math.round((current / total) * 100);
+
+  button.textContent = `Converting ${current}/${total} (${percentage}%)`;
+
+  button.style.backgroundImage =
+    `linear-gradient(` +
+    `to right, ` +
+    `rgba(76, 175, 80, 0.55) ${percentage}%, ` +
+    `rgba(255, 255, 255, 0.15) ${percentage}%` +
+    `)`;
+}
+
+/**
+ * Remove the visual progress indicator.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @returns {void}
+ */
+function clearButtonProgress(button) {
+  button.style.backgroundImage = "";
+}
+
+/**
  * Mount the floating action button for a source.
  *
  * @param {SourceDescriptor} source - The source to bind.
@@ -152,9 +203,9 @@ function mountButton(source) {
        * Storage callback: convert and render using stored settings.
        *
        * @param {PESStorageData} result - Stored settings object.
-       * @returns {void}
+       * @returns {Promise<void>} Resolves when the render is complete.
        */
-      function (result) {
+      async function (result) {
         const format = result.selectOptionFMInside || FORMAT.PES5;
         const copyMode = result.selectCopyMode || COPY_MODE.ONE;
         // Sync the persisted debug preference to the logger's global gate.
@@ -167,29 +218,113 @@ function mountButton(source) {
           "text/html",
         );
 
-        // Scraping is the only step that can fail hard: a site markup change
-        // makes the scraped player wrong rather than merely incomplete. Catch
-        // it here, once, and write nothing rather than emit bad stats.
-        let output;
-        try {
-          const scraped = source.build(doc);
-          output = convert(source, scraped, format);
-        } catch (error) {
-          if (error instanceof ScrapeError) {
-            debugWarn("bootstrap", "scrape failed", error.message);
-            button.innerHTML = "Scrape failed - see console";
-            return;
-          }
-          throw error;
-        }
+        // Reject unsupported formats before doing any network work.
+        // This is especially important for team imports: we do not want to
+        // download 30 players only to discover that PES13 is unsupported.
+        if (!source.supportedFormats.includes(format)) {
+          debugWarn("bootstrap", "format not supported by source", format);
 
-        if (!output) {
-          debugWarn("bootstrap", "no converter for", format);
+          button.textContent = "Format not supported";
           return;
         }
 
-        debugLog("bootstrap", "psd", output.psd());
-        render(output, format, copyMode);
+        try {
+          /*
+           * Batch source.
+           *
+           * PESMaster team pages enter here. buildMany() downloads and parses
+           * each player but deliberately does NOT convert them. Conversion stays
+           * centralized here exactly like the single-player path.
+           */
+          if (source.buildMany) {
+            const batch = await source.buildMany(
+              doc,
+              function (current, total) {
+                updateButtonProgress(button, current, total);
+              },
+            );
+
+            /** @type {ConverterResult[]} */
+            const outputs = [];
+
+            for (const scraped of batch.items) {
+              const output = convert(source, scraped, format);
+
+              if (output) {
+                outputs.push(output);
+              }
+            }
+
+            if (outputs.length === 0) {
+              clearButtonProgress(button);
+
+              button.textContent = "No players converted";
+
+              return;
+            }
+
+            // output.csv() eventually calls the converter's csvString().
+            await renderMany(outputs, format);
+
+            clearButtonProgress(button);
+
+            if (batch.failures.length > 0) {
+              button.textContent =
+                `${outputs.length} added - ` +
+                `${batch.failures.length} failed`;
+            } else {
+              button.textContent = `${outputs.length} players added`;
+            }
+
+            debugLog("bootstrap", "team import complete", {
+              converted: outputs.length,
+              failed: batch.failures,
+            });
+
+            return;
+          }
+
+          /*
+           * Normal single-player source.
+           */
+          if (!source.build) {
+            throw new Error(
+              `Source "${source.id}" has neither build nor buildMany`,
+            );
+          }
+
+          const scraped = source.build(doc);
+
+          const output = convert(source, scraped, format);
+
+          if (!output) {
+            debugWarn("bootstrap", "no converter for", format);
+
+            return;
+          }
+
+          debugLog("bootstrap", "psd", output.psd());
+
+          render(output, format, copyMode);
+        } catch (error) {
+          clearButtonProgress(button);
+
+          debugWarn("bootstrap", "source processing failed", error);
+
+          if (source.buildMany) {
+            button.textContent = "Team import failed - see console";
+
+            return;
+          }
+
+          if (error instanceof ScrapeError) {
+            button.textContent = "Scrape failed - see console";
+
+            return;
+          }
+
+          throw error;
+        }
       },
     );
   });
