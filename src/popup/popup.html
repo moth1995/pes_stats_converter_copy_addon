@@ -79,6 +79,9 @@
       </button>
     </div>
 
+    <!-- The popup runs in its own scope, separate from the content scripts, so
+         it loads the shared vocabulary itself rather than inheriting it. -->
+    <script src="../lib/enums.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
