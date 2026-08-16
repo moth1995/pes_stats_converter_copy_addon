@@ -1,3 +1,10 @@
+"use strict";
+
+/**
+ * Source nation name -> PES nationality label.
+ *
+ * @type {Record<string, string>}
+ */
 const pesIndieNationalities = {
   // nationalities taken from fminside (fm24)
   Afghanistan: "Afghan",

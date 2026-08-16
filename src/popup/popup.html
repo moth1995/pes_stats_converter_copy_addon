@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <title>Popup</title>
-    <link rel="stylesheet" href="css/popup.css" />
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <div class="banner">
-      <span>PES Stats Converter By PES5 Indie Team</span>
+      <span>PES Stats Converter By PES Indie Team</span>
     </div>
     <div>
       <button class="tab-button" data-tab="configuration-tab">
@@ -79,6 +79,9 @@
       </button>
     </div>
 
-    <script src="js/popup.js"></script>
+    <!-- The popup runs in its own scope, separate from the content scripts, so
+         it loads the shared vocabulary itself rather than inheriting it. -->
+    <script src="../lib/enums.js"></script>
+    <script src="popup.js"></script>
   </body>
 </html>
