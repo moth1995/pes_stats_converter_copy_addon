@@ -133,6 +133,19 @@ async function renderMany(results, format) {
 }
 
 /**
+ * Enable or disable the floating button while a batch operation is running.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @param {boolean} busy - Whether the button is currently busy.
+ * @returns {void}
+ */
+function setButtonBusy(button, busy) {
+  button.disabled = busy;
+  button.setAttribute("aria-busy", busy ? "true" : "false");
+  button.style.cursor = busy ? "wait" : "pointer";
+}
+
+/**
  * Update the floating button so its background acts as a progress bar.
  *
  * @param {HTMLButtonElement} button - Floating action button.
@@ -145,22 +158,75 @@ function updateButtonProgress(button, current, total) {
 
   button.textContent = `Converting ${current}/${total} (${percentage}%)`;
 
+  // Use background-size rather than changing gradient stops.
+  // This lets us smoothly reverse the animation after completion.
   button.style.backgroundImage =
-    `linear-gradient(` +
-    `to right, ` +
-    `rgba(76, 175, 80, 0.55) ${percentage}%, ` +
-    `rgba(255, 255, 255, 0.15) ${percentage}%` +
-    `)`;
+    "linear-gradient(" +
+    "rgba(76, 175, 80, 0.55), " +
+    "rgba(76, 175, 80, 0.55)" +
+    ")";
+
+  button.style.backgroundRepeat = "no-repeat";
+  button.style.backgroundPosition = "left center";
+  button.style.backgroundSize = `${percentage}% 100%`;
+  button.style.transition = "background-size 250ms linear";
 }
 
 /**
- * Remove the visual progress indicator.
+ * Clear the button's progress-bar styling.
  *
  * @param {HTMLButtonElement} button - Floating action button.
  * @returns {void}
  */
 function clearButtonProgress(button) {
   button.style.backgroundImage = "";
+  button.style.backgroundRepeat = "";
+  button.style.backgroundPosition = "";
+  button.style.backgroundSize = "";
+  button.style.transition = "";
+}
+
+/**
+ * Show the batch result for five seconds while draining the progress bar,
+ * then restore the original source button.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @param {string} originalLabel - Label to restore after the cooldown.
+ * @returns {void}
+ */
+function finishButtonProgress(button, originalLabel) {
+  const cooldownMs = 3000;
+
+  // Ensure the completion bar begins completely full.
+  button.style.backgroundImage =
+    "linear-gradient(" +
+    "rgba(76, 175, 80, 0.55), " +
+    "rgba(76, 175, 80, 0.55)" +
+    ")";
+
+  button.style.backgroundRepeat = "no-repeat";
+  button.style.backgroundPosition = "left center";
+
+  // Disable transition while forcing the bar to 100%.
+  button.style.transition = "none";
+  button.style.backgroundSize = "100% 100%";
+
+  // Force the browser to apply the 100% state before starting
+  // the reverse animation.
+  button.getBoundingClientRect();
+
+  // Drain from 100% to 0% over five seconds.
+  button.style.transition = `background-size ${cooldownMs}ms linear`;
+
+  button.style.backgroundSize = "0% 100%";
+
+  setTimeout(function () {
+    clearButtonProgress(button);
+
+    button.textContent = originalLabel;
+
+    setButtonBusy(button, false);
+  }, cooldownMs);
 }
 
 /**
@@ -196,6 +262,12 @@ function mountButton(source) {
 
     debugLog("bootstrap", "button clicked", source.id);
 
+    // Batch imports can take around a minute. Prevent starting another
+    // import while the current one is still running.
+    if (source.buildMany) {
+      setButtonBusy(button, true);
+    }
+
     chrome.storage.local.get(
       ["selectOptionFMInside", "selectCopyMode", "debugEnabled"],
 
@@ -225,6 +297,9 @@ function mountButton(source) {
           debugWarn("bootstrap", "format not supported by source", format);
 
           button.textContent = "Format not supported";
+
+          setButtonBusy(button, false);
+
           return;
         }
 
@@ -260,13 +335,13 @@ function mountButton(source) {
 
               button.textContent = "No players converted";
 
+              setButtonBusy(button, false);
+
               return;
             }
 
             // output.csv() eventually calls the converter's csvString().
             await renderMany(outputs, format);
-
-            clearButtonProgress(button);
 
             if (batch.failures.length > 0) {
               button.textContent =
@@ -280,6 +355,10 @@ function mountButton(source) {
               converted: outputs.length,
               failed: batch.failures,
             });
+
+            // Keep the result visible for five seconds while the progress
+            // bar drains backwards, then restore "Add Team to CSV".
+            finishButtonProgress(button, source.label());
 
             return;
           }
@@ -313,6 +392,8 @@ function mountButton(source) {
 
           if (source.buildMany) {
             button.textContent = "Team import failed - see console";
+
+            setButtonBusy(button, false);
 
             return;
           }
