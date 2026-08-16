@@ -18,8 +18,8 @@ function sofifaField() {
     skillMoves: 4,
     internationalReputation: 3,
     overall: 82,
-    posicionReg: "LW",
-    posiciones: ["LW", "ST", "RW"],
+    registeredPosition: "LW",
+    positions: ["LW", "ST", "RW"],
     traits: [
       "Finesse Shot",
       "Technical dribbler (AI)",
@@ -92,8 +92,8 @@ function sofifaGK() {
     skillMoves: 1,
     internationalReputation: 4,
     overall: 85,
-    posicionReg: "GK",
-    posiciones: ["GK"],
+    registeredPosition: "GK",
+    positions: ["GK"],
     traits: ["Comes for crosses", "Saves with feet", "Leadership"],
     playerSpecialties: [],
     attacking: {
@@ -320,9 +320,6 @@ function pesmasterField() {
       Heading: 64,
       Jumping: 70,
       Aggression: 55,
-      "Weak Foot Acc.": "High",
-      "Weak Foot Usage": "Occasionally",
-      "Injury Resistance": "Medium",
       "GK Awareness": 40,
       "GK Reach": 40,
       "GK Catching": 40,
@@ -330,6 +327,11 @@ function pesmasterField() {
       "GK Reflexes": 40,
       Tackling: 38,
       "Defensive Engagement": 40,
+    },
+    characteristics: {
+      "Weak Foot Acc.": "High",
+      "Weak Foot Usage": "Occasionally",
+      "Injury Resistance": "Medium",
     },
   };
 }
