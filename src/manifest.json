@@ -18,6 +18,8 @@
       ],
       "run_at": "document_idle",
       "js": [
+        "lib/enums.js",
+        "data/source-labels.js",
         "lib/dom.js",
         "lib/logger.js",
         "lib/utils.js",
