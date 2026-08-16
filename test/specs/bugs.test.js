@@ -13,7 +13,7 @@ test("bug: PES21 'Attack position' typo now applies reactions adjustment", () =>
   // offensiveAwareness by 1 (previously the misspelled "Attck position"
   // compared undefined and did nothing).
   const player = new api.PES21Player();
-  player.FromFIFA17To23Player(fixtures.sofifaField());
+  player.fromFIFA17To23Player(fixtures.sofifaField());
   assert.strictEqual(player.offensiveAwareness, 81);
 });
 
@@ -22,7 +22,7 @@ test("bug: PES13 sets p03Trickster instead of p01ClassicNo10", () => {
   fixture.traits.push("Trickster");
 
   const player = new api.PES13Player();
-  player.FromFIFA17To23Player(fixture);
+  player.fromFIFA17To23Player(fixture);
 
   assert.strictEqual(player.p03Trickster, 1);
   assert.strictEqual(player.p01ClassicNo10, 0);
@@ -33,7 +33,7 @@ test("bug: PES5 uses correct 'Gamesmanship' string for PESMaster", () => {
   fixture.specialStats.push("Gamesmanship");
 
   const player = new api.PESPlayer();
-  player.FromPESMasterPlayer(fixture);
+  player.fromPesMasterPlayer(fixture);
 
   assert.strictEqual(player.tacticalDribble, 1);
 });

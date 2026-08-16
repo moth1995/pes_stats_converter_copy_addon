@@ -16,9 +16,9 @@ test("window.PESConverter namespace groups shared bindings", () => {
   assert.strictEqual(typeof ns.PES21Player, "function");
   assert.strictEqual(typeof ns.PES13Player, "function");
   assert.strictEqual(typeof ns.clamp, "function");
-  assert.strictEqual(typeof ns.Average, "function");
+  assert.strictEqual(typeof ns.average, "function");
   assert.strictEqual(typeof ns.textOf, "function");
-  assert.strictEqual(typeof ns.FMToPESPositions, "function");
+  assert.strictEqual(typeof ns.fmToPesPositions, "function");
 
   // `const`/`let`/`class` bindings are lexical in a script's global scope and
   // are NOT `window` properties (same as a browser); assert their values

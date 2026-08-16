@@ -13,8 +13,8 @@ function convert(exports, converterName, methodName, fixture) {
   const player = new exports[converterName]();
   player[methodName](fixture);
   return {
-    psd: player.PSDString(),
-    csv: player.CSVString(),
+    psd: player.psdString(),
+    csv: player.csvString(),
   };
 }
 
@@ -25,42 +25,42 @@ function buildAll(exports) {
     // [converter, method, fixture, key]
     [
       "PESPlayer",
-      "FromFIFA17To23Player",
+      "fromFIFA17To23Player",
       fixtures.sofifaField(),
       "sofifa-field",
     ],
-    ["PESPlayer", "FromFIFA17To23Player", fixtures.sofifaGK(), "sofifa-gk"],
-    ["PESPlayer", "FromFMPlayer", fixtures.fmField(), "fm-field"],
-    ["PESPlayer", "FromFMPlayer", fixtures.fmGK(), "fm-gk"],
+    ["PESPlayer", "fromFIFA17To23Player", fixtures.sofifaGK(), "sofifa-gk"],
+    ["PESPlayer", "fromFMPlayer", fixtures.fmField(), "fm-field"],
+    ["PESPlayer", "fromFMPlayer", fixtures.fmGK(), "fm-gk"],
     [
       "PESPlayer",
-      "FromPESMasterPlayer",
+      "fromPesMasterPlayer",
       fixtures.pesmasterField(),
       "pesmaster-field",
     ],
 
     [
       "PES13Player",
-      "FromFIFA17To23Player",
+      "fromFIFA17To23Player",
       fixtures.sofifaField(),
       "sofifa-field",
     ],
-    ["PES13Player", "FromFIFA17To23Player", fixtures.sofifaGK(), "sofifa-gk"],
-    ["PES13Player", "FromFMPlayer", fixtures.fmField(), "fm-field"],
-    ["PES13Player", "FromFMPlayer", fixtures.fmGK(), "fm-gk"],
+    ["PES13Player", "fromFIFA17To23Player", fixtures.sofifaGK(), "sofifa-gk"],
+    ["PES13Player", "fromFMPlayer", fixtures.fmField(), "fm-field"],
+    ["PES13Player", "fromFMPlayer", fixtures.fmGK(), "fm-gk"],
 
     [
       "PES21Player",
-      "FromFIFA17To23Player",
+      "fromFIFA17To23Player",
       fixtures.sofifaField(),
       "sofifa-field",
     ],
-    ["PES21Player", "FromFIFA17To23Player", fixtures.sofifaGK(), "sofifa-gk"],
-    ["PES21Player", "FromFMPlayer", fixtures.fmField(), "fm-field"],
-    ["PES21Player", "FromFMPlayer", fixtures.fmGK(), "fm-gk"],
+    ["PES21Player", "fromFIFA17To23Player", fixtures.sofifaGK(), "sofifa-gk"],
+    ["PES21Player", "fromFMPlayer", fixtures.fmField(), "fm-field"],
+    ["PES21Player", "fromFMPlayer", fixtures.fmGK(), "fm-gk"],
     [
       "PES21Player",
-      "FromPESMasterPlayer",
+      "fromPesMasterPlayer",
       fixtures.pesmasterField(),
       "pesmaster-field",
     ],
