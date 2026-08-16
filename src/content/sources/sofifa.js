@@ -6,44 +6,74 @@
  */
 class SOFIFAPlayer {
   /**
-   * @param {Object} doc - Parsed SoFIFA player page document.
+   * @param {Document} doc - Parsed SoFIFA player page document.
    */
   constructor(doc) {
+    /** @type {Document} */
     this.doc = doc;
-    this.GetVersion();
-    this.GetBasicInfo();
-    this.GetStats();
+    /** @type {string} */
+    this.fifaVersion = "";
+    /** @type {string[]} */
+    this.playerSpecialties = [];
+    /** @type {string[]} */
+    this.traits = [];
+    this.getVersion();
+    this.getBasicInfo();
+    this.getStats();
   }
 
-  GetVersion() {
-    var selectElement = document.getElementsByName("version")[0];
+  /**
+   * Read the selected FIFA version from the page's version dropdown.
+   *
+   * @returns {void}
+   */
+  getVersion() {
+    const rawSelect = document.querySelector('select[name="version"]');
+    if (!rawSelect) {
+      this.fifaVersion = "";
+      return;
+    }
+    const selectElement = /** @type {HTMLSelectElement} */ (rawSelect);
     var selectedIndex = Array.from(selectElement.options).findIndex(
       (option) => option.selected,
     );
     var selectedOption = selectElement.options[selectedIndex];
-    this.FIFAVersion = selectedOption.text;
+    this.fifaVersion = selectedOption ? selectedOption.text : "";
   }
 
-  GetBasicInfo() {
-    this.name = this.doc.querySelector("h1.ellipsis").textContent;
+  /**
+   * Scrape the player's identity fields (name, age, height, weight,
+   * nationality, positions) from the page DOM.
+   *
+   * @returns {void}
+   */
+  getBasicInfo() {
+    const nameElement = this.doc.querySelector("h1.ellipsis");
+    this.name = nameElement ? nameElement.textContent : "";
     debugLog("sofifa", "name", this.name);
 
-    const meta = this.doc
-      .querySelector("div.profile.clearfix > p")
-      .lastChild.textContent.trim();
+    const metaElement = this.doc.querySelector("div.profile.clearfix > p");
+    const lastChild = metaElement ? metaElement.lastChild : null;
+    const meta =
+      lastChild && lastChild.textContent ? lastChild.textContent.trim() : "";
 
     const ageRegex = /\d+/;
     const birthdayRegex = /\(.*?\)/;
     const heightRegex = /\d+cm/;
     const weightRegex = /\d+kg/;
 
-    this.age = parseInt(meta.match(ageRegex)[0]);
-    const birthday = meta.match(birthdayRegex)[0].slice(1, -1);
-    const height = meta.match(heightRegex)[0];
-    this.weight = parseInt(meta.match(weightRegex)[0]);
+    const ageMatch = meta.match(ageRegex);
+    this.age = ageMatch ? parseInt(ageMatch[0]) : 0;
+    const birthdayMatch = meta.match(birthdayRegex);
+    const birthday = birthdayMatch ? birthdayMatch[0].slice(1, -1) : "";
+    const heightMatch = meta.match(heightRegex);
+    const height = heightMatch ? heightMatch[0] : "";
+    const weightMatch = meta.match(weightRegex);
+    this.weight = weightMatch ? parseInt(weightMatch[0]) : 0;
 
     this.birthdayDate = new Date(birthday);
-    this.height = parseInt(height.match(/\d+/)[0]);
+    const heightNumberMatch = height.match(/\d+/);
+    this.height = heightNumberMatch ? parseInt(heightNumberMatch[0]) : 0;
 
     debugLog("sofifa", {
       age: this.age,
@@ -52,37 +82,57 @@ class SOFIFAPlayer {
       weight: this.weight,
     });
 
-    this.nationality = this.doc
-      .querySelector("div.profile.clearfix > p > a > img")
-      .getAttribute("title");
+    const nationalityImg = this.doc.querySelector(
+      "div.profile.clearfix > p > a > img",
+    );
+    this.nationality = nationalityImg
+      ? (nationalityImg.getAttribute("title") ?? "")
+      : "";
     debugLog("sofifa", "nationality", this.nationality);
 
     const spans = this.doc.querySelectorAll(
       "div.profile.clearfix > p > a > span",
     );
-    this.posiciones = Array.from(spans).map((span) => span.textContent);
-    this.posicionReg = this.posiciones[0];
+    this.positions = Array.from(spans).map((span) => span.textContent);
+    this.registeredPosition = this.positions[0];
 
-    debugLog("sofifa", "positions", this.posicionReg, this.posiciones);
+    debugLog("sofifa", "positions", this.registeredPosition, this.positions);
   }
 
+  /**
+   * Parse a group of stat rows into a label -> value map.
+   *
+   * @param {NodeListOf<Element>} items - The `<p>` stat-row elements.
+   * @returns {StatCategory} Map of stat label to value.
+   */
   parseStatsItems(items) {
+    /** @type {number[]} */
     const values = [];
+    /** @type {string[]} */
     const tooltips = [];
     for (let i = 0; i < items.length; i++) {
-      const value = parseInt(items[i].querySelector("em").textContent);
+      const emElement = items[i].querySelector("em");
+      const value = emElement ? parseInt(emElement.textContent) : Number.NaN;
       values.push(value);
       const tooltip = items[i].querySelector("span[data-tippy-right-start]");
+      // `.pop()` is undefined only for an empty split, which cannot happen —
+      // String.split always yields at least one element.
       const textContent =
         tooltip !== null
           ? tooltip.textContent
-          : items[i].textContent.split(" ").pop();
+          : (items[i].textContent.split(" ").pop() ?? "");
       tooltips.push(textContent);
     }
     return Object.fromEntries(tooltips.map((_, i) => [tooltips[i], values[i]]));
   }
 
-  GetStats() {
+  /**
+   * Scrape all attribute groups (attacking, skill, movement, etc.) and the
+   * profile block (foot, weak foot, skill moves, reputation) from the DOM.
+   *
+   * @returns {void}
+   */
+  getStats() {
     const sofifa_stats = this.doc.querySelectorAll("div.col");
     const indexes = new Array(sofifa_stats.length).fill("");
     for (let i = 0; i < sofifa_stats.length; i++) {
@@ -127,13 +177,14 @@ class SOFIFAPlayer {
     this.playerSpecialties = [];
 
     if (specialities && specialities.length !== 0) {
-      this.playerSpecialties = Array.from(specialities, (li) =>
-        li.querySelector("a").textContent.trim().replace("#", ""),
-      );
+      this.playerSpecialties = Array.from(specialities, (li) => {
+        const link = li.querySelector("a");
+        return link ? link.textContent.trim().replace("#", "") : "";
+      });
     }
 
     this.traits = [];
-    let traits_name = this.FIFAVersion.includes("FC") ? "PlayStyles" : "Traits";
+    let traits_name = this.fifaVersion.includes("FC") ? "PlayStyles" : "Traits";
     if (indexes.includes(traits_name)) {
       const spans =
         sofifa_stats[indexes.indexOf(traits_name)].querySelectorAll("span");
@@ -142,24 +193,42 @@ class SOFIFAPlayer {
       }
     }
 
-    const profileLi =
-      sofifa_stats[indexes.indexOf("Profile")].querySelectorAll("p");
+    const profileDiv = sofifa_stats[indexes.indexOf("Profile")];
+    const profileLi = profileDiv ? profileDiv.querySelectorAll("p") : [];
 
-    this.preferedFoot = profileLi[0]
-      .querySelector("label")
-      .nextSibling.textContent.trim();
-    this.weakFoot = parseInt(
-      profileLi[2].querySelector("svg").previousSibling.textContent,
+    const footLabel = profileLi[0] ? profileLi[0].querySelector("label") : null;
+    const footSibling = footLabel ? footLabel.nextSibling : null;
+    this.preferedFoot =
+      footSibling && footSibling.textContent
+        ? footSibling.textContent.trim()
+        : "";
+    const weakFootSvg = profileLi[2] ? profileLi[2].querySelector("svg") : null;
+    const weakFootSibling = weakFootSvg ? weakFootSvg.previousSibling : null;
+    this.weakFoot = weakFootSibling
+      ? parseInt(weakFootSibling.textContent || "0")
+      : 0;
+    const skillMovesSvg = profileLi[1]
+      ? profileLi[1].querySelector("svg")
+      : null;
+    const skillMovesSibling = skillMovesSvg
+      ? skillMovesSvg.previousSibling
+      : null;
+    this.skillMoves = skillMovesSibling
+      ? parseInt(skillMovesSibling.textContent || "0")
+      : 0;
+    const reputationSvg = profileLi[3]
+      ? profileLi[3].querySelector("svg")
+      : null;
+    const reputationSibling = reputationSvg
+      ? reputationSvg.previousSibling
+      : null;
+    this.internationalReputation = reputationSibling
+      ? parseInt(reputationSibling.textContent || "0")
+      : 0;
+    const overallElement = this.doc.querySelector(
+      "div.attribute > p:nth-child(2) > em",
     );
-    this.skillMoves = parseInt(
-      profileLi[1].querySelector("svg").previousSibling.textContent,
-    );
-    this.internationalReputation = parseInt(
-      profileLi[3].querySelector("svg").previousSibling.textContent,
-    );
-    this.overall = parseInt(
-      this.doc.querySelector("div.attribute > p:nth-child(2) > em").textContent,
-    );
+    this.overall = overallElement ? parseInt(overallElement.textContent) : 0;
 
     debugLog("sofifa", {
       attacking: this.attacking,
@@ -180,6 +249,11 @@ class SOFIFAPlayer {
   }
 }
 
+/**
+ * FIFA versions supported by the scraper.
+ *
+ * @type {string[]}
+ */
 const supportedVersions = [
   "FC 26",
   "FC 25",
@@ -193,33 +267,58 @@ const supportedVersions = [
   "FIFA 17",
 ];
 
+/**
+ * Read the currently selected FIFA version label from the page.
+ *
+ * @returns {string} The selected version text.
+ */
 function sofifaVersion() {
-  const selectElement = document.getElementsByName("version")[0];
+  const rawSelect = document.querySelector('select[name="version"]');
+  if (!rawSelect) {
+    return "";
+  }
+  const selectElement = /** @type {HTMLSelectElement} */ (rawSelect);
   const selectedIndex = Array.from(selectElement.options).findIndex(
     (option) => option.selected,
   );
-  return selectElement.options[selectedIndex].text;
+  const selectedOption = selectElement.options[selectedIndex];
+  return selectedOption ? selectedOption.text : "";
 }
 
+/**
+ * Read the current site language from the language dropdown.
+ *
+ * @returns {string} The selected language title.
+ */
 function sofifaLanguage() {
-  return document
-    .querySelectorAll("details.dropdown.dropdown-br")[1]
-    .querySelector("summary > img")
-    .getAttribute("title");
+  const dropdown = document.querySelectorAll("details.dropdown.dropdown-br")[1];
+  const image = dropdown ? dropdown.querySelector("summary > img") : null;
+  return image ? (image.getAttribute("title") ?? "") : "";
+}
+
+/**
+ *
+ * @returns {boolean} True if the current language is valid.
+ */
+function isValidLanguage() {
+  return sofifaLanguage() === "United States";
 }
 
 window.PESConverter.registerSource({
   id: "sofifa",
-  converterMethod: "FromFIFA17To23Player",
+  converterMethod: "fromFIFA17To23Player",
   supportedFormats: ["pes5", "pes13", "pes21"],
   isSupported: function () {
-    return (
-      supportedVersions.includes(sofifaVersion()) &&
-      sofifaLanguage() === "United States"
-    );
+    /**
+     * @returns {boolean} True when the page is an English, supported FIFA page.
+     */
+    return supportedVersions.includes(sofifaVersion()) && isValidLanguage();
   },
   label: function () {
-    if (sofifaLanguage() !== "United States") {
+    /**
+     * @returns {string} The floating button label.
+     */
+    if (!isValidLanguage()) {
       return "Please Select English Language";
     }
     if (!supportedVersions.includes(sofifaVersion())) {
@@ -228,6 +327,10 @@ window.PESConverter.registerSource({
     return "PES Stats Copy";
   },
   build: function (doc) {
+    /**
+     * @param {Document} doc - Parsed SoFIFA page document.
+     * @returns {SOFIFAPlayer} The scraped player.
+     */
     return new SOFIFAPlayer(doc);
   },
 });
