@@ -1,5 +1,10 @@
 "use strict";
 
+/**
+ * Per-position maximum PES21 stat bounds, one row per position.
+ *
+ * @type {PES21StatTableRow[]}
+ */
 const maxStatsTable = [
   {
     position: "GK",
@@ -367,6 +372,11 @@ const maxStatsTable = [
   },
 ];
 
+/**
+ * Per-position minimum PES21 stat bounds, one row per position.
+ *
+ * @type {PES21StatTableRow[]}
+ */
 const minStatsTable = [
   {
     position: "GK",
