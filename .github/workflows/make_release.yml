@@ -28,6 +28,8 @@ jobs:
     permissions:
       contents: read
       statuses: write
+      issues: write
+      pull-requests: write
 
     steps:
       - name: Checkout
