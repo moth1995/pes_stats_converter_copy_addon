@@ -62,6 +62,7 @@ window.PESConverter = {
   addPlayer,
   addPlayer13,
   addPlayer21,
+  addPlayers,
   heightTo99Stat,
   getMaxKeyFromObject,
   getPlayingStyle,
