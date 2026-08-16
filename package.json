@@ -1,6 +1,6 @@
 {
   "name": "pes-stats-copy-addon",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "private": true,
   "description": "Test harness for the PES Stats Converter browser extension.",
   "type": "commonjs",
