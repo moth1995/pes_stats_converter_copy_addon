@@ -2,17 +2,26 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // Obtiene el elemento select
-  const select = document.getElementById("select-option-fm-inside");
+  const select = /** @type {HTMLSelectElement} */ (
+    document.getElementById("select-option-fm-inside")
+  );
   console.log("Elemento select encontrado:", select);
 
-  // Obtiene la opción guardada en la variable global (si existe)
-  chrome.storage.local.get(["selectOptionFMInside"], function (result) {
-    // Si no se encuentra la opción guardada, se establece como predeterminada "pes5"
-    let selectedOption = result.selectOptionFMInside || "pes5";
+  if (!select) {
+    return;
+  }
 
-    // Establece la opción seleccionada en el select
-    select.value = selectedOption;
-  });
+  // Obtiene la opción guardada en la variable global (si existe)
+  chrome.storage.local.get(
+    ["selectOptionFMInside"],
+    /** @param {PESStorageData} result */ function (result) {
+      // Fall back to the default format when nothing has been saved yet.
+      const selectedOption = result.selectOptionFMInside || FORMAT.PES5;
+
+      // Establece la opción seleccionada en el select
+      select.value = selectedOption;
+    },
+  );
 
   // Maneja el evento de cambio del select
   select.addEventListener("change", function () {
@@ -29,16 +38,22 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   });
 
-  const sCopyMode = document.getElementById("select-copy-mode");
+  const sCopyMode = /** @type {HTMLSelectElement} */ (
+    document.getElementById("select-copy-mode")
+  );
   console.log("Elemento select encontrado:", sCopyMode);
+
+  if (!sCopyMode) {
+    return;
+  }
 
   sCopyMode.addEventListener("change", function () {
     let selectValue = sCopyMode.value;
     const csvButtonsDiv = document.getElementById("csv-buttons");
-    if (selectValue == "multiple") {
-      csvButtonsDiv.classList.add("active");
+    if (selectValue == COPY_MODE.MULTIPLE) {
+      if (csvButtonsDiv) csvButtonsDiv.classList.add("active");
     } else {
-      csvButtonsDiv.classList.remove("active");
+      if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
     }
     // Guarda la opción seleccionada en el almacenamiento local
     chrome.storage.local.set({ selectCopyMode: selectValue }, function () {
@@ -48,19 +63,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  chrome.storage.local.get(["selectCopyMode"], function (result) {
-    // Si no se encuentra la opción guardada, se establece como predeterminada "pes5"
-    let selectedOption = result.selectCopyMode || "one";
-    const csvButtonsDiv = document.getElementById("csv-buttons");
-    if (selectedOption == "multiple") {
-      csvButtonsDiv.classList.add("active");
-    } else {
-      csvButtonsDiv.classList.remove("active");
-    }
+  chrome.storage.local.get(
+    ["selectCopyMode"],
+    /** @param {PESStorageData} result */ function (result) {
+      // Fall back to the default copy mode when nothing has been saved yet.
+      const selectedOption = result.selectCopyMode || COPY_MODE.ONE;
+      const csvButtonsDiv = document.getElementById("csv-buttons");
+      if (selectedOption == COPY_MODE.MULTIPLE) {
+        if (csvButtonsDiv) csvButtonsDiv.classList.add("active");
+      } else {
+        if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
+      }
 
-    // Establece la opción seleccionada en el select
-    sCopyMode.value = selectedOption;
-  });
+      // Establece la opción seleccionada en el select
+      sCopyMode.value = selectedOption;
+    },
+  );
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -83,64 +101,79 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  /** @type {HTMLElement|null} */
   var redirectButton = document.getElementById("evoweb-button");
-  redirectButton.addEventListener("click", function () {
-    if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.create) {
-      // Desktop browsers
-      chrome.tabs.create({ url: "https://evoweb.uk/threads/94290" });
-    } else {
-      // Mobile browsers (e.g., Kiwi Browser, Yandex Browser)
-      window.open("https://evoweb.uk/threads/94290", "_blank");
-    }
-  });
+  if (redirectButton) {
+    redirectButton.addEventListener("click", function () {
+      if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.create) {
+        // Desktop browsers
+        chrome.tabs.create({ url: "https://evoweb.uk/threads/94290" });
+      } else {
+        // Mobile browsers (e.g., Kiwi Browser, Yandex Browser)
+        window.open("https://evoweb.uk/threads/94290", "_blank");
+      }
+    });
+  }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  /** @type {HTMLElement|null} */
   var redirectButton = document.getElementById("privacy-button");
-  redirectButton.addEventListener("click", function () {
-    if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.create) {
-      // Desktop browsers
-      chrome.tabs.create({ url: "policy_privacy.html" });
-    } else {
-      // Mobile browsers (e.g., Kiwi Browser, Yandex Browser)
-      window.open("policy_privacy.html", "_blank");
-    }
-  });
+  if (redirectButton) {
+    redirectButton.addEventListener("click", function () {
+      if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.create) {
+        // Desktop browsers
+        chrome.tabs.create({ url: "policy_privacy.html" });
+      } else {
+        // Mobile browsers (e.g., Kiwi Browser, Yandex Browser)
+        window.open("policy_privacy.html", "_blank");
+      }
+    });
+  }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  /** @type {HTMLElement|null} */
   const downloadCSVButton = document.getElementById("download-csv");
+  /** @type {HTMLElement|null} */
   const clearPlayersButton = document.getElementById("clear-players");
+  /** @type {HTMLElement|null} */
   const removeLastPlayerButton = document.getElementById("remove-last-player");
 
-  downloadCSVButton.addEventListener("click", function () {
-    DownloadCSV();
-  });
-  clearPlayersButton.addEventListener("click", function () {
-    ClearPlayers();
-  });
-  removeLastPlayerButton.addEventListener("click", function () {
-    RemoveLastPlayer();
-  });
+  if (downloadCSVButton) {
+    downloadCSVButton.addEventListener("click", function () {
+      downloadCsv();
+    });
+  }
+  if (clearPlayersButton) {
+    clearPlayersButton.addEventListener("click", function () {
+      clearPlayers();
+    });
+  }
+  if (removeLastPlayerButton) {
+    removeLastPlayerButton.addEventListener("click", function () {
+      removeLastPlayer();
+    });
+  }
 });
 
-function DownloadCSV() {
+function downloadCsv() {
   chrome.storage.local.get(
     ["playersData", "players13Data", "players21Data", "selectOptionFMInside"],
-    function (result) {
+    /** @param {PESStorageData} result */ function (result) {
       let playersData = result.playersData || [];
       let players13Data = result.players13Data || [];
       let players21Data = result.players21Data || [];
-      let selectOptionFMInside = result.selectOptionFMInside || "pes5";
+      let selectOptionFMInside = result.selectOptionFMInside || FORMAT.PES5;
 
       let encoding = "utf-8";
       let csvString = "";
-      if (selectOptionFMInside === "pes5") {
+      if (selectOptionFMInside === FORMAT.PES5) {
         csvString = playersData.join("\n");
-      } else if (selectOptionFMInside === "pes13") {
+      } else if (selectOptionFMInside === FORMAT.PES13) {
         csvString = players13Data.join("\n");
         encoding = "windows-1252";
-      } else if (selectOptionFMInside === "pes21") {
+      } else if (selectOptionFMInside === FORMAT.PES21) {
         csvString = players21Data.join("\n");
       } else {
         alert("Unsupported option for " + selectOptionFMInside);
@@ -177,27 +210,27 @@ function DownloadCSV() {
   );
 }
 
-function ClearPlayers() {
+function clearPlayers() {
   chrome.storage.local.get(
     ["playersData", "players13Data", "players21Data", "selectOptionFMInside"],
-    function (result) {
+    /** @param {PESStorageData} result */ function (result) {
       let userConfirmation = window.confirm("Are you sure?");
       if (!userConfirmation) {
         return;
       }
-      let selectOptionFMInside = result.selectOptionFMInside || "pes5";
+      let selectOptionFMInside = result.selectOptionFMInside || FORMAT.PES5;
 
-      if (selectOptionFMInside === "pes5") {
+      if (selectOptionFMInside === FORMAT.PES5) {
         chrome.storage.local.remove(["playersData"], function () {
           console.log("Players5 deleted");
           alert("All players cleared!");
         });
-      } else if (selectOptionFMInside === "pes13") {
+      } else if (selectOptionFMInside === FORMAT.PES13) {
         chrome.storage.local.remove(["players13Data"], function () {
           console.log("Players13 deleted");
           alert("All players cleared!");
         });
-      } else if (selectOptionFMInside === "pes21") {
+      } else if (selectOptionFMInside === FORMAT.PES21) {
         chrome.storage.local.remove(["players21Data"], function () {
           console.log("Players21 deleted");
           alert("All players cleared!");
@@ -210,31 +243,37 @@ function ClearPlayers() {
   );
 }
 
-function RemoveLastPlayer() {
+function removeLastPlayer() {
   chrome.storage.local.get(
     ["playersData", "players13Data", "players21Data", "selectOptionFMInside"],
-    function (result) {
+    /** @param {PESStorageData} result */ function (result) {
       let userConfirmation = window.confirm("Are you sure?");
       if (!userConfirmation) {
         return;
       }
-      let selectOptionFMInside = result.selectOptionFMInside || "pes5";
+      let selectOptionFMInside = result.selectOptionFMInside || FORMAT.PES5;
       let playersData = result.playersData || [];
       let players13Data = result.players13Data || [];
       let players21Data = result.players21Data || [];
-      if (selectOptionFMInside === "pes5" && playersData.length > 0) {
+      if (selectOptionFMInside === FORMAT.PES5 && playersData.length > 0) {
         let playerPopped = playersData.pop();
         console.log("Player removed" + playerPopped);
         chrome.storage.local.set({ playersData: playersData }, function () {
           alert("Last player from PES5 removed!");
         });
-      } else if (selectOptionFMInside === "pes13" && players13Data.length > 0) {
+      } else if (
+        selectOptionFMInside === FORMAT.PES13 &&
+        players13Data.length > 0
+      ) {
         let playerPopped = players13Data.pop();
         console.log("Player removed" + playerPopped);
         chrome.storage.local.set({ players13Data: players13Data }, function () {
           alert("Last player from PES13 removed!");
         });
-      } else if (selectOptionFMInside === "pes21" && players21Data.length > 0) {
+      } else if (
+        selectOptionFMInside === FORMAT.PES21 &&
+        players21Data.length > 0
+      ) {
         let playerPopped = players21Data.pop();
         console.log("Player removed" + playerPopped);
         chrome.storage.local.set({ players21Data: players21Data }, function () {
