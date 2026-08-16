@@ -10,31 +10,90 @@
  * @type {Record<string, string>}
  */
 const ACCENT_TRANSLATION_MAP = {
+  // Romance (French, Spanish, Italian, Portuguese)
   Á: "A",
   À: "A",
-  É: "E",
-  È: "E",
-  Í: "I",
-  Ì: "I",
-  Ó: "O",
-  Ò: "O",
-  Ú: "U",
-  Ù: "U",
-  Ü: "U",
-  Ñ: "N",
-  Ć: "C",
   Â: "A",
   Ä: "A",
+  Ã: "A",
+  Å: "A",
+  É: "E",
+  È: "E",
   Ê: "E",
   Ë: "E",
+  Í: "I",
+  Ì: "I",
   Î: "I",
   Ï: "I",
+  Ó: "O",
+  Ò: "O",
   Ô: "O",
   Ö: "O",
+  Ú: "U",
+  Ù: "U",
   Û: "U",
+  Ü: "U",
+  Ñ: "N",
   Ç: "C",
-  Å: "A",
-  Ã: "A",
+  Ć: "C",
+
+  // Polish
+  Ę: "E",
+  Ą: "A",
+  Ś: "S",
+  Ł: "L",
+  Ń: "N",
+  Ż: "Z",
+  Ź: "Z",
+
+  // Ex-Yugoslav / Czech / Slovak
+  Š: "S", // Šuker, Vlašić
+  Ž: "Z", // Živković
+  Č: "C", // Čech, Perišić
+  Ř: "R", // Řezník
+  Ď: "D",
+  Ť: "T",
+  Ň: "N",
+  Ě: "E",
+  Ů: "U",
+  Ľ: "L",
+  Đ: "D", // U+0110 — Đoković, Đurić
+  Ð: "D", // U+00D0 Icelandic eth, looks identical, different codepoint
+
+  // Turkish
+  Ğ: "G", // Güneş
+  Ş: "S", // Şahin
+  İ: "I", // U+0130 dotted capital I
+
+  // Romanian (comma-below vs cedilla are DIFFERENT codepoints)
+  Ă: "A",
+  Ș: "S", // U+0218
+  Ț: "T", // U+021A
+  Ţ: "T", // U+0162 legacy cedilla form, still common in data
+
+  // Nordic
+  Ø: "O", // Ødegaard
+  Æ: "AE",
+  Ý: "Y",
+  Þ: "TH",
+
+  // Hungarian
+  Ő: "O",
+  Ű: "U",
+
+  // Baltic
+  Ā: "A",
+  Ē: "E",
+  Ī: "I",
+  Ū: "U",
+  Ō: "O",
+  Ģ: "G",
+  Ķ: "K",
+  Ļ: "L",
+  Ņ: "N",
+  Ė: "E",
+  Į: "I",
+  Ų: "U",
 };
 
 /**
