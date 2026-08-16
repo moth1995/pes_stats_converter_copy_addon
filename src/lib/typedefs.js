@@ -192,6 +192,7 @@ var PES_DEBUG;
  * @property {string[]} [players21Data] - Accumulated PES21 CSV rows (header row first).
  * @property {Format} [selectOptionFMInside] - Selected output format.
  * @property {CopyMode} [selectCopyMode] - Selected copy mode.
+ * @property {boolean} [debugEnabled] - Whether verbose debug logging is enabled (gates window.PES_DEBUG).
  */
 
 /**
