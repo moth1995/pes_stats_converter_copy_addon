@@ -146,7 +146,7 @@ function mountButton(source) {
     debugLog("bootstrap", "button clicked", source.id);
 
     chrome.storage.local.get(
-      ["selectOptionFMInside", "selectCopyMode"],
+      ["selectOptionFMInside", "selectCopyMode", "debugEnabled"],
 
       /**
        * Storage callback: convert and render using stored settings.
@@ -157,6 +157,8 @@ function mountButton(source) {
       function (result) {
         const format = result.selectOptionFMInside || FORMAT.PES5;
         const copyMode = result.selectCopyMode || COPY_MODE.ONE;
+        // Sync the persisted debug preference to the logger's global gate.
+        window.PES_DEBUG = result.debugEnabled === true;
         debugLog("bootstrap", "settings", { format, copyMode });
 
         const parser = new DOMParser();
@@ -194,6 +196,15 @@ function mountButton(source) {
 
   document.body.appendChild(button);
 }
+
+// Sync the persisted debug preference to the logger's global gate at startup,
+// so early debug output (before any button click) is gated the same way.
+chrome.storage.local.get(
+  ["debugEnabled"],
+  /** @param {PESStorageData} result */ function (result) {
+    window.PES_DEBUG = result.debugEnabled === true;
+  },
+);
 
 const source = firstSourceThatMatches();
 if (source) {

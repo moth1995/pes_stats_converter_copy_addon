@@ -79,6 +79,32 @@ document.addEventListener("DOMContentLoaded", function () {
       sCopyMode.value = selectedOption;
     },
   );
+
+  // Debug logging toggle: persisted in storage, default false.
+  const debugEnabledCheckbox = /** @type {HTMLInputElement} */ (
+    document.getElementById("debug-enabled")
+  );
+
+  if (!debugEnabledCheckbox) {
+    return;
+  }
+
+  chrome.storage.local.get(
+    ["debugEnabled"],
+    /** @param {PESStorageData} result */ function (result) {
+      // Fall back to the default (false) when nothing has been saved yet.
+      debugEnabledCheckbox.checked = result.debugEnabled === true;
+    },
+  );
+
+  debugEnabledCheckbox.addEventListener("change", function () {
+    const checked = debugEnabledCheckbox.checked;
+    chrome.storage.local.set({ debugEnabled: checked }, function () {
+      console.log(
+        "Valor guardado en el almacenamiento local, nuevo valor:" + checked,
+      );
+    });
+  });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
