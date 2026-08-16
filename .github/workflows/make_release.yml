@@ -1,50 +1,62 @@
 ---
-name: Release on tag
+name: CI and Release
 
 on:
   push:
+    branches:
+      - master
     tags:
       - "v*"
+
+  pull_request:
     branches:
-      - "**"
+      - master
+
+  workflow_dispatch:
 
 permissions:
-  contents: write
-  statuses: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   lint:
-    if: startsWith(github.ref, 'refs/heads/')
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      statuses: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: Run JavaScript linter (super-linter)
-        uses: github/super-linter/slim@v6
+      - name: Run linters
+        uses: super-linter/super-linter@v8.7.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
           DEFAULT_BRANCH: master
+
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_HTML: true
           VALIDATE_CSS: true
           VALIDATE_JSON: true
           VALIDATE_YAML: true
 
-  typecheck:
-    if: startsWith(github.ref, 'refs/heads/')
-    needs: lint
+  check:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: npm
@@ -52,37 +64,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Runs tsconfig.json, which extends the strict jsconfig.json
-      # (checkJs, strict, noImplicitAny). Must stay at zero errors.
       - name: Type check
         run: npm run typecheck
 
-  test:
-    if: startsWith(github.ref, 'refs/heads/')
-    needs: typecheck
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      # Includes the golden-master specs, which compare converter output
-      # byte-for-byte. A diff there means behavior changed.
       - name: Run tests
         run: npm test
 
   build-and-release:
     if: startsWith(github.ref, 'refs/tags/v')
+
+    needs:
+      - lint
+      - check
+
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     env:
       TAG_NAME: ${{ github.ref_name }}
@@ -90,39 +88,74 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
-      - name: Verify tag vs manifest (python)
+      - name: Verify tag belongs to master
+        run: |
+          git fetch origin master
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/master
+
+      - name: Verify tag and manifest version
         run: |
           python3 - <<'PY'
-          import json, os, re, sys
-          with open('src/manifest.json','r',encoding='utf-8') as f:
-              v = json.load(f).get('version','')
-          tag = os.environ['TAG_NAME']
-          tag = re.sub(r'^[vV]', '', tag)
-          tag = re.split(r'[-+]', tag)[0]
-          print(f"manifest: {v} | tag: {tag}")
-          sys.exit(0 if v == tag else 1)
+          import json
+          import os
+          import re
+          import sys
+
+          with open("src/manifest.json", "r", encoding="utf-8") as f:
+              manifest_version = json.load(f).get("version", "")
+
+          tag = os.environ["TAG_NAME"]
+
+          match = re.fullmatch(
+              r"v(\d+\.\d+\.\d+)(?:-(alpha|beta|rc)(?:\.\d+)?)?",
+              tag,
+          )
+
+          if not match:
+              print(f"Invalid release tag: {tag}")
+              sys.exit(1)
+
+          tag_version = match.group(1)
+
+          print(
+              f"manifest: {manifest_version} | "
+              f"tag: {tag} | version: {tag_version}"
+          )
+
+          if manifest_version != tag_version:
+              print("Manifest version does not match tag version.")
+              sys.exit(1)
           PY
 
       - name: Create ZIP
         run: |
-          (mkdir dist && cd src && zip -r "../dist/${ARCHIVE_NAME}.zip" . )
+          mkdir -p dist
+          cd src
+          zip -r "../dist/${ARCHIVE_NAME}.zip" .
 
-      - name: SHA256 checksum
+      - name: Create SHA256 checksum
         run: |
           cd dist
-          sha256sum "${ARCHIVE_NAME}.zip" > "${ARCHIVE_NAME}.zip.sha256"
+          sha256sum "${ARCHIVE_NAME}.zip" \
+            > "${ARCHIVE_NAME}.zip.sha256"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           name: "PES Stats Converter Copy ${{ env.TAG_NAME }}"
-          tag_name: "${{ env.TAG_NAME }}"
+          tag_name: ${{ env.TAG_NAME }}
           generate_release_notes: true
           draft: false
-          prerelease: ${{ contains(env.TAG_NAME, '-rc') || contains(env.TAG_NAME, '-beta') || contains(env.TAG_NAME, '-alpha') }}
+          prerelease: >-
+            ${{
+              contains(env.TAG_NAME, '-rc') ||
+              contains(env.TAG_NAME, '-beta') ||
+              contains(env.TAG_NAME, '-alpha')
+            }}
           files: |
             dist/${{ env.ARCHIVE_NAME }}.zip
             dist/${{ env.ARCHIVE_NAME }}.zip.sha256
