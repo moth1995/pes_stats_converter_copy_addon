@@ -9,8 +9,10 @@
 const SOURCES = window.PESConverter._sources;
 
 /**
- * @returns {SourceDescriptor|null} the first matching source, or the first
- *   registered source (to show its unsupported label), or null.
+ * Find the first source whose `isSupported()` returns true; fall back to the
+ * first registered source (to show its unsupported label), or null.
+ *
+ * @returns {SourceDescriptor|null} The matching source, or null.
  */
 function firstSourceThatMatches() {
   for (let i = 0; i < SOURCES.length; i++) {
@@ -24,21 +26,26 @@ function firstSourceThatMatches() {
 }
 
 /**
- * @param {string} format - "pes5", "pes13", or "pes21".
+ * Resolve the converter class for a given output format.
+ *
+ * @param {Format} format - "pes5", "pes13", or "pes21".
  * @returns {typeof PESPlayer | typeof PES13Player | typeof PES21Player | null}
+ *   The converter class, or null for "raw"/unknown formats.
  */
 function converterFor(format) {
-  if (format === "pes5") return PESPlayer;
-  if (format === "pes13") return PES13Player;
-  if (format === "pes21") return PES21Player;
+  if (format === FORMAT.PES5) return PESPlayer;
+  if (format === FORMAT.PES13) return PES13Player;
+  if (format === FORMAT.PES21) return PES21Player;
   return null; // "raw"
 }
 
 /**
- * @param {SourceDescriptor} source
- * @param {Object} scraped - scraped player object.
- * @param {string} format - output format.
- * @returns {ConverterResult|null}
+ * Convert a scraped player into a render result for the requested format.
+ *
+ * @param {SourceDescriptor} source - The active content source.
+ * @param {FMPlayer|FIFAPlayer|PESMasterPlayerShape|Object} scraped - Scraped player object.
+ * @param {Format} format - Output format.
+ * @returns {ConverterResult|null} The render result, or null if unsupported.
  */
 function convert(source, scraped, format) {
   // Preserve each source's original supported formats (e.g. PESMaster is
@@ -47,13 +54,16 @@ function convert(source, scraped, format) {
     return null;
   }
 
-  if (format === "raw") {
-    // Raw mode uses the scraped object itself (its PSDString is the dump).
-    // Only meaningful when the source exposes a PSDString.
-    if (typeof scraped.PSDString !== "function") {
+  if (format === FORMAT.RAW) {
+    // Raw mode uses the scraped object itself (its psdString is the dump).
+    // Only meaningful when the source exposes a psdString.
+    const rawSource = /** @type {Partial<ConverterPlayer>} */ (scraped);
+    if (typeof rawSource.psdString !== "function") {
       return null;
     }
-    return window.PESConverter.converterResult(scraped);
+    return window.PESConverter.converterResult(
+      /** @type {ConverterPlayer} */ (scraped),
+    );
   }
 
   const ConverterClass = converterFor(format);
@@ -62,19 +72,27 @@ function convert(source, scraped, format) {
   }
 
   const converter = new ConverterClass();
-  converter[source.converterMethod](scraped);
+  // The entry point is chosen per source at runtime, so this one lookup is
+  // dynamic by design; the descriptor's `converterMethod` names it.
+  const entryPoint = /** @type {Record<string, (player: *) => void>} */ (
+    /** @type {unknown} */ (converter)
+  )[source.converterMethod];
+  entryPoint.call(converter, scraped);
+
   return window.PESConverter.converterResult(converter);
 }
 
 /**
- * @param {ConverterResult} result
- * @param {string} format
- * @param {string} copyMode - "one" (clipboard) or "multiple" (CSV list).
+ * Render a converter result to the clipboard or the CSV list.
+ *
+ * @param {ConverterResult} result - The normalized render result.
+ * @param {Format} format - Output format.
+ * @param {CopyMode} copyMode - "one" (clipboard) or "multiple" (CSV list).
  * @returns {void}
  */
 function render(result, format, copyMode) {
-  if (copyMode === "one") {
-    CopyToClipboard(result.psd());
+  if (copyMode === COPY_MODE.ONE) {
+    copyToClipboard(result.psd());
     return;
   }
 
@@ -83,19 +101,22 @@ function render(result, format, copyMode) {
     return;
   }
 
-  if (format === "pes5") {
-    AddPlayer(result.csv());
-  } else if (format === "pes13") {
-    AddPlayer13(result.csv());
-  } else if (format === "pes21") {
-    AddPlayer21(result.csv());
+  if (format === FORMAT.PES5) {
+    addPlayer(result.csv());
+  } else if (format === FORMAT.PES13) {
+    addPlayer13(result.csv());
+  } else if (format === FORMAT.PES21) {
+    addPlayer21(result.csv());
   } else {
     debugWarn("bootstrap", "unsupported CSV format", format);
   }
 }
 
 /**
- * @param {SourceDescriptor} source
+ * Mount the floating action button for a source.
+ *
+ * @param {SourceDescriptor} source - The source to bind.
+ * @returns {void}
  */
 function mountButton(source) {
   const button = document.createElement("button");
@@ -112,6 +133,11 @@ function mountButton(source) {
   button.innerHTML = source.label();
 
   button.addEventListener("click", function () {
+    /**
+     * Click handler: scrape the current page, convert, and render.
+     *
+     * @returns {void}
+     */
     if (!source.isSupported()) {
       debugWarn("bootstrap", "source not supported", source.label());
       return;
@@ -121,9 +147,16 @@ function mountButton(source) {
 
     chrome.storage.local.get(
       ["selectOptionFMInside", "selectCopyMode"],
+
+      /**
+       * Storage callback: convert and render using stored settings.
+       *
+       * @param {PESStorageData} result - Stored settings object.
+       * @returns {void}
+       */
       function (result) {
-        const format = result.selectOptionFMInside || "pes5";
-        const copyMode = result.selectCopyMode || "one";
+        const format = result.selectOptionFMInside || FORMAT.PES5;
+        const copyMode = result.selectCopyMode || COPY_MODE.ONE;
         debugLog("bootstrap", "settings", { format, copyMode });
 
         const parser = new DOMParser();
@@ -132,8 +165,22 @@ function mountButton(source) {
           "text/html",
         );
 
-        const scraped = source.build(doc);
-        const output = convert(source, scraped, format);
+        // Scraping is the only step that can fail hard: a site markup change
+        // makes the scraped player wrong rather than merely incomplete. Catch
+        // it here, once, and write nothing rather than emit bad stats.
+        let output;
+        try {
+          const scraped = source.build(doc);
+          output = convert(source, scraped, format);
+        } catch (error) {
+          if (error instanceof ScrapeError) {
+            debugWarn("bootstrap", "scrape failed", error.message);
+            button.innerHTML = "Scrape failed - see console";
+            return;
+          }
+          throw error;
+        }
+
         if (!output) {
           debugWarn("bootstrap", "no converter for", format);
           return;
