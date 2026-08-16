@@ -6,6 +6,11 @@
   "type": "commonjs",
   "scripts": {
     "test": "node --test test/specs/",
-    "test:golden": "node --test test/specs/golden.test.js"
+    "test:golden": "node --test test/specs/golden.test.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.2.6",
+    "typescript": "^5.9.3"
   }
 }
