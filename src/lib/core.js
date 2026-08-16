@@ -1,6 +1,12 @@
 "use strict";
 
-function CopyToClipboard(text) {
+/**
+ * Copy a string to the system clipboard via the browser Clipboard API.
+ *
+ * @param {string} text - The text to copy.
+ * @returns {void}
+ */
+function copyToClipboard(text) {
   navigator.clipboard
     .writeText(text)
     .then(() => {
@@ -11,70 +17,125 @@ function CopyToClipboard(text) {
     });
 }
 
+/**
+ * Case-insensitive check for `searchString` within `array`.
+ *
+ * @param {string[]} array - Array of strings to search.
+ * @param {string} searchString - The value to look for (case-insensitive).
+ * @returns {boolean} True if a case-insensitive match exists.
+ */
 function stringInArray(array, searchString) {
   return array.some(
     (item) => item.toLowerCase() === searchString.toLowerCase(),
   );
 }
 
+/**
+ * PES5 CSV column headers (populated as the first stored row).
+ *
+ * @type {string}
+ */
 const PES5_CSV_COLUMNS =
   "ID,NAME,SHIRT_NAME,NATIONALITY,AGE,STRONG FOOT,INJURY TOLERANCE,REGISTERED POSITION,FAVOURED SIDE,GK  0,CWP  2,CBT  3,SB  4,DMF  5,WB  6,CMF  7,SMF  8,AMF  9,WF 10,SS  11,CF  12,ATTACK,DEFENSE,BALANCE,STAMINA,TOP SPEED,ACCELERATION,RESPONSE,AGILITY,DRIBBLE ACCURACY,DRIBBLE SPEED,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,SHOT POWER,SHOT TECHNIQUE,FREE KICK ACCURACY,CURLING,HEADING,JUMP,TECHNIQUE,AGGRESSION,MENTALITY,GOAL KEEPING,TEAM WORK,CONSISTENCY,CONDITION / FITNESS,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,DRIBBLING,TACTICAL DRIBBLE,POSITIONING,REACTION,PLAYMAKING,PASSING,SCORING,1-1 SCORING,POST PLAYER,LINES,MIDDLE SHOOTING,SIDE,CENTRE,PENALTIES,1-TOUCH PASS,OUTSIDE,MARKING,SLIDING,COVERING,D-LINE CONTROL,PENALTY STOPPER,1-ON-1 STOPPER,LONG THROW,HEIGHT,WEIGHT";
+/**
+ * PES13 CSV column headers (populated as the first stored row).
+ *
+ * @type {string}
+ */
 const PES13_CSV_COLUMNS =
   "INDEX,NAME,SHIRTNAME,JAPANESE PLAYER NAME,SPACING,COMMENTARY,AGE,NATIONALITY,FOOT,WEIGHT,HEIGHT,FORM,WEAK FOOT ACCURACY,WEAK FOOT FREQUENCY,INJURY TOLERANCE,GROWTH TYPE,MARKET PRICE,GK 0,SW 1,CB 2,LB 3,RB 4,DMF 5,CMF 6,LMF 7,RMF 8,AMF 9,LWF 10,RWF 11,SS 12,CF 13,POSITION,ATTACK,DEFENCE,HEADER ACCURACY,DRIBBLE ACCURACY,SHORT PASS ACCURACY,SHORT PASS SPEED,LONG PASS ACCURACY,LONG PASS SPEED,SHOT ACCURACY,PLACE KICKING,SWERVE,BALL CONTROLL,GOAL KEEPING SKILLS,RESPONSE,EXPLOSIVE POWER,DRIBBLE SPEED,TOP SPEED,BODY BALANCE,STAMINA,KICKING POWER,JUMP,TENACITY,TEAMWORK,S01 1-TOUCH PLAY,S02 OUTSIDE CURVE,S03 LONG THROW,S04 SUPER-SUB,S05 SPEED MERCHANT,S06 LONG RANGE DRIVE,S07 SHOULDER FEINT SKILLS,S08 TURNING SKILLS,S09 ROULETTE SKILLS,S10 FLIP FLAP SKILLS,S11 FLICKING SKILLS,S12 SCISSORS SKILLS,S13 STEP ON SKILLS,S14 DEFT TOUCH SKILLS,S15 KNUCKLE SHOT,S16 JUMPING VOLLEY,S17 SCISSOR KICK,S18 HEEL FLICK,S19 WEIGHTED PASS,S20 DOUBLE TOUCH,S21 RUN AROUND,S22 SOMBRERO,S23 180 DRAG,S24 LUNGING TACKLE,S25 DIVING HEADER,S26 GK LONG THROW,P01 CLASSIC NO.10,P02 ANCHOR MAN,P03 TRICKSTER,P04 DARTING RUN,P05 MAZING RUN,P06 PINPOINT PASS,P07 EARLY CROSS,P08 BOX TO BOX,P09 INCISIVE RUN,P10 LONG RANGER,P11 ENFORCER,P12 GOAL POACHER,P13 DUMMY RUNNER,P14 FREE ROAMING,P15 TALISMAN,P16 FOX IN THE BOX,P17 OFFENSIVE SIDEBACK,P18 TRACK BACK,ATTACK AWARENESS,DEFENCE AWARENESS,SKIN COLOR,SKIN TEXTURE,FACE MODE,LINKED FACE,FACE SLOT,LINKED HAIR,HAIR SLOT,BOOTS,UNTUCKED SHIRT,TIGHT KIT,GLOVES,DRIBBLE STYLE,FREE KICK STYLE,PENALTY KICK STYLE,DROP KICK STYLE,GOAL CELEBRATION STYLE #1,GOAL CELEBRATION STYLE #2,CLUB TEAM,NUMBER,NATIONAL TEAM";
+/**
+ * PES21 CSV column headers (populated as the first stored row).
+ *
+ * @type {string}
+ */
 const PES21_CSV_COLUMNS =
   "Id;Name;JapName;Shirt;ShirtNational;Commentary;Country;Country2;Height;Weight;Age;Foot;PlayingStyle;POS;GK;CB;LB;RB;DMF;CMF;LMF;RMF;AMF;LWF;RWF;SS;CF;OffensiveAwareness;BallControl;Dribbling;TightPossession;LowPass;LoftedPass;Finishing;Heading;PlaceKicking;Curl;Speed;Acceleration;KickingPower;Jump;PhysicalContact;Balance;Stamina;DefensiveAwareness;BallWinning;Aggression;GKAwareness;GKCatching;GKClearing;GKReflexes;GKReach;WeakFootUsage;WeakFootAcc;Form;InjuryResistance;Reputation;PlayingAttitude;Trickster;MazingRun;SpeedingBullet;IncisiveRun;LongBallExpert;EarlyCross;LongRanger;ScissorsFeint;DoubleTouch;FlipFlap;MarseilleTurn;Sombrero;CrossOverTurn;CutBehindAndTurn;ScotchMove;StepOnSkillcontrol;HeadingSpecial;LongRangeDrive;Chipshotcontrol;LongRangeShot;KnuckleShot;DippingShots;RisingShots;AcrobaticFinishing;HeelTrick;FirstTimeShot;OneTouchPass;ThroughPassing;WeightedPass;PinpointCrossing;OutsideCurler;Rabona;NoLookPass;LowLoftedPass;GKLowPunt;GKHighPunt;LongThrow;GKLongThrow;PenaltySpecialist;GKPenaltySaver;Gamesmanship;ManMarking;TrackBack;Interception;AcrobaticClear;Captaincy;SuperSub;FightingSpirit;Celebration1;Celebration2;DribblingHunching;DribblingArmMove.;RunningHunching;RunningArmMovement;CornerKicks;FreeKicks;PenaltyKick;DribbleMotion;YouthClub;OwnerClub;ContractUntil;LoanUntil;MarketValue;NationalCaps;Legend;Hand;WinnerGoldenBall;EditName;EditBasics;EditPosition;EditPositions;EditAbilities;EditPlayerSkills;EditPlayingStyle;EditCOMPlayingStyles;EditMovements;Edit1;Edit2;Edit3;Edit4;Edit5;Edit6;Edit7;Value1;Value2;Value3;Value2020_1;Value2020_2;Appearance;ListBoots;ListGloves;InEditFile;OverallStats";
 
-function AddPlayer(playerData) {
-  chrome.storage.local.get(["playersData"], function (result) {
-    let playersData = result.playersData || [];
+/**
+ * Append a PES5 CSV row to chrome.storage, seeding the header row first.
+ *
+ * @param {string} playerData - The PES5 CSV row to store.
+ * @returns {void}
+ */
+function addPlayer(playerData) {
+  chrome.storage.local.get(
+    ["playersData"],
+    /** @param {PESStorageData} result */ function (result) {
+      const playersData = result.playersData || [];
 
-    if (playersData.length == 0) {
-      playersData.push(PES5_CSV_COLUMNS);
-    }
+      if (playersData.length == 0) {
+        playersData.push(PES5_CSV_COLUMNS);
+      }
 
-    playersData.push(playerData);
-    chrome.storage.local.set({ playersData: playersData }, function () {
-      console.log("Player PES5 added to array5");
-    });
-  });
+      playersData.push(playerData);
+      chrome.storage.local.set({ playersData: playersData }, function () {
+        console.log("Player PES5 added to array5");
+      });
+    },
+  );
 }
 
-function AddPlayer13(player13Data) {
+/**
+ * Append a PES13 CSV row to chrome.storage, seeding the header row first.
+ *
+ * @param {string} player13Data - The PES13 CSV row to store.
+ * @returns {void}
+ */
+function addPlayer13(player13Data) {
   debugLog("core:storage", "adding player13", player13Data);
-  chrome.storage.local.get(["players13Data"], function (result) {
-    let players13Data = result.players13Data || [];
+  chrome.storage.local.get(
+    ["players13Data"],
+    /** @param {PESStorageData} result */ function (result) {
+      const players13Data = result.players13Data || [];
 
-    if (players13Data.length == 0) {
-      players13Data.push(PES13_CSV_COLUMNS);
-    }
+      if (players13Data.length == 0) {
+        players13Data.push(PES13_CSV_COLUMNS);
+      }
 
-    players13Data.push(player13Data);
-    debugLog("core:storage", "players13Data", players13Data);
-    chrome.storage.local.set({ players13Data: players13Data }, function () {
-      console.log("Player PES13 added to array13");
-    });
-  });
+      players13Data.push(player13Data);
+      debugLog("core:storage", "players13Data", players13Data);
+      chrome.storage.local.set({ players13Data: players13Data }, function () {
+        console.log("Player PES13 added to array13");
+      });
+    },
+  );
 }
 
-function AddPlayer21(player21Data) {
-  chrome.storage.local.get(["players21Data"], function (result) {
-    let players21Data = result.players21Data || [];
+/**
+ * Append a PES21 CSV row to chrome.storage, seeding the header row first.
+ *
+ * @param {string} player21Data - The PES21 CSV row to store.
+ * @returns {void}
+ */
+function addPlayer21(player21Data) {
+  chrome.storage.local.get(
+    ["players21Data"],
+    /** @param {PESStorageData} result */ function (result) {
+      const players21Data = result.players21Data || [];
 
-    if (players21Data.length == 0) {
-      players21Data.push(PES21_CSV_COLUMNS);
-    }
+      if (players21Data.length == 0) {
+        players21Data.push(PES21_CSV_COLUMNS);
+      }
 
-    players21Data.push(player21Data);
-    chrome.storage.local.set({ players21Data: players21Data }, function () {
-      console.log("Player PES21 added to array21");
-    });
-  });
+      players21Data.push(player21Data);
+      chrome.storage.local.set({ players21Data: players21Data }, function () {
+        console.log("Player PES21 added to array21");
+      });
+    },
+  );
 }
 
 // Low-level math/random helpers moved to lib/utils.js (kept as global
 // functions for the converters' bare-identifier call sites).
 
-function FMToPESStat99(stat) {
+/**
+ * Map an FM 1-20 attribute to a PES 40-100 stat using a random bucket.
+ *
+ * @param {number} stat - The FM attribute (1-20), rounded.
+ * @returns {number} A PES stat in the 40-100 range.
+ */
+function fmToPesStat99(stat) {
   stat = Math.round(stat);
   let minArray = [
     40, 43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94,
@@ -84,11 +145,17 @@ function FMToPESStat99(stat) {
     43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94, 97,
     100,
   ];
-  let PESStat = GetRandomInt(minArray[stat - 1], maxArray[stat - 1]);
+  let PESStat = getRandomInt(minArray[stat - 1], maxArray[stat - 1]);
   return PESStat;
 }
 
-function FMToPESStat1To8(stat) {
+/**
+ * Map an FM 1-20 attribute to a PES 1-8 rating.
+ *
+ * @param {number} stat - The FM attribute (1-20), rounded.
+ * @returns {number} A PES rating in the 1-8 range.
+ */
+function fmToPesStat1To8(stat) {
   stat = Math.round(stat);
   let valuesArray = [
     1, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8,
@@ -96,8 +163,15 @@ function FMToPESStat1To8(stat) {
   return valuesArray[stat - 1];
 }
 
-function FMToPESStatAToC(stat) {
+/**
+ * Map an FM 1-20 attribute to a letter grade ("C", "B", or "A").
+ *
+ * @param {number} stat - The FM attribute (1-20), rounded.
+ * @returns {Grade} "C", "B", or "A".
+ */
+function fmToPesStatAToC(stat) {
   stat = Math.round(stat);
+  /** @type {Grade[]} */
   let valuesArray = [
     "C",
     "C",
@@ -126,7 +200,13 @@ function FMToPESStatAToC(stat) {
 // Position parsing/mapping helpers moved to lib/positions.js (kept as global
 // functions for the converters' bare-identifier call sites).
 
-function EfootballInjuryResistance(injury) {
+/**
+ * Map an eFootball injury-resistance label to a PES letter grade.
+ *
+ * @param {string} injury - "Low", "Medium", or "High".
+ * @returns {Grade} "C", "B", or "A" ("B" for unrecognised input).
+ */
+function efootballInjuryResistance(injury) {
   switch (injury) {
     case "Low":
       return "C";
@@ -134,10 +214,18 @@ function EfootballInjuryResistance(injury) {
       return "B";
     case "High":
       return "A";
+    default:
+      return "B";
   }
 }
 
-function EfootballCondition(condition) {
+/**
+ * Map an eFootball form letter to a PES 4-8 rating.
+ *
+ * @param {string} condition - "A", "B", "C", "D", or "E".
+ * @returns {number} A PES rating (8, 7, 6, 5, or 4).
+ */
+function efootballCondition(condition) {
   switch (condition) {
     case "A":
       return 8;
@@ -149,10 +237,19 @@ function EfootballCondition(condition) {
       return 5;
     case "E":
       return 4;
+    default:
+      return 6;
   }
 }
 
-function EfootballWeakFoot(weakFoot, ballControl) {
+/**
+ * Map an eFootball weak-foot label to a PES 1-8 rating, gated by ball control.
+ *
+ * @param {string} weakFoot - eFootball weak-foot usage label.
+ * @param {number} ballControl - The player's ball-control stat (0-99).
+ * @returns {number} A PES weak-foot rating in the 1-8 range.
+ */
+function efootballWeakFoot(weakFoot, ballControl) {
   switch (weakFoot) {
     case "Slightly Low":
     case "Almost Never":
@@ -166,9 +263,16 @@ function EfootballWeakFoot(weakFoot, ballControl) {
     case "Very High":
     case "Regularly":
       return ballControl < 75 ? 7 : 8;
+    default:
+      return ballControl < 75 ? 3 : 4;
   }
 }
 
+/**
+ * Height -> PES GK keeper-skills map.
+ *
+ * @type {Record<number, number>}
+ */
 const gkHeightTable = {
   175: 95,
   176: 94,
@@ -202,6 +306,11 @@ const gkHeightTable = {
   204: 66,
   205: 65,
 };
+/**
+ * Height -> PES outfield jump map.
+ *
+ * @type {Record<number, number>}
+ */
 const playersHeightTable = {
   165: 95,
   166: 94,
@@ -246,6 +355,13 @@ const playersHeightTable = {
   205: 55,
 };
 
+/**
+ * Map a height (cm) to a PES stat using the GK or outfield table.
+ *
+ * @param {number} height - The player's height in cm.
+ * @param {boolean} isGK - True to use the goalkeeper table.
+ * @returns {number} The PES stat (55-95) for the given height.
+ */
 function heightTo99Stat(height, isGK) {
   if (isGK) {
     if (height in gkHeightTable) {
@@ -263,7 +379,13 @@ function heightTo99Stat(height, isGK) {
 // `hasSpecialAbility` and the PES21 position maps moved to lib/abilities.js
 // and lib/positions.js respectively (kept as global functions).
 
-function CAPoints(ca) {
+/**
+ * Map an FM Current Ability (CA) to PES stat adjustment points.
+ *
+ * @param {number} ca - The FM current ability (1-200).
+ * @returns {number} The adjustment in the -10..1 range.
+ */
+function caPoints(ca) {
   ca = ca * 2;
   if (ca <= 90) return -10;
   else if (ca <= 100) return -9;
@@ -278,21 +400,42 @@ function CAPoints(ca) {
   else return 1;
 }
 
-function FMStatTOPES21(statFromFormula, max, min, ca) {
-  let caPoints = CAPoints(ca);
+/**
+ * Convert an FM-derived formula stat to a PES21 40-99 stat.
+ *
+ * @param {number} statFromFormula - The raw formula output.
+ * @param {number} max - The stat's maximum FM value.
+ * @param {number} min - The stat's minimum FM value.
+ * @param {number} ca - The player's FM current ability.
+ * @returns {number} The clamped PES21 stat (40-99).
+ */
+function fmStatToPes21(statFromFormula, max, min, ca) {
+  let caPointsValue = caPoints(ca);
   return Math.round(
-    clamp(40, 99, ((max - min) / 20) * statFromFormula + min + caPoints),
+    clamp(40, 99, ((max - min) / 20) * statFromFormula + min + caPointsValue),
   );
 }
 
-function FMToPES21Stat1To3(stat) {
+/**
+ * Map an FM 1-20 attribute to a PES21 1-3 rating.
+ *
+ * @param {number} stat - The FM attribute (1-20), rounded.
+ * @returns {number} A PES21 rating (1, 2, or 3).
+ */
+function fmToPes21Stat1To3(stat) {
   stat = Math.round(stat);
   if (stat < 8) return 1;
   else if (stat < 15) return 2;
   else return 3;
 }
 
-function FMToPES21Stat1To8(stat) {
+/**
+ * Map an FM 1-20 attribute to a PES21 2-8 rating.
+ *
+ * @param {number} stat - The FM attribute (1-20), rounded.
+ * @returns {number} A PES21 rating in the 2-8 range.
+ */
+function fmToPes21Stat1To8(stat) {
   stat = Math.round(stat);
   if (stat < 4) return 2;
   else if (stat < 7) return 3;
@@ -303,7 +446,13 @@ function FMToPES21Stat1To8(stat) {
   else return 8;
 }
 
-function GetMaxKeyFromObject(data) {
+/**
+ * Return the key with the highest numeric value in `data`.
+ *
+ * @param {Record<string, number>} data - Object mapping keys to numeric values.
+ * @returns {string} The key with the maximum value ("" for empty objects).
+ */
+function getMaxKeyFromObject(data) {
   let maxKey = "";
   let maxValue = -Infinity;
 
@@ -318,7 +467,15 @@ function GetMaxKeyFromObject(data) {
   return maxKey;
 }
 
+/**
+ * Match an FM role string to a PES21 playing style, gated by PES position.
+ *
+ * @param {string} role - Lowercased FM role (e.g. "advanced playmaker").
+ * @param {string} position - PES position code (e.g. "AMF").
+ * @returns {string} The matching PES21 playing style, or "" if none.
+ */
 function getPlayingStyle(role, position) {
+  /** @type {Record<string, string[]>} */
   const styleRules = {
     "Goalkeeper Defensive": ["goalkeeper defensive"],
     "Goalkeeper Offensive": ["sweeper keeper"],
@@ -380,6 +537,7 @@ function getPlayingStyle(role, position) {
     "Fox In The Box": ["advanced forward", "complete forward"],
     "Target Man": ["deep lying forward", "target man"],
   };
+  /** @type {Record<string, string[]>} */
   const styleRulesByPosition = {
     GK: ["Goalkeeper Defensive", "Goalkeeper Offensive"],
     CB: ["The Destroyer", "Build Up", "Extra Frontman"],
@@ -427,8 +585,15 @@ function getPlayingStyle(role, position) {
   return "";
 }
 
-function PES21GetPlayingStyle(FMBestSuitableRoles, pesPosition) {
-  let role = GetMaxKeyFromObject(FMBestSuitableRoles).toLowerCase();
+/**
+ * Determine the PES21 playing style from FM's best-suitable-roles map.
+ *
+ * @param {Record<string, number>} FMBestSuitableRoles - Role -> suitability map.
+ * @param {string} pesPosition - PES21 position code (e.g. "AMF").
+ * @returns {string} The matching playing style, or "" if none.
+ */
+function pes21GetPlayingStyle(FMBestSuitableRoles, pesPosition) {
+  let role = getMaxKeyFromObject(FMBestSuitableRoles).toLowerCase();
   debugLog("core:playing-style", "role before replace", role);
   role = role.replace(/(\s+\(\w+\))/, "");
   debugLog("core:playing-style", "role after replace", role);
@@ -437,96 +602,108 @@ function PES21GetPlayingStyle(FMBestSuitableRoles, pesPosition) {
   return playingStyle;
 }
 
-function PES21GetPositionWeight(position, fmPlayer) {
+/**
+ * Compute a position-suitability weight for an FM player.
+ *
+ * @param {string} position - PES21 position code prefixed with "*" (e.g. "*CF").
+ * @param {FMPlayer} fmPlayer - The scraped FM player.
+ * @returns {number} The weighted suitability score, or -1 for unknown positions.
+ */
+function pes21GetPositionWeight(position, fmPlayer) {
   switch (position) {
     case "*GK":
       return (
-        fmPlayer.stats["Decisions"] * 0.1 +
-        fmPlayer.stats["Agility"] * 0.09 +
-        fmPlayer.stats["Handling"] * 0.12 +
-        fmPlayer.stats["Reflexes"] * 0.12
+        fmPlayer.stats[FM_STAT.DECISIONS] * 0.1 +
+        fmPlayer.stats[FM_STAT.AGILITY] * 0.09 +
+        fmPlayer.stats[FM_STAT.HANDLING] * 0.12 +
+        fmPlayer.stats[FM_STAT.REFLEXES] * 0.12
       );
     case "*CB":
       return (
-        fmPlayer.stats["Marking"] * 0.1 +
-        fmPlayer.stats["Decisions"] * 0.13 +
-        fmPlayer.stats["Positioning"] * 0.1 +
-        fmPlayer.stats["Acceleration"] * 0.09 +
-        fmPlayer.stats["Jumping Reach"] * 0.08 +
-        fmPlayer.stats["Pace"] * 0.08 +
-        fmPlayer.stats["Strength"] * 0.08
+        fmPlayer.stats[FM_STAT.MARKING] * 0.1 +
+        fmPlayer.stats[FM_STAT.DECISIONS] * 0.13 +
+        fmPlayer.stats[FM_STAT.POSITIONING] * 0.1 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.09 +
+        fmPlayer.stats[FM_STAT.JUMPING_REACH] * 0.08 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.08 +
+        fmPlayer.stats[FM_STAT.STRENGTH] * 0.08
       );
     case "*RB":
     case "*LB":
       return (
-        fmPlayer.stats["Tackling"] * 0.07 +
-        fmPlayer.stats["Concentration"] * 0.07 +
-        fmPlayer.stats["Decisions"] * 0.13 +
-        fmPlayer.stats["Positioning"] * 0.14 +
-        fmPlayer.stats["Acceleration"] * 0.15 +
-        fmPlayer.stats["Agility"] * 0.07 +
-        fmPlayer.stats["Pace"] * 0.14
+        fmPlayer.stats[FM_STAT.TACKLING] * 0.07 +
+        fmPlayer.stats[FM_STAT.CONCENTRATION] * 0.07 +
+        fmPlayer.stats[FM_STAT.DECISIONS] * 0.13 +
+        fmPlayer.stats[FM_STAT.POSITIONING] * 0.14 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.15 +
+        fmPlayer.stats[FM_STAT.AGILITY] * 0.07 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.14
       );
     case "*DMF":
       return (
-        fmPlayer.stats["Tackling"] * 0.1 +
-        fmPlayer.stats["Decisions"] * 0.11 +
-        fmPlayer.stats["Acceleration"] * 0.12 +
-        fmPlayer.stats["Agility"] * 0.07 +
-        fmPlayer.stats["Pace"] * 0.08 +
-        fmPlayer.stats["Strength"] * 0.07
+        fmPlayer.stats[FM_STAT.TACKLING] * 0.1 +
+        fmPlayer.stats[FM_STAT.DECISIONS] * 0.11 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.12 +
+        fmPlayer.stats[FM_STAT.AGILITY] * 0.07 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.08 +
+        fmPlayer.stats[FM_STAT.STRENGTH] * 0.07
       );
     case "*RMF":
     case "*LMF":
       return (
-        fmPlayer.stats["Acceleration"] * 0.26 +
-        fmPlayer.stats["Agility"] * 0.07 +
-        fmPlayer.stats["Pace"] * 0.2 +
-        fmPlayer.stats["Stamina"] * 0.05
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.26 +
+        fmPlayer.stats[FM_STAT.AGILITY] * 0.07 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.2 +
+        fmPlayer.stats[FM_STAT.STAMINA] * 0.05
       );
     case "*CMF":
       return (
-        fmPlayer.stats["Passing"] * 0.1 +
-        fmPlayer.stats["Decisions"] * 0.07 +
-        fmPlayer.stats["Vision"] * 0.11 +
-        fmPlayer.stats["Acceleration"] * 0.12 +
-        fmPlayer.stats["Agility"] * 0.07 +
-        fmPlayer.stats["Pace"] * 0.1
+        fmPlayer.stats[FM_STAT.PASSING] * 0.1 +
+        fmPlayer.stats[FM_STAT.DECISIONS] * 0.07 +
+        fmPlayer.stats[FM_STAT.VISION] * 0.11 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.12 +
+        fmPlayer.stats[FM_STAT.AGILITY] * 0.07 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.1
       );
     case "*RWF":
     case "*LWF":
       return (
-        fmPlayer.stats["Dribbling"] * 0.07 +
-        fmPlayer.stats["Acceleration"] * 0.28 +
-        fmPlayer.stats["Agility"] * 0.05 +
-        fmPlayer.stats["Pace"] * 0.28
+        fmPlayer.stats[FM_STAT.DRIBBLING] * 0.07 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.28 +
+        fmPlayer.stats[FM_STAT.AGILITY] * 0.05 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.28
       );
     case "*AMF":
       return (
-        fmPlayer.stats["Passing"] * 0.06 +
-        fmPlayer.stats["Vision"] * 0.09 +
-        fmPlayer.stats["Acceleration"] * 0.23 +
-        fmPlayer.stats["Pace"] * 0.13
+        fmPlayer.stats[FM_STAT.PASSING] * 0.06 +
+        fmPlayer.stats[FM_STAT.VISION] * 0.09 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.23 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.13
       );
     case "*SS":
       return (
-        fmPlayer.stats["Finishing"] * 0.08 +
-        fmPlayer.stats["Acceleration"] * 0.24 +
-        fmPlayer.stats["Pace"] * 0.17 +
-        fmPlayer.stats["Strength"] * 0.06
+        fmPlayer.stats[FM_STAT.FINISHING] * 0.08 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.24 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.17 +
+        fmPlayer.stats[FM_STAT.STRENGTH] * 0.06
       );
     case "*CF":
       return (
-        fmPlayer.stats["Heading"] * 0.13 +
-        fmPlayer.stats["Acceleration"] * 0.17 +
-        fmPlayer.stats["Jumping Reach"] * 0.12 +
-        fmPlayer.stats["Pace"] * 0.1
+        fmPlayer.stats[FM_STAT.HEADING] * 0.13 +
+        fmPlayer.stats[FM_STAT.ACCELERATION] * 0.17 +
+        fmPlayer.stats[FM_STAT.JUMPING_REACH] * 0.12 +
+        fmPlayer.stats[FM_STAT.PACE] * 0.1
       );
     default:
       return -1;
   }
 }
 
+/**
+ * PES21 nation name -> numeric country id map.
+ *
+ * @type {Record<string, number>}
+ */
 const PES21_COUNTRY_MAP = {
   None: 0,
   Afghanistan: 1,
