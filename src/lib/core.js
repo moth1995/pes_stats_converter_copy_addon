@@ -126,6 +126,73 @@ function addPlayer21(player21Data) {
   );
 }
 
+/**
+ * Append multiple CSV player rows using a single storage transaction.
+ *
+ * This is intended for team imports. Unlike repeatedly calling addPlayer(),
+ * it performs one read and one write, avoiding overlapping read/modify/write
+ * operations when many players are added at once.
+ *
+ * @param {string[]} playerRows - CSV rows to append.
+ * @param {Format} format - PES output format.
+ * @returns {Promise<void>}
+ */
+function addPlayers(playerRows, format) {
+  if (playerRows.length === 0) {
+    return Promise.resolve();
+  }
+
+  /** @type {"playersData"|"players13Data"|"players21Data"} */
+  let storageKey = "playersData";
+
+  let header = PES5_CSV_COLUMNS;
+
+  if (format === FORMAT.PES13) {
+    storageKey = "players13Data";
+    header = PES13_CSV_COLUMNS;
+  } else if (format === FORMAT.PES21) {
+    storageKey = "players21Data";
+    header = PES21_CSV_COLUMNS;
+  } else if (format !== FORMAT.PES5) {
+    return Promise.reject(new Error(`Unsupported batch CSV format: ${format}`));
+  }
+
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(
+      [storageKey],
+
+      /** @param {PESStorageData} result */
+      function (result) {
+        const storedRows = result[storageKey] || [];
+
+        // Work on a new array rather than mutating the value returned
+        // directly from chrome.storage.
+        const rows = [...storedRows];
+
+        if (rows.length === 0) {
+          rows.push(header);
+        }
+
+        rows.push(...playerRows);
+
+        chrome.storage.local.set(
+          {
+            [storageKey]: rows,
+          },
+          function () {
+            if (chrome.runtime.lastError) {
+              reject(new Error(chrome.runtime.lastError.message));
+              return;
+            }
+
+            resolve();
+          },
+        );
+      },
+    );
+  });
+}
+
 // Low-level math/random helpers moved to lib/utils.js (kept as global
 // functions for the converters' bare-identifier call sites).
 
