@@ -79,6 +79,7 @@ window.PESConverter = {
   hasSpecialAbility,
   shirtName,
   formatPes5ShirtName,
+  extractLastName,
 
   // Stat conversion helpers
   fmToPesStat99,

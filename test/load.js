@@ -80,6 +80,7 @@ const DEFAULT_EXPORTS = [
   "efootballToPesPosition",
   "fmToPes21Positions",
   "fifaToPes21Positions",
+  "extractLastName",
   "shirtName",
   "formatPes5ShirtName",
   "hasSpecialAbility",
