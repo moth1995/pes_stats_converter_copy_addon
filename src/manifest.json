@@ -14,7 +14,8 @@
       "matches": [
         "*://*.sofifa.com/player/*",
         "*://*.fminside.net/players/*",
-        "*://*.pesmaster.com/*/efootball-2022/player/*"
+        "*://*.pesmaster.com/*/efootball-2022/player/*",
+        "*://*.pesmaster.com/*/efootball-2022/team/*"
       ],
       "run_at": "document_idle",
       "js": [
@@ -49,6 +50,15 @@
       "matches": ["*://*.pesmaster.com/*/efootball-2022/player/*"],
       "run_at": "document_idle",
       "js": ["content/sources/pesmaster.js", "content/bootstrap.js"]
+    },
+    {
+      "matches": ["*://*.pesmaster.com/*/efootball-2022/team/*"],
+      "run_at": "document_idle",
+      "js": [
+        "content/sources/pesmaster.js",
+        "content/sources/pesmaster-team.js",
+        "content/bootstrap.js"
+      ]
     }
   ],
   "action": {

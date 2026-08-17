@@ -99,6 +99,8 @@
  * @property {(playerData: string) => void} addPlayer - Append a PES5 CSV row to chrome.storage (seeds header first).
  * @property {(player13Data: string) => void} addPlayer13 - Append a PES13 CSV row to chrome.storage (seeds header first).
  * @property {(player21Data: string) => void} addPlayer21 - Append a PES21 CSV row to chrome.storage (seeds header first).
+ * @property {(playerRows: string[], format: Format) => Promise<void>} addPlayers - Append multiple CSV rows using one storage transaction.
+ * @property {() => Promise<number>} getBatchRequestDelay - Read the configured delay between batch requests, in milliseconds.
  * @property {(height: number, isGK: boolean) => number} heightTo99Stat - Map a height (cm) to a PES stat using the GK/outfield table.
  * @property {(data: Record<string, number>) => string} getMaxKeyFromObject - Key with the highest numeric value ("" if empty).
  * @property {(role: string, position: string) => string} getPlayingStyle - Match an FM role string to a PES21 playing style.
@@ -194,6 +196,15 @@ var PES_DEBUG;
  * @property {Format} [selectOptionFMInside] - Selected output format.
  * @property {CopyMode} [selectCopyMode] - Selected copy mode.
  * @property {boolean} [debugEnabled] - Whether verbose debug logging is enabled (gates window.PES_DEBUG).
+ * @property {number} [batchRequestDelayMs] - Delay in milliseconds between requests made by batch importers.
+ */
+
+/**
+ * Result produced by a batch source such as a team importer.
+ *
+ * @typedef {Object} BatchBuildResult
+ * @property {Object[]} items - Successfully scraped player objects.
+ * @property {string[]} failures - URLs that could not be scraped.
  */
 
 /**
@@ -207,7 +218,8 @@ var PES_DEBUG;
  * @property {() => boolean} isSupported - Whether the current page is supported.
  * @property {() => string} label - Floating button label.
  * @property {(style: CSSStyleDeclaration) => void} [buttonStyle] - Optional button position override.
- * @property {(doc: Document) => Object} build - Build the scraped player from a parsed document.
+ * @property {(doc: Document) => Object} [build] - Build the scraped player from a parsed document.
+ * @property {(doc: Document, onProgress: (current: number, total: number) => void) => Promise<BatchBuildResult>} [buildMany] - Build multiple scraped players.
  */
 
 /**

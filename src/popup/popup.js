@@ -98,6 +98,71 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Value saved to local storage, new value:" + checked);
     });
   });
+  // Delay between requests made by batch importers.
+  //
+  // The UI uses seconds for readability while storage uses milliseconds.
+  const batchRequestDelayInput = /** @type {HTMLInputElement|null} */ (
+    document.getElementById("batch-request-delay")
+  );
+
+  if (batchRequestDelayInput) {
+    const defaultDelaySeconds = Number.parseFloat(
+      batchRequestDelayInput.defaultValue,
+    );
+
+    const minDelaySeconds = Number.parseFloat(batchRequestDelayInput.min);
+
+    const maxDelaySeconds = Number.parseFloat(batchRequestDelayInput.max);
+
+    /**
+     * Clamp a user-provided delay to the limits declared by the input.
+     *
+     * @param {number} seconds - Requested delay in seconds.
+     * @returns {number} Normalized delay in seconds.
+     */
+    function normalizeBatchRequestDelay(seconds) {
+      if (!Number.isFinite(seconds)) {
+        return defaultDelaySeconds;
+      }
+
+      return Math.min(maxDelaySeconds, Math.max(minDelaySeconds, seconds));
+    }
+
+    chrome.storage.local.get(
+      ["batchRequestDelayMs"],
+
+      /** @param {PESStorageData} result */
+      function (result) {
+        const storedDelayMs = result.batchRequestDelayMs;
+
+        const delaySeconds =
+          typeof storedDelayMs === "number"
+            ? storedDelayMs / 1000
+            : defaultDelaySeconds;
+
+        batchRequestDelayInput.value = String(
+          normalizeBatchRequestDelay(delaySeconds),
+        );
+      },
+    );
+
+    batchRequestDelayInput.addEventListener("change", function () {
+      const requestedSeconds = Number.parseFloat(batchRequestDelayInput.value);
+
+      const delaySeconds = normalizeBatchRequestDelay(requestedSeconds);
+
+      batchRequestDelayInput.value = String(delaySeconds);
+
+      chrome.storage.local.set(
+        {
+          batchRequestDelayMs: Math.round(delaySeconds * 1000),
+        },
+        function () {
+          console.log("Batch request delay saved:", delaySeconds, "seconds");
+        },
+      );
+    });
+  }
 });
 
 document.addEventListener("DOMContentLoaded", function () {

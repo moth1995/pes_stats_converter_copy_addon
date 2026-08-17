@@ -112,6 +112,8 @@ const DEFAULT_EXPORTS = [
   "maxStatsTable",
   "minStatsTable",
   "pesIndieNationalities",
+  "addPlayers",
+  "getBatchRequestDelay",
 ];
 
 // Deterministic PRNG so conversion paths that use Math.random (FM -> PES5/13,

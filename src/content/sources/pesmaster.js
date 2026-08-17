@@ -320,9 +320,16 @@ window.PESConverter.registerSource({
   supportedFormats: [FORMAT.PES5, FORMAT.PES21],
   isSupported: function () {
     /**
-     * @returns {boolean} True when the page is served in English.
+     * @returns {boolean} True when the page is served in English & is a Player page.
      */
-    return document.querySelector("html")?.getAttribute("lang") === "en-US";
+    const isEnglish =
+      document.querySelector("html")?.getAttribute("lang") === "en-US";
+
+    const isPlayerPage = /\/efootball-2022\/player\/\d+\/?$/.test(
+      window.location.pathname,
+    );
+
+    return isEnglish && isPlayerPage;
   },
   label: function () {
     /**
