@@ -125,3 +125,212 @@ test("PES21_COUNTRY_MAP is loaded", () => {
 test("pesIndieNationalities maps countries to adjectives", () => {
   assert.strictEqual(api.pesIndieNationalities["Argentina"], "Argentinian");
 });
+
+test("extractLastName returns the last whitespace-separated word, uppercased", () => {
+  assert.strictEqual(api.extractLastName("Cristiano Ronaldo"), "RONALDO");
+  assert.strictEqual(api.extractLastName("Ronaldo"), "RONALDO");
+  assert.strictEqual(api.extractLastName("  Ronaldo  "), "RONALDO");
+  assert.strictEqual(api.extractLastName("First   Last"), "LAST");
+  // Not accent-flattened - that's shirtName's/formatPes5ShirtName's job.
+  assert.strictEqual(api.extractLastName("Martin Ødegaard"), "ØDEGAARD");
+});
+
+test("shirtName extracts and uppercases last name", () => {
+  assert.strictEqual(api.shirtName("Cristiano Ronaldo"), "RONALDO");
+  assert.strictEqual(api.shirtName("Luis Alberto"), "ALBERTO");
+  assert.strictEqual(api.shirtName("Pelé"), "PELE");
+});
+
+test("shirtName handles single names", () => {
+  assert.strictEqual(api.shirtName("Ronaldo"), "RONALDO");
+  assert.strictEqual(api.shirtName("Pelé"), "PELE");
+});
+
+test("shirtName flattens Romance accents (French, Spanish, Italian, Portuguese)", () => {
+  assert.strictEqual(api.shirtName("José"), "JOSE");
+  assert.strictEqual(api.shirtName("François"), "FRANCOIS");
+  assert.strictEqual(api.shirtName("Müller"), "MULLER");
+  assert.strictEqual(api.shirtName("Ångström"), "ANGSTROM");
+  assert.strictEqual(api.shirtName("Peña"), "PENA");
+  assert.strictEqual(api.shirtName("Zoë"), "ZOE");
+  assert.strictEqual(api.shirtName("Thiago Alcântara"), "ALCANTARA");
+});
+
+test("shirtName flattens Polish accents", () => {
+  assert.strictEqual(api.shirtName("Lewandowski"), "LEWANDOWSKI");
+  assert.strictEqual(api.shirtName("Żurawski"), "ZURAWSKI");
+  assert.strictEqual(api.shirtName("Ślęzak"), "SLEZAK");
+  assert.strictEqual(api.shirtName("Zieliński"), "ZIELINSKI");
+  assert.strictEqual(api.shirtName("Mądrych"), "MADRYCH");
+  assert.strictEqual(api.shirtName("Ęsak"), "ESAK");
+});
+
+test("shirtName flattens Slavic accents (Czech, Slovak, Serbian, Croatian)", () => {
+  assert.strictEqual(api.shirtName("Čech"), "CECH");
+  assert.strictEqual(api.shirtName("Šuker"), "SUKER");
+  assert.strictEqual(api.shirtName("Živković"), "ZIVKOVIC");
+  assert.strictEqual(api.shirtName("Perisic"), "PERISIC");
+  assert.strictEqual(api.shirtName("Đoković"), "DOKOVIC");
+  assert.strictEqual(api.shirtName("Ř Dvorak"), "DVORAK");
+});
+
+test("shirtName flattens Turkish accents", () => {
+  assert.strictEqual(api.shirtName("Güneş"), "GUNES");
+  assert.strictEqual(api.shirtName("Şahin"), "SAHIN");
+  assert.strictEqual(api.shirtName("Arda İlhan"), "ILHAN");
+});
+
+test("shirtName flattens Romanian accents", () => {
+  assert.strictEqual(api.shirtName("Păun"), "PAUN");
+  assert.strictEqual(api.shirtName("Șumudică"), "SUMUDICA");
+  assert.strictEqual(api.shirtName("Țiclea"), "TICLEA");
+});
+
+test("shirtName flattens Nordic accents", () => {
+  assert.strictEqual(api.shirtName("Ødegaard"), "ODEGAARD");
+  assert.strictEqual(api.shirtName("Ærlig"), "AERLIG");
+  assert.strictEqual(api.shirtName("Símon Kjaer"), "KJAER");
+  assert.strictEqual(api.shirtName("Þórsson"), "THORSSON");
+});
+
+test("shirtName flattens Hungarian accents", () => {
+  assert.strictEqual(api.shirtName("Szalai Attila"), "ATTILA");
+  assert.strictEqual(api.shirtName("Bödős"), "BODOS");
+  assert.strictEqual(api.shirtName("Gulácsi"), "GULACSI");
+});
+
+test("shirtName flattens Baltic accents (Lithuanian, Latvian, Estonian)", () => {
+  assert.strictEqual(api.shirtName("Stuparevičius"), "STUPAREVICIUS");
+  assert.strictEqual(api.shirtName("Vaitkus"), "VAITKUS");
+  assert.strictEqual(api.shirtName("Miškinis"), "MISKINIS");
+});
+
+test("shirtName handles multiple accented characters in one name", () => {
+  assert.strictEqual(api.shirtName("Perišić"), "PERISIC");
+  assert.strictEqual(api.shirtName("Müller Österreich"), "OSTERREICH");
+  assert.strictEqual(api.shirtName("José María García"), "GARCIA");
+});
+
+test("shirtName preserves ASCII-only names", () => {
+  assert.strictEqual(api.shirtName("Smith"), "SMITH");
+  assert.strictEqual(api.shirtName("John Brown"), "BROWN");
+  assert.strictEqual(api.shirtName("ALREADY UPPER"), "UPPER");
+});
+
+test("shirtName handles whitespace-padded names", () => {
+  assert.strictEqual(api.shirtName("  Ronaldo  "), "RONALDO");
+  assert.strictEqual(api.shirtName("First   Last"), "LAST");
+});
+
+// formatPes5ShirtName extracts the last name and flattens accents itself
+// (see converters/pes5.js: PESPlayer.nameToShirtName calls it directly with
+// the full raw name). Passing an already-single-word, already-uppercase
+// string is equivalent to passing a full name — extractLastName is a no-op
+// on it — so plain-ASCII single-word inputs below still exercise the same
+// spacing logic as production.
+
+test("formatPes5ShirtName applies double spacing for < 5 chars", () => {
+  assert.strictEqual(api.formatPes5ShirtName("JOHN"), "J  O  H  N");
+  assert.strictEqual(api.formatPes5ShirtName("ART"), "A  R  T");
+  assert.strictEqual(api.formatPes5ShirtName("JO"), "J  O");
+  assert.strictEqual(api.formatPes5ShirtName("A"), "A");
+});
+
+test("formatPes5ShirtName applies single spacing for 5-8 chars", () => {
+  assert.strictEqual(api.formatPes5ShirtName("SMITH"), "S M I T H");
+  assert.strictEqual(api.formatPes5ShirtName("RONALDO"), "R O N A L D O");
+  assert.strictEqual(api.formatPes5ShirtName("ALBERTO"), "A L B E R T O");
+});
+
+test("formatPes5ShirtName applies no spacing for >= 9 chars", () => {
+  assert.strictEqual(api.formatPes5ShirtName("CRISTIANINHO"), "CRISTIANINHO");
+  assert.strictEqual(api.formatPes5ShirtName("MANCHESTER"), "MANCHESTER");
+});
+
+test("formatPes5ShirtName truncates names over 16 chars to 15", () => {
+  const long = "THISISMUCHLONGERNAME";
+  const result = api.formatPes5ShirtName(long);
+  assert.strictEqual(result.length, 15);
+  assert.strictEqual(result, "THISISMUCHLONGE");
+});
+
+test("formatPes5ShirtName truncates a 16-char name to 15", () => {
+  // No-spacing branch checks `> 15`, so 16 chars gets sliced to 15.
+  const sixteen = "ABCDEFGHIJKLMNOP";
+  const result = api.formatPes5ShirtName(sixteen);
+  assert.strictEqual(result, "ABCDEFGHIJKLMNO");
+  assert.strictEqual(result.length, 15);
+});
+
+test("formatPes5ShirtName handles boundary at exactly 5 chars (no double spacing)", () => {
+  const result = api.formatPes5ShirtName("SMITH");
+  assert.strictEqual(result, "S M I T H");
+  assert(!result.includes("  "), "should not have double spacing at exactly 5");
+});
+
+test("formatPes5ShirtName handles boundary at exactly 9 chars (no spacing)", () => {
+  const result = api.formatPes5ShirtName("MANCHESTER");
+  assert.strictEqual(result, "MANCHESTER");
+  assert(!result.includes(" "), "should not have any spacing at >= 9 chars");
+});
+
+test("formatPes5ShirtName matches production usage for accented full names", () => {
+  // This is the real call: PESPlayer.nameToShirtName (converters/pes5.js)
+  // passes the full raw name straight in. Raw Æ/Þ reach the function intact,
+  // so the multi-char glyph mapping (Æ->"AE") is grouped as one spacing unit
+  // instead of the two separate letters shirtName() would have produced.
+  assert.strictEqual(
+    api.formatPes5ShirtName("Erling Ærlig"),
+    "AE R L I G", // "ÆRLIG" -> glyphs ["AE","R","L","I","G"], charCount 6 -> single spacing
+  );
+  assert.strictEqual(
+    api.formatPes5ShirtName("Martin Ødegaard"),
+    "O D E G A A R D", // "ØDEGAARD" -> Ø is 1:1 -> "ODEGAARD", 8 chars -> single spacing
+  );
+  assert.strictEqual(
+    api.formatPes5ShirtName("Cristiano Ronaldo"),
+    "R O N A L D O", // "RONALDO", 7 chars -> single spacing
+  );
+  assert.strictEqual(
+    api.formatPes5ShirtName("Pelé"),
+    "P  E  L  E", // "PELÉ" -> "PELE", 4 chars -> double spacing
+  );
+});
+
+test("formatPes5ShirtName treats multi-char glyphs (Æ→AE, Þ→TH) as one unit for spacing", () => {
+  // charCount = 4 (2x "AE"), < 5 -> double spacing fits in 15
+  assert.strictEqual(api.formatPes5ShirtName("ÆÆ"), "AE  AE");
+  // charCount = 3 ("AE" + "X"), < 5 -> double spacing fits in 15
+  assert.strictEqual(api.formatPes5ShirtName("ÆX"), "AE  X");
+  // plain ASCII, 6 chars -> single spacing
+  assert.strictEqual(api.formatPes5ShirtName("ORSTED"), "O R S T E D");
+});
+
+test("formatPes5ShirtName tries single spacing when double spacing would overflow", () => {
+  // charCount = 6 (3x "AE"), not < 5 -> try single spacing, fits in 15
+  assert.strictEqual(api.formatPes5ShirtName("ÆÆÆ"), "AE AE AE");
+  // charCount = 5 ("AE"+R+X+Y), not < 5 -> single spacing
+  assert.strictEqual(api.formatPes5ShirtName("ÆRXY"), "AE R X Y");
+  // charCount = 4 ("TH"+A+B), < 5 -> double spacing fits
+  assert.strictEqual(api.formatPes5ShirtName("ÞAB"), "TH  A  B");
+});
+
+test("formatPes5ShirtName falls back to no spacing when even single spacing overflows", () => {
+  // charCount = 13 ("AE" + 11 G's), not < 12 -> no spacing tried, fits unspaced
+  assert.strictEqual(api.formatPes5ShirtName("ÆGGGGGGGGGGG"), "AEGGGGGGGGGGG");
+  // charCount = 9 (4x "AE" + X), < 12 -> single spacing fits (13 chars)
+  assert.strictEqual(api.formatPes5ShirtName("ÆÆÆÆX"), "AE AE AE AE X");
+  // charCount = 12 (6x "AE"), not < 12 -> no spacing, fits unspaced
+  assert.strictEqual(api.formatPes5ShirtName("ÆÆÆÆÆÆ"), "AEAEAEAEAEAE");
+});
+
+test("formatPes5ShirtName handles real Nordic names landing exactly at 15 chars", () => {
+  assert.strictEqual(
+    api.formatPes5ShirtName("ØDEGAARDHOLMSEN"),
+    "ODEGAARDHOLMSEN",
+  );
+  assert.strictEqual(
+    api.formatPes5ShirtName("ÆGAARDSONSHOLM"),
+    "AEGAARDSONSHOLM",
+  );
+});

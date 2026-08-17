@@ -250,7 +250,7 @@ class PESPlayer {
    */
   nameToShirtName(name) {
     // PES5/13 shirt names are flattened AND padded for the on-screen editor.
-    return formatPes5ShirtName(shirtName(name));
+    return formatPes5ShirtName(name);
   }
 
   /**

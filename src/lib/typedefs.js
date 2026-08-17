@@ -114,7 +114,8 @@
  * @property {(min: number, max: number, num: number) => number} clamp - Clamp `num` to the inclusive range [min, max].
  * @property {(abilityPositions: string[], registeredPosition: string, positions: string[]) => boolean} hasSpecialAbility - Position-gated special-ability check.
  * @property {(name: string) => string} shirtName - Flattened, uppercased last name.
- * @property {(lastName: string) => string} formatPes5ShirtName - Space-padded shirt name for the PES5/13 editor.
+ * @property {(name: string) => string} formatPes5ShirtName - Space-padded shirt name for the PES5/13 editor.
+ * @property {(name: string) => string} extractLastName - Extracts player last name.
  *
  * // Stat conversion helpers (see lib/core.js)
  * @property {(stat: number) => number} fmToPesStat99 - FM 1-20 -> PES 40-100 stat.

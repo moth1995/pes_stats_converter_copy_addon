@@ -97,6 +97,19 @@ const ACCENT_TRANSLATION_MAP = {
 };
 
 /**
+ * Return the last whitespace-separated word of a full name, uppercased.
+ * Shared by `shirtName` and `formatPes5ShirtName` so both start from the same
+ * extraction (trim + collapse-safe split) instead of duplicating it.
+ *
+ * @param {string} name - Full player name.
+ * @returns {string} Uppercased last name, not yet accent-flattened.
+ */
+function extractLastName(name) {
+  const nameParts = name.trim().split(" ").filter(Boolean);
+  return nameParts[nameParts.length - 1].toUpperCase();
+}
+
+/**
  * Return the player's last name, uppercased and with accents flattened to the
  * characters the PES editor understands. Named `shirtName` (not
  * `nameToShirtName`) so the converter classes can keep a thin delegating method
@@ -106,8 +119,7 @@ const ACCENT_TRANSLATION_MAP = {
  * @returns {string} Flattened, uppercase last name.
  */
 function shirtName(name) {
-  const nameParts = name.split(" ");
-  const lastName = nameParts[nameParts.length - 1].toUpperCase();
+  const lastName = extractLastName(name);
   return Array.from(
     lastName,
     (char) => ACCENT_TRANSLATION_MAP[char] || char,
@@ -118,17 +130,43 @@ function shirtName(name) {
  * Format a flattened shirt name for the old-gen PES (5/13) editor, which pads
  * short names with spaces. PES21 does not, so apply only on the PES5/13 path.
  *
- * @param {string} lastName - Already-flattened shirt name.
- * @returns {string} Space-padded shirt name.
+ * Tries spacing if it fits: double-space for very short names, single-space for
+ * mid-length. Accounts for multi-character mappings (Æ→"AE", Þ→"TH") by trying
+ * the spacing and measuring the result before committing to it. Extracts the
+ * last name and flattens accents itself, so callers pass the full raw name.
+ *
+ * @param {string} name - Full player name.
+ * @returns {string} Space-padded, accent-flattened shirt name.
  */
-function formatPes5ShirtName(lastName) {
-  let formatted = lastName;
-  if (formatted.length > 16) {
-    formatted = formatted.slice(0, 15);
-  } else if (formatted.length < 5) {
-    formatted = formatted.split("").join("  ");
-  } else if (formatted.length < 9) {
-    formatted = formatted.split("").join(" ");
+function formatPes5ShirtName(name) {
+  const lastName = extractLastName(name).split("");
+  const glyphs = [];
+  for (const char of lastName) {
+    glyphs.push(ACCENT_TRANSLATION_MAP[char] || char);
   }
-  return formatted;
+
+  const charCount = glyphs.join("").length;
+
+  // Try double spacing for very short names.
+  if (charCount < 5) {
+    const withDoubleSpacing = glyphs.join("  ");
+    if (withDoubleSpacing.length <= 15) {
+      return withDoubleSpacing;
+    }
+  }
+
+  // Try single spacing for mid-length names (threshold adjusted for multi-char glyphs).
+  if (charCount < 12) {
+    const withSingleSpacing = glyphs.join(" ");
+    if (withSingleSpacing.length <= 15) {
+      return withSingleSpacing;
+    }
+  }
+
+  // No spacing, truncate if needed.
+  const noSpacing = glyphs.join("");
+  if (noSpacing.length > 15) {
+    return noSpacing.slice(0, 15);
+  }
+  return noSpacing;
 }
