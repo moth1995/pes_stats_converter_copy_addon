@@ -1,7 +1,5 @@
 "use strict";
 
-const PESMASTER_TEAM_REQUEST_DELAY_MS = 2000;
-
 const PESMASTER_TEAM_PLAYER_LINK_SELECTOR =
   'a[href*="/efootball-2022/player/"]';
 
@@ -154,6 +152,10 @@ async function pesMasterBuildTeamPlayers(doc, onProgress) {
   const parser = new DOMParser();
   const total = team.playerUrls.length;
 
+  const requestDelayMs = await getBatchRequestDelay();
+
+  debugLog("pesmaster-team", "batch request delay", requestDelayMs);
+
   onProgress(0, total);
 
   for (let i = 0; i < total; i++) {
@@ -202,7 +204,7 @@ async function pesMasterBuildTeamPlayers(doc, onProgress) {
 
     // Do not delay after the final player.
     if (i < total - 1) {
-      await pesMasterTeamSleep(PESMASTER_TEAM_REQUEST_DELAY_MS);
+      await pesMasterTeamSleep(requestDelayMs);
     }
   }
 

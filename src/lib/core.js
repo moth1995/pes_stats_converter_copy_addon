@@ -31,6 +31,49 @@ function stringInArray(array, searchString) {
 }
 
 /**
+ * Batch-request delay configuration.
+ *
+ * Stored values are milliseconds. The popup presents them as seconds.
+ */
+const DEFAULT_BATCH_REQUEST_DELAY_MS = 3000;
+const MIN_BATCH_REQUEST_DELAY_MS = 1000;
+const MAX_BATCH_REQUEST_DELAY_MS = 10000;
+
+/**
+ * Read the configured delay between requests performed by batch importers.
+ *
+ * The setting is read from chrome.storage.local and clamped so an invalid
+ * or manually modified storage value cannot produce an unreasonable delay.
+ *
+ * @returns {Promise<number>} Delay in milliseconds.
+ */
+function getBatchRequestDelay() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(
+      ["batchRequestDelayMs"],
+
+      /** @param {PESStorageData} result */
+      function (result) {
+        const storedDelay = result.batchRequestDelayMs;
+
+        if (typeof storedDelay !== "number" || !Number.isFinite(storedDelay)) {
+          resolve(DEFAULT_BATCH_REQUEST_DELAY_MS);
+          return;
+        }
+
+        resolve(
+          clamp(
+            MIN_BATCH_REQUEST_DELAY_MS,
+            MAX_BATCH_REQUEST_DELAY_MS,
+            Math.round(storedDelay),
+          ),
+        );
+      },
+    );
+  });
+}
+
+/**
  * PES5 CSV column headers (populated as the first stored row).
  *
  * @type {string}

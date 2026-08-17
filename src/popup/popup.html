@@ -40,6 +40,20 @@
         <label for="debug-enabled">Enable debug logging:</label>
         <input type="checkbox" id="debug-enabled" />
       </div>
+      <div>
+        <label for="batch-request-delay"> Batch request delay: </label>
+
+        <input
+          type="number"
+          id="batch-request-delay"
+          min="1"
+          max="10"
+          step="0.5"
+          value="2"
+        />
+
+        <span>seconds</span>
+      </div>
       <div class="csv-buttons" id="csv-buttons">
         <h2>CSV Configuration</h2>
         <button id="download-csv" class="pes-indie-pop-up-button">
