@@ -400,9 +400,11 @@ window.PESConverter.registerSource({
   supportedFormats: ["pes5", "pes13", "pes21", "raw"],
   isSupported: function () {
     /**
-     * @returns {boolean} Always supported.
+     * @returns {boolean} True if inside a player page.
      */
-    return true;
+    return /^\/players\/\d+-[^/]+\/\d+-[^/]+\/?$/.test(
+      window.location.pathname,
+    );
   },
   label: function () {
     /**
