@@ -310,9 +310,15 @@ window.PESConverter.registerSource({
   supportedFormats: ["pes5", "pes13", "pes21"],
   isSupported: function () {
     /**
-     * @returns {boolean} True when the page is an English, supported FIFA page.
+     * @returns {boolean} True when the page is an English, supported FIFA page and player page.
      */
-    return supportedVersions.includes(sofifaVersion()) && isValidLanguage();
+    const isPlayerPage = /^\/player\/\d+\//.test(window.location.pathname);
+
+    return (
+      isPlayerPage &&
+      supportedVersions.includes(sofifaVersion()) &&
+      isValidLanguage()
+    );
   },
   label: function () {
     /**
