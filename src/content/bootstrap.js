@@ -113,6 +113,123 @@ function render(result, format, copyMode) {
 }
 
 /**
+ * Render multiple converter results into CSV storage in one transaction.
+ *
+ * Batch sources always use CSV storage; clipboard mode is intentionally
+ * ignored because a team represents multiple players.
+ *
+ * @param {ConverterResult[]} results - Converted players.
+ * @param {Format} format - Output format.
+ * @returns {Promise<void>}
+ */
+async function renderMany(results, format) {
+  const rows = [];
+
+  for (const result of results) {
+    rows.push(result.csv());
+  }
+
+  await addPlayers(rows, format);
+}
+
+/**
+ * Enable or disable the floating button while a batch operation is running.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @param {boolean} busy - Whether the button is currently busy.
+ * @returns {void}
+ */
+function setButtonBusy(button, busy) {
+  button.disabled = busy;
+  button.setAttribute("aria-busy", busy ? "true" : "false");
+  button.style.cursor = busy ? "wait" : "pointer";
+}
+
+/**
+ * Update the floating button so its background acts as a progress bar.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @param {number} current - Completed players.
+ * @param {number} total - Total players.
+ * @returns {void}
+ */
+function updateButtonProgress(button, current, total) {
+  const percentage = total === 0 ? 0 : Math.round((current / total) * 100);
+
+  button.textContent = `Converting ${current}/${total} (${percentage}%)`;
+
+  // Use background-size rather than changing gradient stops.
+  // This lets us smoothly reverse the animation after completion.
+  button.style.backgroundImage =
+    "linear-gradient(" +
+    "rgba(76, 175, 80, 0.55), " +
+    "rgba(76, 175, 80, 0.55)" +
+    ")";
+
+  button.style.backgroundRepeat = "no-repeat";
+  button.style.backgroundPosition = "left center";
+  button.style.backgroundSize = `${percentage}% 100%`;
+  button.style.transition = "background-size 250ms linear";
+}
+
+/**
+ * Clear the button's progress-bar styling.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @returns {void}
+ */
+function clearButtonProgress(button) {
+  button.style.backgroundImage = "";
+  button.style.backgroundRepeat = "";
+  button.style.backgroundPosition = "";
+  button.style.backgroundSize = "";
+  button.style.transition = "";
+}
+
+/**
+ * Show the batch result for five seconds while draining the progress bar,
+ * then restore the original source button.
+ *
+ * @param {HTMLButtonElement} button - Floating action button.
+ * @param {string} originalLabel - Label to restore after the cooldown.
+ * @returns {void}
+ */
+function finishButtonProgress(button, originalLabel) {
+  const cooldownMs = 3000;
+
+  // Ensure the completion bar begins completely full.
+  button.style.backgroundImage =
+    "linear-gradient(" +
+    "rgba(76, 175, 80, 0.55), " +
+    "rgba(76, 175, 80, 0.55)" +
+    ")";
+
+  button.style.backgroundRepeat = "no-repeat";
+  button.style.backgroundPosition = "left center";
+
+  // Disable transition while forcing the bar to 100%.
+  button.style.transition = "none";
+  button.style.backgroundSize = "100% 100%";
+
+  // Force the browser to apply the 100% state before starting
+  // the reverse animation.
+  button.getBoundingClientRect();
+
+  // Drain from 100% to 0% over five seconds.
+  button.style.transition = `background-size ${cooldownMs}ms linear`;
+
+  button.style.backgroundSize = "0% 100%";
+
+  setTimeout(function () {
+    clearButtonProgress(button);
+
+    button.textContent = originalLabel;
+
+    setButtonBusy(button, false);
+  }, cooldownMs);
+}
+
+/**
  * Mount the floating action button for a source.
  *
  * @param {SourceDescriptor} source - The source to bind.
@@ -145,6 +262,12 @@ function mountButton(source) {
 
     debugLog("bootstrap", "button clicked", source.id);
 
+    // Batch imports can take around a minute. Prevent starting another
+    // import while the current one is still running.
+    if (source.buildMany) {
+      setButtonBusy(button, true);
+    }
+
     chrome.storage.local.get(
       ["selectOptionFMInside", "selectCopyMode", "debugEnabled"],
 
@@ -152,9 +275,9 @@ function mountButton(source) {
        * Storage callback: convert and render using stored settings.
        *
        * @param {PESStorageData} result - Stored settings object.
-       * @returns {void}
+       * @returns {Promise<void>} Resolves when the render is complete.
        */
-      function (result) {
+      async function (result) {
         const format = result.selectOptionFMInside || FORMAT.PES5;
         const copyMode = result.selectCopyMode || COPY_MODE.ONE;
         // Sync the persisted debug preference to the logger's global gate.
@@ -167,29 +290,122 @@ function mountButton(source) {
           "text/html",
         );
 
-        // Scraping is the only step that can fail hard: a site markup change
-        // makes the scraped player wrong rather than merely incomplete. Catch
-        // it here, once, and write nothing rather than emit bad stats.
-        let output;
-        try {
-          const scraped = source.build(doc);
-          output = convert(source, scraped, format);
-        } catch (error) {
-          if (error instanceof ScrapeError) {
-            debugWarn("bootstrap", "scrape failed", error.message);
-            button.innerHTML = "Scrape failed - see console";
-            return;
-          }
-          throw error;
-        }
+        // Reject unsupported formats before doing any network work.
+        // This is especially important for team imports: we do not want to
+        // download 30 players only to discover that PES13 is unsupported.
+        if (!source.supportedFormats.includes(format)) {
+          debugWarn("bootstrap", "format not supported by source", format);
 
-        if (!output) {
-          debugWarn("bootstrap", "no converter for", format);
+          button.textContent = "Format not supported";
+
+          setButtonBusy(button, false);
+
           return;
         }
 
-        debugLog("bootstrap", "psd", output.psd());
-        render(output, format, copyMode);
+        try {
+          /*
+           * Batch source.
+           *
+           * PESMaster team pages enter here. buildMany() downloads and parses
+           * each player but deliberately does NOT convert them. Conversion stays
+           * centralized here exactly like the single-player path.
+           */
+          if (source.buildMany) {
+            const batch = await source.buildMany(
+              doc,
+              function (current, total) {
+                updateButtonProgress(button, current, total);
+              },
+            );
+
+            /** @type {ConverterResult[]} */
+            const outputs = [];
+
+            for (const scraped of batch.items) {
+              const output = convert(source, scraped, format);
+
+              if (output) {
+                outputs.push(output);
+              }
+            }
+
+            if (outputs.length === 0) {
+              clearButtonProgress(button);
+
+              button.textContent = "No players converted";
+
+              setButtonBusy(button, false);
+
+              return;
+            }
+
+            // output.csv() eventually calls the converter's csvString().
+            await renderMany(outputs, format);
+
+            if (batch.failures.length > 0) {
+              button.textContent =
+                `${outputs.length} added - ` +
+                `${batch.failures.length} failed`;
+            } else {
+              button.textContent = `${outputs.length} players added`;
+            }
+
+            debugLog("bootstrap", "team import complete", {
+              converted: outputs.length,
+              failed: batch.failures,
+            });
+
+            // Keep the result visible for five seconds while the progress
+            // bar drains backwards, then restore "Add Team to CSV".
+            finishButtonProgress(button, source.label());
+
+            return;
+          }
+
+          /*
+           * Normal single-player source.
+           */
+          if (!source.build) {
+            throw new Error(
+              `Source "${source.id}" has neither build nor buildMany`,
+            );
+          }
+
+          const scraped = source.build(doc);
+
+          const output = convert(source, scraped, format);
+
+          if (!output) {
+            debugWarn("bootstrap", "no converter for", format);
+
+            return;
+          }
+
+          debugLog("bootstrap", "psd", output.psd());
+
+          render(output, format, copyMode);
+        } catch (error) {
+          clearButtonProgress(button);
+
+          debugWarn("bootstrap", "source processing failed", error);
+
+          if (source.buildMany) {
+            button.textContent = "Team import failed - see console";
+
+            setButtonBusy(button, false);
+
+            return;
+          }
+
+          if (error instanceof ScrapeError) {
+            button.textContent = "Scrape failed - see console";
+
+            return;
+          }
+
+          throw error;
+        }
       },
     );
   });

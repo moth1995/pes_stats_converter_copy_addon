@@ -13,8 +13,11 @@
     {
       "matches": [
         "*://*.sofifa.com/player/*",
+        "*://*.sofifa.com/team/*",
         "*://*.fminside.net/players/*",
-        "*://*.pesmaster.com/*/efootball-2022/player/*"
+        "*://*.fminside.net/clubs/*",
+        "*://*.pesmaster.com/*/efootball-2022/player/*",
+        "*://*.pesmaster.com/*/efootball-2022/team/*"
       ],
       "run_at": "document_idle",
       "js": [
@@ -41,14 +44,41 @@
       "js": ["content/sources/sofifa.js", "content/bootstrap.js"]
     },
     {
+      "matches": ["*://*.sofifa.com/team/*"],
+      "run_at": "document_idle",
+      "js": [
+        "content/sources/sofifa.js",
+        "content/sources/sofifa-team.js",
+        "content/bootstrap.js"
+      ]
+    },
+    {
       "matches": ["*://*.fminside.net/players/*"],
       "run_at": "document_idle",
       "js": ["content/sources/fminside.js", "content/bootstrap.js"]
     },
     {
+      "matches": ["*://*.fminside.net/clubs/*"],
+      "run_at": "document_idle",
+      "js": [
+        "content/sources/fminside.js",
+        "content/sources/fminside-team.js",
+        "content/bootstrap.js"
+      ]
+    },
+    {
       "matches": ["*://*.pesmaster.com/*/efootball-2022/player/*"],
       "run_at": "document_idle",
       "js": ["content/sources/pesmaster.js", "content/bootstrap.js"]
+    },
+    {
+      "matches": ["*://*.pesmaster.com/*/efootball-2022/team/*"],
+      "run_at": "document_idle",
+      "js": [
+        "content/sources/pesmaster.js",
+        "content/sources/pesmaster-team.js",
+        "content/bootstrap.js"
+      ]
     }
   ],
   "action": {

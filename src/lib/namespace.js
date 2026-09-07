@@ -62,6 +62,8 @@ window.PESConverter = {
   addPlayer,
   addPlayer13,
   addPlayer21,
+  addPlayers,
+  getBatchRequestDelay,
   heightTo99Stat,
   getMaxKeyFromObject,
   getPlayingStyle,
