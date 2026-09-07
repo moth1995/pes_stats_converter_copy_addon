@@ -251,6 +251,9 @@ function mountButton(source) {
     button.style.left = "auto";
     button.style.right = "20px";
     button.style.transform = "none";
+    // Max signed 32-bit int: keeps the button above page content regardless
+    // of any stacking context the host page's own elements establish.
+    button.style.zIndex = "2147483647";
 
     // Sources may override position/layout (e.g. PESMaster is vertically
     // centered instead of bottom-anchored).
