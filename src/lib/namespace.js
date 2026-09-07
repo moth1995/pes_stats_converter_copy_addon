@@ -21,6 +21,7 @@ window.PESConverter = {
   GRADE,
   FORMAT,
   COPY_MODE,
+  BUTTON_POSITION,
 
   // Third-party site labels (see data/source-labels.js)
   SOFIFA_ATTACKING,
@@ -59,6 +60,7 @@ window.PESConverter = {
   // Core helpers
   copyToClipboard,
   stringInArray,
+  applyButtonPosition,
   addPlayer,
   addPlayer13,
   addPlayer21,

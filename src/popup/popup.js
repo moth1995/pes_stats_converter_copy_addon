@@ -75,6 +75,33 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   );
 
+  // Floating button position: persisted in storage, default "" (site's own
+  // default layout, e.g. PESMaster's middle-right).
+  const selectButtonPosition = /** @type {HTMLSelectElement} */ (
+    document.getElementById("select-button-position")
+  );
+
+  if (selectButtonPosition) {
+    chrome.storage.local.get(
+      ["selectButtonPosition"],
+      /** @param {PESStorageData} result */ function (result) {
+        selectButtonPosition.value = result.selectButtonPosition || "";
+      },
+    );
+
+    selectButtonPosition.addEventListener("change", function () {
+      const selectedValue = selectButtonPosition.value;
+
+      if (!selectedValue) {
+        // "Auto" - fall back to the site's default position.
+        chrome.storage.local.remove(["selectButtonPosition"]);
+        return;
+      }
+
+      chrome.storage.local.set({ selectButtonPosition: selectedValue });
+    });
+  }
+
   // Debug logging toggle: persisted in storage, default false.
   const debugEnabledCheckbox = /** @type {HTMLInputElement} */ (
     document.getElementById("debug-enabled")

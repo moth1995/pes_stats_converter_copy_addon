@@ -45,6 +45,74 @@ test("stringInArray is case-insensitive", () => {
   assert.strictEqual(api.stringInArray(["Finesse Shot"], "Power Shot"), false);
 });
 
+test("applyButtonPosition sets the four corner positions with no transform", () => {
+  const cases = [
+    [api.BUTTON_POSITION.TOP_LEFT, { top: "20px", left: "20px" }],
+    [api.BUTTON_POSITION.TOP_RIGHT, { top: "20px", right: "20px" }],
+    [api.BUTTON_POSITION.BOTTOM_LEFT, { bottom: "20px", left: "20px" }],
+    [api.BUTTON_POSITION.BOTTOM_RIGHT, { bottom: "20px", right: "20px" }],
+  ];
+
+  for (const [position, expected] of cases) {
+    /** @type {Record<string, string>} */
+    const style = {};
+    api.applyButtonPosition(style, position);
+
+    assert.strictEqual(style.position, "fixed");
+    assert.strictEqual(style.transform, "none");
+    for (const [prop, value] of Object.entries(expected)) {
+      assert.strictEqual(style[prop], value, `${position} -> ${prop}`);
+    }
+  }
+});
+
+test("applyButtonPosition centers with the correct single-axis transform", () => {
+  /** @type {Record<string, string>} */
+  const topCenter = {};
+  api.applyButtonPosition(topCenter, api.BUTTON_POSITION.TOP_CENTER);
+  assert.strictEqual(topCenter.top, "20px");
+  assert.strictEqual(topCenter.left, "50%");
+  assert.strictEqual(topCenter.transform, "translateX(-50%)");
+
+  /** @type {Record<string, string>} */
+  const middleLeft = {};
+  api.applyButtonPosition(middleLeft, api.BUTTON_POSITION.MIDDLE_LEFT);
+  assert.strictEqual(middleLeft.top, "50%");
+  assert.strictEqual(middleLeft.left, "20px");
+  assert.strictEqual(middleLeft.transform, "translateY(-50%)");
+});
+
+test("applyButtonPosition reproduces PESMaster's original middle-right layout", () => {
+  /** @type {Record<string, string>} */
+  const style = {};
+  api.applyButtonPosition(style, api.BUTTON_POSITION.MIDDLE_RIGHT);
+  assert.strictEqual(style.top, "50%");
+  assert.strictEqual(style.bottom, "auto");
+  assert.strictEqual(style.right, "20px");
+  assert.strictEqual(style.transform, "translateY(-50%)");
+});
+
+test("applyButtonPosition centers on both axes for middle-center", () => {
+  /** @type {Record<string, string>} */
+  const style = {};
+  api.applyButtonPosition(style, api.BUTTON_POSITION.MIDDLE_CENTER);
+  assert.strictEqual(style.top, "50%");
+  assert.strictEqual(style.left, "50%");
+  assert.strictEqual(style.transform, "translate(-50%, -50%)");
+});
+
+test("applyButtonPosition resets stale offsets from a previous call", () => {
+  /** @type {Record<string, string>} */
+  const style = {};
+  api.applyButtonPosition(style, api.BUTTON_POSITION.BOTTOM_RIGHT);
+  api.applyButtonPosition(style, api.BUTTON_POSITION.TOP_LEFT);
+
+  assert.strictEqual(style.bottom, "auto");
+  assert.strictEqual(style.right, "auto");
+  assert.strictEqual(style.top, "20px");
+  assert.strictEqual(style.left, "20px");
+});
+
 test("fmPositionStringToArray splits and trims", () => {
   // Array.from bridges the VM-realm array to the host realm so deepStrictEqual
   // compares against a native Array with the host prototype.
