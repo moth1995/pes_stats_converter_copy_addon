@@ -40,16 +40,16 @@ class FMInsidePlayer {
    * @returns {void}
    */
   getBasicInfo() {
-    const element = this.doc.querySelector("#player_info #player .title p");
+    const nameElement = this.doc.querySelector(".player-hero-copy h1");
 
-    if (!element) {
-      throw new Error("Player title element not found");
+    if (!nameElement) {
+      throw new Error("Player name element not found");
     }
 
-    this.name = element.getAttribute("title") ?? "";
-    const metaElement = this.doc.querySelector("#player_info .meta");
-    const ratingSpans = metaElement
-      ? metaElement.querySelectorAll(".card")
+    this.name = nameElement.textContent.trim();
+    const ratingsElement = this.doc.querySelector(".player-hero-ratings");
+    const ratingSpans = ratingsElement
+      ? ratingsElement.querySelectorAll(".card")
       : [];
     this.ability = ratingSpans[0] ? ratingSpans[0].textContent.trim() : null;
     this.potential = ratingSpans[1] ? ratingSpans[1].textContent.trim() : null;
@@ -63,7 +63,7 @@ class FMInsidePlayer {
     const columnDiv = infoDiv ? infoDiv.querySelector("div.column") : null;
     const lis = columnDiv ? columnDiv.querySelectorAll("li") : [];
     const nationalityElement = this.doc.querySelector(
-      "span.value:nth-child(1) > a:nth-child(1)",
+      '.player-hero-eyebrow a.player-hero-eyebrow-link[href^="/players/"] span',
     );
     this.nationality = nationalityElement ? nationalityElement.textContent : "";
 
@@ -139,17 +139,17 @@ class FMInsidePlayer {
      * @returns {void}
      */
     rows.forEach(function (row) {
-      var acronymElement = row.querySelector("acronym");
+      var nameElement = row.querySelector("[data-player-stat-name]");
       var tdElement = row.querySelector(".stat");
 
-      // Some rows (headers, group labels) have no acronym or stat cell.
-      if (!acronymElement || !tdElement) {
+      // Some rows (headers, group labels) have no name or stat cell.
+      if (!nameElement || !tdElement) {
         return;
       }
 
       /** @type {number} */
       var value = 0;
-      var key = acronymElement.textContent;
+      var key = nameElement.getAttribute("data-player-stat-name") ?? "";
       for (let j = 0; j < tdElement.classList.length; j++) {
         const className = tdElement.classList[j];
         if (className.startsWith("value_")) {
@@ -185,9 +185,17 @@ class FMInsidePlayer {
     /** @type {Record<string, number>} */
     var roles = {};
     try {
-      const rolesSection = this.doc.querySelector("#player > div:nth-child(4)");
-      const rolesOl = rolesSection ? rolesSection.querySelector("ol") : null;
-      const rolesLis = rolesOl ? rolesOl.querySelectorAll("li:not(.last)") : [];
+      const rolesSection = this.doc.querySelector("#player-mobile-roles");
+      // The first `.column` is the in-possession roles list; the second is
+      // out-of-possession. Only in-possession roles are used for playing
+      // style detection. Querying `li` (not just the visible `ol`) also
+      // picks up the extra roles collapsed behind "Show more roles".
+      const inPossessionColumn = rolesSection
+        ? rolesSection.querySelector(".column")
+        : null;
+      const rolesLis = inPossessionColumn
+        ? inPossessionColumn.querySelectorAll("li")
+        : [];
       /**
        * @param {Element} li - The role list item element.
        * @returns {void}
