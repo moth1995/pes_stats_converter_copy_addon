@@ -329,6 +329,24 @@ input[type="checkbox"] {
   accent-color: var(--accent);
 }
 
+.info-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1;
+  cursor: help;
+}
+
 .csv-config {
   margin-top: 16px;
   padding-top: 16px;

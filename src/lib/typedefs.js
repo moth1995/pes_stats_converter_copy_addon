@@ -115,6 +115,7 @@
  * @property {(int1: number, int2: number) => number} divideIntegers - Integer division with rounding to nearest.
  * @property {(numbers: number[]) => number} average - Arithmetic mean (0 for an empty array).
  * @property {(min: number, max: number) => number} getRandomInt - Random integer in [min, max).
+ * @property {(min: number, max: number) => number} middleOfRange - Deterministic getRandomInt replacement: the middle (or upper-middle) integer in [min, max).
  * @property {(stat: number) => number} limitStat99 - Cap a stat at 99 (no lower bound), rounding.
  * @property {(min: number, max: number, num: number) => number} clamp - Clamp `num` to the inclusive range [min, max].
  * @property {(abilityPositions: string[], registeredPosition: string, positions: string[]) => boolean} hasSpecialAbility - Position-gated special-ability check.
@@ -185,6 +186,16 @@ var PESConverter;
 var PES_DEBUG;
 
 /**
+ * FM stat-randomization flag on the window object, synced from the
+ * `fmRandomStatsEnabled` popup setting (see bootstrap.js). When falsy
+ * (the default), fmToPesStat99 deterministically picks the middle of each
+ * stat's bucket; when true, it restores the original random pick.
+ *
+ * @type {boolean}
+ */
+var PES_FM_RANDOM_STATS;
+
+/**
  * The extension's `chrome.storage.local` schema.
  *
  * Every key is optional: nothing is seeded at install time, so each key is
@@ -201,6 +212,7 @@ var PES_DEBUG;
  * @property {ButtonPosition} [selectButtonPosition] - Selected floating-button screen position. Absent means "use the site's default position".
  * @property {ColorTheme} [selectColorTheme] - Selected popup color theme. Absent means "auto" (follow system).
  * @property {boolean} [debugEnabled] - Whether verbose debug logging is enabled (gates window.PES_DEBUG).
+ * @property {boolean} [fmRandomStatsEnabled] - Whether FM->PES5/PES13 stat conversion picks a random bucket value instead of the deterministic middle (gates window.PES_FM_RANDOM_STATS).
  * @property {number} [batchRequestDelayMs] - Delay in milliseconds between requests made by batch importers.
  */
 
