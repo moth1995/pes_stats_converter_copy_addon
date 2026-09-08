@@ -155,6 +155,7 @@
  * @property {Record<number, number>} playersHeightTable - Height (cm) -> PES outfield jump map.
  * @property {Record<string, number>} PES21_COUNTRY_MAP - PES21 nation name -> numeric country id.
  * @property {Record<string, string>} pesIndieNationalities - Source nation name -> PES nationality label.
+ * @property {Record<string, string>} pes13Nationalities - Source nation name -> PES13 nationality.cfg label.
  * @property {PES21StatTableRow[]} maxStatsTable - Per-position maximum PES21 stat bounds.
  * @property {PES21StatTableRow[]} minStatsTable - Per-position minimum PES21 stat bounds.
  *
