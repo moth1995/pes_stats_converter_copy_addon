@@ -3,39 +3,50 @@
    here to the PES Indie brand green; bootstrap.js sets [data-site] on the
    button (from the source id, "-team" stripped) and the blocks below
    override just the accent to match that site instead of redefining the
-   whole rule. */
+   whole rule. Each site's accent is fixed regardless of the popup's
+   light/dark theme selection — only the popup itself changes with that
+   setting.
+
+   Every declaration here is !important: this is a real <button> sitting on
+   an arbitrary host page, and several of these sites style bare `button`
+   elements themselves (e.g. SoFIFA's own ".dark button{background-color:...}"
+   rule has one class + one element type, which beats our one-class selector
+   on specificity alone and silently overrides our color). !important is the
+   standard, deliberate escape hatch for content-script-injected UI that must
+   never inherit the host page's styling. */
 .pes-indie-floating-button {
   --pes-indie-btn-bg: #27ae60;
   --pes-indie-btn-text: #fff;
   --pes-indie-btn-progress: rgb(76 175 80 / 55%);
 
-  font-family: arial, sans-serif;
-  font-size: 13px;
-  font-weight: bold;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
-  background-color: var(--pes-indie-btn-bg);
-  color: var(--pes-indie-btn-text);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
-  cursor: pointer;
+  font-family: arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  padding: 10px 18px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  background-color: var(--pes-indie-btn-bg) !important;
+  color: var(--pes-indie-btn-text) !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 25%) !important;
+  cursor: pointer !important;
   transition:
     filter 0.15s ease,
-    box-shadow 0.15s ease;
+    box-shadow 0.15s ease !important;
 }
 
 .pes-indie-floating-button:disabled {
-  cursor: wait;
-  opacity: 0.85;
+  cursor: wait !important;
+  opacity: 0.85 !important;
 }
 
 .pes-indie-floating-button:hover:not(:disabled) {
-  filter: brightness(1.1);
-  box-shadow: 0 4px 14px rgb(0 0 0 / 30%);
+  filter: brightness(1.1) !important;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 30%) !important;
 }
 
-/* SoFIFA's own green brand color; a light overlay lifts the progress fill
-   above it during batch conversion. */
+/* SoFIFA's own green brand color (same shade the popup uses for its SoFIFA
+   theme); a light overlay lifts the progress fill above it during batch
+   conversion. */
 .pes-indie-floating-button[data-site="sofifa"] {
   --pes-indie-btn-bg: #2b8a3e;
   --pes-indie-btn-text: #fff;
@@ -50,8 +61,9 @@
   --pes-indie-btn-progress: rgb(26 29 33 / 35%);
 }
 
-/* PESMaster's own navy brand color; a light overlay lifts the progress fill
-   above it during batch conversion. */
+/* PESMaster's own navy brand color (same shade the popup uses for its
+   PESMaster theme); a light overlay lifts the progress fill above it during
+   batch conversion. */
 .pes-indie-floating-button[data-site="pesmaster"] {
   --pes-indie-btn-bg: #323256;
   --pes-indie-btn-text: #fff;

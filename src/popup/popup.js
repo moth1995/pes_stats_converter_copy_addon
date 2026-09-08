@@ -258,6 +258,81 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+/**
+ * Order the toggle button cycles through on each click.
+ *
+ * @type {ColorTheme[]}
+ */
+const COLOR_THEME_CYCLE = [
+  COLOR_THEME.AUTO,
+  COLOR_THEME.LIGHT,
+  COLOR_THEME.DARK,
+];
+
+/**
+ * Display label for each color theme, shown on the toggle button.
+ *
+ * @type {Record<ColorTheme, string>}
+ */
+const COLOR_THEME_LABEL = {
+  [COLOR_THEME.AUTO]: "Theme: Auto",
+  [COLOR_THEME.LIGHT]: "Theme: Light",
+  [COLOR_THEME.DARK]: "Theme: Dark",
+};
+
+/**
+ * Apply a color theme to the popup and reflect it on the toggle button.
+ * "auto" removes the override so `prefers-color-scheme` alone decides.
+ *
+ * @param {ColorTheme} theme
+ * @param {HTMLButtonElement} button - The theme toggle button.
+ * @returns {void}
+ */
+function applyColorTheme(theme, button) {
+  if (theme === COLOR_THEME.AUTO) {
+    document.documentElement.removeAttribute("data-theme");
+  } else {
+    document.documentElement.setAttribute("data-theme", theme);
+  }
+
+  button.textContent = COLOR_THEME_LABEL[theme];
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const themeToggleButton = /** @type {HTMLButtonElement|null} */ (
+    document.getElementById("theme-toggle")
+  );
+
+  if (!themeToggleButton) {
+    return;
+  }
+
+  chrome.storage.local.get(
+    ["selectColorTheme"],
+    /** @param {PESStorageData} result */ function (result) {
+      const storedTheme = result.selectColorTheme || COLOR_THEME.AUTO;
+      applyColorTheme(storedTheme, themeToggleButton);
+    },
+  );
+
+  themeToggleButton.addEventListener("click", function () {
+    chrome.storage.local.get(
+      ["selectColorTheme"],
+      /** @param {PESStorageData} result */ function (result) {
+        const currentTheme = result.selectColorTheme || COLOR_THEME.AUTO;
+        const nextIndex =
+          (COLOR_THEME_CYCLE.indexOf(currentTheme) + 1) %
+          COLOR_THEME_CYCLE.length;
+        const nextTheme = COLOR_THEME_CYCLE[nextIndex];
+
+        applyColorTheme(nextTheme, themeToggleButton);
+
+        chrome.storage.local.set({ selectColorTheme: nextTheme });
+      },
+    );
+  });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   /** @type {HTMLElement|null} */
   var redirectButton = document.getElementById("evoweb-button");
