@@ -237,17 +237,69 @@ function finishButtonProgress(button, originalLabel) {
  */
 function mountButton(source) {
   const button = document.createElement("button");
-  button.style.position = "fixed";
-  button.style.bottom = "20px";
-  button.style.right = "20px";
 
-  // Sources may override position/layout (e.g. PESMaster is vertically
-  // centered instead of bottom-anchored).
-  if (source.buttonStyle) {
-    source.buttonStyle(button.style);
+  /**
+   * Reset the button to this source's default fixed layout (bottom-right,
+   * or whatever `source.buttonStyle` overrides it to).
+   *
+   * @returns {void}
+   */
+  function applySourceDefaultPosition() {
+    // Routed through applyButtonPosition (rather than hard-coding the
+    // offset here) so the default layout can never drift from
+    // BUTTON_POSITION_OFFSET_PX in lib/core.js.
+    applyButtonPosition(button.style, BUTTON_POSITION.BOTTOM_RIGHT);
+    // Max signed 32-bit int: keeps the button above page content regardless
+    // of any stacking context the host page's own elements establish.
+    button.style.zIndex = "2147483647";
+
+    // Sources may override position/layout (e.g. PESMaster is vertically
+    // centered instead of bottom-anchored).
+    if (source.buttonStyle) {
+      source.buttonStyle(button.style);
+    }
   }
 
+  applySourceDefaultPosition();
+
   button.innerHTML = source.label();
+
+  // A user-selected position overrides the site's default layout above.
+  // Absent from storage means "keep the site's default position".
+  chrome.storage.local.get(
+    ["selectButtonPosition"],
+    /** @param {PESStorageData} result */ function (result) {
+      if (result.selectButtonPosition) {
+        applyButtonPosition(button.style, result.selectButtonPosition);
+      }
+    },
+  );
+
+  // Re-apply live when the setting changes from the popup, so an already-open
+  // page reflects the new position without needing a reload.
+  chrome.storage.onChanged.addListener(
+    /**
+     * @param {{ [key: string]: chrome.storage.StorageChange }} changes
+     * @param {chrome.storage.AreaName} areaName
+     * @returns {void}
+     */
+    function (changes, areaName) {
+      if (areaName !== "local" || !changes.selectButtonPosition) {
+        return;
+      }
+
+      const newPosition = /** @type {ButtonPosition|undefined} */ (
+        changes.selectButtonPosition.newValue
+      );
+
+      if (newPosition) {
+        applyButtonPosition(button.style, newPosition);
+      } else {
+        // Reverted to "Auto".
+        applySourceDefaultPosition();
+      }
+    },
+  );
 
   button.addEventListener("click", function () {
     /**

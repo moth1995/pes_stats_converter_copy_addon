@@ -58,6 +58,7 @@
  * @property {typeof GRADE} GRADE - Letter grades ("A"/"B"/"C").
  * @property {typeof FORMAT} FORMAT - Output format identifiers.
  * @property {typeof COPY_MODE} COPY_MODE - Copy-mode identifiers.
+ * @property {typeof BUTTON_POSITION} BUTTON_POSITION - Floating-button screen position identifiers.
  *
  * // Third-party site labels (see data/source-labels.js)
  * @property {typeof SOFIFA_ATTACKING} SOFIFA_ATTACKING - SoFIFA "Attacking" stat labels.
@@ -96,6 +97,7 @@
  * // Core helpers (see lib/core.js)
  * @property {(text: string) => void} copyToClipboard - Copy text to the system clipboard.
  * @property {(array: string[], searchString: string) => boolean} stringInArray - Case-insensitive membership check.
+ * @property {(style: CSSStyleDeclaration, position: ButtonPosition) => void} applyButtonPosition - Apply one of the nine screen positions to the floating button's style.
  * @property {(playerData: string) => void} addPlayer - Append a PES5 CSV row to chrome.storage (seeds header first).
  * @property {(player13Data: string) => void} addPlayer13 - Append a PES13 CSV row to chrome.storage (seeds header first).
  * @property {(player21Data: string) => void} addPlayer21 - Append a PES21 CSV row to chrome.storage (seeds header first).
@@ -195,6 +197,7 @@ var PES_DEBUG;
  * @property {string[]} [players21Data] - Accumulated PES21 CSV rows (header row first).
  * @property {Format} [selectOptionFMInside] - Selected output format.
  * @property {CopyMode} [selectCopyMode] - Selected copy mode.
+ * @property {ButtonPosition} [selectButtonPosition] - Selected floating-button screen position. Absent means "use the site's default position".
  * @property {boolean} [debugEnabled] - Whether verbose debug logging is enabled (gates window.PES_DEBUG).
  * @property {number} [batchRequestDelayMs] - Delay in milliseconds between requests made by batch importers.
  */

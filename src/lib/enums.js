@@ -159,3 +159,25 @@ const COPY_MODE = Object.freeze(
 );
 
 /** @typedef {typeof COPY_MODE[keyof typeof COPY_MODE]} CopyMode */
+
+/**
+ * Floating button screen position, as stored under `selectButtonPosition`. A
+ * 3x3 grid of every edge/corner plus center - the button never needs finer
+ * placement than that. Absent from storage means "use the site's default
+ * position" (see content/bootstrap.js).
+ */
+const BUTTON_POSITION = Object.freeze(
+  /** @type {const} */ ({
+    TOP_LEFT: "top-left",
+    TOP_CENTER: "top-center",
+    TOP_RIGHT: "top-right",
+    MIDDLE_LEFT: "middle-left",
+    MIDDLE_CENTER: "middle-center",
+    MIDDLE_RIGHT: "middle-right",
+    BOTTOM_LEFT: "bottom-left",
+    BOTTOM_CENTER: "bottom-center",
+    BOTTOM_RIGHT: "bottom-right",
+  }),
+);
+
+/** @typedef {typeof BUTTON_POSITION[keyof typeof BUTTON_POSITION]} ButtonPosition */
