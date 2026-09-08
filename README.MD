@@ -1,5 +1,11 @@
 # PES Stats Converter
 
+[![CI](https://github.com/moth1995/pes_stats_converter_copy_addon/actions/workflows/make_release.yml/badge.svg)](https://github.com/moth1995/pes_stats_converter_copy_addon/actions/workflows/make_release.yml)
+[![Release](https://img.shields.io/github/v/release/moth1995/pes_stats_converter_copy_addon)](https://github.com/moth1995/pes_stats_converter_copy_addon/releases/latest)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/egeeiijmegmigmllhhebdhmckofoldaf.svg)](https://chromewebstore.google.com/detail/egeeiijmegmigmllhhebdhmckofoldaf)
+[![Firefox Add-on](https://img.shields.io/amo/v/pes-stats-converter-copy.svg)](https://addons.mozilla.org/firefox/addon/pes-stats-converter-copy/)
+
 A browser extension (Manifest V3, plain JavaScript, no build step) that adds a
 floating button to player pages on SoFIFA, FMInside, and PESMaster. Clicking it
 converts FIFA / Football Manager / eFootball stats into old-gen PES stats and
