@@ -46,12 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sCopyMode.addEventListener("change", function () {
     let selectValue = sCopyMode.value;
-    const csvButtonsDiv = document.getElementById("csv-buttons");
-    if (selectValue == COPY_MODE.MULTIPLE) {
-      if (csvButtonsDiv) csvButtonsDiv.classList.add("active");
-    } else {
-      if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
-    }
     // Saves the selected option to local storage
     chrome.storage.local.set({ selectCopyMode: selectValue }, function () {
       console.log("Value saved to local storage, new value:" + selectValue);
@@ -63,12 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
     /** @param {PESStorageData} result */ function (result) {
       // Fall back to the default copy mode when nothing has been saved yet.
       const selectedOption = result.selectCopyMode || COPY_MODE.ONE;
-      const csvButtonsDiv = document.getElementById("csv-buttons");
-      if (selectedOption == COPY_MODE.MULTIPLE) {
-        if (csvButtonsDiv) csvButtonsDiv.classList.add("active");
-      } else {
-        if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
-      }
 
       // Sets the selected option in the select
       sCopyMode.value = selectedOption;

@@ -257,15 +257,10 @@ input[type="checkbox"] {
   accent-color: var(--accent);
 }
 
-.csv-buttons {
-  display: none;
+.csv-config {
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--border);
-}
-
-.csv-buttons.active {
-  display: block;
 }
 
 p {
