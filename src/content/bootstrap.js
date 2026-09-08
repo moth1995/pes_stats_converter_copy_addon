@@ -146,6 +146,17 @@ function setButtonBusy(button, busy) {
 }
 
 /**
+ * The progress bar's fill color, as a CSS `var()` reference.
+ * floating-button.css declares `--pes-indie-btn-progress` on the base rule
+ * (so it's always defined) and overrides it per `[data-site]`. Read by both
+ * `updateButtonProgress` and `finishButtonProgress` so the two never drift
+ * apart.
+ *
+ * @type {string}
+ */
+const PROGRESS_COLOR_VAR = "var(--pes-indie-btn-progress)";
+
+/**
  * Update the floating button so its background acts as a progress bar.
  *
  * @param {HTMLButtonElement} button - Floating action button.
@@ -159,12 +170,11 @@ function updateButtonProgress(button, current, total) {
   button.textContent = `Converting ${current}/${total} (${percentage}%)`;
 
   // Use background-size rather than changing gradient stops.
-  // This lets us smoothly reverse the animation after completion.
-  button.style.backgroundImage =
-    "linear-gradient(" +
-    "rgba(76, 175, 80, 0.55), " +
-    "rgba(76, 175, 80, 0.55)" +
-    ")";
+  // This lets us smoothly reverse the animation after completion. The color
+  // itself comes from --pes-indie-btn-progress (set per site alongside
+  // --pes-indie-btn-bg) so the progress fill stays visible against
+  // whichever accent color the active site is themed with.
+  button.style.backgroundImage = `linear-gradient(${PROGRESS_COLOR_VAR}, ${PROGRESS_COLOR_VAR})`;
 
   button.style.backgroundRepeat = "no-repeat";
   button.style.backgroundPosition = "left center";
@@ -198,11 +208,7 @@ function finishButtonProgress(button, originalLabel) {
   const cooldownMs = 3000;
 
   // Ensure the completion bar begins completely full.
-  button.style.backgroundImage =
-    "linear-gradient(" +
-    "rgba(76, 175, 80, 0.55), " +
-    "rgba(76, 175, 80, 0.55)" +
-    ")";
+  button.style.backgroundImage = `linear-gradient(${PROGRESS_COLOR_VAR}, ${PROGRESS_COLOR_VAR})`;
 
   button.style.backgroundRepeat = "no-repeat";
   button.style.backgroundPosition = "left center";
@@ -230,35 +236,14 @@ function finishButtonProgress(button, originalLabel) {
 }
 
 /**
- * Floating button brand colors per site, keyed by the source id with any
- * "-team" suffix stripped (so "sofifa" and "sofifa-team" share one entry).
- * A source with no entry keeps the CSS default (PES Indie brand green).
+ * Derive the button's theme key from a source id, so "sofifa" and
+ * "sofifa-team" share the same [data-site] styling in floating-button.css.
  *
- * @type {Record<string, {bg: string, text: string}>}
- */
-const BUTTON_THEME_BY_SITE = {
-  sofifa: { bg: "#2b8a3e", text: "#ffffff" },
-  fminside: { bg: "#ffcc33", text: "#1a1d21" },
-  pesmaster: { bg: "#323256", text: "#ffffff" },
-};
-
-/**
- * Apply the button's brand colors for the given source, via the CSS custom
- * properties floating-button.css reads.
- *
- * @param {CSSStyleDeclaration} style - The button's style object.
  * @param {string} sourceId - The active source's id (e.g. "sofifa-team").
- * @returns {void}
+ * @returns {string} The site key (e.g. "sofifa").
  */
-function applyButtonTheme(style, sourceId) {
-  const siteKey = sourceId.replace(/-team$/, "");
-  const theme = BUTTON_THEME_BY_SITE[siteKey];
-  if (!theme) {
-    return;
-  }
-
-  style.setProperty("--pes-indie-btn-bg", theme.bg);
-  style.setProperty("--pes-indie-btn-text", theme.text);
+function buttonThemeSite(sourceId) {
+  return sourceId.replace(/-team$/, "");
 }
 
 /**
@@ -270,7 +255,7 @@ function applyButtonTheme(style, sourceId) {
 function mountButton(source) {
   const button = document.createElement("button");
   button.classList.add("pes-indie-floating-button");
-  applyButtonTheme(button.style, source.id);
+  button.dataset.site = buttonThemeSite(source.id);
 
   /**
    * Reset the button to this source's default fixed layout (bottom-right,
