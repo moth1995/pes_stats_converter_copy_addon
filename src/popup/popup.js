@@ -327,7 +327,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         applyColorTheme(nextTheme, themeToggleButton);
 
-        chrome.storage.local.set({ selectColorTheme: nextTheme });
+        if (nextTheme === COLOR_THEME.AUTO) {
+          // "Auto" - fall back to the system's prefers-color-scheme.
+          chrome.storage.local.remove(["selectColorTheme"]);
+        } else {
+          chrome.storage.local.set({ selectColorTheme: nextTheme });
+        }
       },
     );
   });
