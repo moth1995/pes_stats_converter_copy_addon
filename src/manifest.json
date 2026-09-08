@@ -20,6 +20,7 @@
         "*://*.pesmaster.com/*/efootball-2022/team/*"
       ],
       "run_at": "document_idle",
+      "css": ["content/floating-button.css"],
       "js": [
         "lib/enums.js",
         "data/source-labels.js",

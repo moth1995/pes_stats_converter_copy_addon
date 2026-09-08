@@ -230,6 +230,38 @@ function finishButtonProgress(button, originalLabel) {
 }
 
 /**
+ * Floating button brand colors per site, keyed by the source id with any
+ * "-team" suffix stripped (so "sofifa" and "sofifa-team" share one entry).
+ * A source with no entry keeps the CSS default (PES Indie brand green).
+ *
+ * @type {Record<string, {bg: string, text: string}>}
+ */
+const BUTTON_THEME_BY_SITE = {
+  sofifa: { bg: "#2b8a3e", text: "#ffffff" },
+  fminside: { bg: "#ffcc33", text: "#1a1d21" },
+  pesmaster: { bg: "#323256", text: "#ffffff" },
+};
+
+/**
+ * Apply the button's brand colors for the given source, via the CSS custom
+ * properties floating-button.css reads.
+ *
+ * @param {CSSStyleDeclaration} style - The button's style object.
+ * @param {string} sourceId - The active source's id (e.g. "sofifa-team").
+ * @returns {void}
+ */
+function applyButtonTheme(style, sourceId) {
+  const siteKey = sourceId.replace(/-team$/, "");
+  const theme = BUTTON_THEME_BY_SITE[siteKey];
+  if (!theme) {
+    return;
+  }
+
+  style.setProperty("--pes-indie-btn-bg", theme.bg);
+  style.setProperty("--pes-indie-btn-text", theme.text);
+}
+
+/**
  * Mount the floating action button for a source.
  *
  * @param {SourceDescriptor} source - The source to bind.
@@ -237,6 +269,8 @@ function finishButtonProgress(button, originalLabel) {
  */
 function mountButton(source) {
   const button = document.createElement("button");
+  button.classList.add("pes-indie-floating-button");
+  applyButtonTheme(button.style, source.id);
 
   /**
    * Reset the button to this source's default fixed layout (bottom-right,
