@@ -81,15 +81,32 @@ function getBatchRequestDelay() {
 const BUTTON_POSITION_OFFSET_PX = 20;
 
 /**
+ * The nine valid BUTTON_POSITION values, for validating untrusted input
+ * (e.g. a manually-edited or stale chrome.storage value) at runtime -
+ * JSDoc types give no such guarantee once storage is involved.
+ *
+ * @type {Set<string>}
+ */
+const VALID_BUTTON_POSITIONS = new Set(Object.values(BUTTON_POSITION));
+
+/**
  * Apply one of the nine BUTTON_POSITION values to the floating button's
  * inline style. Every offset is reset first so switching positions never
- * leaves a stale offset behind from a previously applied one.
+ * leaves a stale offset behind from a previously applied one. An
+ * unrecognized position is a no-op, leaving the button's current style
+ * untouched rather than resetting it to an all-"auto" (effectively
+ * unpositioned) layout.
  *
  * @param {CSSStyleDeclaration} style - The button's style object.
  * @param {ButtonPosition} position - One of the nine BUTTON_POSITION values.
  * @returns {void}
  */
 function applyButtonPosition(style, position) {
+  if (!VALID_BUTTON_POSITIONS.has(position)) {
+    debugWarn("core:button-position", "unrecognized position", position);
+    return;
+  }
+
   const edge = `${BUTTON_POSITION_OFFSET_PX}px`;
 
   style.position = "fixed";

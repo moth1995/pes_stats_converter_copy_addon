@@ -245,12 +245,10 @@ function mountButton(source) {
    * @returns {void}
    */
   function applySourceDefaultPosition() {
-    button.style.position = "fixed";
-    button.style.top = "auto";
-    button.style.bottom = "20px";
-    button.style.left = "auto";
-    button.style.right = "20px";
-    button.style.transform = "none";
+    // Routed through applyButtonPosition (rather than hard-coding the
+    // offset here) so the default layout can never drift from
+    // BUTTON_POSITION_OFFSET_PX in lib/core.js.
+    applyButtonPosition(button.style, BUTTON_POSITION.BOTTOM_RIGHT);
     // Max signed 32-bit int: keeps the button above page content regardless
     // of any stacking context the host page's own elements establish.
     button.style.zIndex = "2147483647";

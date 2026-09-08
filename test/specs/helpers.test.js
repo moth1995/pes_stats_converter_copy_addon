@@ -113,6 +113,20 @@ test("applyButtonPosition resets stale offsets from a previous call", () => {
   assert.strictEqual(style.left, "20px");
 });
 
+test("applyButtonPosition is a no-op for an unrecognized position (e.g. corrupted storage)", () => {
+  /** @type {Record<string, string>} */
+  const style = { bottom: "20px", right: "20px", position: "fixed" };
+
+  api.applyButtonPosition(style, "not-a-real-position");
+
+  // Untouched, rather than reset to an all-"auto" (invisible) layout.
+  assert.deepStrictEqual(style, {
+    bottom: "20px",
+    right: "20px",
+    position: "fixed",
+  });
+});
+
 test("fmPositionStringToArray splits and trims", () => {
   // Array.from bridges the VM-realm array to the host realm so deepStrictEqual
   // compares against a native Array with the host prototype.
