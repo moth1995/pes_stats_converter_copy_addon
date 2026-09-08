@@ -328,7 +328,13 @@ function addPlayers(playerRows, format) {
 // functions for the converters' bare-identifier call sites).
 
 /**
- * Map an FM 1-20 attribute to a PES 40-100 stat using a random bucket.
+ * Map an FM 1-20 attribute to a PES 40-100 stat by picking a value from that
+ * stat's bucket (a range of consecutive integers). By default (window.PES_FM_RANDOM_STATS
+ * falsy) the pick is deterministic - the middle of the bucket, or the higher
+ * value when the bucket only has two candidates - so re-converting the same
+ * player twice yields the same stats. Setting window.PES_FM_RANDOM_STATS to
+ * true restores the original behavior of picking a random value from the
+ * bucket instead.
  *
  * @param {number} stat - The FM attribute (1-20), rounded.
  * @returns {number} A PES stat in the 40-100 range.
@@ -343,7 +349,11 @@ function fmToPesStat99(stat) {
     43, 46, 49, 52, 55, 58, 61, 64, 67, 70, 73, 76, 79, 82, 85, 88, 91, 94, 97,
     100,
   ];
-  let PESStat = getRandomInt(minArray[stat - 1], maxArray[stat - 1]);
+  let min = minArray[stat - 1];
+  let max = maxArray[stat - 1];
+  let PESStat = window.PES_FM_RANDOM_STATS
+    ? getRandomInt(min, max)
+    : middleOfRange(min, max);
   return PESStat;
 }
 

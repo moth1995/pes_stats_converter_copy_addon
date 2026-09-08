@@ -177,6 +177,27 @@ test("fmToPesStat99 always returns a value in the table range", () => {
   }
 });
 
+test("middleOfRange picks the true middle, or the higher of two candidates", () => {
+  assert.strictEqual(api.middleOfRange(40, 43), 41); // 3 candidates: 40,41,42
+  assert.strictEqual(api.middleOfRange(40, 42), 41); // 2 candidates: 40,41 -> higher
+});
+
+test("fmToPesStat99 is deterministic by default (window.PES_FM_RANDOM_STATS unset)", () => {
+  // Bucket for stat=1 is [40,43) -> candidates 40,41,42, middle = 41.
+  assert.strictEqual(api.fmToPesStat99(1), 41);
+  assert.strictEqual(api.fmToPesStat99(1), api.fmToPesStat99(1));
+});
+
+test("fmToPesStat99 restores random picks when window.PES_FM_RANDOM_STATS is set", () => {
+  const { sandbox, exports: randomApi } = loadExports();
+  sandbox.window.PES_FM_RANDOM_STATS = true;
+
+  for (let i = 0; i < 20; i++) {
+    const v = randomApi.fmToPesStat99(1);
+    assert.ok(v >= 40 && v < 43, `expected in [40,43), got ${v}`);
+  }
+});
+
 test("fmToPesStat1To8 maps the documented range", () => {
   assert.strictEqual(api.fmToPesStat1To8(1), 1);
   assert.strictEqual(api.fmToPesStat1To8(20), 8);

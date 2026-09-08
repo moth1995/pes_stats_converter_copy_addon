@@ -79,6 +79,7 @@ window.PESConverter = {
   divideIntegers,
   average,
   getRandomInt,
+  middleOfRange,
   limitStat99,
   clamp,
   hasSpecialAbility,

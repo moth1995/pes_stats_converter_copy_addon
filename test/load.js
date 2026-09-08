@@ -74,6 +74,7 @@ const DEFAULT_EXPORTS = [
   "divideIntegers",
   "average",
   "getRandomInt",
+  "middleOfRange",
   "limitStat99",
   "clamp",
   "fmToPesPositions",

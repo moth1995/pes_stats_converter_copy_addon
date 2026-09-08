@@ -90,6 +90,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // FM stat randomization toggle: persisted in storage, default false (i.e.
+  // deterministic middle-of-range conversion for FM -> PES5/PES13 stats).
+  const fmRandomStatsCheckbox = /** @type {HTMLInputElement|null} */ (
+    document.getElementById("fm-random-stats-enabled")
+  );
+
+  if (fmRandomStatsCheckbox) {
+    chrome.storage.local.get(
+      ["fmRandomStatsEnabled"],
+      /** @param {PESStorageData} result */ function (result) {
+        fmRandomStatsCheckbox.checked = result.fmRandomStatsEnabled === true;
+      },
+    );
+
+    fmRandomStatsCheckbox.addEventListener("change", function () {
+      chrome.storage.local.set({
+        fmRandomStatsEnabled: fmRandomStatsCheckbox.checked,
+      });
+    });
+  }
+
   // Debug logging toggle: persisted in storage, default false.
   const debugEnabledCheckbox = /** @type {HTMLInputElement} */ (
     document.getElementById("debug-enabled")

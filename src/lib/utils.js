@@ -59,6 +59,22 @@ function getRandomInt(min, max) {
 }
 
 /**
+ * Deterministic replacement for getRandomInt(min, max): picks the middle
+ * integer of the [min, max) range instead of a random one. With an even
+ * number of candidates (no exact middle - e.g. just 2), picks the higher of
+ * the two central values.
+ *
+ * @param {number} min - Inclusive lower bound.
+ * @param {number} max - Exclusive upper bound.
+ * @returns {number} The middle (or upper-middle) integer in [min, max).
+ */
+function middleOfRange(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return min + Math.floor((max - min) / 2);
+}
+
+/**
  * Cap a stat at 99, rounding non-integers to nearest. Note there is no lower
  * bound: negative values pass through unchanged.
  *

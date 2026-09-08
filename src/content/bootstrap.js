@@ -344,7 +344,12 @@ function mountButton(source) {
     }
 
     chrome.storage.local.get(
-      ["selectOptionFMInside", "selectCopyMode", "debugEnabled"],
+      [
+        "selectOptionFMInside",
+        "selectCopyMode",
+        "debugEnabled",
+        "fmRandomStatsEnabled",
+      ],
 
       /**
        * Storage callback: convert and render using stored settings.
@@ -357,6 +362,9 @@ function mountButton(source) {
         const copyMode = result.selectCopyMode || COPY_MODE.ONE;
         // Sync the persisted debug preference to the logger's global gate.
         window.PES_DEBUG = result.debugEnabled === true;
+        // Sync the persisted FM stat-randomization preference to
+        // fmToPesStat99's global gate (see lib/core.js).
+        window.PES_FM_RANDOM_STATS = result.fmRandomStatsEnabled === true;
         debugLog("bootstrap", "settings", { format, copyMode });
 
         const parser = new DOMParser();
