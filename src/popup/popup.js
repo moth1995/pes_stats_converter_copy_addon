@@ -46,12 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sCopyMode.addEventListener("change", function () {
     let selectValue = sCopyMode.value;
-    const csvButtonsDiv = document.getElementById("csv-buttons");
-    if (selectValue == COPY_MODE.MULTIPLE) {
-      if (csvButtonsDiv) csvButtonsDiv.classList.add("active");
-    } else {
-      if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
-    }
     // Saves the selected option to local storage
     chrome.storage.local.set({ selectCopyMode: selectValue }, function () {
       console.log("Value saved to local storage, new value:" + selectValue);
@@ -63,12 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
     /** @param {PESStorageData} result */ function (result) {
       // Fall back to the default copy mode when nothing has been saved yet.
       const selectedOption = result.selectCopyMode || COPY_MODE.ONE;
-      const csvButtonsDiv = document.getElementById("csv-buttons");
-      if (selectedOption == COPY_MODE.MULTIPLE) {
-        if (csvButtonsDiv) csvButtonsDiv.classList.add("active");
-      } else {
-        if (csvButtonsDiv) csvButtonsDiv.classList.remove("active");
-      }
 
       // Sets the selected option in the select
       sCopyMode.value = selectedOption;
@@ -207,8 +195,67 @@ document.addEventListener("DOMContentLoaded", function () {
           tab.classList.remove("active");
         }
       });
+      tabButtons.forEach(function (otherButton) {
+        otherButton.classList.toggle("active", otherButton === button);
+      });
     });
   });
+});
+
+/**
+ * Maps a page URL's hostname to the site key used for popup theming.
+ *
+ * @param {string|undefined} url
+ * @returns {"sofifa"|"fminside"|"pesmaster"|null}
+ */
+function detectSiteFromUrl(url) {
+  if (!url) {
+    return null;
+  }
+
+  let hostname;
+  try {
+    hostname = new URL(url).hostname;
+  } catch {
+    return null;
+  }
+
+  if (hostname === "sofifa.com" || hostname.endsWith(".sofifa.com")) {
+    return "sofifa";
+  }
+  if (hostname === "fminside.net" || hostname.endsWith(".fminside.net")) {
+    return "fminside";
+  }
+  if (hostname === "pesmaster.com" || hostname.endsWith(".pesmaster.com")) {
+    return "pesmaster";
+  }
+
+  return null;
+}
+
+/**
+ * Applies the popup theme matching the detected site, so the popup echoes
+ * the look of whichever supported site the active tab is on.
+ *
+ * @param {"sofifa"|"fminside"|"pesmaster"|null} site
+ */
+function applySiteTheme(site) {
+  if (site) {
+    document.documentElement.setAttribute("data-site", site);
+  } else {
+    document.documentElement.removeAttribute("data-site");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.query) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const activeTab = tabs[0];
+      applySiteTheme(detectSiteFromUrl(activeTab && activeTab.url));
+    });
+  } else {
+    applySiteTheme(null);
+  }
 });
 
 document.addEventListener("DOMContentLoaded", function () {

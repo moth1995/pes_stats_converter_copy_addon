@@ -1,0 +1,59 @@
+/* Shared look for the floating "PES Stats Copy" / "Add Team to CSV" button
+   mounted by content/bootstrap.js. Colors are custom properties, defaulted
+   here to the PES Indie brand green; bootstrap.js sets [data-site] on the
+   button (from the source id, "-team" stripped) and the blocks below
+   override just the accent to match that site instead of redefining the
+   whole rule. */
+.pes-indie-floating-button {
+  --pes-indie-btn-bg: #27ae60;
+  --pes-indie-btn-text: #fff;
+  --pes-indie-btn-progress: rgb(76 175 80 / 55%);
+
+  font-family: arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--pes-indie-btn-bg);
+  color: var(--pes-indie-btn-text);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
+  cursor: pointer;
+  transition:
+    filter 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.pes-indie-floating-button:disabled {
+  cursor: wait;
+  opacity: 0.85;
+}
+
+.pes-indie-floating-button:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 30%);
+}
+
+/* SoFIFA's own green brand color; a light overlay lifts the progress fill
+   above it during batch conversion. */
+.pes-indie-floating-button[data-site="sofifa"] {
+  --pes-indie-btn-bg: #2b8a3e;
+  --pes-indie-btn-text: #fff;
+  --pes-indie-btn-progress: rgb(255 255 255 / 30%);
+}
+
+/* FMInside's own yellow brand color; text and the progress fill both go
+   dark since the background is bright. */
+.pes-indie-floating-button[data-site="fminside"] {
+  --pes-indie-btn-bg: #fc3;
+  --pes-indie-btn-text: #1a1d21;
+  --pes-indie-btn-progress: rgb(26 29 33 / 35%);
+}
+
+/* PESMaster's own navy brand color; a light overlay lifts the progress fill
+   above it during batch conversion. */
+.pes-indie-floating-button[data-site="pesmaster"] {
+  --pes-indie-btn-bg: #323256;
+  --pes-indie-btn-text: #fff;
+  --pes-indie-btn-progress: rgb(255 255 255 / 30%);
+}
