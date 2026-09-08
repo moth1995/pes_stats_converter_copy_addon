@@ -119,6 +119,7 @@ window.PESConverter = {
   playersHeightTable,
   PES21_COUNTRY_MAP,
   pesIndieNationalities,
+  pes13Nationalities,
   maxStatsTable,
   minStatsTable,
 

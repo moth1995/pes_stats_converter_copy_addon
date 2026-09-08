@@ -24,6 +24,7 @@ const DEFAULT_FILES = [
   "converters/pes21.js",
   "converters/pes13.js",
   "data/nationalities.js",
+  "data/pes13-nationalities.js",
   "data/pes21-stats-table.js",
   "lib/namespace.js",
 ];
@@ -116,6 +117,7 @@ const DEFAULT_EXPORTS = [
   "maxStatsTable",
   "minStatsTable",
   "pesIndieNationalities",
+  "pes13Nationalities",
   "addPlayers",
   "getBatchRequestDelay",
 ];

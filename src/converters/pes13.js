@@ -143,6 +143,11 @@ class PES13Player extends PESPlayer {
   fromFIFA17To23Player(fifaPlayer) {
     super.fromFIFA17To23Player(fifaPlayer);
 
+    this.nationality =
+      fifaPlayer.nationality in pes13Nationalities
+        ? pes13Nationalities[fifaPlayer.nationality]
+        : "Free Nationality";
+
     this.explosivePower = average([this.acceleration, this.agility]);
     this.tenacity = this.mentality;
 
@@ -337,6 +342,11 @@ class PES13Player extends PESPlayer {
    */
   fromFMPlayer(fmPlayer) {
     super.fromFMPlayer(fmPlayer);
+
+    this.nationality =
+      fmPlayer.nationality in pes13Nationalities
+        ? pes13Nationalities[fmPlayer.nationality]
+        : "Free Nationality";
 
     let FMPositions = fmPositionStringToArray(fmPlayer.info[FM_INFO.POSITIONS]);
     debugLog("pes13:fm", "positions", FMPositions);
