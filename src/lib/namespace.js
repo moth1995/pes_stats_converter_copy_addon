@@ -22,6 +22,7 @@ window.PESConverter = {
   FORMAT,
   COPY_MODE,
   BUTTON_POSITION,
+  COLOR_THEME,
 
   // Third-party site labels (see data/source-labels.js)
   SOFIFA_ATTACKING,

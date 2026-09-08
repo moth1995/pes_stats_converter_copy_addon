@@ -303,7 +303,11 @@ function mountButton(source) {
      * @returns {void}
      */
     function (changes, areaName) {
-      if (areaName !== "local" || !changes.selectButtonPosition) {
+      if (areaName !== "local") {
+        return;
+      }
+
+      if (!changes.selectButtonPosition) {
         return;
       }
 

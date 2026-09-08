@@ -181,3 +181,18 @@ const BUTTON_POSITION = Object.freeze(
 );
 
 /** @typedef {typeof BUTTON_POSITION[keyof typeof BUTTON_POSITION]} ButtonPosition */
+
+/**
+ * Popup color theme, as stored under `selectColorTheme`. "auto" follows the
+ * system's `prefers-color-scheme` (the default); "light"/"dark" force the
+ * popup's `data-theme` attribute regardless of system setting.
+ */
+const COLOR_THEME = Object.freeze(
+  /** @type {const} */ ({
+    AUTO: "auto",
+    LIGHT: "light",
+    DARK: "dark",
+  }),
+);
+
+/** @typedef {typeof COLOR_THEME[keyof typeof COLOR_THEME]} ColorTheme */

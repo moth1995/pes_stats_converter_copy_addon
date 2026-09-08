@@ -59,6 +59,7 @@
  * @property {typeof FORMAT} FORMAT - Output format identifiers.
  * @property {typeof COPY_MODE} COPY_MODE - Copy-mode identifiers.
  * @property {typeof BUTTON_POSITION} BUTTON_POSITION - Floating-button screen position identifiers.
+ * @property {typeof COLOR_THEME} COLOR_THEME - Popup color theme identifiers.
  *
  * // Third-party site labels (see data/source-labels.js)
  * @property {typeof SOFIFA_ATTACKING} SOFIFA_ATTACKING - SoFIFA "Attacking" stat labels.
@@ -198,6 +199,7 @@ var PES_DEBUG;
  * @property {Format} [selectOptionFMInside] - Selected output format.
  * @property {CopyMode} [selectCopyMode] - Selected copy mode.
  * @property {ButtonPosition} [selectButtonPosition] - Selected floating-button screen position. Absent means "use the site's default position".
+ * @property {ColorTheme} [selectColorTheme] - Selected popup color theme. Absent means "auto" (follow system).
  * @property {boolean} [debugEnabled] - Whether verbose debug logging is enabled (gates window.PES_DEBUG).
  * @property {number} [batchRequestDelayMs] - Delay in milliseconds between requests made by batch importers.
  */
