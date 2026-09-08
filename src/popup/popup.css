@@ -336,9 +336,14 @@ input[type="checkbox"] {
   justify-content: center;
   width: 16px;
   height: 16px;
+  padding: 0;
+  background: none;
+  border: none;
   border-radius: 50%;
   color: var(--muted);
+  font-family: inherit;
   font-size: 13px;
+  line-height: 1;
   cursor: help;
 }
 

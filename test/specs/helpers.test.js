@@ -192,10 +192,19 @@ test("fmToPesStat99 restores random picks when window.PES_FM_RANDOM_STATS is set
   const { sandbox, exports: randomApi } = loadExports();
   sandbox.window.PES_FM_RANDOM_STATS = true;
 
+  const seen = new Set();
   for (let i = 0; i < 20; i++) {
     const v = randomApi.fmToPesStat99(1);
     assert.ok(v >= 40 && v < 43, `expected in [40,43), got ${v}`);
+    seen.add(v);
   }
+
+  // A deterministic implementation would only ever produce one value here;
+  // the seeded PRNG (see test/load.js) makes this assertion reproducible.
+  assert.ok(
+    seen.size > 1,
+    `expected multiple distinct values from the 3-candidate bucket, got ${[...seen]}`,
+  );
 });
 
 test("fmToPesStat1To8 maps the documented range", () => {

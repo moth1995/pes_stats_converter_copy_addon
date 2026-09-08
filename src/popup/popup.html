@@ -64,12 +64,14 @@
           >Randomize FM stat conversion:</label
         >
         <input type="checkbox" id="fm-random-stats-enabled" />
-        <span
+        <button
+          type="button"
           class="info-icon"
-          tabindex="0"
+          aria-label="When converting a Football Manager player to PES 5 / PES 13 stats, each stat is picked from a small range of possible values. Off (default): always picks the middle value of that range, so converting the same player twice gives the same result. On: picks a random value from the range instead, like the original converter."
           title="When converting a Football Manager player to PES 5 / PES 13 stats, each stat is picked from a small range of possible values. Off (default): always picks the middle value of that range, so converting the same player twice gives the same result. On: picks a random value from the range instead, like the original converter."
-          >&#9432;</span
         >
+          &#9432;
+        </button>
       </div>
       <div class="field-inline">
         <label for="debug-enabled">Enable debug logging:</label>
