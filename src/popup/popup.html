@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <div class="banner">
+    <div class="app-header">
       <span>PES Stats Converter By PES Indie Team</span>
     </div>
-    <div>
-      <button class="tab-button" data-tab="configuration-tab">
+    <div class="tabs-nav">
+      <button class="tab-button active" data-tab="configuration-tab">
         Configuration
       </button>
       <button class="tab-button" data-tab="about-tab">About</button>
@@ -18,14 +18,14 @@
 
     <div id="configuration-tab" class="tab active">
       <h1>Configuration</h1>
-      <div>
+      <div class="field">
         <label for="select-copy-mode">Copy Mode:</label>
         <select id="select-copy-mode">
           <option value="one">Copy One (PSD Style)</option>
           <option value="multiple">Copy Multiple (CSV)</option>
         </select>
       </div>
-      <div>
+      <div class="field">
         <label for="select-option-fm-inside"
           >Output stats for FMInside &amp; SoFIFA:</label
         >
@@ -36,7 +36,7 @@
           <option value="raw">RAW Data</option>
         </select>
       </div>
-      <div>
+      <div class="field">
         <label for="select-button-position">Floating button position:</label>
         <select id="select-button-position">
           <option value="">Auto (site default)</option>
@@ -51,12 +51,12 @@
           <option value="bottom-right">Bottom Right</option>
         </select>
       </div>
-      <div>
+      <div class="field-inline">
         <label for="debug-enabled">Enable debug logging:</label>
         <input type="checkbox" id="debug-enabled" />
       </div>
-      <div>
-        <label for="batch-request-delay"> Batch request delay: </label>
+      <div class="field-inline">
+        <label for="batch-request-delay">Batch request delay:</label>
 
         <input
           type="number"
@@ -84,7 +84,7 @@
     </div>
 
     <div id="about-tab" class="tab">
-      <h2>Developed by <br />PES Indie Team</h2>
+      <h2>Developed by PES Indie Team</h2>
       <p>
         <b> Credits </b> <br />
         FIFA Formula by <b>Stavrello</b><br />

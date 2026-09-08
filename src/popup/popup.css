@@ -1,85 +1,294 @@
-body {
-  width: 370px;
-  height: 370px;
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #000;
-  color: #fff;
+/* Default (unrecognized-site) theme. Follows the system color scheme since
+   there's no source site to borrow a palette from. */
+:root {
+  color-scheme: light dark;
+  --bg: #f4f4f5;
+  --panel-bg: #ffffff;
+  --panel-bg-muted: #f4f4f5;
+  --border: #dcdcdc;
+  --text: #1a1a1a;
+  --heading: #111111;
+  --muted: #666666;
+  --accent: #27ae60;
+  --accent-hover: #219f55;
+  --accent-text: #ffffff;
+  --radius: 6px;
+  --font: Arial, sans-serif;
+  --header-bg: #111111;
+  --header-text: #ffffff;
 }
 
-/* Estilos de los botones de pestaña */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --panel-bg: #1c1c1c;
+    --panel-bg-muted: #222222;
+    --border: #333333;
+    --text: #f5f5f5;
+    --heading: #ffffff;
+    --muted: #a0a0a0;
+    --accent-hover: #2ecc71;
+    --header-bg: #000000;
+  }
+}
+
+/* FMInside: yellow accent on near-black / off-white panels, Inter font. */
+:root[data-site="fminside"] {
+  --border: #cdd3d9;
+  --text: #1a1d21;
+  --heading: #182a33;
+  --muted: #66717b;
+  --accent: #ffcc33;
+  --accent-hover: #e0b62b;
+  --accent-text: #1a1d21;
+  --radius: 5px;
+  --font:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --bg: #f5f7f9;
+  --panel-bg: #ffffff;
+  --panel-bg-muted: #f5f7f9;
+  --header-bg: #050a10;
+  --header-text: #ffcc33;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-site="fminside"] {
+    --bg: #050a10;
+    --panel-bg: #121c29;
+    --panel-bg-muted: #1a2633;
+    --border: #2f3e50;
+    --text: #f5f7f9;
+    --heading: #f5f7f9;
+    --muted: #9ca7b2;
+  }
+}
+
+/* SoFIFA: white top nav with a green accent in light mode; the site's own
+   .dark class swaps to a near-black page with a #2d2e30 card surface. */
+:root[data-site="sofifa"] {
+  --bg: #ffffff;
+  --panel-bg: #ffffff;
+  --panel-bg-muted: #f8f9fa;
+  --border: #f1f3f5;
+  --text: #495057;
+  --heading: #202124;
+  --muted: #868e96;
+  --accent: #2b8a3e;
+  --accent-hover: #237033;
+  --accent-text: #ffffff;
+  --radius: 4px;
+  --font:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
+    sans-serif;
+  --header-bg: #ffffff;
+  --header-text: #495057;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-site="sofifa"] {
+    --bg: #202124;
+    --panel-bg: #2d2e30;
+    --panel-bg-muted: #171717;
+    --border: #303134;
+    --text: #bdc1c6;
+    --heading: #e8eaed;
+    --muted: #868e96;
+    --accent-hover: #449246;
+    --header-bg: #202124;
+    --header-text: #e8eaed;
+  }
+}
+
+/* PESMaster: navy accent, condensed sporty font. */
+:root[data-site="pesmaster"] {
+  --bg: #fafafa;
+  --panel-bg: #ffffff;
+  --panel-bg-muted: #f3f3f3;
+  --border: #cbcbd3;
+  --text: #000000;
+  --heading: #323256;
+  --muted: #5a5a76;
+  --accent: #323256;
+  --accent-hover: #434884;
+  --accent-text: #ffffff;
+  --radius: 4px;
+  --font: "Arial Narrow", Arial, sans-serif;
+  --header-bg: #323256;
+  --header-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-site="pesmaster"] {
+    --bg: #28283c;
+    --panel-bg: #202031;
+    --panel-bg-muted: #28283c;
+    --border: #3f3f58;
+    --text: #ffffff;
+    --heading: #ffffff;
+    --muted: #b7b7c9;
+    --accent: #ffffff;
+    --accent-hover: #f3f3f3;
+    --accent-text: #000000;
+    --header-bg: #202031;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 380px;
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background-color: var(--bg);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.app-header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header span {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.tabs-nav {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--panel-bg-muted);
+}
+
 .tab-button {
-  background-color: #00bfff;
-  color: #fff;
+  flex: 1;
+  background: none;
   border: none;
-  padding: 10px 20px;
-  margin-right: 10px;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 8px;
   cursor: pointer;
+  border-bottom: 2px solid transparent;
 }
 
 .tab-button:hover {
-  background-color: #00bfff;
+  color: var(--text);
 }
 
-/* Estilos de las pestañas */
+.tab-button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 .tab {
   display: none;
-  margin-top: 20px;
+  padding: 16px;
 }
 
 .tab.active {
   display: block;
 }
 
+h1 {
+  font-size: 18px;
+  margin: 0 0 12px;
+  color: var(--heading);
+}
+
+h2 {
+  font-size: 15px;
+  margin: 0 0 10px;
+  color: var(--heading);
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--muted);
+}
+
+.field-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.field-inline label {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--muted);
+}
+
+select,
+input[type="number"] {
+  width: 100%;
+  padding: 7px 8px;
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--text);
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.field-inline select,
+.field-inline input {
+  width: auto;
+  flex: 1;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
 .csv-buttons {
   display: none;
-  margin-top: 20px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
 }
 
 .csv-buttons.active {
   display: block;
 }
 
-/* Estilos para el título de la configuración */
-h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-/* Estilos para el select de la configuración */
-select {
-  padding: 5px;
-  font-size: 16px;
-}
-
-/* Estilos para la información "About" */
-h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
 p {
   line-height: 1.5;
+  font-size: 12px;
+  color: var(--text);
 }
 
-/* Estilos para el botón "Visit Evoweb Official Thread" */
 .pes-indie-pop-up-button {
-  background-color: #27ae60;
-  color: #fff;
+  display: block;
+  width: 100%;
+  background-color: var(--accent);
+  color: var(--accent-text);
   border: none;
-  padding: 10px 20px;
+  border-radius: var(--radius);
+  padding: 9px 16px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: bold;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .pes-indie-pop-up-button:hover {
-  background-color: #219f55;
-}
-
-.banner {
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
+  background-color: var(--accent-hover);
 }
